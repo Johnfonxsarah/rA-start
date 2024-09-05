@@ -111,6 +111,7 @@ BossDungeons:
 	if(.@isResetBoss){
 		delitem .@costItemId2,.@cost2;
 		killmonsterall $bossDungeonMapName$[.@index];
+		donpcevent "BossDungeon::OnBossReset" + .@index;
 	}	
 	specialeffect2 509;
 	warp $bossDungeonMapName$[.@index],0,0;

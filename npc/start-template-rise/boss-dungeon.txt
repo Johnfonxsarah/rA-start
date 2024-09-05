@@ -51,6 +51,10 @@ OnBossDead0: callsub L_Spawn,0,1; end;
 OnBossDead1: callsub L_Spawn,1,1; end;
 OnBossDead2: callsub L_Spawn,2,1; end;
 OnBossDead3: callsub L_Spawn,3,1; end;
+OnBossReset0: callsub L_Spawn,0,$bossDungeonSpawnAmount; end;
+OnBossReset1: callsub L_Spawn,1,$bossDungeonSpawnAmount; end;
+OnBossReset2: callsub L_Spawn,2,$bossDungeonSpawnAmount; end;
+OnBossReset3: callsub L_Spawn,3,$bossDungeonSpawnAmount; end;
 
 OnInit:
 	$bossDungeonSpawnAmount = 30;
