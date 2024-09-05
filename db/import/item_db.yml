@@ -155,6 +155,20 @@ Body:
       NoAuction: true
     Script: |
       bonus bAllStats,1;
+  - Id: 5013
+    AegisName: Horn_Of_Lord_Kaho
+    Name: Lord Kaho's Horn
+    Type: Armor
+    Buy: 20
+    Weight: 100
+    Defense: 30
+    Locations:
+      Head_Top: true
+    ArmorLevel: 1
+    Refineable: true
+    View: 99
+    Script: |
+      bonus bAllStats,1;
   - Id: 10000000
     AegisName: Refine_Hack_Powder
     Name: Refine Hack Powder
