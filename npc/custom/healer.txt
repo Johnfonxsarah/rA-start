@@ -55,7 +55,7 @@
 	sc_start SC_OVERTHRUST,1800000,5;
 	percentheal 100,100;
 	specialeffect2 77;
-	fullBuffCostMultiplier = rand(1,10);
+	fullBuffCostMultiplier = rand(1,IsWeekend() ? 5 : 10);
 	end;
 	
 	L_RepairAll:

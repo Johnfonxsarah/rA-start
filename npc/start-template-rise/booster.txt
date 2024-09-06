@@ -6,7 +6,7 @@ prontera,166,200,6	script	เร่งแหลก	10516,{
 		mes "โปรดทำลาย Instance Dungeon เก่าเสียก่อน";
 		close;
 	}
-	.@basePrice = 1000;
+	.@basePrice = IsWeekend() ? 100 : 1000;
 	.@baseMultiplier = 100;
 	.@maxMultiplier = 100;
 	.@dropMultiplierDivider = 2;
