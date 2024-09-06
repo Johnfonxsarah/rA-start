@@ -8,6 +8,7 @@ prontera,166,207,8	script	สนามรบจำลอง	10547,{
 	}
 	.@basePrice = 10000;
 	.@basePercentage = 1;
+	.@maxPercentage = 100;
 	.@baseMonsterRank = 2000;
 	.@maxMonsterRankMultiplier = 5;
 	
@@ -17,7 +18,7 @@ prontera,166,207,8	script	สนามรบจำลอง	10547,{
 	
 	mes "[วิธีเล่น]";
 	mes "• Monster จะเกิดเรื่อย ๆ ภายใน 3 นาที";
-	mes "• เมื่อกำจัด Monster จะได้รับ EXP " + StringBase10000(.@basePercentage) + "%";
+	mes "• เมื่อกำจัด Monster จะได้รับ EXP " + StringBase10000(.@basePercentage) + "~" + StringBase10000(.@maxPercentage) + "%";
 	mes "• Monster จะมี Rank " + F_InsertComma(monsterRank) + "~" + F_InsertComma(monsterRank * monsterRankMultiplier);
 	mes "^1c9311Lv. ผู้เล่น^000000 | ^d32323Lv. Monster";
 	mes "^1c93111~15^000000 | ^d323211~15";
@@ -92,8 +93,9 @@ guild_vs4,50,60,4	script	เริ่ม#สนามรบจำลอง	10547,{
 	return;
 	
 OnMonsterDead:
-.@exp = ((NextBaseExp > 0) ? (NextBaseExp / 10000) : 0);
-.@jobExp = ((NextJobExp > 0) ? (NextJobExp / 10000) : 0);
+.@percent = rand(100,10000);
+.@exp = ((NextBaseExp > 0) ? (NextBaseExp / .@percent) : 0);
+.@jobExp = ((NextJobExp > 0) ? (NextJobExp / .@percent) : 0);
 getexp2 .@exp,.@jobExp;
 'progression++;
 		if('progression >= 'spawnAmount){
