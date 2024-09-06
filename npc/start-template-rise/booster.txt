@@ -22,8 +22,8 @@ prontera,166,200,6	script	เร่งแหลก	10516,{
 	mes "^1c9311100~125^000000 | ^d32323100~125";
 	mes "^1c9311126~145^000000 | ^d32323126~145";
 	mes "^1c9311146~165^000000 | ^d32323146~165";
-	mes "^1c9311166~185^000000 | ^d32323166~185";
-	mes "^1c9311186+^000000 | ^d32323186+";
+	mes "^1c9311166~199^000000 | ^d32323166~185";
+	mes "^1c9311200+^000000 | ^d32323186+";
 	next;
 	menu "เล่น 'เร่งแหลก'",-;
 	mes "เร่ง EXP +{ระบุ x " + F_InsertComma(.@baseMultiplier) + "}% (30 นาที)";
@@ -81,7 +81,7 @@ guild_vs5,50,60,4	script	เริ่ม#เร่งแหลก	10516,{
 	.@tier6MaxLv = 125;
 	.@tier7MaxLv = 145;
 	.@tier8MaxLv = 165;
-	.@tier9MaxLv = 185;
+	.@tier9MaxLv = 200;
 	freeloop(1);
 	for(.@i = 0; .@i < 'spawnAmount; .@i++){
 		while(!.@monsterId || getmonsterinfo(.@monsterId,MOB_MVPEXP) || (getmonsterinfo(.@monsterId,MOB_CLASS) != 0))
