@@ -29,8 +29,8 @@ prontera,166,207,8	script	สนามรบจำลอง	10547,{
 	mes "^1c9311100~125^000000 | ^d32323100~125";
 	mes "^1c9311126~145^000000 | ^d32323126~145";
 	mes "^1c9311146~165^000000 | ^d32323146~165";
-	mes "^1c9311166~185^000000 | ^d32323166~185";
-	mes "^1c9311186+^000000 | ^d32323186+";
+	mes "^1c9311166~199^000000 | ^d32323166~185";
+	mes "^1c9311200+^000000 | ^d32323186+";
 	next;
 	menu "เล่น 'สนามรบจำลอง' [^af1ada" + F_InsertComma(.@price) + "z^000000]",-;
 	if(Zeny < .@price){
@@ -73,7 +73,7 @@ guild_vs4,50,60,4	script	เริ่ม#สนามรบจำลอง	10547,{
 	.@tier6MaxLv = 125;
 	.@tier7MaxLv = 145;
 	.@tier8MaxLv = 165;
-	.@tier9MaxLv = 185;
+	.@tier9MaxLv = 200;
 	for(.@i = 0; .@i < 'spawnAmount; .@i++){
 		.@monsterId = (
 		(BaseLevel > .@tier9MaxLv) ? $attackableMonsterTier10Ids[rand(getarraysize($attackableMonsterTier10Ids))]
