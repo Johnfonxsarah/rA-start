@@ -48,10 +48,8 @@ OnInit:
 	end;
 	
 OnLoad:
-	if(strcharinfo(3) == "guild_vs1")
-	end;
 	specialeffect2 35;
-	progressbar "",2;
+	progressbar "",(strcharinfo(3) == "guild_vs1") ? 4 : 2;
 	warp "Save",0,0;
 	end;
 }
