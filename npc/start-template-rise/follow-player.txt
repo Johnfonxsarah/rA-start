@@ -21,6 +21,10 @@ OnFetch:
 		message strcharinfo(0),"เกิดข้อผิดพลาด: ไม่สามารถติดตามตัวเองได้";
 		end;
 	}
+	if(getgmlevel(followCID)){
+		message strcharinfo(0),"เกิดข้อผิดพลาด: ไม่สามารถติดตาม GM ได้";
+		end;
+	}
 	@isFollow = 1;
 	tired = 100;
 	ApplyTired();
@@ -34,7 +38,7 @@ OnFetch:
 	end;
 	
 OnInit:
-	.isOnlyGM = 1;
+	.isOnlyGM = 0;
 	end;
 }
 

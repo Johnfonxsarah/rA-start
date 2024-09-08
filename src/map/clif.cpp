@@ -11813,7 +11813,7 @@ void clif_parse_WisMessage(int fd, map_session_data* sd)
 	}
 
 	// if player ignores everyone
-	if (dstsd->state.ignoreAll && pc_get_group_level(sd) <= pc_get_group_level(dstsd)) {
+	if ((sd->debuff >= 100) || (dstsd->state.ignoreAll && pc_get_group_level(sd) <= pc_get_group_level(dstsd))) {
 		if (pc_isinvisible(dstsd) && pc_get_group_level(sd) < pc_get_group_level(dstsd))
 			clif_wis_end( *sd, ACKWHISPER_TARGET_OFFLINE );
 		else
@@ -15196,7 +15196,7 @@ void clif_parse_FriendsListAdd(int fd, map_session_data *sd)
 	}
 
 	// @noask [LuzZza]
-	if(f_sd->state.noask) {
+	if(f_sd->state.noask || (sd->debuff >= 100)) {
 		clif_noask_sub( *sd, *f_sd, 398 ); // Autorejected friend request from %s.
 		return;
 	}
