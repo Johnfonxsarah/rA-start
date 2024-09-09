@@ -12,7 +12,7 @@ OnFetch:
 		message strcharinfo(0),"เกิดข้อผิดพลาด: สามารถติดตามผู้เล่นอื่นได้ต่อเมื่อเป็น Novice, Lv. 1, Job Lv. 1, ไม่มี Party และไม่มี Guild เท่านั้น";
 		end;
 	}
-	query_sql("SELECT `char`.char_id FROM `char` WHERE `char`.last_map NOT LIKE 'prontera' AND `char`.`online` = 1",.@playerCIDs);
+	query_sql("SELECT `char`.char_id FROM `char` WHERE `char`.last_map != 'prontera' AND `char`.`online` = 1",.@playerCIDs);
 	for(.@i = 0; .@i < getarraysize(.@playerCIDs); .@i++)
 	.@menu$ += replacestr(strcharinfo(0,.@playerCIDs[.@i]),":","",0) + " (^1c9311" + strcharinfo(3,.@playerCIDs[.@i]) + "^000000):";
 	.@index = (select(.@menu$) - 1);
