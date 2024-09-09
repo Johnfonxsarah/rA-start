@@ -70,6 +70,11 @@ guild_vs5	mapflag	nobranch
 guild_vs5	mapflag	notomb
 guild_vs5	mapflag	nopetcapture
 
+guild_vs5,50,65,4	script	Ruwach#เร่งแหลก	10516,{
+	npcskill "AL_RUWACH",1,0,1;
+	end;
+}
+
 guild_vs5,50,60,4	script	เริ่ม#เร่งแหลก	10516,{
 	hideonnpc instance_npcname(strnpcinfo(0));
 	'spawnAmount = 5;

@@ -57,6 +57,11 @@ guild_vs4	mapflag	nobranch
 guild_vs4	mapflag	notomb
 guild_vs4	mapflag	nopetcapture
 
+guild_vs4,50,65,4	script	Ruwach#สนามรบจำลอง	10547,{
+	npcskill "AL_RUWACH",1,0,1;
+	end;
+}
+
 guild_vs4,50,60,4	script	เริ่ม#สนามรบจำลอง	10547,{
 	hideonnpc instance_npcname(strnpcinfo(0));
 	'spawnAmount = 30;
