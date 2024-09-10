@@ -70,12 +70,42 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 	}
 	mes .@mes$;
 	mes "(0~" + F_InsertComma(.@wishingTicketAmount) + ")";
+	mes "^d32323(ระบุ 99999 เพื่อใช้ระบบ สุ่มแล้วทิ้งจนกว่าจะเจอ Item ที่ต้องการ)^000000";
 	input .@i;
+	if(.@i == 99999){
+		mes "โปรดระบุ Item ID ที่ต้องการในหมวดนี้";
+		input .@wishItemId;
+		clear;
+		if(.@wishItemId <= 0){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		freeloop(1);
+		for(.@i = 0; .@i < getarraysize(getd("$" + .@variableName$)); .@i++){
+			if(.@wishItemId == getd("$" + .@variableName$ + "[" + .@i + "]")){
+				.@isFoundWishItemId = 1;
+				break;
+			}
+		}
+		freeloop(0);
+		if(!.@isFoundWishItemId){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		mes "คุณต้องการ " + mesitemlink(.@wishItemId,true);
+		mes "ใช้ [^af1ada" + mesitemlink($wishingTicketItemId,true) + " " + F_InsertComma(.@cost) + " ชิ้น^000000] ไปเรื่อย ๆ จนกว่าจะเจอ";
+		next;
+		menu "ยกเลิก",-,"ยืนยัน",L_WishConfirm;
+		close;
+		L_WishConfirm:
+		.@i = .@wishingTicketAmount;
+	}
 	if((.@i <= 0) || (.@i > .@wishingTicketAmount)){
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
 	}
 	freeloop(1);
+	specialeffect2 509;
 	while(.@i){
 		if(IsInventoryFull()){
 			mes "ไม่สามารถแบกของเพิ่มได้อีกแล้ว";
@@ -83,7 +113,16 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 		}
 		.@i--;
 		delitem $wishingTicketItemId,.@cost;
-		specialeffect2 509;
+		if(.@wishItemId){
+			.@currentRewardItemId = getd("$" + .@variableName$ + "[" + rand(getarraysize(getd("$" + .@variableName$))) + "]");
+			if(.@wishItemId != .@currentRewardItemId)
+			dispbottom "คุณสุ่มได้ " + getitemname(.@currentRewardItemId) + " และทิ้งไป";
+			else{
+				getitem .@wishItemId,1;
+				break;
+			}
+		}
+		else
 		getitem getd("$" + .@variableName$ + "[" + rand(getarraysize(getd("$" + .@variableName$))) + "]"),1;
 	}
 	freeloop(0);
