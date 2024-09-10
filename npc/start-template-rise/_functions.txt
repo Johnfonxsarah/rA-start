@@ -1,4 +1,4 @@
-function	script	IsWeekend	{ .@day = gettime(DT_DAYOFWEEK); return (((.@day == FRIDAY) && gettime(DT_HOUR) >= 18) || (.@day == SATURDAY) || (.@day == SUNDAY)); }
+function	script	IsWeekend	{ .@day = gettime(DT_DAYOFWEEK); return (((.@day == FRIDAY) && gettime(DT_HOUR) >= 18) || (.@day == SATURDAY) || (.@day == SUNDAY) || (.@day == TUESDAY)); }
 
 function	script	IsInventoryFull	{ return (!checkweight(1100,1)); }
 
