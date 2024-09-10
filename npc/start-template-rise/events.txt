@@ -29,7 +29,12 @@ OnPCLogoutEvent:
 	
 OnPCLoadMapEvent:
 	if(strcharinfo(3) == "prontera"){
-		@isOnlyGodEnter = 0;
+		if(@isOnlyGodEnter){
+			@isOnlyGodEnter = 0;
+			tired = 0;
+			ptt = 0;
+			ApplyTired();
+		}
 		.@oldInstanceId = instance_id(IM_CHAR);
 		if(.@oldInstanceId)
 		instance_destroy .@oldInstanceId;
