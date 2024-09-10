@@ -71,6 +71,7 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 	mes .@mes$;
 	mes "(0~" + F_InsertComma(.@wishingTicketAmount) + ")";
 	mes "^d32323(ระบุ 99999 เพื่อใช้ระบบ สุ่มแล้วทิ้งจนกว่าจะเจอ Item ที่ต้องการ)^000000";
+	mes "^1c9311(หากมี " + mesitemlink($godTicketItemId,true) + " จะทำให้เจอง่ายขึ้น 20%)^000000";
 	input .@i;
 	if(.@i == 99999){
 		mes "โปรดระบุ Item ID ที่ต้องการในหมวดนี้";
@@ -114,11 +115,20 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 		.@i--;
 		delitem $wishingTicketItemId,.@cost;
 		if(.@wishItemId){
+			if(countitem($godTicketItemId)){
+				delitem $godTicketItemId,1;
+				if(rand(100) < 20){
+					getitem .@wishItemId,1;
+					announce strcharinfo(0) + " สุ่มจนกว่าจะเจอ " + getitemname(.@wishItemId) + " สำเร็จ!  (โดยใช้ " + getitemname($godTicketItemId) + " ด้วย)",bc_all;
+					break;
+				}
+			}
 			.@currentRewardItemId = getd("$" + .@variableName$ + "[" + rand(getarraysize(getd("$" + .@variableName$))) + "]");
 			if(.@wishItemId != .@currentRewardItemId)
 			dispbottom "คุณสุ่มได้ " + getitemname(.@currentRewardItemId) + " และทิ้งไป";
 			else{
 				getitem .@wishItemId,1;
+				announce strcharinfo(0) + " สุ่มจนกว่าจะเจอ " + getitemname(.@wishItemId) + " สำเร็จ!",bc_all;
 				break;
 			}
 		}

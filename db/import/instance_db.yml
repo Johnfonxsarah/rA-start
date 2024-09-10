@@ -56,3 +56,11 @@ Body:
      Map: guild_vs4
      X: 50
      Y: 50
+ - Id: 1002
+   Name: ONLY GOD
+   TimeLimit: 6000
+   Enter:
+     Map: x_prt
+     X: 70
+     Y: 55
+     

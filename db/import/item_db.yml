@@ -208,3 +208,10 @@ Body:
       NoSell: true
     Script: |
       callfunc("MysteryPackageBox");
+  - Id: 10000005
+    AegisName: God_Ticket
+    Name: God Ticket
+    Type: Etc
+    Buy: 1
+    Trade:
+      NoSell: true
