@@ -119,7 +119,7 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 				delitem $godTicketItemId,1;
 				if(rand(100) < 20){
 					getitem .@wishItemId,1;
-					announce strcharinfo(0) + " สุ่มจนกว่าจะเจอ " + getitemname(.@wishItemId) + " สำเร็จ!  (โดยใช้ " + getitemname($godTicketItemId) + " ด้วย)",bc_all;
+					announce strcharinfo(0) + " สุ่มจนกว่าจะเจอ " + getitemname(.@wishItemId) + " สำเร็จ! (โดยใช้ " + getitemname($godTicketItemId) + " ด้วย)",bc_all;
 					break;
 				}
 			}
