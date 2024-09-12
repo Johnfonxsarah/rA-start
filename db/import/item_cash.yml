@@ -45,3 +45,5 @@ Body:
        Price: 50000
      - Item: Mystery_Package_Box
        Price: 100000
+     - Item: God_Ticket
+       Price: 5000000
