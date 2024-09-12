@@ -31,9 +31,7 @@ OnPCLoadMapEvent:
 	if(strcharinfo(3) == "prontera"){
 		if(@isOnlyGodEnter){
 			@isOnlyGodEnter = 0;
-			tired = 0;
-			ptt = 0;
-			ApplyTired();
+			ResetTired();
 		}
 		.@oldInstanceId = instance_id(IM_CHAR);
 		if(.@oldInstanceId)
@@ -63,14 +61,17 @@ OnLastFollowPlayerBan:
 	end;
 
 OnLoad:
+	.@isSkip = (@isFollow || (strcharinfo(3) == "prontera"));
 	if(@isFollow){
 		setpcblock PCBLOCK_ALL,false;
 		atcommand "@follow";
-		atcommand "@speed 300";
+		atcommand "@speed 200";
+		ResetTired();
 		dispbottom "หยุดติดตาม " + strcharinfo(0,followCID);
 		@isFollow = 0;
 	}
 	specialeffect2 35;
+	if(!.@isSkip)
 	progressbar "",(strcharinfo(3) == "guild_vs1") ? 4 : 2;
 	warp "Save",0,0;
 	end;

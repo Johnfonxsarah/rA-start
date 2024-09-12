@@ -10,6 +10,14 @@ function	script	ApplyTired	{
 	return;
 }
 
+function	script	ResetTired	{
+	tired = 0;
+	tiredSpot = 0;
+	ptt = 0;
+	ApplyTired();
+	return;
+}
+
 function	script	IsSkipTickMap	{
 	if(@isOnlyGodEnter)
 	return 1;
