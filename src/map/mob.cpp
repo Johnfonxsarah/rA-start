@@ -2996,6 +2996,7 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 			drop_rate = mob_getdroprate(src, md->db, md->db->dropitem[i].rate, drop_modifier, md);
 			if (md->rank)
 				drop_rate = (drop_rate * (100 + md->rank)) / 100; // [Start's] Example: Rank 100 will increase drop rate by 100% (Or x2)
+			drop_rate = (drop_rate * (map_getmapflag(m, MF_DROPRATE))) / 100; // [Start's] Example: Rate 200 will increase drop rate by 100% (Or x2)
 
 			// attempt to drop the item
 			if (rnd() % 10000 >= drop_rate)
