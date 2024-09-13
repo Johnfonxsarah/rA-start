@@ -71,9 +71,10 @@ OnLoad:
 		dispbottom "หยุดติดตาม " + strcharinfo(0,followCID);
 		@isFollow = 0;
 	}
-	specialeffect2 35;
-	if(!.@isSkip)
-	progressbar "",(strcharinfo(3) == "guild_vs1") ? 4 : 2;
+	if(!.@isSkip){
+		specialeffect2 35;
+		progressbar "",(strcharinfo(3) == "guild_vs1") ? 4 : 2;
+	}
 	warp "Save",0,0;
 	end;
 }
