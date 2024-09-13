@@ -539,6 +539,7 @@
 	export_constant(MF_NODYNAMICNPC);
 	export_constant(MF_NOBANK);
 	export_constant(MF_SPECIALPOPUP);
+	export_constant(MF_DROPRATE);
 
 	/* setcell types */
 	export_constant(CELL_WALKABLE);
