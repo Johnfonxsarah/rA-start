@@ -17,10 +17,7 @@
 	sc_start SC_INCREASEAGI,600000,10;
 	percentheal 100,100;
 	specialeffect2 77;
-	tired = 0;
-	tiredSpot = 0;
-	ptt = 0;
-	ApplyTired();
+	ResetTired();
 	end;
 }
 
