@@ -29,6 +29,7 @@ OnPCLogoutEvent:
 	
 OnPCLoadMapEvent:
 	if(strcharinfo(3) == "prontera"){
+		atcommand "@cleartimetick";
 		if(@isOnlyGodEnter){
 			@isOnlyGodEnter = 0;
 			ResetTired();
