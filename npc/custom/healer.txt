@@ -19,7 +19,7 @@
 	.@repairAllPrice = (100000 * max(1,repairAllPriceMultiplier));
 	menu
 	"ฟื้นฟู HP & SP เต็ม",-
-	,"ฟื้นฟู HP & SP เต็ม & รับ Buff [^af1ada" + getitemname(.@fullBuffCostItemId) + " " + F_InsertComma(.@fullBuffCost) + " ชิ้น^000000] (สุ่มราคาใหม่หลังซื้อ)",L_FullBuff
+	,"ฟื้นฟู HP & SP เต็ม & รับ Buff & Reset Cooldown [^af1ada" + getitemname(.@fullBuffCostItemId) + " " + F_InsertComma(.@fullBuffCost) + " ชิ้น^000000] (สุ่มราคาใหม่หลังซื้อ)",L_FullBuff
 	,"ซ่อมอุปกรณ์ทั้งตัว [^af1ada" + F_InsertComma(.@repairAllPrice) + "z^000000]",L_RepairAll
 	;
 	.@Delay = 3;
@@ -53,6 +53,7 @@
 	sc_start SC_SECRAMENT,1800000,5;
 	//sc_start SC_STRIKING,1800000,5;
 	sc_start SC_OVERTHRUST,1800000,5;
+	atcommand "@resetcooltime";
 	percentheal 100,100;
 	specialeffect2 77;
 	fullBuffCostMultiplier = rand(1,IsWeekend() ? 5 : 10);
