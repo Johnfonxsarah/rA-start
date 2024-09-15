@@ -39,7 +39,7 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 	goto L_Confirmation;
 	
 	L_Armor:
-	setarray .@location$[0],"Shield","Head-Middle","Head-Top","Head-Low","Head-Middle-Top","Head-Low-Middle-Top","Head-Low-Middle","Armor","Shoes","Garment","Accessory","Head-Low-Top","Head-Top-Middle","Costume Head-Top","Costume Head-Middle","Costume Head-Low","Left Accessory","Costume Garment","Head-Top-Middle-Low","Head-Middle-Low","Head-Top-Low","Costume Head-Middle-Low","Costume Head-Top-Middle","Costume Head-Top-Middle-Low","Costume Head-Top-Low","Shadow Armor","Shadow Shield","Shadow Shoes","Shadow Weapon","Shadow Left Accessory","Shadow Right Accessory","Right Accessory";
+	setarray .@location$[0],"Shield","Head-Middle","Head-Top","Head-Low","Head-Middle-Top","Head-Low-Middle-Top","Head-Low-Middle","Armor","Shoes","Garment","Accessory","Head-Low-Top","Head-Top-Middle","Costume Head-Top","Costume Head-Middle","Costume Head-Low","Shadow Armor","Left Accessory","Costume Garment","Head-Top-Middle-Low","Head-Middle-Low","Head-Top-Low","Costume Head-Middle-Low","Costume Head-Top-Middle","Costume Head-Top-Middle-Low","Costume Head-Top-Low","Shadow Weapon","Shadow Shield","Shadow Shoes","Shadow Right Accessory","Shadow Left Accessory","Right Accessory";
 	for(.@i = 0; .@i < getarraysize(.@location$); .@i++)
 	.@menu$ += .@location$[.@i] + ":";
 
