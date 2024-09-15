@@ -107,19 +107,19 @@ guild_vs5,50,60,4	script	เริ่ม#เร่งแหลก	10516,{
 		.@monsterId = 0;
 	}
 	freeloop(0);
-	announce "Monster เหลือ " + F_InsertComma('spawnAmount - 'progression) + " ตัว",bc_self;
+	announce "Monster เหลือ " + F_InsertComma('spawnAmount - 'progression) + " ตัว",bc_map;
 	end;
 	
 OnMonsterDead:
 'progression++;
 		if('progression >= 'spawnAmount){
-			announce "'เร่งแหลก' ผ่านแล้ว!",bc_self;
+			announce "'เร่งแหลก' ผ่านแล้ว!",bc_map;
 			sc_start SC_EXPBOOST,1800000,expBoost;
 			sc_start SC_ITEMBOOST,1800000,dropBoost;
 			addtimer 2000,instance_npcname(strnpcinfo(0)) + "::OnComplete";
 		}
 		else
-		announce "Monster เหลือ " + F_InsertComma('spawnAmount - 'progression) + " ตัว",bc_self;
+		announce "Monster เหลือ " + F_InsertComma('spawnAmount - 'progression) + " ตัว",bc_map;
 		end;
 		
 OnComplete:
