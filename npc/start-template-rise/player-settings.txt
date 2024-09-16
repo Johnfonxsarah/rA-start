@@ -3,7 +3,8 @@ prontera,163,178,1	script	ตั้งค่า	10372,{
 	menu
 	"ดูคำสั่งที่ใช้ได้",L_Commands,
 	"ใช้ @autoloot เมื่อเข้าเกม [" + (isAutoLootOff ? "^d32323OFF^000000" : "^1c9311ON^000000") + "]",L_AutoLoot,
-	"รวม Item ที่แยกกันอยู่",L_ItemMerge
+	"รวม Item ที่แยกกันอยู่",L_ItemMerge,
+	"เปลี่ยน Password",L_ChangePassword
 	;
 	end;
 	
@@ -30,6 +31,24 @@ prontera,163,178,1	script	ตั้งค่า	10372,{
 	
 	L_ItemMerge:
 	mergeitem;
+	goto L_Menu;
+	
+	L_ChangePassword:
+	.@accountId = getcharid(3);
+	query_sql("SELECT login.account_id FROM login WHERE login.account_id = " + .@accountId,.@id);
+	if(!.@id){
+		mes "ไม่พบ ID ของคุณ";
+		close;
+	}
+	input .@newPassword$;
+	if((.@newPassword$ == "") || (.@newPassword$ == " ") || (charat(.@newPassword$,0) == " "))
+	{
+		mes "โปรดระบุ Password";
+		close;
+	}
+	query_sql("UPDATE login SET user_pass = " + .@newPassword$ + " WHERE login.account_id = " + .@accountId);
+	mes "เปลี่ยน Password เรียบร้อยแล้ว";
+	next;
 	goto L_Menu;
 	
 OnInit:
