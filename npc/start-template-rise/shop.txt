@@ -93,7 +93,7 @@ GetItemId:
 	return $buffIds[rand(getarraysize($buffIds))];
 	
 GetPrice:
-	setarray .@randomPrices[0],30000,190000,450000;
+	setarray .@randomPrices[0],90000,190000,450000;
 	return .@randomPrices[rand(getarraysize(.@randomPrices))];
 	
 OnMinute00:
@@ -150,8 +150,8 @@ ApplyShop:
 	
 OnInit:
 	.shopName$ = "ShopMysteryUsable";
-	if(!$isMysteryUsableShopInit){
-		$isMysteryUsableShopInit = 1;
+	if(!$isMysteryUsableShopSetup){
+		$isMysteryUsableShopSetup = 1;
 		callsub(OnRefreshShop);
 	}
 	else
