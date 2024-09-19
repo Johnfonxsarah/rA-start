@@ -61,22 +61,100 @@ prontera,164,171,3	script	กระสุน	10249,{
 	;
 	
 	L_ArrowBox:
-	callshop "Quiver_Archer", 1;
+	callshop "Quiver_Archer",1;
 	end;
 	
 	L_BulletBox:
-	callshop "Box_Exchange_Gunslinger", 1;
+	callshop "Box_Exchange_Gunslinger",1;
 	end;
 	
 	L_KunaiBox:
-	callshop "Box_Exchange_Ninja", 1;
+	callshop "Box_Exchange_Ninja",1;
 	end;
 	
 	L_MechanicBox:
-	callshop "Box_Exchange_Mechanic", 1;
+	callshop "Box_Exchange_Mechanic",1;
 	end;
 	
 	L_TalismanBox:
-	callshop "Talisman_Bundle", 1;
+	callshop "Talisman_Bundle",1;
+	end;
+}
+
+-	shop	ShopMysteryUsable	-1,501:-1
+
+prontera,164,150,3	script	ของกดใช้แปลก ๆ	564,{
+	mes "• Reset ของในร้านใหม่ทุก ๆ 1 ชั่วโมง";
+	next;
+	callshop .shopName$,1;
+	end;
+	
+GetItemId:
+	return $buffIds[rand(getarraysize($buffIds))];
+	
+GetPrice:
+	setarray .@randomPrices[0],90000,190000,450000;
+	return .@randomPrices[rand(getarraysize(.@randomPrices))];
+	
+OnMinute00:
+OnRefreshShop:
+	deletearray $mysteryUsableShopItemIds[0],getarraysize($mysteryUsableShopItemIds);
+	
+	setarray $mysteryUsableShopItemIds[0]
+	,callsub(GetItemId),callsub(GetItemId),callsub(GetItemId),callsub(GetItemId),callsub(GetItemId)
+	,callsub(GetItemId),callsub(GetItemId),callsub(GetItemId),callsub(GetItemId),callsub(GetItemId)
+	,callsub(GetItemId),callsub(GetItemId),callsub(GetItemId),callsub(GetItemId),callsub(GetItemId)
+	,callsub(GetItemId),callsub(GetItemId),callsub(GetItemId),callsub(GetItemId),callsub(GetItemId)
+	,callsub(GetItemId),callsub(GetItemId),callsub(GetItemId),callsub(GetItemId),callsub(GetItemId)
+	;
+	
+	deletearray $mysteryUsableShopPrices[0],getarraysize($mysteryUsableShopPrices);
+	
+	setarray $mysteryUsableShopPrices[0]
+	,callsub(GetPrice),callsub(GetPrice),callsub(GetPrice),callsub(GetPrice),callsub(GetPrice)
+	,callsub(GetPrice),callsub(GetPrice),callsub(GetPrice),callsub(GetPrice),callsub(GetPrice)
+	,callsub(GetPrice),callsub(GetPrice),callsub(GetPrice),callsub(GetPrice),callsub(GetPrice)
+	,callsub(GetPrice),callsub(GetPrice),callsub(GetPrice),callsub(GetPrice),callsub(GetPrice)
+	,callsub(GetPrice),callsub(GetPrice),callsub(GetPrice),callsub(GetPrice),callsub(GetPrice)
+	;
+	
+ApplyShop:
+	npcshopitem .shopName$
+	,$mysteryUsableShopItemIds[0],$mysteryUsableShopPrices[0]
+	,$mysteryUsableShopItemIds[1],$mysteryUsableShopPrices[1]
+	,$mysteryUsableShopItemIds[2],$mysteryUsableShopPrices[2]
+	,$mysteryUsableShopItemIds[3],$mysteryUsableShopPrices[3]
+	,$mysteryUsableShopItemIds[4],$mysteryUsableShopPrices[4]
+	,$mysteryUsableShopItemIds[5],$mysteryUsableShopPrices[5]
+	,$mysteryUsableShopItemIds[6],$mysteryUsableShopPrices[6]
+	,$mysteryUsableShopItemIds[7],$mysteryUsableShopPrices[7]
+	,$mysteryUsableShopItemIds[8],$mysteryUsableShopPrices[8]
+	,$mysteryUsableShopItemIds[9],$mysteryUsableShopPrices[9]
+	,$mysteryUsableShopItemIds[10],$mysteryUsableShopPrices[10]
+	,$mysteryUsableShopItemIds[11],$mysteryUsableShopPrices[11]
+	,$mysteryUsableShopItemIds[12],$mysteryUsableShopPrices[12]
+	,$mysteryUsableShopItemIds[13],$mysteryUsableShopPrices[13]
+	,$mysteryUsableShopItemIds[14],$mysteryUsableShopPrices[14]
+	,$mysteryUsableShopItemIds[15],$mysteryUsableShopPrices[15]
+	,$mysteryUsableShopItemIds[16],$mysteryUsableShopPrices[16]
+	,$mysteryUsableShopItemIds[17],$mysteryUsableShopPrices[17]
+	,$mysteryUsableShopItemIds[18],$mysteryUsableShopPrices[18]
+	,$mysteryUsableShopItemIds[19],$mysteryUsableShopPrices[19]
+	,$mysteryUsableShopItemIds[20],$mysteryUsableShopPrices[20]
+	,$mysteryUsableShopItemIds[21],$mysteryUsableShopPrices[21]
+	,$mysteryUsableShopItemIds[22],$mysteryUsableShopPrices[22]
+	,$mysteryUsableShopItemIds[23],$mysteryUsableShopPrices[23]
+	,$mysteryUsableShopItemIds[24],$mysteryUsableShopPrices[24]
+	;
+	end;
+	
+OnInit:
+	.shopName$ = "ShopMysteryUsable";
+	if(!$isMysteryUsableShopSetup){
+		$isMysteryUsableShopSetup = 1;
+		callsub(OnRefreshShop);
+	}
+	else
+	callsub(ApplyShop);
 	end;
 }
