@@ -5,8 +5,12 @@ function	script	IsInventoryFull	{ return (!checkweight(1100,1)); }
 function	script	ApplyTired	{
 	atcommand "@fakename";
 	if(tired)
-	atcommand "@fakename [ล้า " + tired + "%]" + strcharinfo(0);
-	atcommand "@debuff " + tired;
+	.@debuffHint$ = "ล้า " + tired + "%";
+	if(bonusDebuff)
+	.@debuffHint$ += ((.@debuffHint$ != "") ? " " : "") + "ของเสื่อม " + bonusDebuff + "%";
+	if(.@debuffHint$ != "")
+	atcommand "@fakename [" + .@debuffHint$ + "]" + strcharinfo(0);
+	atcommand "@debuff " + tired + " " + bonusDebuff;
 	return;
 }
 
@@ -503,5 +507,65 @@ function	script	MysteryPackageBox	{
 	}
 	getitem $itemGroupIds[rand(getarraysize($itemGroupIds))],1;
 	delitem $mysteryPackageBoxItemId,1;
+	return;
+}
+
+function	script	MasteryTicket	{
+	.@amount = countitem($masteryTicketItemId);
+	.@statusPointItemCost = 1;
+	.@skillPointItemCost = 5;
+	.@traitPointItemCost = 10;
+	.@statusPoint = 10;
+	.@skillPoint = 1;
+	.@traitPoint = 1;
+	menu
+	"ใช้ " + F_InsertComma(.@statusPointItemCost) + " " + getitemname($masteryTicketItemId) + " เพิ่ม " + F_InsertComma(.@statusPoint) + " Status Point",L_StatusPoint,
+	"ใช้ " + F_InsertComma(.@skillPointItemCost) + " " + getitemname($masteryTicketItemId) + " เพิ่ม " + F_InsertComma(.@skillPoint) + " Skill Point",L_SkillPoint,
+	"ใช้ " + F_InsertComma(.@traitPointItemCost) + " " + getitemname($masteryTicketItemId) + " เพิ่ม " + F_InsertComma(.@traitPoint) + " Trait Point",L_TraitPoint
+	;
+	
+	L_StatusPoint:
+	.@amount = .@amount / .@statusPointItemCost;
+	.@tradeAmount = callsub(L_Setup,.@amount);
+	delitem $masteryTicketItemId,(.@tradeAmount * .@statusPointItemCost);
+	.@rewardAmount = (.@tradeAmount * .@statusPoint);
+	StatusPoint += .@rewardAmount;
+	mes "ได้รับ " + F_InsertComma(.@rewardAmount) + " Status Point";
+	close;
+	
+	L_SkillPoint:
+	.@amount = .@amount / .@skillPointItemCost;
+	.@tradeAmount = callsub(L_Setup,.@amount);
+	delitem $masteryTicketItemId,(.@tradeAmount * .@skillPointItemCost);
+	.@rewardAmount = (.@tradeAmount * .@skillPoint);
+	SkillPoint += .@rewardAmount;
+	mes "ได้รับ " + F_InsertComma(.@rewardAmount) + " Skill Point";
+	close;
+	
+	L_TraitPoint:
+	.@amount = .@amount / .@traitPointItemCost;
+	.@tradeAmount = callsub(L_Setup,.@amount);
+	delitem $masteryTicketItemId,(.@tradeAmount * .@traitPointItemCost);
+	.@rewardAmount = (.@tradeAmount * .@traitPoint);
+	TraitPoint += .@rewardAmount;
+	mes "ได้รับ " + F_InsertComma(.@rewardAmount) + " Trait Point";
+	close;
+	
+	L_Setup:
+	.@amount = getarg(0,0);
+	mes "คุณมี " + getitemname($masteryTicketItemId) + " " + F_InsertComma(countitem($masteryTicketItemId)) + " ชิ้น";
+	if(.@amount <= 0){
+		mes getitemname($masteryTicketItemId) + " ไม่เพียงพอ";
+		close;
+	}
+	mes "โปรดระบุ 1~" + F_InsertComma(.@amount);
+	next;
+	input .@tradeAmount;
+	if((.@tradeAmount <= 0) || (.@tradeAmount > .@amount)){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	return .@tradeAmount;
+	
 	return;
 }

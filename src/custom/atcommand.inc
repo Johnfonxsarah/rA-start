@@ -21,27 +21,30 @@
 /*==========================================
  * @debuff by Start's
  * reduces player damage / defense and flee by percentage
+ * reduces player bonus by percentage
  *------------------------------------------*/
 ACMD_FUNC(debuff)
 {
 	int value = 0;
+	int value2 = 0;
 	nullpo_retr(-1, sd);
 	char temp[CHAT_SIZE_MAX];
 
 	memset(temp, '\0', sizeof(temp));
 
-	if (!message || !*message)
+	if (!message || !*message || (sscanf(message, "%11d %11d", &value, &value2) < 2))
 		return -1;
 
-	value = atoi(message);
-
 	sd->debuff = cap_value(value,0,100);
+	sd->bonusDebuff = cap_value(value2,0,100);
 
 	StringBuf buf;
 	StringBuf_Init(&buf);
-	StringBuf_Printf(&buf, msg_txt(sd,1538), sd->debuff); // Debuff: %d
+	StringBuf_Printf(&buf, msg_txt(sd,1538), sd->debuff, sd->bonusDebuff); // Debuff: %d | Item Bonus อ่อนแอลง: %d
 	clif_displaymessage(fd, StringBuf_Value(&buf));
 	StringBuf_Destroy(&buf);
+
+	status_calc_pc(sd,SCO_NONE);
 
 	return 0;
 }

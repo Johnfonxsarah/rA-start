@@ -2,14 +2,15 @@
 	end;
 	
 OnInit:
-	if($globalVariableType1Version != 1){
-		$globalVariableType1Version = 1;
+	if($globalVariableType1Version != 2){
+		$globalVariableType1Version = 2;
 		
 		$wishingTicketItemId = 10000001;
 		$riseStoneItemId = 10000002;
 		$mysteryBuffBoxItemId = 10000003;
 		$mysteryPackageBoxItemId = 10000004;
 		$godTicketItemId = 10000005;
+		$masteryTicketItemId = 10000006;
 		
 		deletearray $tiredSpotXs[0],getarraysize($tiredSpotXs);
 		setarray $tiredSpotXs[0],136,136,174,175,107,120,192,204,205,48,47,77,46,269,263,234;
