@@ -47,3 +47,5 @@ Body:
        Price: 100000
      - Item: God_Ticket
        Price: 5000000
+     - Item: Mastery_Ticket
+       Price: 10000000

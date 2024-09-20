@@ -84,7 +84,7 @@ x_prt,70,65,4	script	เริ่ม#ซัดเทพ	10371,{
 	'spawnAmount = onlyGodSpawnAmount;
 	'rewardAmount = onlyGodRewardAmount;
 	callsub L_Spawn;
-	announce "Boss เหลือ " + F_InsertComma('spawnAmount - 'progression) + " ตัว",bc_self;
+	announce "Boss เหลือ " + F_InsertComma('spawnAmount - 'progression) + " ตัว",bc_map;
 	end;
 	
 	L_Spawn:
@@ -98,12 +98,12 @@ x_prt,70,65,4	script	เริ่ม#ซัดเทพ	10371,{
 OnBossDead:
 'progression++;
 		if('progression >= 'spawnAmount){
-			announce "'ซัดเทพ' ผ่านแล้ว!",bc_self;
+			announce "'ซัดเทพ' ผ่านแล้ว!",bc_map;
 			getitem $godTicketItemId,'rewardAmount;
 			addtimer 2000,instance_npcname(strnpcinfo(0)) + "::OnComplete";
 		}
 		else
-		announce "Boss เหลือ " + F_InsertComma('spawnAmount - 'progression) + " ตัว",bc_self;
+		announce "Boss เหลือ " + F_InsertComma('spawnAmount - 'progression) + " ตัว",bc_map;
 		end;
 		
 OnComplete:

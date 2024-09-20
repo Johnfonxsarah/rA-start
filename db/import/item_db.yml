@@ -215,3 +215,12 @@ Body:
     Buy: 1
     Trade:
       NoSell: true
+  - Id: 10000006
+    AegisName: Mastery_Ticket
+    Name: Mastery Ticket
+    Type: DelayConsume
+    Buy: 1
+    Trade:
+      NoSell: true
+    Script: |
+      callfunc("MasteryTicket");
