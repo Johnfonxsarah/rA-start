@@ -81,7 +81,7 @@ OnInit:
 	if(!is_party_leader())
 		end;
 	hideonnpc instance_npcname(strnpcinfo(0));
-	'spawnAmount = 10;
+	'spawnAmount = (IsWeekend() ? 5 : 10);
 	'round = 3;
 	'rewardAmount = onlyGodRewardAmount;
 	'bonusDebuff = bonusDebuff;
