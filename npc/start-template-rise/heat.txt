@@ -102,7 +102,7 @@ OnApplyDebuff:
 	
 OnSpawn:
 	for(.@i = 0; .@i < 'spawnAmount; .@i++){
-		monster 'mapName$,0,0,"--ja--",$mvpIds[rand(getarraysize($mvpIds))],1,instance_npcname(strnpcinfo(0)) + "::OnBossDead";
+		areamonster 'mapName$,115,115,160,160,"--ja--",$mvpIds[rand(getarraysize($mvpIds))],1,instance_npcname(strnpcinfo(0)) + "::OnBossDead";
 	setunitdata $@mobid[0],UMOB_RANK,monsterRank;
 	setunitdata $@mobid[0],UMOB_SPEED,rand(77,177);
 	setunitdata $@mobid[0],UMOB_DAMAGETAKEN,1;
