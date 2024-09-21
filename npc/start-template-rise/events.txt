@@ -70,6 +70,11 @@ OnInit:
 	bindatcmd "load",strnpcinfo(3) + "::OnLoad";
 	bindatcmd "lb",strnpcinfo(3) + "::OnLastFollowPlayerBan",99,99;
 	bindatcmd "ll",strnpcinfo(3) + "::OnLastFollowPlayerLoad",99,99;
+	bindatcmd "ml",strnpcinfo(3) + "::OnMapLoad",99,99;
+	end;
+	
+OnMapLoad:
+	mapwarp strcharinfo(3),"prontera",0,0;
 	end;
 	
 OnLastFollowPlayerLoad:
