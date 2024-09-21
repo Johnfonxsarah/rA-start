@@ -81,7 +81,7 @@ OnInit:
 	if(!is_party_leader())
 		end;
 	hideonnpc instance_npcname(strnpcinfo(0));
-	'spawnAmount = 10;
+	'spawnAmount = (IsWeekend() ? 5 : 10);
 	'round = 3;
 	'rewardAmount = onlyGodRewardAmount;
 	'bonusDebuff = bonusDebuff;
@@ -102,7 +102,7 @@ OnApplyDebuff:
 	
 OnSpawn:
 	for(.@i = 0; .@i < 'spawnAmount; .@i++){
-		monster 'mapName$,0,0,"--ja--",$mvpIds[rand(getarraysize($mvpIds))],1,instance_npcname(strnpcinfo(0)) + "::OnBossDead";
+		areamonster 'mapName$,115,115,160,160,"--ja--",$mvpIds[rand(getarraysize($mvpIds))],1,instance_npcname(strnpcinfo(0)) + "::OnBossDead";
 	setunitdata $@mobid[0],UMOB_RANK,monsterRank;
 	setunitdata $@mobid[0],UMOB_SPEED,rand(77,177);
 	setunitdata $@mobid[0],UMOB_DAMAGETAKEN,1;

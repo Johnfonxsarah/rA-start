@@ -69,6 +69,12 @@ OnPCLoadMapEvent:
 OnInit:
 	bindatcmd "load",strnpcinfo(3) + "::OnLoad";
 	bindatcmd "lb",strnpcinfo(3) + "::OnLastFollowPlayerBan",99,99;
+	bindatcmd "ll",strnpcinfo(3) + "::OnLastFollowPlayerLoad",99,99;
+	end;
+	
+OnLastFollowPlayerLoad:
+	if(followCID)
+	atcommand "#go " + strcharinfo(0,followCID) + " 0";
 	end;
 	
 OnLastFollowPlayerBan:
