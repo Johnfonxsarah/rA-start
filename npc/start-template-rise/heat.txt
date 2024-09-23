@@ -23,7 +23,7 @@ prontera,152,214,1	script	เดือด	10548,{
 	
 	mes "[วิธีเล่น]";
 	if(IsWeekend())
-	mes "• ^d32323พิเศษวันหยุด จำนวน Boss ที่ต้องกำจัดน้อยลง^000000";
+	mes "• ^d598f0พิเศษวันหยุด จำนวน Boss ที่ต้องกำจัดน้อยลง^000000";
 	mes "• ^d32323โปรดระวังหากใครคนหนึ่งใน Party เข้าสู่เมือง Prontera ระหว่างกำลังเล่นห้องพิเศษนี้ ห้องพิเศษนี้จะถูกทำลาย^000000";
 	mes "• เมื่อกำจัด Boss จนหมดห้อง จะได้รับ " + mesitemlink($masteryTicketItemId,true);
 	mes "• Boss จะมี Rank " + F_InsertComma(monsterRank);
