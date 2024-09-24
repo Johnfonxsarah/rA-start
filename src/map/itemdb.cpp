@@ -569,35 +569,43 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			item->elvmax = MAX_LEVEL;
 	}
 
-	// [Start's]
-	item->flag.no_refine = false;
+	if (battle_config.config_all_equipment_refinable) {
+		// [Start's]
+		item->flag.no_refine = false;
+	}
+	else {
+		if (this->nodeExists(node, "Refineable")) {
+			bool refine;
 
-	/*if (this->nodeExists(node, "Refineable")) {
-		bool refine;
+			if (!this->asBool(node, "Refineable", refine))
+				return 0;
 
-		if (!this->asBool(node, "Refineable", refine))
-			return 0;
+			item->flag.no_refine = !refine;
+		}
+		else {
+			if (!exists)
+				item->flag.no_refine = true;
+		}
+	}
 
-		item->flag.no_refine = !refine;
-	} else {
-		if (!exists)
-			item->flag.no_refine = true;
-	}*/
+	if (battle_config.config_all_equipment_gradable) {
+		// [Start's]
+		item->flag.gradable = true;
+	}
+	else {
+		if (this->nodeExists(node, "Gradable")) {
+			bool gradable;
 
-	// [Start's]
-	item->flag.gradable = true;
+			if (!this->asBool(node, "Gradable", gradable))
+				return 0;
 
-	/*if (this->nodeExists(node, "Gradable")) {
-		bool gradable;
-
-		if (!this->asBool(node, "Gradable", gradable))
-			return 0;
-
-		item->flag.gradable = gradable;
-	} else {
-		if (!exists)
-			item->flag.gradable = false;
-	}*/
+			item->flag.gradable = gradable;
+		}
+		else {
+			if (!exists)
+				item->flag.gradable = false;
+		}
+	}
 
 	if (this->nodeExists(node, "View")) {
 		uint32 look;
@@ -631,28 +639,33 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	}
 
 	// [Start's]
-	item->flag.buyingstore = true;
-	item->flag.bindOnEquip = false;
+	if (battle_config.config_all_item_buying_store)
+		item->flag.buyingstore = true;
+	if (battle_config.config_all_item_no_bind)
+		item->flag.bindOnEquip = false;
 
 	if (this->nodeExists(node, "Flags")) {
 		const auto& flagNode = node["Flags"];
 
-		/*if (this->nodeExists(flagNode, "BuyingStore")) {
-			bool active;
+		if (!battle_config.config_all_item_buying_store) {
+			if (this->nodeExists(flagNode, "BuyingStore")) {
+				bool active;
 
-			if (!this->asBool(flagNode, "BuyingStore", active))
-				return 0;
+				if (!this->asBool(flagNode, "BuyingStore", active))
+					return 0;
 
-			if (!itemdb_isstackable2(item.get()) && active) {
-				this->invalidWarning(flagNode["BuyingStore"], "Non-stackable item cannot be enabled for buying store.\n");
-				active = false;
+				if (!itemdb_isstackable2(item.get()) && active) {
+					this->invalidWarning(flagNode["BuyingStore"], "Non-stackable item cannot be enabled for buying store.\n");
+					active = false;
+				}
+
+				item->flag.buyingstore = active;
 			}
-
-			item->flag.buyingstore = active;
-		} else {
-			if (!exists)
-				item->flag.buyingstore = false;
-		}*/
+			else {
+				if (!exists)
+					item->flag.buyingstore = false;
+			}
+		}
 
 		if (this->nodeExists(flagNode, "DeadBranch")) {
 			bool active;
@@ -695,17 +708,20 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 				item->flag.guid = false;
 		}
 
-		/*if (this->nodeExists(flagNode, "BindOnEquip")) {
-			bool active;
+		if (!battle_config.config_all_item_no_bind) {
+			if (this->nodeExists(flagNode, "BindOnEquip")) {
+				bool active;
 
-			if (!this->asBool(flagNode, "BindOnEquip", active))
-				return 0;
+				if (!this->asBool(flagNode, "BindOnEquip", active))
+					return 0;
 
-			item->flag.bindOnEquip = active;
-		} else {
-			if (!exists)
-				item->flag.bindOnEquip = false;
-		}*/
+				item->flag.bindOnEquip = active;
+			}
+			else {
+				if (!exists)
+					item->flag.bindOnEquip = false;
+			}
+		}
 
 		if (this->nodeExists(flagNode, "DropAnnounce")) {
 			bool active;
@@ -757,11 +773,13 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 	} else {
 		if (!exists) {
-			//item->flag.buyingstore = false; // [Start's]
+			if (!battle_config.config_all_item_buying_store) // [Start's]
+				item->flag.buyingstore = false;
 			item->flag.dead_branch = false;
 			item->flag.group = false;
 			item->flag.guid = false;
-			//item->flag.bindOnEquip = false; // [Start's]
+			if (!battle_config.config_all_item_no_bind) // [Start's]
+				item->flag.bindOnEquip = false;
 			item->flag.broadcast = false;
 			if (!(item->flag.delay_consume & DELAYCONSUME_TEMP))
 				item->flag.delay_consume = DELAYCONSUME_NONE;
@@ -925,7 +943,7 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 	}
 
-	if (this->nodeExists(node, "TradeNoUse")) { // [Start's] All item should have no restriction
+	if (this->nodeExists(node, battle_config.config_all_item_trade ? "TradeNoUse" : "Trade")) { // [Start's] All item should have no restriction
 		const auto& tradeNode = node["Trade"];
 
 		if (this->nodeExists(tradeNode, "Override")) {
@@ -3252,8 +3270,7 @@ char itemdb_isidentified(t_itemid nameid) {
 		case IT_ARMOR:
 		case IT_PETARMOR:
 		case IT_SHADOWGEAR:
-			return 1; // [Start's]
-			//return 0;
+			return battle_config.config_equipment_drop_auto_identify ? 1 : 0; // [Start's]
 		default:
 			return 1;
 	}
