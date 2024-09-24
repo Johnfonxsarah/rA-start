@@ -809,8 +809,8 @@ int battle_calc_cardfix(int attack_type, struct block_list *src, struct block_li
 				if( tsd->sc.getSCE(SC_MDEF_RATE) )
 					cardfix = cardfix * (100 - tsd->sc.getSCE(SC_MDEF_RATE)->val1) / 100;
 
-				if ((cardfix < 100) && ((rnd() % 100) < 50)) // [Start's] 50% chance to capped rate at 90% if exceeded
-					cardfix = 100;
+				if ((cardfix < battle_config.config_invulnerable_break_value) && ((rnd() % 100) < battle_config.config_invulnerable_break_rate)) // [Start's] 50% chance to capped rate at 90% if exceeded
+					cardfix = battle_config.config_invulnerable_break_value;
 
 				APPLY_CARDFIX(damage, cardfix);
 			}
@@ -1032,8 +1032,8 @@ int battle_calc_cardfix(int attack_type, struct block_list *src, struct block_li
 				if( tsd->sc.getSCE(SC_DEF_RATE) )
 					cardfix = cardfix * (100 - tsd->sc.getSCE(SC_DEF_RATE)->val1) / 100;
 
-				if ((cardfix < 100) && ((rnd() % 100) < 50)) // [Start's] 50% chance to capped rate at 90% if exceeded
-					cardfix = 100;
+				if ((cardfix < battle_config.config_invulnerable_break_value) && ((rnd() % 100) < battle_config.config_invulnerable_break_rate)) // [Start's] 50% chance to capped rate at 90% if exceeded
+					cardfix = battle_config.config_invulnerable_break_value;
 
 				APPLY_CARDFIX(damage, cardfix);
 			}
@@ -1081,8 +1081,8 @@ int battle_calc_cardfix(int attack_type, struct block_list *src, struct block_li
 				else if (!nk[NK_IGNORELONGCARD])	// BF_LONG (there's no other choice)
 					cardfix = cardfix * (100 - tsd->bonus.long_attack_def_rate) / 100;
 
-				if ((cardfix < 100) && ((rnd() % 100) < 50)) // [Start's] 50% chance to capped rate at 90% if exceeded
-					cardfix = 100;
+				if ((cardfix < battle_config.config_invulnerable_break_value) && ((rnd() % 100) < battle_config.config_invulnerable_break_rate)) // [Start's] 50% chance to capped rate at 90% if exceeded
+					cardfix = battle_config.config_invulnerable_break_value;
 
 				APPLY_CARDFIX(damage, cardfix);
 			}
@@ -2888,7 +2888,7 @@ bool is_infinite_defense(struct block_list *target, int flag)
 			return true;
 	}
 
-	bool isSkip = (rnd() % 100 < 10); // [Start's] 10% chance to skip ignore
+	bool isSkip = (rnd() % 100 < battle_config.config_infinite_defense_break_rate); // [Start's] 10% chance to skip ignore
 	if (!isSkip) {
 		if (status_has_mode(tstatus, MD_IGNOREMELEE) && (flag & (BF_WEAPON | BF_SHORT)) == (BF_WEAPON | BF_SHORT))
 			return true;
@@ -7405,8 +7405,8 @@ static struct Damage battle_calc_weapon_attack(struct block_list *src, struct bl
 
 	//Check for Lucky Dodge + [Start's] Reduces Perfect Dodge by debuff (Example: Debuff 50 will decrease Perfect Dodge by 50%) also 50% chance to capped rate at 90% if exceeded
 	short perfectDodge = (tstatus->flee2 ? (tstatus->flee2 - (tsd ? (tstatus->flee2 * tsd->debuff) / 100 : 0)) : 0);
-	if ((perfectDodge >= 900) && ((rnd() % 100) < 50))
-		perfectDodge = 900;
+	if ((perfectDodge >= battle_config.config_perfect_dodge_break_value) && ((rnd() % 100) < battle_config.config_perfect_dodge_break_rate))
+		perfectDodge = battle_config.config_perfect_dodge_break_value;
 	if ((!skill_id || (skill_id == PA_SACRIFICE)) && perfectDodge && ((rnd() % 1000) < perfectDodge)) {
 		wd.type = DMG_LUCY_DODGE;
 		wd.dmg_lv = ATK_LUCKY;

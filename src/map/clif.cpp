@@ -7025,7 +7025,7 @@ void clif_use_card(map_session_data *sd,int idx)
 	WFIFOHEAD(fd,MAX_INVENTORY * 2 + 4);
 	WFIFOW(fd,0)=0x17b;
 
-	bool isEnchantment = (sd->inventory_data[idx]->subtype == CARD_ENCHANT); // [Start's] Check it was Enchantment
+	bool isEnchantment = ((sd->inventory_data[idx]->subtype == CARD_ENCHANT) && battle_config.config_enchantment_clickable); // [Start's] Check it was Enchantment
 
 	for(i=c=0;i<MAX_INVENTORY;i++){
 		int j;

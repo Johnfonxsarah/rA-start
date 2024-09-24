@@ -5515,7 +5515,7 @@ int pc_insert_card(map_session_data* sd, int idx_card, int idx_equip)
 	if(item_card == nullptr)
 		return 0; //Invalid card index.
 	else
-		isEnchantment = (item_card->subtype == CARD_ENCHANT); // [Start's] Check it was Enchantment
+		isEnchantment = ((item_card->subtype == CARD_ENCHANT) && battle_config.config_enchantment_clickable); // [Start's] Check it was Enchantment
 	if( sd->inventory.u.items_inventory[idx_equip].nameid == 0 || sd->inventory.u.items_inventory[idx_equip].amount < 1 )
 		return 0; // target item missing
 	if( sd->inventory.u.items_inventory[idx_card].nameid == 0 || sd->inventory.u.items_inventory[idx_card].amount < 1 )
