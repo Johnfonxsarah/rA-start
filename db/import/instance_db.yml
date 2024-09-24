@@ -70,3 +70,10 @@ Body:
      Map: 8@thts
      X: 135
      Y: 140
+ - Id: 1004
+   Name: Wish
+   TimeLimit: 6000
+   Enter:
+     Map: force_3-3
+     X: 100
+     Y: 100

@@ -73,8 +73,8 @@ Body:
             Amount: 5
   - Name: ·≈° Rise Stone
     Map: prontera
-    X: 145
-    Y: 200
+    X: 153
+    Y: 198
     Direction: SouthWest
     Sprite: 4_GACHA_MACHINE
     Items:
