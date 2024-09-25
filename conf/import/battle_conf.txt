@@ -1,0 +1,58 @@
+// Monster ทุกตัว Drop Item Id (ใส่ 0 เพื่อปิดการใช้งาน)
+config_global_drop: 0
+// %
+config_global_drop_base_rate: 1
+
+// Boss ทุกตัว Drop Item Id (ใส่ 0 เพื่อปิดการใช้งาน)
+config_global_mvp_drop: 10000000
+// %
+config_global_mvp_drop_rate: 1
+
+// Item Id ที่จะ Delay การ Drop (ใส่ 0 เพื่อปิดการใช้งาน)
+config_main_item_drop_id: 10000001
+// Delay กี่วินาที
+config_main_item_drop_delay: 1
+
+// โอกาสป้องกัน 100% จะโดนลดเหลือ n% (ใส่ 0 เพื่อปิดการใช้งาน)
+config_invulnerable_break_rate: 50
+// 100 = 90%
+// 10 = 99%
+// 1 = 99.9%
+config_invulnerable_break_value: 100
+
+// โอกาสทะลุ โจมตี 1 (โจมตีพวกต้นไม้)  (ใส่ 0 เพื่อปิดการใช้งาน)
+config_infinite_defense_break_rate: 10
+
+// โอกาส Perfect Dodge 100% จะโดนลดเหลือ n% (ใส่ 0 เพื่อปิดการใช้งาน)
+config_perfect_dodge_break_rate: 50
+// 900 = 90%
+// 990 = 99%
+// 999 = 99.9%
+config_perfect_dodge_break_value: 900
+
+// Enchantment คลิกใส่เลยได้ไหม (1 ได้)
+config_enchantment_clickable: 1
+
+// Equipment ทุกชิ้นเสริมแกร่งได้ไหม (1 ได้)
+config_all_equipment_refinable: 1
+
+// Equipment ทุกชิ้น Grade ได้ไหม (1 ได้)
+config_all_equipment_gradable: 1
+
+// Item ทุกชิ้นตั้งร้านค้ารับซื้อได้ไหม (1ได้)
+config_all_item_buying_store: 1
+
+// Item ทุกชิ้นไม่สนข้อผูกมัดหรือไม่ (1 ไม่สน)
+config_all_item_no_bind: 1
+
+// Item ทุกชิ้นไม่สนกฎการเคลื่อนย้ายหรือไม่ (1 ไม่สน)
+config_all_item_trade: 1
+
+// Equipment ทุกชิ้น Drop แล้วตรวจสอบอัตโนมัติหรือไม่ (1 ตรวจอัตโนมัติ)
+config_equipment_drop_auto_identify: 1
+
+// Monster ที่ Spawn ปกติมี Rank 0~(n-1)
+config_random_monster_rank: 91
+
+// ไม่นับคน Auto Trade (0 ไม่นับ)
+config_auto_trade_player_count: 0

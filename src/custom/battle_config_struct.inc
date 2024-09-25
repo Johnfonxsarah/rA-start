@@ -31,3 +31,4 @@
  int config_all_item_trade;
  int config_equipment_drop_auto_identify;
  int config_random_monster_rank;
+ int config_auto_trade_player_count;
