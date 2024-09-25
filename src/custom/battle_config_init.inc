@@ -30,3 +30,4 @@
  { "config_all_item_trade", &battle_config.config_all_item_trade, 1, 0, 1 },
  { "config_equipment_drop_auto_identify", &battle_config.config_equipment_drop_auto_identify, 1, 0, 1 },
  { "config_random_monster_rank", &battle_config.config_random_monster_rank, 91, 0, 50000 },
+ { "config_auto_trade_player_count", &battle_config.config_auto_trade_player_count, 0, 0, 1 },
