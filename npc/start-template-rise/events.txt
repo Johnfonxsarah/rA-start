@@ -9,6 +9,9 @@ OnPCLoginEvent:
 	autoloot();
 	if(IsWeekend())
 	announce "พิเศษวันหยุด | ราคา Buff ถูกลง | ราคา เร่ง EXP & DROP ถูกลง",bc_self,0xd598f0,0,23;
+
+	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
+
 	end;
 	
 OnPlayTimeTick:
