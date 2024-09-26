@@ -1,0 +1,59 @@
+prontera,173,184,1	script	บ่อน	563,{
+	setarray .@prices[0]
+	,100000 // Wishing Ticket
+	,100000 // Refine Hack Powder
+	,100000 // Rise Stone
+	,100000 // God Ticket
+	,100000 // Mastery Ticket
+	;
+	setarray .@rates[0]
+	,50 // Wishing Ticket
+	,10 // Refine Hack Powder
+	,75 // Rise Stone
+	,5 // God Ticket
+	,1 // Mastery Ticket
+	;
+	setarray .@itemId[0]
+	,$wishingTicketItemId // Wishing Ticket
+	,$refineHackPowderItemId // Refine Hack Powder
+	,$riseStoneItemId // Rise Stone
+	,$godTicketItemId // God Ticket
+	,$masteryTicketItemId // Mastery Ticket
+	;
+	for(.@i = 0; .@i < getarraysize(.@prices); .@i++)
+	.@menu$ += "สุ่ม " + getitemname(.@itemId[.@i]) + " [^af1ada" + F_InsertComma(.@prices[.@i]) + "z^000000] ต่อรอบ ^1c9311โอกาสได้รับ " + .@rates[.@i] + "%^000000:";
+	.@index = (select(.@menu$) - 1);
+	if(Zeny < .@prices[.@index]){
+		mes "Zeny ไม่เพียงพอ";
+		close;
+	}
+	.@price = .@prices[.@index];
+	.@rates = .@rates[.@index];
+	.@itemId = .@itemId[.@index];
+	.@maxInput = (Zeny / .@price);
+	mes "สุ่มรับ " + getitemname(.@itemId[.@index]) + " กี่รอบ?";
+	mes "ระบุ 0~" + .@maxInput;
+	mes "โอกาสได้รับ " + .@rates + "%";
+	input .@i;
+	if((.@i <= 0) || (.@i > .@maxInput)){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	freeloop(1);
+	while(Zeny >= .@price && (.@i > 0)){
+		.@i--;
+		
+		ChangeZeny(-.@price,0);
+		.@rand = rand(100);
+		if(.@rand < .@rates)
+		getitem .@itemId,1;
+		else
+		dispbottom "ต้องสุ่มได้น้อยกว่า " + .@rates + " คุณสุ่มได้ " + .@rand;
+	}
+	freeloop(0);
+	close;
+	
+OnInit:
+	waitingroom "บ่อน",0;
+	end;
+}
