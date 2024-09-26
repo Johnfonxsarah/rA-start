@@ -11,6 +11,7 @@
  *	 { "name", &battle_config.<variable name>, <default value>, <minimum value>, <maximum value> },
  **/
 
+ { "config_global_maximum_sell", &battle_config.config_global_maximum_sell, 5000, 0, INT_MAX },
  { "config_global_drop", &battle_config.config_global_drop, 10000001, 0, INT_MAX },
  { "config_global_drop_base_rate", &battle_config.config_global_drop_base_rate, 1, 0, INT_MAX },
  { "config_global_mvp_drop", &battle_config.config_global_mvp_drop, 10000000, 0, INT_MAX },
