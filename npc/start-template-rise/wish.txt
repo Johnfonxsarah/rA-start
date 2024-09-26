@@ -106,7 +106,7 @@ OnMonsterDead:
 	if(!playerattached())
 	end;
 
-	ChangeZeny(rand(minZenyReward,maxZenyReward));
+	ChangeZeny(rand(minZenyReward,maxZenyReward),0);
 
 	'isDelay = ('wishDelay > gettimetick(2));
 if(!'isDelay){

@@ -2,9 +2,10 @@
 	end;
 	
 OnInit:
-	if($globalVariableType1Version != 2){
-		$globalVariableType1Version = 2;
+	if($globalVariableType1Version != 3){
+		$globalVariableType1Version = 3;
 		
+		$refineHackPowderItemId = 10000000;
 		$wishingTicketItemId = 10000001;
 		$riseStoneItemId = 10000002;
 		$mysteryBuffBoxItemId = 10000003;
