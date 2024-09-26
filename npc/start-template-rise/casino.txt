@@ -31,7 +31,7 @@ prontera,173,184,1	script	บ่อน	563,{
 	.@rates = .@rates[.@index];
 	.@itemId = .@itemId[.@index];
 	.@maxInput = (Zeny / .@price);
-	mes "สุ่มรับ " + getitemname(.@itemId[.@index]) + " กี่รอบ?";
+	mes "สุ่มรับ " + mesitemlink(.@itemId[.@index],true) + " กี่รอบ?";
 	mes "ระบุ 0~" + .@maxInput;
 	mes "โอกาสได้รับ " + .@rates + "%";
 	input .@i;
