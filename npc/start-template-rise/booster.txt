@@ -65,7 +65,6 @@ guild_vs5	mapflag	nowarpto
 guild_vs5	mapflag	nosave
 guild_vs5	mapflag	nomemo
 guild_vs5	mapflag	noloot
-guild_vs5	mapflag	noexp
 guild_vs5	mapflag	nobranch
 guild_vs5	mapflag	notomb
 guild_vs5	mapflag	nopetcapture
