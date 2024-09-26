@@ -28,6 +28,7 @@ OnPlayTimeTick:
 	end;
 	
 OnPCLogoutEvent:
+	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
 	end;
 	
 OnPCLoadMapEvent:
