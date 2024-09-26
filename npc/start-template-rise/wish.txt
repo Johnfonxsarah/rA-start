@@ -1,4 +1,4 @@
-prontera,145,200,3	script	บ่อตั๋ว	10518,{
+prontera,145,200,3	script	บ่อตั๋ว & บ่อเงิน	10518,{
 	.@oldInstanceId = instance_id(IM_CHAR);
 	if(.@oldInstanceId)
 	instance_destroy .@oldInstanceId;
@@ -10,24 +10,25 @@ prontera,145,200,3	script	บ่อตั๋ว	10518,{
 	.@baseMonsterRank = 50;
 	monsterRank = .@baseMonsterRank;
 	mes "[วิธีเล่น]";
-	mes "• เมื่อกำจัด Monster จะมีโอกาสตามที่เลือกที่จะได้รับ " + mesitemlink($wishingTicketItemId,true);
+	mes "• เมื่อกำจัด Monster จะมีโอกาสตามที่เลือกที่จะได้รับ " + mesitemlink($wishingTicketItemId,true) + " และ Zeny ตามที่เลือก";
 	mes "• Monster จะเกิดเรื่อย ๆ ไม่มีวันหมด";
 	mes "• Monster จะมี Rank " + F_InsertComma(monsterRank);
 	mes "• ^1c9311ภายในห้องนี้สามารถ Bot/Macro ได้เลย^000000";
 	mes "• ^1c9311x DROP ใช้ได้ ^d32323(สุดที่ 90%)^000000^000000";
 	mes "• ^d32323มี Delay Drop หลัง Drop 1 วินาที^000000";
+	mes "• ^1c9311Zeny ไม่มี Delay^000000";
 	next;
 	menu
-	"เล่น 'บ่อตั๋ว' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 1~15^000000 โอกาส Drop 0.05%]",L_MonsterTier1
-	,"เล่น 'บ่อตั๋ว' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 16~30^000000 โอกาส Drop 0.1%]",L_MonsterTier2
-	,"เล่น 'บ่อตั๋ว' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 31~50^000000 โอกาส Drop 0.5%]",L_MonsterTier3
-	,"เล่น 'บ่อตั๋ว' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 51~75^000000 โอกาส Drop 1%]",L_MonsterTier4
-	,"เล่น 'บ่อตั๋ว' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 76~99^000000 โอกาส Drop 1.5%]",L_MonsterTier5
-	,"เล่น 'บ่อตั๋ว' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 100~125^000000 โอกาส Drop 2.5%]",L_MonsterTier6
-	,"เล่น 'บ่อตั๋ว' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 126~145^000000 โอกาส Drop 5%]",L_MonsterTier7
-	,"เล่น 'บ่อตั๋ว' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 146~165^000000 โอกาส Drop 10%]",L_MonsterTier8
-	,"เล่น 'บ่อตั๋ว' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 166~185^000000 โอกาส Drop 15%]",L_MonsterTier9
-	,"เล่น 'บ่อตั๋ว' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 186+^000000 โอกาส Drop 20%]",L_MonsterTier10
+	"เล่น 'บ่อตั๋ว & บ่อเงิน' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 1~15^000000 โอกาส Drop 0.05% | ได้ตัวละ 1~10z]",L_MonsterTier1
+	,"เล่น 'บ่อตั๋ว & บ่อเงิน' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 16~30^000000 โอกาส Drop 0.1% | ได้ตัวละ 10~50z]",L_MonsterTier2
+	,"เล่น 'บ่อตั๋ว & บ่อเงิน' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 31~50^000000 โอกาส Drop 0.5% | ได้ตัวละ 50~100z]",L_MonsterTier3
+	,"เล่น 'บ่อตั๋ว & บ่อเงิน' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 51~75^000000 โอกาส Drop 1% | ได้ตัวละ 100~250z]",L_MonsterTier4
+	,"เล่น 'บ่อตั๋ว & บ่อเงิน' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 76~99^000000 โอกาส Drop 1.5% | ได้ตัวละ 250~900z]",L_MonsterTier5
+	,"เล่น 'บ่อตั๋ว & บ่อเงิน' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 100~125^000000 โอกาส Drop 2.5% | ได้ตัวละ 900~1,500z]",L_MonsterTier6
+	,"เล่น 'บ่อตั๋ว & บ่อเงิน' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 126~145^000000 โอกาส Drop 5% | ได้ตัวละ 1,500~3,000z]",L_MonsterTier7
+	,"เล่น 'บ่อตั๋ว & บ่อเงิน' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 146~165^000000 โอกาส Drop 10% | ได้ตัวละ 3,000~5,000z]",L_MonsterTier8
+	,"เล่น 'บ่อตั๋ว & บ่อเงิน' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 166~185^000000 โอกาส Drop 15% | ได้ตัวละ 5,000~9,000z]",L_MonsterTier9
+	,"เล่น 'บ่อตั๋ว & บ่อเงิน' [^af1ada" + F_InsertComma(.@price) + "z^000000] [^d32323Monster Lv 186+^000000 โอกาส Drop 20% | ได้ตัวละ 9,000~13,500z]",L_MonsterTier10
 	;
 	
 	L_MonsterTier1: wishTier = 1; goto L_Trade;
@@ -52,7 +53,7 @@ prontera,145,200,3	script	บ่อตั๋ว	10518,{
 	close;
 	
 OnInit:
-	waitingroom "หา " + getitemname($wishingTicketItemId),0;
+	waitingroom "หา " + getitemname($wishingTicketItemId) + " & Zeny",0;
 	end;
 }
 
@@ -61,17 +62,16 @@ force_3-3	mapflag	nowarpto
 force_3-3	mapflag	nosave
 force_3-3	mapflag	nomemo
 force_3-3	mapflag	noloot
-force_3-3	mapflag	noexp
 force_3-3	mapflag	nobranch
 force_3-3	mapflag	notomb
 force_3-3	mapflag	nopetcapture
 
-force_3-3,100,108,4	script	Ruwach#บ่อตั๋ว	10518,{
+force_3-3,100,108,4	script	Ruwach#บ่อตั๋ว & บ่อเงิน	10518,{
 	npcskill "AL_RUWACH",1,0,1;
 	end;
 }
 
-force_3-3,100,104,4	script	เริ่ม#บ่อตั๋ว	10518,{
+force_3-3,100,104,4	script	เริ่ม#บ่อตั๋ว & บ่อเงิน	10518,{
 	hideonnpc instance_npcname(strnpcinfo(0));
 	'spawnAmount = 100;
 	
@@ -102,6 +102,19 @@ OnMonsterDead:
 if(!playerattached())
 	end;
 
+.@zenyReward = (wishTier >= 10) ? rand(9000,13500)
+: (wishTier == 9) ? rand(5000,9000)
+: (wishTier == 8) ? rand(3000,5000)
+: (wishTier == 7) ? rand(1500,3000)
+: (wishTier == 6) ? rand(900,1500)
+: (wishTier == 5) ? rand(250,900)
+: (wishTier == 4) ? rand(100,250)
+: (wishTier == 3) ? rand(50,100)
+: (wishTier == 2) ? rand(10,50)
+: rand(1,10)
+;
+ChangeZeny(.@zenyReward);
+
 	'isDelay = ('wishDelay > gettimetick(2));
 if(!'isDelay){
 	.@rand = rand(10000);
@@ -119,11 +132,12 @@ if(!'isDelay){
 
 	.@dropBoost = max(1,getstatus(SC_ITEMBOOST,1));
 	.@finalDrop = cap_value((.@chance * .@dropBoost) / 100,0,9000);
-	dispbottom "ต้องสุ่มได้น้อยกว่า " + .@finalDrop + " คุณสุ่มได้ " + .@rand;
 	if(.@rand < .@finalDrop){
 		'wishDelay = (gettimetick(2) + 1);
 		getitem $wishingTicketItemId,1;
 	}
+	else
+		dispbottom "ต้องสุ่มได้น้อยกว่า " + .@finalDrop + " คุณสุ่มได้ " + .@rand;
 }
 
 .@monsterId = (

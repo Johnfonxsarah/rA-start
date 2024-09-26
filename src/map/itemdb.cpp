@@ -228,6 +228,9 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			sell = MAX_ZENY;
 		}
 
+		if (sell > battle_config.config_global_maximum_sell)
+			sell = battle_config.config_global_maximum_sell;
+
 		has_sell = true;
 		item->value_sell = sell;
 	} else {
@@ -1213,7 +1216,7 @@ void ItemDatabase::loadingFinished(){
 		if (!hasPriceValue[item->nameid].has_buy && hasPriceValue[item->nameid].has_sell)
 			item->value_buy = item->value_sell * 2;
 		else if (hasPriceValue[item->nameid].has_buy && !hasPriceValue[item->nameid].has_sell)
-			item->value_sell = item->value_buy / 2;
+			item->value_sell = cap_value(item->value_buy / 2,0,battle_config.config_global_maximum_sell);
 
 		if (item->value_buy / 124. < item->value_sell / 75.) {
 			ShowWarning("Buying/Selling [%d/%d] price of %s (%u) allows Zeny making exploit through buying/selling at discounted/overcharged prices! Defaulting Sell to 1 Zeny.\n", item->value_buy, item->value_sell, item->name.c_str(), item->nameid);
