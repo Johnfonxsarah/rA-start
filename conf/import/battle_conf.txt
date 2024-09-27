@@ -36,6 +36,9 @@ config_perfect_dodge_break_value: 900
 // Enchantment คลิกใส่เลยได้ไหม (1 ได้)
 config_enchantment_clickable: 1
 
+// Enchantment คลิกใส่ได้มากสุดกี่ช่อง (มากสุด 4)
+config_enchantment_maximum: 4
+
 // Equipment ทุกชิ้นเสริมแกร่งได้ไหม (1 ได้)
 config_all_equipment_refinable: 1
 
