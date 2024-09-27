@@ -17,6 +17,10 @@
 //============================================================
 
 -	script	Warp	-1,{
+	bonusDebuff = 0;
+	
+	ApplyTired();
+	
 	mes "• Bot & Macro ^d32323นอก Map บ่อตั๋ว & บ่อ Zeny^000000 == ^d32323Ban 30 วัน^000000 (ไม่มีปลด Ban)";
 	mes "• ยังใช้หลักการเดิมหากต้องการใช้ Macro ^d32323ต้องอยู่จอ^000000 สำหรับนอก Map บ่อตั๋ว & บ่อ Zeny";
 	mes "• เปิดเกมทิ้งไว้ (^1c9311สาย AFK^000000) ทำได้";
@@ -27,7 +31,7 @@
 	// --------------------------------------------------
 	//	Main Menu:
 	// --------------------------------------------------
-
+	
 	menu	"Warp ล่าสุด ^777777["+lastwarp$+"]^000000",-,
 	" ~ ทดสอบ Damage",TestDamage,
 	" ~ เมือง",Towns,
@@ -50,6 +54,11 @@
 	end;
 	
 TestDamage:
+	clear;
+	mes "ระบุ % ของเสื่อม";
+	next;
+	input bonusDebuff;
+	ApplyTired();
 	.@index = (select(" ~ ปกติ: ~ Rank 0: ~ Rank 10: ~ Rank 100: ~ Rank 1000") - 1);
 	setarray .@mapName$[0],"tra_fild","06guild_01","06guild_02","06guild_03","06guild_04";
 	warp .@mapName$[.@index],0,0;
