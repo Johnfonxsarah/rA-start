@@ -31,8 +31,12 @@ prontera,147,159,6	script	ขายของเร็ว	10390,{
 		.@itemAmount = @inventorylist_amount[.@i];
 		
 		.@itemSellPrice = getiteminfo(.@itemId,ITEMINFO_SELL);
+		
 		if(.@itemSellPrice)
 		.@ocPrice = (((.@itemSellPrice / 10) * .@ocRate) / 10);
+		else
+		.@ocPrice = 0;
+	
 		.@itemSellPrice = ((.@itemSellPrice + .@ocPrice) * .@itemAmount);
 		
 		if(IsZenyExceed(.@itemSellPrice))
