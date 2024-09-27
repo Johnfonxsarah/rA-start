@@ -25,6 +25,7 @@
  int config_perfect_dodge_break_rate;
  int config_perfect_dodge_break_value;
  int config_enchantment_clickable;
+ int config_enchantment_maximum;
  int config_all_equipment_refinable;
  int config_all_equipment_gradable;
  int config_all_item_buying_store;

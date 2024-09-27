@@ -24,6 +24,7 @@
  { "config_perfect_dodge_break_rate", &battle_config.config_perfect_dodge_break_rate, 50, 0, 100 },
  { "config_perfect_dodge_break_value", &battle_config.config_perfect_dodge_break_value, 900, 0, 1000 },
  { "config_enchantment_clickable", &battle_config.config_enchantment_clickable, 1, 0, 1 },
+ { "config_enchantment_maximum", &battle_config.config_enchantment_maximum, 4, 0, 4 },
  { "config_all_equipment_refinable", &battle_config.config_all_equipment_refinable, 1, 0, 1 },
  { "config_all_equipment_gradable", &battle_config.config_all_equipment_gradable, 1, 0, 1 },
  { "config_all_item_buying_store", &battle_config.config_all_item_buying_store, 1, 0, 1 },

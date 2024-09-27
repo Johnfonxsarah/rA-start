@@ -5547,8 +5547,8 @@ int pc_insert_card(map_session_data* sd, int idx_card, int idx_equip)
 
 	//ARR_FIND(0, item_eq->slots, i, sd->inventory.u.items_inventory[idx_equip].card[i] == 0);
 	i = isEnchantment ? item_eq->slots : i; // [Start's] Enchantment will start at max card slot index
-	ARR_FIND(isEnchantment ? item_eq->slots : 0, isEnchantment ? 4 : item_eq->slots, i, sd->inventory.u.items_inventory[idx_equip].card[i] == 0); // [Start's] Modify a bit for Enchantment
-	if (i == (isEnchantment ? 4 : item_eq->slots)) // No room + [Start's] Modify a bit for Enchantment
+	ARR_FIND(isEnchantment ? item_eq->slots : 0, isEnchantment ? cap_value(item_eq->slots + battle_config.config_enchantment_maximum, 0, 4) : item_eq->slots, i, sd->inventory.u.items_inventory[idx_equip].card[i] == 0); // [Start's] Modify a bit for Enchantment
+	if (i == (isEnchantment ? cap_value(item_eq->slots + battle_config.config_enchantment_maximum, 0, 4) : item_eq->slots)) // No room + [Start's] Modify a bit for Enchantment
 		return 0;
 	// remember the card id to insert
 	nameid = sd->inventory.u.items_inventory[idx_card].nameid;
