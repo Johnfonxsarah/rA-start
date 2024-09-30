@@ -19,7 +19,7 @@ OnPCLoginEvent:
 		atcommand "@lvup 999";
 		atcommand "@joblvup 999";
 		atcommand "@skillall";
-		atcommand "@statusall";
+		atcommand "@statsall";
 		atcommand "@traitall";
 		close2;
 	}
