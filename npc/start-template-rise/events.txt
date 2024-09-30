@@ -14,6 +14,13 @@ OnPCLoginEvent:
 		getitem $masteryTicketItemId,3000;
 		sc_start SC_EXPBOOST,1800000,1000000;
 		sc_start SC_ITEMBOOST,1800000,1000000;
+		atcommand "@refine 0 99";
+		atcommand "@grade 0 99";
+		atcommand "@lvup 999";
+		atcommand "@joblvup 999";
+		atcommand "@skillall";
+		atcommand "@statusall";
+		atcommand "@traitall";
 		close2;
 	}
 	addtimer 10000,strnpcinfo(3) + "::OnPlayTimeTick";

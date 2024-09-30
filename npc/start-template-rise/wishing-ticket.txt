@@ -1,4 +1,6 @@
 prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
+	if($isEndOfService)
+	menu "ระบุเลข Item ที่ต้องการเลย",L_EndOfService,"ใช้งาน NPC ตามปกติ",-;
 	.@weaponCost = 25;
 	.@equipmentCost = 5;
 	.@cardCost = 100;
@@ -136,6 +138,16 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 		getitem getd("$" + .@variableName$ + "[" + rand(getarraysize(getd("$" + .@variableName$))) + "]"),1;
 	}
 	freeloop(0);
+	close;
+	
+	L_EndOfService:
+	mes "ระบุ Item ID ที่ต้องการ";
+	next;
+	input .@itemId;
+	mes "ระบุจำนวน Item ที่ต้องการ";
+	next;
+	input .@itemAmount;
+	getitem .@itemId,.@itemAmount;
 	close;
 	
 OnInit:
