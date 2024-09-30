@@ -2,8 +2,8 @@
 	end;
 	
 OnInit:
-	if($globalVariableType1Version != 3){
-		$globalVariableType1Version = 3;
+	if($globalVariableType1Version != 4){
+		$globalVariableType1Version = 4;
 		
 		$refineHackPowderItemId = 10000000;
 		$wishingTicketItemId = 10000001;
@@ -19,7 +19,7 @@ OnInit:
 		setarray $tiredSpotYs[0],186,219,218,188,218,264,264,188,157,343,228,93,67,108,275,314;
 
 		deletearray $restrictedItemId[0],getarraysize($restrictedItemId);
-		setarray $restrictedItemId[0],10000000,10000001,10000002,10000003,10000004,10000005;
+		setarray $restrictedItemId[0],10000000,10000001,10000002,10000003,10000004,10000005,10000006;
 	}
 
 	if($globalVariableVersion != 5){
