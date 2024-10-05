@@ -39,36 +39,3 @@
 Header:
   Type: SKILL_TREE_DB
   Version: 1
-  
-Body:
-  - Job: Shinkiro
-    Inherit:
-      Novice: true
-      Ninja: true
-      Kagerou: true
-  - Job: Shiranui
-    Inherit:
-      Novice: true
-      Ninja: true
-      Oboro: true
-  - Job: Sky_Emperor
-    Inherit:
-      Novice: true
-      Taekwon: true
-      Star_Gladiator: true
-      Star_Emperor: true
-  - Job: Sky_Emperor2
-    Inherit:
-      Novice: true
-      Taekwon: true
-      Star_Gladiator: true
-      Sky_Emperor: true
-  - Job: Soul_Ascetic
-    Inherit:
-      Novice: true
-      Taekwon: true
-      Soul_Linker: true
-      Soul_Reaper: true
-  - Job: Spirit_Handler
-    Inherit:
-      Summoner: true

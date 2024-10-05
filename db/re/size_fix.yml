@@ -31,7 +31,3 @@
 Header:
   Type: SIZE_FIX_DB
   Version: 1
-
-Body:
-  - Weapon: Knuckle
-    Large: 75

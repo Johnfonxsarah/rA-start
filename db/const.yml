@@ -34,20 +34,6 @@ Header:
   Type: CONSTANT_DB
   Version: 1
 
-Body:
-  - Name: SWORDCLAN
-    Value: 1
-  - Name: ARCWANDCLAN
-    Value: 2
-  - Name: GOLDENMACECLAN
-    Value: 3
-  - Name: CROSSBOWCLAN
-    Value: 4
-  - Name: JUMPINGCLAN
-    Value: 5
-  - Name: REPUTATION_EP18
-    Value: 3
-
 Footer:
   Imports:
   - Path: db/import/const.yml

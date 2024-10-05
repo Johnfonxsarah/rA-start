@@ -8,4 +8,3 @@
 //   Value is started from 0 until 74 (MAX_SKILL_CHANGEMATERIAL_DB-1). Use same ID on import file to overwrite original result & requirements
 // - Up to 5 ID/Amount pairs can be specified.
 // - Rate = n/10%
-
