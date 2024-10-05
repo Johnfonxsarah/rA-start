@@ -12,17 +12,8 @@ prontera,140,190,4	script	เทส Monster เด้ง	84,{
 	end;
 }
 
-prontera,142,190,4	script	เติม AP	84,{
-	atcommand "@healap";
-	end;
-}
-
 prontera,144,190,4	script	เรียก Poring	84,{
-	monster "prontera",148,186,"--ja--",1002,1;
-	//setunitdata $@mobid[0],UMOB_RANK,0;
-	//setunitdata $@mobid[0],UMOB_HIT,1000;
-	sc_start SC_EXPBOOST,100000,10000;
-	sc_start SC_ITEMBOOST,100000,5000;
+	atcommand "@monster 1002 100";
 	end;
 }
 
@@ -35,17 +26,6 @@ prontera,146,190,4	script	ลบ Buff	84,{
 
 prontera,148,190	monster	Dummy (Small)	21064,1
 
-prontera,150,190,4	shop	ทดสอบร้านค้า	84,1146:-1,1245:-1
-
-prontera,152,190,4	script	ทดสอบช่องเก็บของเต็ม	84,{
-	freeloop(1);
-	for(.@i = 0; .@i < 300; .@i++){
-		getitem 501 + .@i,1;
-	}
-	freeloop(0);
-	end;
-}
-
 prontera,156,190,4	script	ทดสอบอาชีพ	84,{
 	input .@i;
 	atcommand "@job " + .@i;
@@ -55,39 +35,6 @@ prontera,156,190,4	script	ทดสอบอาชีพ	84,{
 	atcommand "@traitall";
 	atcommand "@skillall";
 	callfunc "F_GetPlatinumSkills";
-	end;
-}
-
-prontera,162,190,4	script	รวมวัตถุดิบเสริมแกร่ง	84,{
-	for(.@i = 0; .@i < getarraysize(.refineItemRequirements$); .@i++){
-		getitem .refineItemRequirements$[.@i],1;
-	}
-	end;
-	
-OnInit:
-	setarray .refineItemRequirements$[0],"Phracon",
-	"Emveretarcon",
-	"Oridecon",
-	"Elunium",
-	"HD_Elunium",
-	"Enriched_Elunium",
-	"Carnium",
-	"HD_Carnium",
-	"Ethernium",
-	"Enriched_Ethernium",
-	"Etel_Carnium",
-	"HD_Ethernium",
-	"HD_Etel_Carnium",
-	"HD_Oridecon",
-	"Enriched_Oridecon",
-	"Bradium",
-	"HD_Bradium",
-	"Etherdeocon",
-	"Enriched_Etherdeocon",
-	"Etel_Bradium",
-	"HD_Etherdeocon",
-	"HD_Etel_Bradium",
-	"Blacksmith_Blessing";
 	end;
 }
 
