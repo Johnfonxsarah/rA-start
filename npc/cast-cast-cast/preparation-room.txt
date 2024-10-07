@@ -1,0 +1,52 @@
+1@vrsn,110,70,6	script	บารอค	509,{
+	atcommand "@job";
+	mes "โปรดดูเลขชุด ในช่องสนทนา";
+	input .@jobId;
+	setlook LOOK_CLOTHES_COLOR,1;
+	setlook LOOK_HAIR,1;
+	setlook LOOK_HAIR_COLOR,1;
+	atcommand "@job " + .@jobId;
+	StatusPoint = 0;
+	TraitPoint = 0;
+	SkillPoint = 0;
+	end;
+	
+OnInit:
+	waitingroom "เปลี่ยนชุด",0;
+	end;
+}
+
+1@vrsn,110,78,6	script	มิ้น	10296,{
+	.@slot = select("เปลี่ยนเครื่องประดับ ช่องที่ 1:เปลี่ยนเครื่องประดับ ช่องที่ 2:เปลี่ยนเครื่องประดับ ช่องที่ 3:เปลี่ยนเครื่องประดับ ช่องที่ 4");	
+
+	L_Menu:
+	mes "ช่องที่ " + .@slot + " ค่าล่าสุด: " + getd("dressSlot" + .@slot);
+	menu
+	"ต่อไป",L_Next,
+	"ก่อนหน้า",L_Previous,
+	"ระบุเอง",L_Input
+	;
+	
+	L_Next:
+	set getd("dressSlot" + .@slot),getd("dressSlot" + .@slot) + 1;
+	goto L_Trade;
+	
+	L_Previous:
+	set getd("dressSlot" + .@slot),getd("dressSlot" + .@slot) - 1;
+	goto L_Trade;
+	
+	L_Input:
+	input .@selectId;
+	set getd("dressSlot" + .@slot),.@selectId;
+	
+	L_Trade:
+	setlook (.@slot == 1) ? LOOK_HEAD_BOTTOM : (.@slot == 2) ? LOOK_HEAD_TOP : (.@slot == 3) ? LOOK_HEAD_MID : LOOK_ROBE,getd("dressSlot" + .@slot);
+	
+	clear;
+	
+	goto L_Menu;
+	
+OnInit:
+	waitingroom "เปลี่ยนเครื่องประดับ",0;
+	end;
+}

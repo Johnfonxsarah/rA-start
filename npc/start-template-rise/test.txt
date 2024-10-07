@@ -1,4 +1,4 @@
-prontera,140,190,4	script	เทส Monster เด้ง	84,{
+prontera,149,195,4	script	เทส Monster เด้ง	84,{
 	menu "ต่อไป",-;
 	.@loop = 10;
 	if(!.index)
@@ -12,21 +12,21 @@ prontera,140,190,4	script	เทส Monster เด้ง	84,{
 	end;
 }
 
-prontera,144,190,4	script	เรียก Poring	84,{
+prontera,153,193,6	script	เรียก Poring	84,{
 	atcommand "@monster 1002 100";
 	end;
 }
 
-prontera,146,190,4	script	ลบ Buff	84,{
+prontera,151,194,4	script	ลบ Buff	84,{
 	sc_end SC_ALL;
 	sc_end SC_EXPBOOST;
 	sc_end SC_ITEMBOOST;
 	end;
 }
 
-prontera,148,190	monster	Dummy (Small)	21064,1
+prontera,155,185	monster	Dummy (Small)	21064,1
 
-prontera,156,190,4	script	ทดสอบอาชีพ	84,{
+prontera,158,193,4	script	ทดสอบอาชีพ	84,{
 	input .@i;
 	atcommand "@job " + .@i;
 	atcommand "@lvup 999";
@@ -34,35 +34,5 @@ prontera,156,190,4	script	ทดสอบอาชีพ	84,{
 	atcommand "@statsall";
 	atcommand "@traitall";
 	atcommand "@skillall";
-	callfunc "F_GetPlatinumSkills";
-	end;
-}
-
-prontera,162,180,4	script	เช็ค Item Bug	84,{
-	setarray .@testItemId[0],1199,1316,1655,2155,2567,2632,2633,5701,5842,5843,5844,6069,6303,6346,6445,11059,12285,12401,12518,12520,12526,12551,12552,12592,12593,12594,12655,12656,12657,12665,12670,12671,12686,12687,12688,12689,12757,12758,12759,12776,12777,12780,12781,12782,12783,13063,13432,16011,17022,17023,20600,22825,102396,102397,1000682;
-	freeloop(1);
-	for(.@i = 0; .@i < getarraysize(.@testItemId); .@i++)
-	{
-		if(.@i >= 99)
-		{
-			dispbottom "Pause at ID: " + .@testItemId[.@i] + " because too much item";
-			end;
-		}
-		getitem .@testItemId[.@i],1;
-	}
-	
-	freeloop(0);
-	end;
-}
-
-prontera,164,188,4	script	เช็ค Item เด้ง	84,{
-	errorItemIdPage++;
-	dispbottom "หน้าที่ " + errorItemIdPage;
-	.@shopName$ = "ItemMall" + errorItemIdPage;
-	callshop .@shopName$,1;
-	npcshopattach .@shopName$;
-	end;
-	
-OnBuyItem:
 	end;
 }

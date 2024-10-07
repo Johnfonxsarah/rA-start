@@ -2,7 +2,6 @@ prontera,163,178,1	script	ตั้งค่า	10372,{
 	L_Menu:
 	menu
 	"ดูคำสั่งที่ใช้ได้",L_Commands,
-	"รวม Item ที่แยกกันอยู่",L_ItemMerge,
 	"เปลี่ยน Password",L_ChangePassword
 	;
 	end;
@@ -12,10 +11,6 @@ prontera,163,178,1	script	ตั้งค่า	10372,{
 	mes "• [@who] ดูว่ามีใครเล่นเกมอยู่บ้าง";
 	mes "• [@time] บอกเวลา Server";
 	next;
-	goto L_Menu;
-	
-	L_ItemMerge:
-	mergeitem;
 	goto L_Menu;
 	
 	L_ChangePassword:

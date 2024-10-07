@@ -2,6 +2,19 @@
 	end;
 	
 OnPCLoginEvent:
+	StatusPoint = 0;
+	TraitPoint = 0;
+	SkillPoint = 0;
+
+	if(dressSlot1)
+	setlook LOOK_HEAD_BOTTOM,dressSlot1;
+	if(dressSlot2)
+	setlook LOOK_HEAD_TOP,dressSlot2;
+	if(dressSlot3)
+	setlook LOOK_HEAD_MID,dressSlot3;
+	if(dressSlot4)
+	setlook LOOK_ROBE,dressSlot4;
+
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
 
 	end;

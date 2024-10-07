@@ -13304,6 +13304,7 @@ TIMER_FUNC(skill_castend_id){
 			case WL_FROSTMISTY:
 			case SU_CN_POWDERING:
 			case AG_RAIN_OF_CRYSTAL:
+			default:
 				ud->skillx = target->x;
 				ud->skilly = target->y;
 				ud->skilltimer = tid;
@@ -14768,8 +14769,13 @@ int skill_castend_pos2(struct block_list* src, int x, int y, uint16 skill_id, ui
 		break;
 
 	default:
-		ShowWarning("skill_castend_pos2: Unknown skill used:%d\n",skill_id);
-		return 1;
+		i = skill_get_splash(skill_id, skill_lv);
+		i = 10;
+		if (skill_get_nk(skill_id,NK_NODAMAGE))
+			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_ENEMY | 1, skill_castend_nodamage_id);
+		else
+			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_ENEMY | 1, skill_castend_damage_id);
+		break;
 	}
 
 	if( sc && sc->getSCE(SC_CURSEDCIRCLE_ATKER) ) //Should only remove after the skill has been casted.
@@ -23939,22 +23945,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			skill->skill_type = BF_NONE;
 	}
 
-	if (this->nodeExists(node, "TargetType")) {
-		std::string inf;
-
-		if (!this->asString(node, "TargetType", inf))
-			return 0;
-
-		std::string inf_constant = "INF_" + inf + "_SKILL";
-		int64 constant;
-
-		if (!script_get_constant(inf_constant.c_str(), &constant)) {
-			this->invalidWarning(node["TargetType"], "TargetType %s is invalid.\n", inf.c_str());
-			return 0;
-		}
-
-		skill->inf = static_cast<uint16>(constant);
-	}
+	skill->inf = INF_GROUND_SKILL;
 
 	if (this->nodeExists(node, "DamageFlags")) {
 		const auto& damageNode = node["DamageFlags"];
