@@ -17427,6 +17427,7 @@ int skill_check_bl_sc(struct block_list *target, va_list ap) {
  * @return true: All condition passed, false: Failed
  */
 bool skill_check_condition_castbegin( map_session_data& sd, uint16 skill_id, uint16 skill_lv ){
+	return true;
 	struct s_skill_condition require;
 	int i;
 
