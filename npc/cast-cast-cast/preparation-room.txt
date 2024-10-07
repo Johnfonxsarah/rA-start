@@ -1,4 +1,24 @@
-1@vrsn,110,70,6	script	บารอค	509,{
+// Producer
+1@vrsn,113,72,5	script	มิมิ	2001,5,5,{
+	mes "ยินดีต้อนรับสู่ร้านเกม CAST CAST CAST คะ!";
+	next;
+	mes "ทางเราแนะนำให้ไปที่ ห้องเปลี่ยนโฉม เพื่อเปลี่ยนรูปลักษณ์ภายนอกของตัวละคร ไม่ให้ซ้ำใครเสียก่อนนะคะ";
+	next;
+	mes "จากนั้นค่อยไปยัง ห้องแนะนำ เพื่อเตรียมเล่นเกมค่ะ";
+	next;
+	mes "ขอให้มีความสุข ในการเล่นเกมที่ร้านของเรานะคะ";
+	close;
+	
+OnTouch:
+	if (@talkDelay > gettimetick(2))
+	end;
+	npctalk "~ CAST CAST CAST ยินดีต้อนรับคะ! ลูกค้าสามารถ เปลี่ยนโฉมตัวเองได้ที่ ห้องเปลี่ยนโฉม เมื่อพร้อมแล้ว เข้าห้องแนะนำได้เลยค่ะ ~";
+	@talkDelay = gettimetick(2) + 3;
+	end;
+}
+
+// Dress Maker
+1@vrsn,133,164,4	script	บารอค	509,{
 	atcommand "@job";
 	mes "โปรดดูเลขชุด ในช่องสนทนา";
 	input .@jobId;
@@ -16,7 +36,8 @@ OnInit:
 	end;
 }
 
-1@vrsn,110,78,6	script	มิ้น	10296,{
+// Accessory Creator
+1@vrsn,151,155,4	script	มิ้น	10296,{
 	.@slot = select("เปลี่ยนเครื่องประดับ ช่องที่ 1:เปลี่ยนเครื่องประดับ ช่องที่ 2:เปลี่ยนเครื่องประดับ ช่องที่ 3:เปลี่ยนเครื่องประดับ ช่องที่ 4");	
 
 	L_Menu:
@@ -50,3 +71,71 @@ OnInit:
 	waitingroom "เปลี่ยนเครื่องประดับ",0;
 	end;
 }
+
+// Game Designer
+1@vrsn,34,142,6	script	วีล	2000,5,5,{
+	mes "ก่อนอื่นเลยก็ขอบคุณมาก ๆ ครับ";
+	next;
+	mes "ระบบเกมของเราจะเป็นการให้ผู้เล่น ^d32323ใช้การร่าย Skill แทนการโจมตีทุกชนิด^000000 คุณอาจต้องปรับตัวเล็กน้อย แต่เดี๋ยวคุณก็จะเข้าใจมันได้อย่างแน่นอน";
+	next;
+	mes "โดยความพิเศษของเกมคือ\n^1c9311ยิ่ง Level Skill สูงจะยิ่งทำให้ Skill ร่ายได้กว้างขึ้น^000000\nไม่ว่าจะเป็น Skill อะไรก็ตาม\nลองนึกภาพตัวเองใช้ Bash แล้ว Poring ระเบิดยกจอสิ! วู้วววว";
+	next;
+	mes "นั่นเป็นเพียงส่วนหนึ่ง ที่เราอยากจะนำเสนอ ที่เหลือระบบเกมของเราจะค่อย ๆ สอนคุณเอง เอาล่ะ ไปลุยได้เลยครับ";
+	close;
+	
+OnTouch:
+	if (@talkDelay > gettimetick(2))
+	end;
+	npctalk "~ สวัสดีครับ! สนใจฟังระบบที่น่าสนใจ ของเกมเราไหมครับ? ~";
+	@talkDelay = gettimetick(2) + 3;
+	end;
+}
+
+// Trainer
+1@vrsn,62,185,6	script	บ๊อบ	10494,5,5,{
+	mes "ลองเลือก Skill แล้วทดลองดูน้าา ชอบอันหนายย..";
+	next;
+	.@index = select("Bash:Fire Ball:Mammonite:Holy Light:Envenom:Double Strafe:Heel Drop:Shadow Slash:Disarm:Bite");
+	// Clean up
+	skill 5,.@index == 1,3;
+	skill 17,.@index == 2,3;
+	skill 42,.@index == 3,3;
+	skill 156,.@index == 4,3;
+	skill 52,.@index == 5,3;
+	skill 46,.@index == 6,3;
+	skill 415,.@index == 7,3;
+	skill 530,.@index == 8,3;
+	skill 513,.@index == 9,3;
+	skill 5019,.@index == 10,3;
+	specialeffect2 18;
+	close;
+	
+OnTouch:
+	if (@talkDelay > gettimetick(2))
+	end;
+	npctalk "~ มารับ Skill กับป๋มก่อนน ~";
+	@talkDelay = gettimetick(2) + 3;
+	end;
+}
+
+// Training Ground
+-	script	PreparationRoomTestMonster	-1,{
+	end;
+	
+OnRespawn:
+	areamonster "1@vrsn",37,208,52,180,"--ja--",1002,1,strnpcinfo(0) + "::OnRespawn";
+	end;
+	
+OnInit:
+	areamonster "1@vrsn",37,208,52,180,"--ja--",1002,30,strnpcinfo(0) + "::OnRespawn";
+	end;
+}
+
+// Warp - Instruction Room
+1@vrsn,94,97,0	warp	PR_WARP_01	1,1,1@vrsn,94,102
+1@vrsn,94,100,0	warp	PR_WARP_02	1,1,1@vrsn,94,95
+// Warp - Dress Room
+1@vrsn,134,97,0	warp	PR_WARP_03	1,1,1@vrsn,134,102
+1@vrsn,134,100,0	warp	PR_WARP_04	1,1,1@vrsn,134,94
+1@vrsn,134,133,0	warp	PR_WARP_05	1,1,1@vrsn,134,139
+1@vrsn,134,136,0	warp	PR_WARP_06	1,1,1@vrsn,134,130

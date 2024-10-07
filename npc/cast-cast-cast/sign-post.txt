@@ -1,0 +1,11 @@
+-	script	SignPost	-1,{
+	message strcharinfo(0),"ป้ายเขียนไว้ว่า '" + strnpcinfo(2) + "'";
+	end;
+
+OnInit:
+	waitingroom strnpcinfo(2),0;
+	end;
+}
+
+1@vrsn,128,97,4	duplicate(SignPost)	ป้าย#ห้องเปลี่ยนโฉม	857
+1@vrsn,99,97,4	duplicate(SignPost)	ป้าย#ห้องแนะนำ	857
