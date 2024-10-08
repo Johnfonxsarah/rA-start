@@ -2,6 +2,8 @@
 	end;
 	
 OnPCLoginEvent:
+	setpcblock PCBLOCK_ATTACK,true;
+	
 	StatusPoint = 0;
 	TraitPoint = 0;
 	SkillPoint = 0;
