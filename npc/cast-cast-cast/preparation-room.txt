@@ -169,6 +169,35 @@ OnTouch:
 	end;
 }
 
+// Confirmer
+1@vrsn,202,209,1	script	ไจฟูรุ	10173,5,5,{
+	mes "นี่คือห้องสุดท้ายก่อนที่จะเข้าสู่เกมแล้วนะ";
+	next;
+	mes "ถ้าต้องการเปลี่ยนอะไรบอกหนูได้เลย!";
+	next;
+	menu "ยกเลิก",-,"ยืนยัน",L_Confirm,"เลือกใหม่",L_Reset;
+	close;
+	
+	L_Confirm:
+	mes "ลุยยยยยย!";
+	close2;
+	isConfirm = 1;
+	savepoint "bl_depth2",142,138,5,5;
+	warp "SavePoint",142,138;
+	end;
+	
+	L_Reset:
+	warp strnpcinfo(4),114,56;
+	close;
+	
+OnTouch:
+	if (@talkDelay > gettimetick(2))
+	end;
+	npctalk "~ พร้อมเล่นแล้วสินะ! ~";
+	@talkDelay = gettimetick(2) + 3;
+	end;
+}
+
 // Training Ground
 -	script	PreparationRoomTestMonster	-1,{
 	end;
@@ -190,3 +219,7 @@ OnInit:
 1@vrsn,134,100,0	warp	PR_WARP_04	1,1,1@vrsn,134,94
 1@vrsn,134,133,0	warp	PR_WARP_05	1,1,1@vrsn,134,139
 1@vrsn,134,136,0	warp	PR_WARP_06	1,1,1@vrsn,134,130
+// Warp - Confirmation
+1@vrsn,180,216,0	warp	PR_WARP_07	1,1,1@vrsn,195,216
+1@vrsn,190,216,0	warp	PR_WARP_08	1,1,1@vrsn,175,216
+1@vrsn,205,205,0	warp	PR_WARP_09	1,1,1@vrsn,210,205

@@ -15,6 +15,9 @@ OnPCLoginEvent:
 	if(dressSlot4)
 	setlook LOOK_ROBE,dressSlot4;
 
+	if(isConfirm)
+	addtimer 1,strnpcinfo(0) + "::OnLoadConfirm";
+	
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
 
 	end;
@@ -22,11 +25,6 @@ OnPCLoginEvent:
 OnPCLogoutEvent:
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
 	
-	end;
-	
-OnPCLoadMapEvent:
-	if(strcharinfo(3) == "prontera"){
-	}
 	end;
 	
 OnInit:
@@ -64,8 +62,7 @@ OnLoad:
 		specialeffect2 35;
 		progressbar "",(strcharinfo(3) == "guild_vs1") ? 4 : 2;
 	}
+OnLoadConfirm:
 	warp "Save",0,0;
 	end;
 }
-
-prontera	mapflag	loadevent
