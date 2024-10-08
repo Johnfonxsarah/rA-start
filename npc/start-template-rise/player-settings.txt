@@ -4,7 +4,7 @@ prontera,163,178,1	script	ตั้งค่า	10372,{
 	"ดูคำสั่งที่ใช้ได้",L_Commands,
 	"ใช้ @autoloot เมื่อเข้าเกม [" + (isAutoLootOff ? "^d32323OFF^000000" : "^1c9311ON^000000") + "]",L_AutoLoot,
 	"รวม Item ที่แยกกันอยู่",L_ItemMerge,
-	"เปลี่ยน Password",L_ChangePassword
+	"เปลี่ยน Password",L_ChangePassword,
 	"ลบ Buff ทั้งตัว",L_RemoveBuff
 	;
 	end;
