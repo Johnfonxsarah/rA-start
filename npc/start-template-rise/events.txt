@@ -34,6 +34,12 @@ OnInit:
 	bindatcmd "lb",strnpcinfo(3) + "::OnLastFollowPlayerBan",99,99;
 	bindatcmd "ll",strnpcinfo(3) + "::OnLastFollowPlayerLoad",99,99;
 	bindatcmd "ml",strnpcinfo(3) + "::OnMapLoad",99,99;
+	bindatcmd "tm",strnpcinfo(3) + "::OnTestMap",99,99;
+	end;
+	
+OnTestMap:
+	warp $maps$[tm],0,0;
+	tm++;
 	end;
 	
 OnMapLoad:
