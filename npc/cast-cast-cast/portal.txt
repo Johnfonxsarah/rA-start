@@ -8,9 +8,10 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 		close;
 	}
 	
-	// Check map existed
+	// Check map index existed on those level
 	if($playingMaps[.@lv]){
 		// Just join
+		warp $maps$[$playingMaps[.@lv]],0,0;
 		end;
 	}
 	
@@ -19,23 +20,88 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 	.@isFoundSameMap = 1;
 	.@retry = 300;
 	while(.@isFoundSameMap && (.@retry > 0)){
+		// Random map index
 		.@mapIndex = rand(getarraysize($maps$));
 		.@isContinue = 0;
+		// Loop all level and check map available
 		for(.@i = 0; .@i < getarraysize($playingMaps); .@i++){
+			// Error because found same map index
 			if(.@mapIndex == $playingMaps[.@i]){
 				.@isContinue = 1;
 				break;
 			}
 		}
+		// Good! Found available map now
 		if(!.@isContinue)
 		.@isFoundSameMap = 0;
 	}
+	// Error..
 	if(.@retry <= 0){
 		mes "โปรดรอสักครู่ ขณะนี้ Map เต็ม";
 		close;
 	}
 	freeloop(0);
+	// Set playing map index
+	$playingMaps[.@lv] = .@mapIndex;
+	// Remember last map name
+	lastPlayMap$ = $maps$[$playingMaps[.@lv]];
+	// Remember base spawn amount
+	baseSpawnAmount = 5;
+	// Remember spawn timer multiplier
+	spawnTimerMultiplier = 10;
+	// Warp now
+	warp $maps$[$playingMaps[.@lv]],0,0;
+	// About to start spawn monster around player
+	addtimer 5000,strnpcinfo(0) + "::OnSpawnMonster";
 	close;
+	
+	// Keep spawn around players
+OnSpawnMonster:
+	// Check map still same otherwise stop it.
+	if(lastPlayMap$ != strcharinfo(3))
+	end;
+	// Spawn amount: Base ~ (Base * Base)
+	.@spawnAmount = rand(baseSpawnAmount,baseSpawnAmount * baseSpawnAmount);
+	// Get player cell
+	getmapxy(.@cMap$,.@cX,.@cY);
+	freeloop(1);
+	for(.@i = 0; .@i < .@spawnAmount; .@i++){
+		// Get available cell to spawn around player
+		getfreecell .@cMap$,.@rX,.@rY,.@cX,.@cY,rand(5,15),rand(5,15);
+		// Spawn
+		monster .@cMap$,.@rX,.@rY,"สาวกมนต์ดำ",$monsterIds[rand(getarraysize($monsterIds))],1,strnpcinfo(0) + "::OnMonsterDead";
+		.@mGID = $@mobid[0];
+		setunitdata .@mGID,UMOB_LEVEL,BaseLevel;
+		.@mHP = 10 * pow(BaseLevel,3);
+		setunitdata .@mGID,UMOB_MAXHP,.@mHP;
+		setunitdata .@mGID,UMOB_HP,.@mHP;
+		setunitdata .@mGID,UMOB_SPEED,300 - (cap_value(BaseLevel,1,250));
+		setunitdata .@mGID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_NORANDOMWALK|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+		setunitdata .@mGID,UMOB_STR,rand(BaseLevel,BaseLevel * 2);
+		setunitdata .@mGID,UMOB_AGI,rand(BaseLevel,BaseLevel * 2);
+		setunitdata .@mGID,UMOB_VIT,rand(BaseLevel,BaseLevel * 2);
+		setunitdata .@mGID,UMOB_INT,rand(BaseLevel,BaseLevel * 2);
+		setunitdata .@mGID,UMOB_DEX,rand(BaseLevel,BaseLevel * 2);
+		setunitdata .@mGID,UMOB_LUK,rand(BaseLevel,BaseLevel * 2);
+		setunitdata .@mGID,UMOB_DMGIMMUNE,0;
+		setunitdata .@mGID,UMOB_ATKMIN,5 + BaseLevel;
+		setunitdata .@mGID,UMOB_ATKMAX,10 + BaseLevel;
+		setunitdata .@mGID,UMOB_MATKMIN,5 + BaseLevel;
+		setunitdata .@mGID,UMOB_MATKMAX,10 + BaseLevel;
+		setunitdata .@mGID,UMOB_DEF,5 + BaseLevel;
+		setunitdata .@mGID,UMOB_MDEF,5 + BaseLevel;
+		setunitdata .@mGID,UMOB_RES,BaseLevel;
+		setunitdata .@mGID,UMOB_MRES,BaseLevel;
+		setunitdata .@mGID,UMOB_DAMAGETAKEN,100;
+		//setunitdata $@mobid[0],UMOB_RANK,0;
+	}
+	freeloop(0);
+	// Start next spawn timer
+	addtimer (1000 * rand(5,spawnTimerMultiplier)),strnpcinfo(0) + "::OnSpawnMonster";
+	end;
+	
+OnMonsterDead:
+	end;
 	
 OnInit:
 	// Clean all playing map
