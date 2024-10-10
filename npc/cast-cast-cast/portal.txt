@@ -1,4 +1,7 @@
 bl_depth2,141,137,5	script	เล่นเกม	10558,{
+	deltimer "เล่นเกม::OnSpawnMonsterHint";
+	deltimer "เล่นเกม::OnSpawnMonster";
+	percentheal 100,100;
 	mes "โปรดระบุชั้นที่ต้องการเข้าเล่น";
 	mes "1~" + BaseLevel;
 	next;
@@ -9,11 +12,9 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 	}
 	
 	// Check map index existed on those level
-	if($playingMaps[.@lv]){
-		// Just join
-		warp $maps$[$playingMaps[.@lv]],0,0;
-		end;
-	}
+	// Just join
+	if($playingMaps[.@lv])
+	goto OnJoin;
 	
 	// Random the map
 	freeloop(1);
@@ -43,25 +44,76 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 	freeloop(0);
 	// Set playing map index
 	$playingMaps[.@lv] = .@mapIndex;
+OnJoin:
+	// Remember playing floor
+	lastPlayMap = .@lv;
 	// Remember last map name
 	lastPlayMap$ = $maps$[$playingMaps[.@lv]];
+	// Remember monster id
+	.@tier =
+	(lastPlayMap <= 5) ? 1
+	: (lastPlayMap <= 10) ? 2
+	: (lastPlayMap <= 20) ? 3
+	: (lastPlayMap <= 30) ? 4
+	: (lastPlayMap <= 40) ? 5
+	: (lastPlayMap <= 50) ? 6
+	: (lastPlayMap <= 60) ? 7
+	: (lastPlayMap <= 70) ? 8
+	: (lastPlayMap <= 80) ? 9
+	: (lastPlayMap <= 90) ? 10
+	: 11
+	;
+	if(.@tier >= 11){
+		.@arraySize = getarraysize($mvpIds);
+		setarray monsterIds[0],$mvpIds[rand(.@arraySize)];
+		setarray monsterIds[1],$mvpIds[rand(.@arraySize)];
+		setarray monsterIds[2],$mvpIds[rand(.@arraySize)];
+	}
+	else{
+		.@arraySize = getarraysize(getd("$attackableMonsterTier" + .@tier + "Ids"));
+		setarray monsterIds[0],getd("$attackableMonsterTier" + .@tier + "Ids[" + rand(.@arraySize) + "]");
+		setarray monsterIds[1],getd("$attackableMonsterTier" + .@tier + "Ids[" + rand(.@arraySize) + "]");
+		setarray monsterIds[2],getd("$attackableMonsterTier" + .@tier + "Ids[" + rand(.@arraySize) + "]");
+	}
 	// Remember base spawn amount
 	baseSpawnAmount = 5;
 	// Remember spawn timer multiplier
 	spawnTimerMultiplier = 10;
+	// Player can't attack
+	setpcblock PCBLOCK_ATTACK,true;
 	// Warp now
-	warp $maps$[$playingMaps[.@lv]],0,0;
+	warp $maps$[$playingMaps[lastPlayMap]],0,0;
 	// About to start spawn monster around player
-	addtimer 5000,strnpcinfo(0) + "::OnSpawnMonster";
+	hintTimer = 3;
+	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";
 	close;
+	
+OnSpawnMonsterHint:
+	// Check map still same otherwise stop it. || Player not attached || Boss Fight || Player dead
+	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || $isBossMaps[lastPlayMap] || isdead()){
+		// Mark on minimap
+		if(playerattached() && $isBossMaps[lastPlayMap])
+		viewpoint 1,$bossX[lastPlayMap],$bossY[lastPlayMap],1,0xff0000;
+		
+		end;
+	}
+	
+	if(hintTimer){
+		announce "สาวกมนต์ดำ จะมาภายใน " + hintTimer + " วินาที",bc_self,0x9e978b,0,25;
+		hintTimer--;
+		addtimer 1000,strnpcinfo(0) + "::OnSpawnMonsterHint";
+	}
+	else
+	addtimer 1,strnpcinfo(0) + "::OnSpawnMonster";
+	end;
 	
 	// Keep spawn around players
 OnSpawnMonster:
-	// Check map still same otherwise stop it.
-	if(lastPlayMap$ != strcharinfo(3))
+	// Check map still same otherwise stop it. || Player not attached || Boss Fight || Player dead
+	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || $isBossMaps[lastPlayMap] || isdead())
 	end;
-	// Spawn amount: Base ~ (Base * Base)
-	.@spawnAmount = rand(baseSpawnAmount,baseSpawnAmount * baseSpawnAmount);
+	// Spawn amount: Base ~ (Base ^ 2)
+	.@spawnAmount = rand(baseSpawnAmount,pow(baseSpawnAmount,2));
 	// Get player cell
 	getmapxy(.@cMap$,.@cX,.@cY);
 	freeloop(1);
@@ -69,29 +121,33 @@ OnSpawnMonster:
 		// Get available cell to spawn around player
 		getfreecell .@cMap$,.@rX,.@rY,.@cX,.@cY,rand(5,15),rand(5,15);
 		// Spawn
-		monster .@cMap$,.@rX,.@rY,"สาวกมนต์ดำ",$monsterIds[rand(getarraysize($monsterIds))],1,strnpcinfo(0) + "::OnMonsterDead";
+		monster .@cMap$,.@rX,.@rY,"สาวกมนต์ดำ",monsterIds[rand(getarraysize(monsterIds))],1,strnpcinfo(0) + "::OnMonsterDead";
 		.@mGID = $@mobid[0];
-		setunitdata .@mGID,UMOB_LEVEL,BaseLevel;
-		.@mHP = 10 * pow(BaseLevel,3);
+		setunitdata .@mGID,UMOB_LEVEL,lastPlayMap;
+		.@mHP = 10 * pow(lastPlayMap,3);
 		setunitdata .@mGID,UMOB_MAXHP,.@mHP;
 		setunitdata .@mGID,UMOB_HP,.@mHP;
-		setunitdata .@mGID,UMOB_SPEED,300 - (cap_value(BaseLevel,1,250));
-		setunitdata .@mGID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_NORANDOMWALK|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
-		setunitdata .@mGID,UMOB_STR,rand(BaseLevel,BaseLevel * 2);
-		setunitdata .@mGID,UMOB_AGI,rand(BaseLevel,BaseLevel * 2);
-		setunitdata .@mGID,UMOB_VIT,rand(BaseLevel,BaseLevel * 2);
-		setunitdata .@mGID,UMOB_INT,rand(BaseLevel,BaseLevel * 2);
-		setunitdata .@mGID,UMOB_DEX,rand(BaseLevel,BaseLevel * 2);
-		setunitdata .@mGID,UMOB_LUK,rand(BaseLevel,BaseLevel * 2);
+		setunitdata .@mGID,UMOB_SPEED,300 - (cap_value(lastPlayMap,1,250));
+		setunitdata .@mGID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+		setunitdata .@mGID,UMOB_STR,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .@mGID,UMOB_AGI,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .@mGID,UMOB_VIT,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .@mGID,UMOB_INT,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .@mGID,UMOB_DEX,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .@mGID,UMOB_LUK,rand(lastPlayMap,lastPlayMap * 2);
 		setunitdata .@mGID,UMOB_DMGIMMUNE,0;
-		setunitdata .@mGID,UMOB_ATKMIN,5 + BaseLevel;
-		setunitdata .@mGID,UMOB_ATKMAX,10 + BaseLevel;
-		setunitdata .@mGID,UMOB_MATKMIN,5 + BaseLevel;
-		setunitdata .@mGID,UMOB_MATKMAX,10 + BaseLevel;
-		setunitdata .@mGID,UMOB_DEF,5 + BaseLevel;
-		setunitdata .@mGID,UMOB_MDEF,5 + BaseLevel;
-		setunitdata .@mGID,UMOB_RES,BaseLevel;
-		setunitdata .@mGID,UMOB_MRES,BaseLevel;
+		//setunitdata .@mGID,UMOB_ATKRANGE,1;
+		setunitdata .@mGID,UMOB_ATKMIN,5 + lastPlayMap;
+		setunitdata .@mGID,UMOB_ATKMAX,10 + lastPlayMap;
+		setunitdata .@mGID,UMOB_MATKMIN,5 + lastPlayMap;
+		setunitdata .@mGID,UMOB_MATKMAX,10 + lastPlayMap;
+		setunitdata .@mGID,UMOB_DEF,5 + lastPlayMap;
+		setunitdata .@mGID,UMOB_MDEF,5 + lastPlayMap;
+		//setunitdata .@mGID,UMOB_AMOTION,100;
+		//setunitdata .@mGID,UMOB_ADELAY,100;
+		//setunitdata .@mGID,UMOB_DMOTION,100;
+		setunitdata .@mGID,UMOB_RES,lastPlayMap;
+		setunitdata .@mGID,UMOB_MRES,lastPlayMap;
 		setunitdata .@mGID,UMOB_DAMAGETAKEN,100;
 		//setunitdata $@mobid[0],UMOB_RANK,0;
 	}
@@ -101,12 +157,81 @@ OnSpawnMonster:
 	end;
 	
 OnMonsterDead:
+	// Check map still same otherwise stop it. || Player not attached || Boss Fight || Player dead
+	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || $isBossMaps[lastPlayMap] || isdead())
+	end;
+	.@scoreRequired = 300;
+	$scoreMaps[lastPlayMap]++;
+	$scoreMaps[lastPlayMap] += .@scoreRequired;
+	if($scoreMaps[lastPlayMap] >= .@scoreRequired){
+		$scoreMaps[lastPlayMap] = 0;
+		$isBossMaps[lastPlayMap] = 1;
+		killmonsterall strcharinfo(3),0;
+		announce "เจ้าแห่งมนต์ดำ ปรากฎแล้ว! (เช็ค Minimap)",bc_map,0x9e978b,0,25;
+		// Get available cell to spawn
+		getfreecell strcharinfo(3),$bossX[lastPlayMap],$bossY[lastPlayMap];
+		// Spawn
+		monster strcharinfo(3),$bossX[lastPlayMap],$bossY[lastPlayMap],"เจ้าแห่งมนต์ดำ",monsterIds[rand(getarraysize(monsterIds))],1,strnpcinfo(0) + "::OnBossDead",Size_Large;
+		.@mGID = $@mobid[0];
+		setunitdata .@mGID,UMOB_LEVEL,lastPlayMap;
+		.@mHP = 10 * pow(lastPlayMap,4);
+		setunitdata .@mGID,UMOB_MAXHP,.@mHP;
+		setunitdata .@mGID,UMOB_HP,.@mHP;
+		setunitdata .@mGID,UMOB_SPEED,300 - (cap_value(lastPlayMap,1,250));
+		setunitdata .@mGID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+		setunitdata .@mGID,UMOB_STR,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .@mGID,UMOB_AGI,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .@mGID,UMOB_VIT,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .@mGID,UMOB_INT,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .@mGID,UMOB_DEX,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .@mGID,UMOB_LUK,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .@mGID,UMOB_DMGIMMUNE,0;
+		//setunitdata .@mGID,UMOB_ATKRANGE,1;
+		setunitdata .@mGID,UMOB_ATKMIN,(5 + lastPlayMap) * 2;
+		setunitdata .@mGID,UMOB_ATKMAX,(10 + lastPlayMap) * 2;
+		setunitdata .@mGID,UMOB_MATKMIN,(5 + lastPlayMap) * 2;
+		setunitdata .@mGID,UMOB_MATKMAX,(10 + lastPlayMap) * 2;
+		setunitdata .@mGID,UMOB_DEF,(5 + lastPlayMap) * 2;
+		setunitdata .@mGID,UMOB_MDEF,(5 + lastPlayMap) * 2;
+		//setunitdata .@mGID,UMOB_AMOTION,100;
+		//setunitdata .@mGID,UMOB_ADELAY,100;
+		//setunitdata .@mGID,UMOB_DMOTION,100;
+		setunitdata .@mGID,UMOB_RES,lastPlayMap * 2;
+		setunitdata .@mGID,UMOB_MRES,lastPlayMap * 2;
+		setunitdata .@mGID,UMOB_DAMAGETAKEN,100;
+		//setunitdata $@mobid[0],UMOB_RANK,0;
+		addrid(1);
+		// Mark on minimap
+		viewpoint 1,$bossX[lastPlayMap],$bossY[lastPlayMap],1,0xff0000;
+		end;
+	}
+	else
+	announce "สาวกมนต์ดำ เหลือ " + (.@scoreRequired - $scoreMaps[lastPlayMap]) + " ตัว",bc_map,0x9e978b,0,25;
+	end;
+	
+OnBossDead:
+	if(playerattached()){
+		$isBossMaps[lastPlayMap] = 0;
+		announce strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! ทุกคนในชั้น " + lastPlayMap + " สามารถไปยังชั้นต่อไปได้แล้ว",bc_all,0xffff00,0,25;
+	}
+	addrid(1);
+	if((BaseLevel - 1) < lastPlayMap)
+	atcommand "@lvup " + (lastPlayMap - (BaseLevel - 1));
+	menu "เล่นต่อ",-,"กลับไปยังห้องพัก",L_Lobby;
+	hintTimer = 3;
+	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";
+	end;
+	
+	L_Lobby:
+	warp "Save",0,0;
 	end;
 	
 OnInit:
 	// Clean all playing map
 	deletearray $playingMaps[0],getarraysize($playingMaps);
-
+	// Clean all boss remember
+	deletearray $isBossMaps[0],getarraysize($isBossMaps);
+	
 	// Map database
 	if($mapVersion != 1){
 		$mapVersion = 1;

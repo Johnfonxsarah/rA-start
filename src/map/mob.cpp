@@ -4639,6 +4639,286 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		mob->jname = mob->name;
 	}
 
+	if (this->nodeExists(node, "AttackRange")) {
+		uint16 range;
+
+		if (!this->asUInt16(node, "AttackRange", range))
+			return 0;
+
+		mob->status.rhw.range = range;
+	}
+
+	if (this->nodeExists(node, "SkillRange")) {
+		uint16 range;
+
+		if (!this->asUInt16(node, "SkillRange", range))
+			return 0;
+
+		mob->range2 = range;
+	}
+
+	if (this->nodeExists(node, "ChaseRange")) {
+		uint16 range;
+
+		if (!this->asUInt16(node, "ChaseRange", range))
+			return 0;
+
+		mob->range3 = range;
+	}
+
+	if (this->nodeExists(node, "Size")) {
+		std::string size;
+
+		if (!this->asString(node, "Size", size))
+			return 0;
+
+		std::string size_constant = "Size_" + size;
+		int64 constant;
+
+		if (!script_get_constant(size_constant.c_str(), &constant)) {
+			this->invalidWarning(node["Size"], "Unknown monster size %s, defaulting to Small.\n", size.c_str());
+			constant = SZ_SMALL;
+		}
+
+		if (constant < SZ_SMALL || constant > SZ_BIG) {
+			this->invalidWarning(node["Size"], "Invalid monster size %s, defaulting to Small.\n", size.c_str());
+			constant = SZ_SMALL;
+		}
+
+		mob->status.size = static_cast<e_size>(constant);
+	}
+
+	if (this->nodeExists(node, "Race")) {
+		std::string race;
+
+		if (!this->asString(node, "Race", race))
+			return 0;
+
+		std::string race_constant = "RC_" + race;
+		int64 constant;
+
+		if (!script_get_constant(race_constant.c_str(), &constant)) {
+			this->invalidWarning(node["Race"], "Unknown monster race %s, defaulting to Formless.\n", race.c_str());
+			constant = RC_FORMLESS;
+		}
+
+		if (!CHK_RACE(constant)) {
+			this->invalidWarning(node["Race"], "Invalid monster race %s, defaulting to Formless.\n", race.c_str());
+			constant = RC_FORMLESS;
+		}
+
+		mob->status.race = static_cast<e_race>(constant);
+	}
+
+	if (this->nodeExists(node, "RaceGroups")) {
+		const auto& raceNode = node["RaceGroups"];
+
+		for (const auto& raceit : raceNode) {
+			std::string raceName;
+			c4::from_chars(raceit.key(), &raceName);
+			std::string raceName_constant = "RC2_" + raceName;
+			int64 constant;
+
+			if (!script_get_constant(raceName_constant.c_str(), &constant)) {
+				this->invalidWarning(raceNode[raceit.key()], "Unknown monster race group %s, skipping.\n", raceName.c_str());
+				continue;
+			}
+
+			if (!CHK_RACE2(constant)) {
+				this->invalidWarning(raceNode[raceit.key()], "Invalid monster race group %s, skipping.\n", raceName.c_str());
+				continue;
+			}
+
+			bool active;
+
+			if (!this->asBool(raceNode, raceName, active))
+				return 0;
+
+			if (active)
+				mob->race2.push_back(static_cast<e_race2>(constant));
+			else
+				util::vector_erase_if_exists(mob->race2, static_cast<e_race2>(constant));
+		}
+	}
+
+	if (this->nodeExists(node, "Element")) {
+		std::string ele;
+
+		if (!this->asString(node, "Element", ele))
+			return 0;
+
+		std::string ele_constant = "ELE_" + ele;
+		int64 constant;
+
+		if (!script_get_constant(ele_constant.c_str(), &constant)) {
+			this->invalidWarning(node["Element"], "Unknown monster element %s, defaulting to Neutral.\n", ele.c_str());
+			constant = ELE_NEUTRAL;
+		}
+
+		if (!CHK_ELEMENT(constant)) {
+			this->invalidWarning(node["Element"], "Invalid monster element %s, defaulting to Neutral.\n", ele.c_str());
+			constant = ELE_NEUTRAL;
+		}
+
+		mob->status.def_ele = static_cast<e_element>(constant);
+	}
+
+	if (this->nodeExists(node, "ElementLevel")) {
+		uint16 level;
+
+		if (!this->asUInt16(node, "ElementLevel", level))
+			return 0;
+
+		if (!CHK_ELEMENT_LEVEL(level)) {
+			this->invalidWarning(node["ElementLevel"], "Invalid monster element level %hu, defaulting to 1.\n", level);
+			level = 1;
+		}
+
+		mob->status.ele_lv = static_cast<uint8>(level);
+	}
+
+	if (this->nodeExists(node, "WalkSpeed")) {
+		uint16 speed;
+
+		if (!this->asUInt16(node, "WalkSpeed", speed))
+			return 0;
+
+		if (speed < MIN_WALK_SPEED || speed > MAX_WALK_SPEED) {
+			this->invalidWarning(node["WalkSpeed"], "Invalid monster walk speed %hu, capping...\n", speed);
+			speed = cap_value(speed, MIN_WALK_SPEED, MAX_WALK_SPEED);
+		}
+
+		mob->status.speed = speed;
+	}
+
+	if (this->nodeExists(node, "AttackDelay")) {
+		uint16 speed;
+
+		if (!this->asUInt16(node, "AttackDelay", speed))
+			return 0;
+
+		mob->status.adelay = cap_value(speed, battle_config.monster_max_aspd * 2, 4000);
+	}
+
+	if (this->nodeExists(node, "AttackMotion")) {
+		uint16 speed;
+
+		if (!this->asUInt16(node, "AttackMotion", speed))
+			return 0;
+
+		mob->status.amotion = cap_value(speed, battle_config.monster_max_aspd, 2000);
+	}
+
+	if (this->nodeExists(node, "ClientAttackMotion")) {
+		uint16 speed;
+
+		if (!this->asUInt16(node, "ClientAttackMotion", speed))
+			return 0;
+
+		mob->status.clientamotion = cap_value(speed, 1, USHRT_MAX);
+	} else {
+		if (!exists)
+			mob->status.clientamotion = cap_value(mob->status.amotion, 1, USHRT_MAX);
+	}
+
+	if (this->nodeExists(node, "DamageMotion")) {
+		uint16 speed;
+
+		if (!this->asUInt16(node, "DamageMotion", speed))
+			return 0;
+
+		if (battle_config.monster_damage_delay_rate != 100)
+			speed = speed * battle_config.monster_damage_delay_rate / 100;
+
+		mob->status.dmotion = speed;
+	}
+
+	if (this->nodeExists(node, "DamageTaken")) {
+		uint16 damage;
+
+		if (!this->asUInt16Rate(node, "DamageTaken", damage, 100))
+			return 0;
+
+		mob->damagetaken = damage;
+	}
+
+	if (this->nodeExists(node, "Ai")) {
+		std::string ai;
+
+		if (!this->asString(node, "Ai", ai))
+			return 0;
+
+		std::string ai_constant = "MONSTER_TYPE_" + ai;
+		int64 constant;
+
+		if (!script_get_constant(ai_constant.c_str(), &constant)) {
+			this->invalidWarning(node["Ai"], "Unknown monster AI %s, defaulting to 06.\n", ai.c_str());
+			constant = MONSTER_TYPE_06;
+		}
+
+		if (constant < MD_NONE || constant > MD_MASK) {
+			this->invalidWarning(node["Ai"], "Invalid monster AI %s, defaulting to 06.\n", ai.c_str());
+			constant = MONSTER_TYPE_06;
+		}
+
+		mob->status.mode = static_cast<e_mode>(constant);
+	}
+
+	if (this->nodeExists(node, "Class")) {
+		std::string class_;
+
+		if (!this->asString(node, "Class", class_))
+			return 0;
+
+		std::string class_constant = "CLASS_" + class_;
+		int64 constant;
+
+		if (!script_get_constant(class_constant.c_str(), &constant)) {
+			this->invalidWarning(node["Class"], "Unknown monster class %s, defaulting to Normal.\n", class_.c_str());
+			constant = CLASS_NORMAL;
+		}
+
+		if (constant < CLASS_NORMAL || constant > CLASS_EVENT) {
+			this->invalidWarning(node["Class"], "Invalid monster class %s, defaulting to Normal.\n", class_.c_str());
+			constant = CLASS_NORMAL;
+		}
+
+		mob->status.class_ = static_cast<uint8>(constant);
+	}
+
+	if (this->nodeExists(node, "Modes")) {
+		const auto& modeNode = node["Modes"];
+
+		for (const auto& modeit : modeNode) {
+			std::string modeName;
+			c4::from_chars(modeit.key(), &modeName);
+			std::string modeName_constant = "MD_" + modeName;
+			int64 constant;
+
+			if (!script_get_constant(modeName_constant.c_str(), &constant)) {
+				this->invalidWarning(modeNode[modeit.key()], "Unknown monster mode %s, skipping.\n", modeName.c_str());
+				continue;
+			}
+
+			if (constant < MD_NONE || constant > MD_SKILLIMMUNE) {
+				this->invalidWarning(modeNode[modeit.key()], "Invalid monster mode %s, skipping.\n", modeName.c_str());
+				continue;
+			}
+
+			bool active;
+
+			if (!this->asBool(modeNode, modeName, active))
+				return 0;
+
+			if (active)
+				mob->status.mode = static_cast<e_mode>(mob->status.mode | constant);
+			else
+				mob->status.mode = static_cast<e_mode>(mob->status.mode & ~constant);
+		}
+	}
+
+	mob->range3 = 30;
+
 	if (!exists)
 		this->put(mob_id, mob);
 
