@@ -572,3 +572,23 @@ function	script	MasteryTicket	{
 	
 	return;
 }
+
+function	script	CCCDrop	{
+	.@isBoss = getarg(0,0);
+	// Body Points
+	if(rand(10000) < (500 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)))){
+		bodyPoints++;
+		dispbottom "+1 แต้ม Body (รวม " + F_InsertComma(bodyPoints) + ")";
+	}
+	// Trait Points
+	if(rand(10000) < (50 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)))){
+		traitPoints++;
+		dispbottom "+1 แต้ม Trait (รวม " + F_InsertComma(traitPoints) + ")";
+	}
+	// Skill Points
+	if(rand(10000) < (10 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)))){
+		skillPoints++;
+		dispbottom "+1 แต้ม Skill (รวม " + F_InsertComma(skillPoints) + ")";
+	}
+	return;
+}

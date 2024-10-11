@@ -11,13 +11,14 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 		close;
 	}
 	
+	freeloop(1);
+	
 	// Check map index existed on those level
 	// Just join
 	if($playingMaps[.@lv])
 	goto OnJoin;
 	
 	// Random the map
-	freeloop(1);
 	.@isFoundSameMap = 1;
 	.@retry = 300;
 	while(.@isFoundSameMap && (.@retry > 0)){
@@ -41,12 +42,14 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 		mes "โปรดรอสักครู่ ขณะนี้ Map เต็ม";
 		close;
 	}
-	freeloop(0);
 	// Set playing map index
 	$playingMaps[.@lv] = .@mapIndex;
 OnJoin:
 	// Remember playing floor
 	lastPlayMap = .@lv;
+	bonusDropMultiplier = lastPlayMap;
+	while(bonusDropMultiplier > 10)
+	bonusDropMultiplier -= 10;
 	// Remember last map name
 	lastPlayMap$ = $maps$[$playingMaps[.@lv]];
 	// Remember monster id
@@ -75,6 +78,9 @@ OnJoin:
 		setarray monsterIds[1],getd("$attackableMonsterTier" + .@tier + "Ids[" + rand(.@arraySize) + "]");
 		setarray monsterIds[2],getd("$attackableMonsterTier" + .@tier + "Ids[" + rand(.@arraySize) + "]");
 	}
+	
+	freeloop(0);
+	
 	// Remember base spawn amount
 	baseSpawnAmount = 5;
 	// Remember spawn timer multiplier
@@ -162,7 +168,7 @@ OnMonsterDead:
 	end;
 	.@scoreRequired = 300;
 	$scoreMaps[lastPlayMap]++;
-	$scoreMaps[lastPlayMap] += .@scoreRequired;
+	CCCDrop();
 	if($scoreMaps[lastPlayMap] >= .@scoreRequired){
 		$scoreMaps[lastPlayMap] = 0;
 		$isBossMaps[lastPlayMap] = 1;
@@ -212,6 +218,7 @@ OnMonsterDead:
 OnBossDead:
 	if(playerattached()){
 		$isBossMaps[lastPlayMap] = 0;
+		CCCDrop(1);
 		announce strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! ทุกคนในชั้น " + lastPlayMap + " สามารถไปยังชั้นต่อไปได้แล้ว",bc_all,0xffff00,0,25;
 	}
 	addrid(1);
