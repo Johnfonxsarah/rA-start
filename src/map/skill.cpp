@@ -14773,7 +14773,6 @@ int skill_castend_pos2(struct block_list* src, int x, int y, uint16 skill_id, ui
 
 	default:
 		i = skill_get_splash(skill_id, skill_lv);
-		i = 10;
 		if (skill_get_nk(skill_id,NK_NODAMAGE))
 			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_ENEMY | 1, skill_castend_nodamage_id);
 		else
@@ -23909,19 +23908,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		memcpy(skill->desc, name.c_str(), sizeof(skill->desc));
 	}
 
-	if (this->nodeExists(node, "MaxLevel")) {
-		uint16 skill_lv;
-
-		if (!this->asUInt16(node, "MaxLevel", skill_lv))
-			return 0;
-
-		if (skill_lv == 0 || skill_lv > MAX_SKILL_LEVEL) {
-			this->invalidWarning(node["MaxLevel"], "MaxLevel %hu does not meet the bounds of 1~%d.\n", skill_lv, MAX_SKILL_LEVEL);
-			return 0;
-		}
-
-		skill->max = skill_lv;
-	}
+	skill->max = MAX_SKILL_LEVEL;
 
 	if (this->nodeExists(node, "Type")) {
 		std::string type;
@@ -24097,13 +24084,19 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			memset(skill->element, ELE_NEUTRAL, sizeof(skill->element));
 	}
 
-	if (this->nodeExists(node, "SplashArea")) {
-		if (!this->parseNode("SplashArea", "Area", node, skill->splash))
-			return 0;
-	} else {
-		if (!exists)
-			memset(skill->splash, 0, sizeof(skill->splash));
-	}
+	skill->splash[0] = 3;
+	skill->splash[1] = 4;
+	skill->splash[2] = 5;
+	skill->splash[3] = 6;
+	skill->splash[4] = 7;
+	skill->splash[5] = 8;
+	skill->splash[6] = 9;
+	skill->splash[7] = 10;
+	skill->splash[8] = 11;
+	skill->splash[9] = 12;
+	skill->splash[10] = 13;
+	skill->splash[11] = 14;
+	skill->splash[12] = 15;
 
 	if (this->nodeExists(node, "ActiveInstance")) {
 		if (!this->parseNode("ActiveInstance", "Max", node, skill->maxcount))
@@ -24121,154 +24114,13 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			memset(skill->blewcount, 0, sizeof(skill->blewcount));
 	}
 
-	if (this->nodeExists(node, "CopyFlags")) {
-		const auto& copyNode = node["CopyFlags"];
+	skill->castcancel = false;
 
-		if (this->nodeExists(copyNode, "Skill")) {
-			const auto& copyskillNode = copyNode["Skill"];
+	skill->cast_def_rate = 0;
 
-			if (this->nodeExists(copyskillNode, "Plagiarism")) {
-				bool active;
+	memset(skill->delay, 0, sizeof(skill->delay));
 
-				if (!this->asBool(copyskillNode, "Plagiarism", active))
-					return 0;
-
-				if (active)
-					skill->copyable.option |= SKILL_COPY_PLAGIARISM;
-				else
-					skill->copyable.option &= SKILL_COPY_PLAGIARISM;
-			}
-
-			if (this->nodeExists(copyskillNode, "Reproduce")) {
-				bool active;
-
-				if (!this->asBool(copyskillNode, "Reproduce", active))
-					return 0;
-
-				if (active)
-					skill->copyable.option |= SKILL_COPY_REPRODUCE;
-				else
-					skill->copyable.option &= SKILL_COPY_REPRODUCE;
-			}
-		} else {
-			this->invalidWarning(copyNode, "CopyFlags requires a Skill copy type.\n");
-			return 0;
-		}
-
-		if (this->nodeExists(copyNode, "RemoveRequirement")) {
-			const auto& copyreqNode = copyNode["RemoveRequirement"];
-
-			for (const auto& it : copyreqNode) {
-				std::string req;
-				c4::from_chars(it.key(), &req);
-				std::string req_constant = "SKILL_REQ_" + req;
-				int64 constant;
-
-				if (!script_get_constant(req_constant.c_str(), &constant)) {
-					this->invalidWarning(copyreqNode, "CopyFlags RemoveRequirement %s is invalid.\n", req.c_str());
-					return 0;
-				}
-
-				skill->copyable.req_opt |= constant;
-			}
-		} else {
-			if (!exists)
-				skill->copyable.req_opt = 0;
-		}
-	}
-
-	if (this->nodeExists(node, "NoNearNPC")) {
-		const auto& npcNode = node["NoNearNPC"];
-
-		if (this->nodeExists(npcNode, "AdditionalRange")) {
-			uint16 range;
-
-			if (!this->asUInt16(npcNode, "AdditionalRange", range))
-				return 0;
-
-			skill->unit_nonearnpc_range = range;
-		} else {
-			if (!exists)
-				skill->unit_nonearnpc_range = 0;
-		}
-
-		if (this->nodeExists(npcNode, "Type")) {
-			const auto& npctypeNode = npcNode["Type"];
-
-			for (const auto& it : npctypeNode) {
-				std::string type;
-				c4::from_chars(it.key(), &type);
-				std::string type_constant = "SKILL_NONEAR_" + type;
-				int64 constant;
-
-				if (!script_get_constant(type_constant.c_str(), &constant)) {
-					this->invalidWarning(npctypeNode, "NoNearNPC Type %s is invalid.\n", type.c_str());
-					return 0;
-				}
-
-				bool active;
-
-				if (!this->asBool(npctypeNode, type, active))
-					return 0;
-
-				if (active)
-					skill->unit_nonearnpc_type |= constant;
-				else
-					skill->unit_nonearnpc_type &= ~constant;
-			}
-		} else {
-			if (!exists)
-				skill->unit_nonearnpc_type = 0;
-		}
-	}
-
-	if (this->nodeExists(node, "CastCancel")) {
-		bool active;
-
-		if (!this->asBool(node, "CastCancel", active))
-			return 0;
-
-		skill->castcancel = active;
-	} else {
-		if (!exists)
-			skill->castcancel = false;
-	}
-
-	if (this->nodeExists(node, "CastDefenseReduction")) {
-		uint16 reduction;
-
-		if (!this->asUInt16(node, "CastDefenseReduction", reduction))
-			return 0;
-
-		skill->cast_def_rate = reduction;
-	} else {
-		if (!exists)
-			skill->cast_def_rate = 0;
-	}
-
-	if (this->nodeExists(node, "CastTime")) {
-		if (!this->parseNode("CastTime", "Time", node, skill->cast))
-			return 0;
-	} else {
-		if (!exists)
-			memset(skill->cast, 0, sizeof(skill->cast));
-	}
-
-	if (this->nodeExists(node, "AfterCastActDelay")) {
-		if (!this->parseNode("AfterCastActDelay", "Time", node, skill->delay))
-			return 0;
-	} else {
-		if (!exists)
-			memset(skill->delay, 0, sizeof(skill->delay));
-	}
-
-	if (this->nodeExists(node, "AfterCastWalkDelay")) {
-		if (!this->parseNode("AfterCastWalkDelay", "Time", node, skill->walkdelay))
-			return 0;
-	} else {
-		if (!exists)
-			memset(skill->walkdelay, 0, sizeof(skill->walkdelay));
-	}
+	memset(skill->walkdelay, 0, sizeof(skill->walkdelay));
 
 	if (this->nodeExists(node, "Duration1")) {
 		if (!this->parseNode("Duration1", "Time", node, skill->upkeep_time))
@@ -24286,75 +24138,35 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			memset(skill->upkeep_time2, 0, sizeof(skill->upkeep_time2));
 	}
 
-	if (this->nodeExists(node, "Cooldown")) {
-		if (!this->parseNode("Cooldown", "Time", node, skill->cooldown))
-			return 0;
-	} else {
-		if (!exists)
-			memset(skill->cooldown, 0, sizeof(skill->cooldown));
-	}
+	skill->cooldown[0] = 1000;
+	skill->cooldown[1] = 2000;
+	skill->cooldown[2] = 3000;
+	skill->cooldown[3] = 4000;
+	skill->cooldown[4] = 5000;
+	skill->cooldown[5] = 6000;
+	skill->cooldown[6] = 7000;
+	skill->cooldown[7] = 8000;
+	skill->cooldown[8] = 9000;
+	skill->cooldown[9] = 10000;
+	skill->cooldown[10] = 11000;
+	skill->cooldown[11] = 12000;
+	skill->cooldown[12] = 13000;
 
-#ifdef RENEWAL_CAST
-	if (this->nodeExists(node, "FixedCastTime")) {
-		if (!this->parseNode("FixedCastTime", "Time", node, skill->fixed_cast))
-			return 0;
-	} else {
-		if (!exists)
-			memset(skill->fixed_cast, 0, sizeof(skill->fixed_cast));
-	}
-#endif
+	skill->cast[0] = 500;
+	skill->cast[1] = 1000;
+	skill->cast[2] = 1500;
+	skill->cast[3] = 2000;
+	skill->cast[4] = 2500;
+	skill->cast[5] = 3000;
+	skill->cast[6] = 3500;
+	skill->cast[7] = 4000;
+	skill->cast[8] = 4500;
+	skill->cast[9] = 5000;
+	skill->cast[10] = 5500;
+	skill->cast[11] = 6000;
+	skill->cast[12] = 6500;
 
-	if (this->nodeExists(node, "CastTimeFlags")) {
-		const auto& castNode = node["CastTimeFlags"];
-
-		for (const auto& it : castNode) {
-			std::string flag;
-			c4::from_chars(it.key(), &flag);
-			std::string flag_constant = "SKILL_CAST_" + flag;
-			int64 constant;
-
-			if (!script_get_constant(flag_constant.c_str(), &constant)) {
-				this->invalidWarning(castNode, "CastTimeFlags %s option is invalid.\n", flag.c_str());
-				return 0;
-			}
-
-			bool active;
-
-			if (!this->asBool(castNode, flag, active))
-				return 0;
-
-			if (active)
-				skill->castnodex |= constant;
-			else
-				skill->castnodex &= ~constant;
-		}
-	}
-
-	if (this->nodeExists(node, "CastDelayFlags")) {
-		const auto& castNode = node["CastDelayFlags"];
-
-		for (const auto& it : castNode) {
-			std::string flag;
-			c4::from_chars(it.key(), &flag);
-			std::string flag_constant = "SKILL_CAST_" + flag;
-			int64 constant;
-
-			if (!script_get_constant(flag_constant.c_str(), &constant)) {
-				this->invalidWarning(castNode, "CastDelayFlags %s option is invalid.\n", flag.c_str());
-				return 0;
-			}
-
-			bool active;
-
-			if (!this->asBool(castNode, flag, active))
-				return 0;
-
-			if (active)
-				skill->delaynodex |= constant;
-			else
-				skill->delaynodex &= ~constant;
-		}
-	}
+	memset(skill->fixed_cast, -1, sizeof(skill->fixed_cast));
 
 	if (this->nodeExists(node, "Unit")) {
 		const auto& unitNode = node["Unit"];

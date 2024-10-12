@@ -4,9 +4,14 @@
 OnPCDieEvent:
 	deltimer "เล่นเกม::OnSpawnMonsterHint";
 	deltimer "เล่นเกม::OnSpawnMonster";
+	if(getusers(0) <= 1)
+	killmonster strcharinfo(3),"เล่นเกม::OnMonsterDead",0;
 	end;
 	
 OnPCLoginEvent:
+	// Player can't attack
+	setpcblock PCBLOCK_ATTACK,true;
+	
 	StatusPoint = 0;
 	TraitPoint = 0;
 	SkillPoint = 0;
@@ -22,6 +27,8 @@ OnPCLoginEvent:
 
 	if(isConfirm)
 	addtimer 1,strnpcinfo(0) + "::OnLoadConfirm";
+	else
+	atcommand "@speed 1";
 	
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
 

@@ -4,9 +4,6 @@
 OnInit:
 	if($globalVariableType1Version != 1){
 		$globalVariableType1Version = 1;
-
-		deletearray $restrictedItemId[0],getarraysize($restrictedItemId);
-		setarray $restrictedItemId[0],10000000;
 	}
 
 	if($globalVariableType2Version != 2){

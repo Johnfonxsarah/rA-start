@@ -53,7 +53,7 @@ OnJoin:
 	// Remember last map name
 	lastPlayMap$ = $maps$[$playingMaps[.@lv]];
 	// Remember monster id
-	.@tier =
+	tier =
 	(lastPlayMap <= 5) ? 1
 	: (lastPlayMap <= 10) ? 2
 	: (lastPlayMap <= 20) ? 3
@@ -66,23 +66,29 @@ OnJoin:
 	: (lastPlayMap <= 90) ? 10
 	: 11
 	;
-	if(.@tier >= 11){
+	if(tier >= 11){
 		.@arraySize = getarraysize($mvpIds);
 		setarray monsterIds[0],$mvpIds[rand(.@arraySize)];
 		setarray monsterIds[1],$mvpIds[rand(.@arraySize)];
 		setarray monsterIds[2],$mvpIds[rand(.@arraySize)];
 	}
 	else{
-		.@arraySize = getarraysize(getd("$attackableMonsterTier" + .@tier + "Ids"));
-		setarray monsterIds[0],getd("$attackableMonsterTier" + .@tier + "Ids[" + rand(.@arraySize) + "]");
-		setarray monsterIds[1],getd("$attackableMonsterTier" + .@tier + "Ids[" + rand(.@arraySize) + "]");
-		setarray monsterIds[2],getd("$attackableMonsterTier" + .@tier + "Ids[" + rand(.@arraySize) + "]");
+		.@arraySize = getarraysize(getd("$attackableMonsterTier" + tier + "Ids"));
+		setarray monsterIds[0],getd("$attackableMonsterTier" + tier + "Ids[" + rand(.@arraySize) + "]");
+		setarray monsterIds[1],getd("$attackableMonsterTier" + tier + "Ids[" + rand(.@arraySize) + "]");
+		setarray monsterIds[2],getd("$attackableMonsterTier" + tier + "Ids[" + rand(.@arraySize) + "]");
 	}
 	
 	freeloop(0);
 	
 	// Remember base spawn amount
-	baseSpawnAmount = 5;
+	baseSpawnAmount =
+	(tier <= 2) ? 2
+	: (tier <= 4) ? 3
+	: (tier <= 6) ? 4
+	: (tier <= 8) ? 5
+	: 6
+	;
 	// Remember spawn timer multiplier
 	spawnTimerMultiplier = 10;
 	// Player can't attack
@@ -128,33 +134,34 @@ OnSpawnMonster:
 		getfreecell .@cMap$,.@rX,.@rY,.@cX,.@cY,rand(5,15),rand(5,15);
 		// Spawn
 		monster .@cMap$,.@rX,.@rY,"สาวกมนต์ดำ",monsterIds[rand(getarraysize(monsterIds))],1,strnpcinfo(0) + "::OnMonsterDead";
-		.@mGID = $@mobid[0];
-		setunitdata .@mGID,UMOB_LEVEL,lastPlayMap;
-		.@mHP = 10 * pow(lastPlayMap,3);
-		setunitdata .@mGID,UMOB_MAXHP,.@mHP;
-		setunitdata .@mGID,UMOB_HP,.@mHP;
-		setunitdata .@mGID,UMOB_SPEED,300 - (cap_value(lastPlayMap,1,250));
-		setunitdata .@mGID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
-		setunitdata .@mGID,UMOB_STR,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .@mGID,UMOB_AGI,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .@mGID,UMOB_VIT,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .@mGID,UMOB_INT,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .@mGID,UMOB_DEX,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .@mGID,UMOB_LUK,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .@mGID,UMOB_DMGIMMUNE,0;
-		//setunitdata .@mGID,UMOB_ATKRANGE,1;
-		setunitdata .@mGID,UMOB_ATKMIN,5 + lastPlayMap;
-		setunitdata .@mGID,UMOB_ATKMAX,10 + lastPlayMap;
-		setunitdata .@mGID,UMOB_MATKMIN,5 + lastPlayMap;
-		setunitdata .@mGID,UMOB_MATKMAX,10 + lastPlayMap;
-		setunitdata .@mGID,UMOB_DEF,5 + lastPlayMap;
-		setunitdata .@mGID,UMOB_MDEF,5 + lastPlayMap;
-		//setunitdata .@mGID,UMOB_AMOTION,100;
-		//setunitdata .@mGID,UMOB_ADELAY,100;
-		//setunitdata .@mGID,UMOB_DMOTION,100;
-		setunitdata .@mGID,UMOB_RES,lastPlayMap;
-		setunitdata .@mGID,UMOB_MRES,lastPlayMap;
-		setunitdata .@mGID,UMOB_DAMAGETAKEN,100;
+		.GID = $@mobid[0];
+		setunitdata .GID,UMOB_LEVEL,lastPlayMap;
+		.@mHP = (10 * pow(lastPlayMap,3));
+		setunitdata .GID,UMOB_MAXHP,.@mHP;
+		setunitdata .GID,UMOB_HP,.@mHP;
+		.@bothSpeed = (500 - (cap_value(lastPlayMap * 5,1,350)));
+		setunitdata .GID,UMOB_SPEED,.@bothSpeed;
+		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+		setunitdata .GID,UMOB_STR,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .GID,UMOB_AGI,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .GID,UMOB_VIT,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .GID,UMOB_INT,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .GID,UMOB_DEX,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .GID,UMOB_LUK,rand(lastPlayMap,lastPlayMap * 2);
+		setunitdata .GID,UMOB_DMGIMMUNE,0;
+		//setunitdata .GID,UMOB_ATKRANGE,1;
+		setunitdata .GID,UMOB_ATKMIN,5 + lastPlayMap;
+		setunitdata .GID,UMOB_ATKMAX,10 + lastPlayMap;
+		setunitdata .GID,UMOB_MATKMIN,5 + lastPlayMap;
+		setunitdata .GID,UMOB_MATKMAX,10 + lastPlayMap;
+		setunitdata .GID,UMOB_DEF,5 + lastPlayMap;
+		setunitdata .GID,UMOB_MDEF,5 + lastPlayMap;
+		setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
+		setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
+		setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
+		setunitdata .GID,UMOB_RES,lastPlayMap;
+		setunitdata .GID,UMOB_MRES,lastPlayMap;
+		setunitdata .GID,UMOB_DAMAGETAKEN,100;
 		//setunitdata $@mobid[0],UMOB_RANK,0;
 	}
 	freeloop(0);
@@ -168,7 +175,7 @@ OnMonsterDead:
 	end;
 	.@scoreRequired = 300;
 	$scoreMaps[lastPlayMap]++;
-	CCCDrop();
+	CCCDrop(tier);
 	if($scoreMaps[lastPlayMap] >= .@scoreRequired){
 		$scoreMaps[lastPlayMap] = 0;
 		$isBossMaps[lastPlayMap] = 1;
@@ -178,33 +185,34 @@ OnMonsterDead:
 		getfreecell strcharinfo(3),$bossX[lastPlayMap],$bossY[lastPlayMap];
 		// Spawn
 		monster strcharinfo(3),$bossX[lastPlayMap],$bossY[lastPlayMap],"เจ้าแห่งมนต์ดำ",monsterIds[rand(getarraysize(monsterIds))],1,strnpcinfo(0) + "::OnBossDead",Size_Large;
-		.@mGID = $@mobid[0];
-		setunitdata .@mGID,UMOB_LEVEL,lastPlayMap;
+		.GID = $@mobid[0];
+		setunitdata .GID,UMOB_LEVEL,lastPlayMap;
 		.@mHP = 10 * pow(lastPlayMap,4);
-		setunitdata .@mGID,UMOB_MAXHP,.@mHP;
-		setunitdata .@mGID,UMOB_HP,.@mHP;
-		setunitdata .@mGID,UMOB_SPEED,300 - (cap_value(lastPlayMap,1,250));
-		setunitdata .@mGID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
-		setunitdata .@mGID,UMOB_STR,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .@mGID,UMOB_AGI,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .@mGID,UMOB_VIT,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .@mGID,UMOB_INT,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .@mGID,UMOB_DEX,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .@mGID,UMOB_LUK,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .@mGID,UMOB_DMGIMMUNE,0;
-		//setunitdata .@mGID,UMOB_ATKRANGE,1;
-		setunitdata .@mGID,UMOB_ATKMIN,(5 + lastPlayMap) * 2;
-		setunitdata .@mGID,UMOB_ATKMAX,(10 + lastPlayMap) * 2;
-		setunitdata .@mGID,UMOB_MATKMIN,(5 + lastPlayMap) * 2;
-		setunitdata .@mGID,UMOB_MATKMAX,(10 + lastPlayMap) * 2;
-		setunitdata .@mGID,UMOB_DEF,(5 + lastPlayMap) * 2;
-		setunitdata .@mGID,UMOB_MDEF,(5 + lastPlayMap) * 2;
-		//setunitdata .@mGID,UMOB_AMOTION,100;
-		//setunitdata .@mGID,UMOB_ADELAY,100;
-		//setunitdata .@mGID,UMOB_DMOTION,100;
-		setunitdata .@mGID,UMOB_RES,lastPlayMap * 2;
-		setunitdata .@mGID,UMOB_MRES,lastPlayMap * 2;
-		setunitdata .@mGID,UMOB_DAMAGETAKEN,100;
+		setunitdata .GID,UMOB_MAXHP,.@mHP;
+		setunitdata .GID,UMOB_HP,.@mHP;
+		.@bothSpeed = (500 - (cap_value(lastPlayMap * 5,1,350)));
+		setunitdata .GID,UMOB_SPEED,.@bothSpeed;
+		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+		setunitdata .GID,UMOB_STR,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .GID,UMOB_AGI,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .GID,UMOB_VIT,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .GID,UMOB_INT,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .GID,UMOB_DEX,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .GID,UMOB_LUK,rand(lastPlayMap * 5,lastPlayMap * 10);
+		setunitdata .GID,UMOB_DMGIMMUNE,0;
+		//setunitdata .GID,UMOB_ATKRANGE,1;
+		setunitdata .GID,UMOB_ATKMIN,(5 + lastPlayMap) * 2;
+		setunitdata .GID,UMOB_ATKMAX,(10 + lastPlayMap) * 2;
+		setunitdata .GID,UMOB_MATKMIN,(5 + lastPlayMap) * 2;
+		setunitdata .GID,UMOB_MATKMAX,(10 + lastPlayMap) * 2;
+		setunitdata .GID,UMOB_DEF,(5 + lastPlayMap) * 2;
+		setunitdata .GID,UMOB_MDEF,(5 + lastPlayMap) * 2;
+		setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
+		setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
+		setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
+		setunitdata .GID,UMOB_RES,lastPlayMap * 2;
+		setunitdata .GID,UMOB_MRES,lastPlayMap * 2;
+		setunitdata .GID,UMOB_DAMAGETAKEN,100;
 		//setunitdata $@mobid[0],UMOB_RANK,0;
 		addrid(1);
 		// Mark on minimap
@@ -218,7 +226,7 @@ OnMonsterDead:
 OnBossDead:
 	if(playerattached()){
 		$isBossMaps[lastPlayMap] = 0;
-		CCCDrop(1);
+		CCCDrop(tier,1);
 		announce strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! ทุกคนในชั้น " + lastPlayMap + " สามารถไปยังชั้นต่อไปได้แล้ว",bc_all,0xffff00,0,25;
 	}
 	addrid(1);

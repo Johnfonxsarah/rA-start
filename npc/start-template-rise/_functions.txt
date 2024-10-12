@@ -574,21 +574,43 @@ function	script	MasteryTicket	{
 }
 
 function	script	CCCDrop	{
-	.@isBoss = getarg(0,0);
+	.@tier = getarg(0,0);
+	.@isBoss = getarg(1,0);
+	// Error
+	if(.@tier <= 0)
+	return;
 	// Body Points
 	if(rand(10000) < (500 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)))){
-		bodyPoints++;
-		dispbottom "+1 แต้ม Body (รวม " + F_InsertComma(bodyPoints) + ")";
+		bodyPoints[.@tier]++;
+		dispbottom "+1 แต้ม Body Tier " + .@tier + " (รวม " + F_InsertComma(bodyPoints[.@tier]) + ")";
 	}
 	// Trait Points
 	if(rand(10000) < (50 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)))){
-		traitPoints++;
-		dispbottom "+1 แต้ม Trait (รวม " + F_InsertComma(traitPoints) + ")";
+		traitPoints[.@tier]++;
+		dispbottom "+1 แต้ม Trait Tier " + .@tier + " (รวม " + F_InsertComma(traitPoints[.@tier]) + ")";
 	}
 	// Skill Points
 	if(rand(10000) < (10 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)))){
-		skillPoints++;
-		dispbottom "+1 แต้ม Skill (รวม " + F_InsertComma(skillPoints) + ")";
+		skillPoints[.@tier]++;
+		dispbottom "+1 แต้ม Skill Tier " + .@tier + " (รวม " + F_InsertComma(skillPoints[.@tier]) + ")";
 	}
+	return;
+}
+
+function	script	ReturnOrb	{
+	specialeffect2 35;
+	progressbar "",2;
+	warp "Save",0,0;
+	return;
+}
+
+function	script	TeleportOrb	{
+	if(!isConfirm){
+		message strcharinfo(0),"สามารถใช้ได้ เมื่อเข้าไปยังในเกม CAST CAST CAST";
+		end;
+	}	
+	specialeffect2 780;
+	progressbar "",1;
+	warp "Random",0,0;
 	return;
 }

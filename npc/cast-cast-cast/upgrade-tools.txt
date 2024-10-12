@@ -1,0 +1,208 @@
+bl_depth2,113,72,5	script	เครื่องเสริมแกร่ง	2001,{
+	menu
+	"สุ่มเพิ่ม Status",L_Body,
+	"สุ่มเพิ่ม Trait",L_Trait,
+	"สุ่มเพิ่ม Level Skill",L_SkillLevel,
+	"แลกแต้มเป็น Item",L_ExchangePoints,
+	"แลก Item เป็นแต้ม",L_ExchangeItems
+	;
+	close;
+	
+	L_Body:
+	for(.@i = 0; .@i < 10; .@i++){
+		.@tier = (.@i + 1);
+		.@tierMenu$ += "แต้ม Body Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(bodyPoints[.@tier]) + " แต้ม^000000):";
+	}
+	.@index = select(.@tierMenu$);
+	close;
+	
+	L_Trait:
+	for(.@i = 0; .@i < 10; .@i++){
+		.@tier = (.@i + 1);
+		.@tierMenu$ += "แต้ม Trait Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(traitPoints[.@tier]) + " แต้ม^000000):";
+	}
+	.@index = select(.@tierMenu$);
+	close;
+	
+	L_SkillLevel:
+	for(.@i = 0; .@i < 10; .@i++){
+		.@tier = (.@i + 1);
+		.@tierMenu$ += "แต้ม Skill Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(skillPoints[.@tier]) + " แต้ม^000000):";
+	}
+	.@index = select(.@tierMenu$);
+	close;
+	
+	L_ExchangePoints:
+	switch(select("แต้ม Body:แต้ม Trait:แต้ม Skill")){
+	case 1:
+		for(.@i = 0; .@i < 10; .@i++){
+			.@tier = (.@i + 1);
+			.@tierMenu$ += "แต้ม Body Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(bodyPoints[.@tier]) + " แต้ม^000000):";
+		}
+		.@index = select(.@tierMenu$);
+		if(bodyPoints[.@index] <= 0){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		.@itemId = (20000002 + (.@index - 1));
+		.@inHandAmount = countitem(.@itemId);
+		.@highestInput = bodyPoints[.@tier];
+		if(bodyPoints[.@tier] + .@inHandAmount > 30000)
+		.@highestInput = 30000 - .@inHandAmount;
+		mes "ต้องการแลกแต้ม Body Tier " + .@index + " เป็น Item กี่ชิ้น?";
+		mes "โปรดระบุ 1~" + .@highestInput;
+		next;
+		input .@amount;
+		if((.@amount <= 0) || (.@amount > .@highestInput)){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		bodyPoints[.@tier] -= .@amount;
+		getitem .@itemId,.@amount;
+		break;
+	case 2:
+		for(.@i = 0; .@i < 10; .@i++){
+			.@tier = (.@i + 1);
+			.@tierMenu$ += "แต้ม Trait Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(traitPoints[.@tier]) + " แต้ม^000000):";
+		}
+		.@index = select(.@tierMenu$);
+		if(traitPoints[.@index] <= 0){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		.@itemId = (20000012 + (.@index - 1));
+		.@inHandAmount = countitem(.@itemId);
+		.@highestInput = traitPoints[.@tier];
+		if(traitPoints[.@tier] + .@inHandAmount > 30000)
+		.@highestInput = 30000 - .@inHandAmount;
+		mes "ต้องการแลกแต้ม Trait Tier " + .@index + " เป็น Item กี่ชิ้น?";
+		mes "โปรดระบุ 1~" + .@highestInput;
+		next;
+		input .@amount;
+		if((.@amount <= 0) || (.@amount > .@highestInput)){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		traitPoints[.@tier] -= .@amount;
+		getitem .@itemId,.@amount;
+		break;
+	case 3:
+		for(.@i = 0; .@i < 10; .@i++){
+			.@tier = (.@i + 1);
+			.@tierMenu$ += "แต้ม Skill Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(skillPoints[.@tier]) + " แต้ม^000000):";
+		}
+		.@index = select(.@tierMenu$);
+		if(skillPoints[.@index] <= 0){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		.@itemId = (20000022 + (.@index - 1));
+		.@inHandAmount = countitem(.@itemId);
+		.@highestInput = skillPoints[.@tier];
+		if(skillPoints[.@tier] + .@inHandAmount > 30000)
+		.@highestInput = 30000 - .@inHandAmount;
+		mes "ต้องการแลกแต้ม Skill Tier " + .@index + " เป็น Item กี่ชิ้น?";
+		mes "โปรดระบุ 1~" + .@highestInput;
+		next;
+		input .@amount;
+		if((.@amount <= 0) || (.@amount > .@highestInput)){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		skillPoints[.@tier] -= .@amount;
+		getitem .@itemId,.@amount;
+		break;
+	default:
+		break;
+	}
+	close;
+	
+	L_ExchangeItems: // TODO: NOT FINISH
+	switch(select("Body Orb:Trait Orb:Skill Orb")){
+	case 1:
+		for(.@i = 0; .@i < 10; .@i++){
+			.@tier = (.@i + 1);
+			.@tierMenu$ += "แต้ม Body Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(bodyPoints[.@tier]) + " แต้ม^000000):";
+		}
+		.@index = select(.@tierMenu$);
+		if(bodyPoints[.@index] <= 0){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		.@itemId = (20000002 + (.@index - 1));
+		.@inHandAmount = countitem(.@itemId);
+		.@highestInput = bodyPoints[.@tier];
+		if(bodyPoints[.@tier] + .@inHandAmount > 30000)
+		.@highestInput = 30000 - .@inHandAmount;
+		mes "ต้องการแลกแต้ม Body Tier " + .@index + " เป็น Item กี่ชิ้น?";
+		mes "โปรดระบุ 1~" + .@highestInput;
+		next;
+		input .@amount;
+		if((.@amount <= 0) || (.@amount > .@highestInput)){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		bodyPoints[.@tier] -= .@amount;
+		getitem .@itemId,.@amount;
+		break;
+	case 2:
+		for(.@i = 0; .@i < 10; .@i++){
+			.@tier = (.@i + 1);
+			.@tierMenu$ += "แต้ม Trait Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(traitPoints[.@tier]) + " แต้ม^000000):";
+		}
+		.@index = select(.@tierMenu$);
+		if(traitPoints[.@index] <= 0){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		.@itemId = (20000012 + (.@index - 1));
+		.@inHandAmount = countitem(.@itemId);
+		.@highestInput = traitPoints[.@tier];
+		if(traitPoints[.@tier] + .@inHandAmount > 30000)
+		.@highestInput = 30000 - .@inHandAmount;
+		mes "ต้องการแลกแต้ม Trait Tier " + .@index + " เป็น Item กี่ชิ้น?";
+		mes "โปรดระบุ 1~" + .@highestInput;
+		next;
+		input .@amount;
+		if((.@amount <= 0) || (.@amount > .@highestInput)){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		traitPoints[.@tier] -= .@amount;
+		getitem .@itemId,.@amount;
+		break;
+	case 3:
+		for(.@i = 0; .@i < 10; .@i++){
+			.@tier = (.@i + 1);
+			.@tierMenu$ += "แต้ม Skill Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(skillPoints[.@tier]) + " แต้ม^000000):";
+		}
+		.@index = select(.@tierMenu$);
+		if(skillPoints[.@index] <= 0){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		.@itemId = (20000022 + (.@index - 1));
+		.@inHandAmount = countitem(.@itemId);
+		.@highestInput = skillPoints[.@tier];
+		if(skillPoints[.@tier] + .@inHandAmount > 30000)
+		.@highestInput = 30000 - .@inHandAmount;
+		mes "ต้องการแลกแต้ม Skill Tier " + .@index + " เป็น Item กี่ชิ้น?";
+		mes "โปรดระบุ 1~" + .@highestInput;
+		next;
+		input .@amount;
+		if((.@amount <= 0) || (.@amount > .@highestInput)){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		skillPoints[.@tier] -= .@amount;
+		getitem .@itemId,.@amount;
+		break;
+	default:
+		break;
+	}
+	close;
+	
+OnInit:
+	waitingroom "เพิ่ม Status, Trait และ Skill Level",0;
+	end;
+}
