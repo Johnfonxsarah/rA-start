@@ -41,33 +41,33 @@ OnInit:
 1@vrsn,151,155,4	script	มิ้น	10296,{
 	.@slot = select("เปลี่ยนเครื่องประดับ ช่องที่ 1:เปลี่ยนเครื่องประดับ ช่องที่ 2:เปลี่ยนเครื่องประดับ ช่องที่ 3:เปลี่ยนเครื่องประดับ ช่องที่ 4");	
 
-	L_Menu:
+OnMenu:
 	mes "ช่องที่ " + .@slot + " ค่าล่าสุด: " + getd("dressSlot" + .@slot);
 	menu
-	"ต่อไป",L_Next,
-	"ก่อนหน้า",L_Previous,
-	"ระบุเอง",L_Input
+	"ต่อไป",MenuNext,
+	"ก่อนหน้า",MenuPrevious,
+	"ระบุเอง",MenuInput
 	;
 	
-	L_Next:
+MenuNext:
 	set getd("dressSlot" + .@slot),getd("dressSlot" + .@slot) + 1;
-	goto L_Trade;
+	goto OnTrade;
 	
-	L_Previous:
+MenuPrevious:
 	set getd("dressSlot" + .@slot),getd("dressSlot" + .@slot) - 1;
-	goto L_Trade;
+	goto OnTrade;
 	
-	L_Input:
+MenuInput:
 	input .@selectId;
 	set getd("dressSlot" + .@slot),.@selectId;
 	
-	L_Trade:
+OnTrade:
 	setlook (.@slot == 1) ? LOOK_HEAD_BOTTOM : (.@slot == 2) ? LOOK_HEAD_TOP : (.@slot == 3) ? LOOK_HEAD_MID : LOOK_ROBE,getd("dressSlot" + .@slot);
 	specialeffect2 446;
 	
 	clear;
 	
-	goto L_Menu;
+	goto OnMenu;
 	
 OnInit:
 	waitingroom "เปลี่ยนเครื่องประดับ",0;
@@ -179,10 +179,10 @@ OnTouch:
 	next;
 	mes "ถ้าต้องการเปลี่ยนอะไรบอกหนูได้เลย!";
 	next;
-	menu "ยกเลิก",-,"ยืนยัน",L_Confirm,"เลือกใหม่",L_Reset;
+	menu "ยกเลิก",-,"ยืนยัน",MenuConfirm,"เลือกใหม่",MenuReset;
 	close;
 	
-	L_Confirm:
+MenuConfirm:
 	mes "ลุยยยยยย!";
 	close2;
 	isConfirm = 1;
@@ -190,7 +190,7 @@ OnTouch:
 	warp "SavePoint",142,138;
 	end;
 	
-	L_Reset:
+MenuReset:
 	warp strnpcinfo(4),114,56;
 	close;
 	

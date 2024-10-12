@@ -1,14 +1,14 @@
 bl_depth2,138,159,6	script	เครื่องเสริมแกร่ง	10545,{
 	menu
-	"สุ่มเพิ่ม Status",L_Body,
-	"สุ่มเพิ่ม Trait",L_Trait,
-	"สุ่ม Skill",L_SkillLevel,
-	"แลกแต้มเป็น Item",L_ExchangePoints,
-	"แลก Item เป็นแต้ม",L_ExchangeItems
+	"สุ่มเพิ่ม Status",MenuBody,
+	"สุ่มเพิ่ม Trait",MenuTrait,
+	"สุ่ม Skill",MenuSkill,
+	"แลกแต้มเป็น Item",MenuExchangePoints,
+	"แลก Item เป็นแต้ม",MenuExchangeItems
 	;
 	close;
 	
-	L_Body:
+MenuBody:
 	setarray .@maxStatuses[0],10,20,40,70,110,160,220,290,370,460,560;
 	for(.@i = 0; .@i < 10; .@i++){
 		.@tier = (.@i + 1);
@@ -108,7 +108,7 @@ bl_depth2,138,159,6	script	เครื่องเสริมแกร่ง	10545,{
 	specialeffect2 675;
 	close;
 	
-	L_Trait:
+MenuTrait:
 	setarray .@maxTraits[0],5,10,20,35,55,80,110,145,185,230,280;
 	for(.@i = 0; .@i < 10; .@i++){
 		.@tier = (.@i + 1);
@@ -208,7 +208,7 @@ bl_depth2,138,159,6	script	เครื่องเสริมแกร่ง	10545,{
 	specialeffect2 668;
 	close;
 	
-	L_SkillLevel:
+MenuSkill:
 	for(.@i = 0; .@i < 10; .@i++){
 		.@tier = (.@i + 1);
 		.@tierMenu$ += "แต้ม Skill Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(skillPoints[.@tier]) + " แต้ม^000000):";
@@ -216,7 +216,7 @@ bl_depth2,138,159,6	script	เครื่องเสริมแกร่ง	10545,{
 	.@index = select(.@tierMenu$);
 	close;
 	
-	L_ExchangePoints:
+MenuExchangePoints:
 	switch(select("แต้ม Body:แต้ม Trait:แต้ม Skill")){
 	case 1:
 		for(.@i = 0; .@i < 10; .@i++){
@@ -301,7 +301,7 @@ bl_depth2,138,159,6	script	เครื่องเสริมแกร่ง	10545,{
 	}
 	close;
 	
-	L_ExchangeItems:
+MenuExchangeItems:
 	switch(select("Body Orb:Trait Orb:Skill Orb")){
 	case 1:
 		for(.@i = 0; .@i < 10; .@i++){
