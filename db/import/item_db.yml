@@ -87,7 +87,42 @@
 Header:
   Type: ITEM_DB
   Version: 3
+
+Body:
+  - Id: 20000000
+    AegisName: Return_Orb
+    Name: Return Orb
+    Type: DelayConsume
+    Delay:
+      Duration: 3000
+    Script:
+      callfunc("ReturnOrb");
+  - Id: 20000001
+    AegisName: Teleport_Orb
+    Name: Teleport Orb
+    Type: DelayConsume
+    Delay:
+      Duration: 3000
+    Script:
+      callfunc("TeleportOrb");
+  - Id: 20000002
+    AegisName: Body_Orb_Tier_1
+    Name: Body Orb Tier 1
+    Type: Etc
+  - Id: 20000003
+    AegisName: Body_Orb_Tier_2
+    Name: Body Orb Tier 2
+    Type: Etc
+  - Id: 20000004
+    AegisName: Body_Orb_Tier_3
     Name: Body Orb Tier 3
+    Type: Etc
+  - Id: 20000005
+    AegisName: Body_Orb_Tier_4
+    Name: Body Orb Tier 4
+    Type: Etc
+  - Id: 20000006
+    AegisName: Body_Orb_Tier_5
     Name: Body Orb Tier 5
     Type: Etc
   - Id: 20000007
