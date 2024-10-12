@@ -29,6 +29,7 @@ OnTouch:
 	StatusPoint = 0;
 	TraitPoint = 0;
 	SkillPoint = 0;
+	specialeffect2 435;
 	end;
 	
 OnInit:
@@ -62,6 +63,7 @@ OnInit:
 	
 	L_Trade:
 	setlook (.@slot == 1) ? LOOK_HEAD_BOTTOM : (.@slot == 2) ? LOOK_HEAD_TOP : (.@slot == 3) ? LOOK_HEAD_MID : LOOK_ROBE,getd("dressSlot" + .@slot);
+	specialeffect2 446;
 	
 	clear;
 	
@@ -113,6 +115,7 @@ OnInit:
 	: bCrt
 	,3;
 	mes "เล่นให้สนุกน้าา ชิว ๆ เลย";
+	specialeffect2 444;
 	close;
 	
 OnTouch:
@@ -158,7 +161,7 @@ OnTouch:
 	skill 530,.@index == 8,3;
 	skill 513,.@index == 9,3;
 	skill 5019,.@index == 10,3;
-	specialeffect2 18;
+	specialeffect2 456;
 	close;
 	
 OnTouch:

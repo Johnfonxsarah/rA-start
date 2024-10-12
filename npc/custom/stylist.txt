@@ -29,6 +29,7 @@
 	.@selected = (((.@s == 2) && .@isSummoner) ? 0 : 1);
 	while(1) {
 		setlook .@looks[.@s],.@selected;
+		specialeffect2 414;
 		message strcharinfo(0),"แบบที่ #" + .@selected;
 		.@menu$ = " ~ ต่อไป: ~ ก่อนหน้า: ~ ข้ามไปที่...: ~ กลับสู่แบบเดิม (^0055FF" + .@revert + "^000000)";
 		switch(select(.@menu$)){

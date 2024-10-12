@@ -13839,11 +13839,7 @@ void JobDatabase::loadingFinished() {
 		}
 
 		// Set trait status limit
-		if( class_ & JOBL_FOURTH ){
-			max = battle_config.max_trait_parameter;
-		}else{
-			max = 0;
-		}
+		max = battle_config.max_trait_parameter;
 
 		for( uint16 parameter = PARAM_POW; parameter < PARAM_MAX; parameter++ ){
 			// If it is not explicitly set in the database file

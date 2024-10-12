@@ -175,7 +175,7 @@ OnMonsterDead:
 	end;
 	.@scoreRequired = 300;
 	$scoreMaps[lastPlayMap]++;
-	CCCDrop(tier);
+	callfunc("CCCDrop",tier);
 	if($scoreMaps[lastPlayMap] >= .@scoreRequired){
 		$scoreMaps[lastPlayMap] = 0;
 		$isBossMaps[lastPlayMap] = 1;
@@ -226,12 +226,15 @@ OnMonsterDead:
 OnBossDead:
 	if(playerattached()){
 		$isBossMaps[lastPlayMap] = 0;
-		CCCDrop(tier,1);
+		callfunc("CCCDrop",tier,1);
 		announce strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! ทุกคนในชั้น " + lastPlayMap + " สามารถไปยังชั้นต่อไปได้แล้ว",bc_all,0xffff00,0,25;
 	}
 	addrid(1);
 	if((BaseLevel - 1) < lastPlayMap)
 	atcommand "@lvup " + (lastPlayMap - (BaseLevel - 1));
+	StatusPoint = 0;
+	TraitPoint = 0;
+	SkillPoint = 0;
 	menu "เล่นต่อ",-,"กลับไปยังห้องพัก",L_Lobby;
 	hintTimer = 3;
 	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";

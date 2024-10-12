@@ -68,6 +68,7 @@ Body:
       attendance: false
       view_equipment: true
       trade_unconditional: true
+      bypass_max_stat: true
   - Id: 1
     Name: Super Player
     # Can do everything Players can and more
