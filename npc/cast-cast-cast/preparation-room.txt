@@ -150,17 +150,11 @@ OnTouch:
 	mes "ลองเลือก Skill แล้วทดลองดูน้าา ชอบอันหนายย..";
 	next;
 	.@index = select("Bash:Fire Ball:Mammonite:Holy Light:Envenom:Double Strafe:Heel Drop:Shadow Slash:Disarm:Bite");
-	// Clean up
-	skill 5,.@index == 1,3;
-	skill 17,.@index == 2,3;
-	skill 42,.@index == 3,3;
-	skill 156,.@index == 4,3;
-	skill 52,.@index == 5,3;
-	skill 46,.@index == 6,3;
-	skill 415,.@index == 7,3;
-	skill 530,.@index == 8,3;
-	skill 513,.@index == 9,3;
-	skill 5019,.@index == 10,3;
+	if(skillSlots[0])
+	skill skillSlots[0],0,3;
+	setarray .@skillIds[0],5,17,42,156,52,46,415,530,513,5019;
+	skillSlots[0] = .@skillIds[.@index - 1];
+	skill skillSlots[0],1,3;
 	specialeffect2 456;
 	close;
 	
