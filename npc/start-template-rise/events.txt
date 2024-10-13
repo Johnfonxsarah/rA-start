@@ -70,7 +70,11 @@ OnPCLoginEvent:
 		isSkillSetup = 1;
 	}
 	
+	callfunc("RemovePlayDelegates");
+	
 	callfunc("ApplyCCCRules");
+	
+	callfunc("ApplyEffect");
 
 	if(dressSlot1)
 	setlook LOOK_HEAD_BOTTOM,dressSlot1;
@@ -83,7 +87,7 @@ OnPCLoginEvent:
 
 	if(isConfirm && (strcharinfo(3) != "bl_depth2"))
 	addtimer 1,strnpcinfo(0) + "::OnLoadConfirm";
-	else
+	else if(!isConfirm)
 	atcommand "@speed 1";
 	
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";

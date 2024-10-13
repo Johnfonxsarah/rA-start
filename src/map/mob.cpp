@@ -4639,6 +4639,138 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		mob->jname = mob->name;
 	}
 
+	if (this->nodeExists(node, "Level")) {
+		uint16 level;
+
+		if (!this->asUInt16(node, "Level", level))
+			return 0;
+
+		mob->lv = level;
+	}
+
+
+	if (this->nodeExists(node, "Attack")) {
+		uint16 atk;
+
+		if (!this->asUInt16(node, "Attack", atk))
+			return 0;
+
+		mob->status.rhw.atk = atk;
+	}
+	
+	if (this->nodeExists(node, "Attack2")) {
+		uint16 atk;
+
+		if (!this->asUInt16(node, "Attack2", atk))
+			return 0;
+
+#ifdef RENEWAL
+		mob->status.rhw.matk = atk;
+#else
+		mob->status.rhw.atk2 = atk;
+#endif
+	}
+
+	if (this->nodeExists(node, "Defense")) {
+		uint16 def;
+
+		if (!this->asUInt16(node, "Defense", def))
+			return 0;
+
+		if (def < DEFTYPE_MIN || def > DEFTYPE_MAX) {
+			this->invalidWarning(node["Defense"], "Invalid monster defense %d, capping...\n", def);
+			def = cap_value(def, DEFTYPE_MIN, DEFTYPE_MAX);
+		}
+
+		mob->status.def = static_cast<defType>(def);
+	}
+
+	if (this->nodeExists(node, "MagicDefense")) {
+		uint16 def;
+
+		if (!this->asUInt16(node, "MagicDefense", def))
+			return 0;
+
+		if (def < DEFTYPE_MIN || def > DEFTYPE_MAX) {
+			this->invalidWarning(node["MagicDefense"], "Invalid monster magic defense %d, capping...\n", def);
+			def = cap_value(def, DEFTYPE_MIN, DEFTYPE_MAX);
+		}
+
+		mob->status.mdef = static_cast<defType>(def);
+	}
+
+	if (this->nodeExists(node, "Resistance")) {
+		uint16 res;
+
+		if (!this->asUInt16(node, "Resistance", res))
+			return 0;
+
+		mob->status.res = res;
+	}
+
+	if (this->nodeExists(node, "MagicResistance")) {
+		uint16 mres;
+
+		if (!this->asUInt16(node, "MagicResistance", mres))
+			return 0;
+
+		mob->status.mres = mres;
+	}
+
+	if (this->nodeExists(node, "Str")) {
+		uint16 stat;
+
+		if (!this->asUInt16(node, "Str", stat))
+			return 0;
+
+		mob->status.str = max(0, stat);
+	}
+
+	if (this->nodeExists(node, "Agi")) {
+		uint16 stat;
+
+		if (!this->asUInt16(node, "Agi", stat))
+			return 0;
+
+		mob->status.agi = max(0, stat);
+	}
+
+	if (this->nodeExists(node, "Vit")) {
+		uint16 stat;
+
+		if (!this->asUInt16(node, "Vit", stat))
+			return 0;
+
+		mob->status.vit = max(0, stat);
+	}
+
+	if (this->nodeExists(node, "Int")) {
+		uint16 stat;
+
+		if (!this->asUInt16(node, "Int", stat))
+			return 0;
+
+		mob->status.int_ = max(0, stat);
+	}
+
+	if (this->nodeExists(node, "Dex")) {
+		uint16 stat;
+
+		if (!this->asUInt16(node, "Dex", stat))
+			return 0;
+
+		mob->status.dex = max(0, stat);
+	}
+
+	if (this->nodeExists(node, "Luk")) {
+		uint16 stat;
+
+		if (!this->asUInt16(node, "Luk", stat))
+			return 0;
+
+		mob->status.luk = max(0, stat);
+	}
+
 	if (this->nodeExists(node, "AttackRange")) {
 		uint16 range;
 

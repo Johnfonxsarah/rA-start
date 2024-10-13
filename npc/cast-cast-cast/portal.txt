@@ -79,6 +79,19 @@ OnJoin:
 	: (tier == 10) ? (240 + (20 * (.@lv - 225)))
 	: (250 + (25 * (.@lv - 250)))
 	;
+	dmgMultiplier =
+	(tier == 1) ? (0 + (1 * .@lv))
+	: (tier == 2) ? (0 + (1 * (.@lv - 5)))
+	: (tier == 3) ? (0 + (1 * (.@lv - 15)))
+	: (tier == 4) ? (0 + (1 * (.@lv - 30)))
+	: (tier == 5) ? (0 + (1 * (.@lv - 60)))
+	: (tier == 6) ? (0 + (1 * (.@lv - 90)))
+	: (tier == 7) ? (0 + (1 * (.@lv - 130)))
+	: (tier == 8) ? (0 + (1 * (.@lv - 170)))
+	: (tier == 9) ? (0 + (1 * (.@lv - 200)))
+	: (tier == 10) ? (0 + (1 * (.@lv - 225)))
+	: (0 + (1 * (.@lv - 250)))
+	;
 	if(tier >= 11){
 		.@arraySize = getarraysize($mvpIds);
 		setarray monsterIds[0],$mvpIds[rand(.@arraySize)];
@@ -149,34 +162,19 @@ OnSpawnMonster:
 		// Spawn
 		monster .@cMap$,.@rX,.@rY," “«°¡πµÏ¥”",monsterIds[rand(getarraysize(monsterIds))],1,strnpcinfo(0) + "::OnMonsterDead";
 		.GID = $@mobid[0];
-		setunitdata .GID,UMOB_LEVEL,lastPlayMap;
 		.@mHP = (10 * pow(lastPlayMap,3));
 		setunitdata .GID,UMOB_MAXHP,.@mHP;
 		setunitdata .GID,UMOB_HP,.@mHP;
 		.@bothSpeed = (500 - (cap_value(lastPlayMap * 5,1,350)));
 		setunitdata .GID,UMOB_SPEED,.@bothSpeed;
 		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
-		setunitdata .GID,UMOB_STR,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .GID,UMOB_AGI,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .GID,UMOB_VIT,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .GID,UMOB_INT,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .GID,UMOB_DEX,rand(lastPlayMap,lastPlayMap * 2);
-		setunitdata .GID,UMOB_LUK,rand(lastPlayMap,lastPlayMap * 2);
 		setunitdata .GID,UMOB_DMGIMMUNE,0;
-		//setunitdata .GID,UMOB_ATKRANGE,1;
-		setunitdata .GID,UMOB_ATKMIN,5 + lastPlayMap;
-		setunitdata .GID,UMOB_ATKMAX,10 + lastPlayMap;
-		setunitdata .GID,UMOB_MATKMIN,5 + lastPlayMap;
-		setunitdata .GID,UMOB_MATKMAX,10 + lastPlayMap;
-		setunitdata .GID,UMOB_DEF,5 + lastPlayMap;
-		setunitdata .GID,UMOB_MDEF,5 + lastPlayMap;
 		setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
 		setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
 		setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-		setunitdata .GID,UMOB_RES,lastPlayMap;
-		setunitdata .GID,UMOB_MRES,lastPlayMap;
 		setunitdata .GID,UMOB_DAMAGETAKEN,100;
 		//setunitdata $@mobid[0],UMOB_RANK,0;
+		setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,dmgMultiplier;
 	}
 	freeloop(0);
 	// Start next spawn timer
@@ -200,34 +198,19 @@ OnMonsterDead:
 		// Spawn
 		monster strcharinfo(3),$bossX[lastPlayMap],$bossY[lastPlayMap],"‡®È“·ÀËß¡πµÏ¥”",monsterIds[rand(getarraysize(monsterIds))],1,strnpcinfo(0) + "::OnBossDead",Size_Large;
 		.GID = $@mobid[0];
-		setunitdata .GID,UMOB_LEVEL,lastPlayMap;
 		.@mHP = 10 * pow(lastPlayMap,4);
 		setunitdata .GID,UMOB_MAXHP,.@mHP;
 		setunitdata .GID,UMOB_HP,.@mHP;
 		.@bothSpeed = (500 - (cap_value(lastPlayMap * 5,1,350)));
 		setunitdata .GID,UMOB_SPEED,.@bothSpeed;
 		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
-		setunitdata .GID,UMOB_STR,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .GID,UMOB_AGI,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .GID,UMOB_VIT,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .GID,UMOB_INT,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .GID,UMOB_DEX,rand(lastPlayMap * 5,lastPlayMap * 10);
-		setunitdata .GID,UMOB_LUK,rand(lastPlayMap * 5,lastPlayMap * 10);
 		setunitdata .GID,UMOB_DMGIMMUNE,0;
-		//setunitdata .GID,UMOB_ATKRANGE,1;
-		setunitdata .GID,UMOB_ATKMIN,(5 + lastPlayMap) * 2;
-		setunitdata .GID,UMOB_ATKMAX,(10 + lastPlayMap) * 2;
-		setunitdata .GID,UMOB_MATKMIN,(5 + lastPlayMap) * 2;
-		setunitdata .GID,UMOB_MATKMAX,(10 + lastPlayMap) * 2;
-		setunitdata .GID,UMOB_DEF,(5 + lastPlayMap) * 2;
-		setunitdata .GID,UMOB_MDEF,(5 + lastPlayMap) * 2;
 		setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
 		setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
 		setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-		setunitdata .GID,UMOB_RES,lastPlayMap * 2;
-		setunitdata .GID,UMOB_MRES,lastPlayMap * 2;
 		setunitdata .GID,UMOB_DAMAGETAKEN,100;
 		//setunitdata $@mobid[0],UMOB_RANK,0;
+		setunitdata $@mobid[0],UMOB_DAMAGE_MULTIPLIER,dmgMultiplier * 2;
 		addrid(1);
 		// Mark on minimap
 		viewpoint 1,$bossX[lastPlayMap],$bossY[lastPlayMap],1,0xff0000;

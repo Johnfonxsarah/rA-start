@@ -4890,6 +4890,7 @@
 	export_constant(UMOB_MRES);
 	export_constant(UMOB_DAMAGETAKEN);
 	export_constant(UMOB_RANK);
+	export_constant(UMOB_DAMAGE_MULTIPLIER);
 
 	/* unit control - homunculus */
 	export_constant(UHOM_SIZE);

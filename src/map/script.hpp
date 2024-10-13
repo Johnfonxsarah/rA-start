@@ -499,6 +499,7 @@ enum unitdata_mobtypes {
 	UMOB_MRES,
 	UMOB_DAMAGETAKEN,
 	UMOB_RANK,
+	UMOB_DAMAGE_MULTIPLIER,
 };
 
 enum unitdata_homuntypes {
