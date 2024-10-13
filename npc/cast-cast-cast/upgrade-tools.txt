@@ -241,14 +241,24 @@ MenuContinue:
 	skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
 	// Should not same with other slot
 	freeloop(1);
+	setarray .@errorSkillIds[0],5344,5345,5346,5348,3012,5302,5303,5304,5305,232,2281;
 	while(true){
 		.@isSame = 0;
 		// Loop all slot
 		for(.@i = 0; .@i < 9; .@i++){
 			if(.@i == .@slot)
 			continue;
+			// Check for error skill
+			for(.@j = 0; .@j < getarraysize(.@errorSkillIds); .@j++){
+				if(skillSlots[.@slot] == .@errorSkillIds[.@j]){
+					// Random new skill
+					skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
+					.@isSame = 1;
+					break;
+				}
+			}
 			// Check skill was same
-			if(skillSlots[.@slot] == skillSlots[.@i]){
+			if(!isSame && (skillSlots[.@slot] == skillSlots[.@i])){
 				// Random new skill
 				skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
 				.@isSame = 1;
