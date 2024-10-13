@@ -209,11 +209,61 @@ MenuTrait:
 	close;
 	
 MenuSkill:
+	// Select tier
 	for(.@i = 0; .@i < 10; .@i++){
 		.@tier = (.@i + 1);
 		.@tierMenu$ += "แต้ม Skill Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(skillPoints[.@tier]) + " แต้ม^000000):";
 	}
-	.@index = select(.@tierMenu$);
+	.@level = select(.@tierMenu$);
+	// Is available?
+	if(skillPoints[.@level] <= 0){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+MenuSkillSlot:
+	.@slotMenu$ = "";
+	// Select slot
+	for(.@i = 0; .@i < 9; .@i++)
+	.@slotMenu$ += "ช่องที่ " + (.@i + 1) + " [^1c9311" + ((skillSlots[.@i] != 99999) ? $offensiveSkillDescs$[skillSlots[.@i]] : "ว่าง") + "^000000]:";
+	.@slot = (select(.@slotMenu$) - 1);
+MenuContinue:
+	// Is still available?
+	if(skillPoints[.@level] <= 0){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	// Spend the point
+	skillPoints[.@level]--;
+	// Forgot old skill if available
+	if(skillSlots[.@slot] != 99999)
+	skill $offensiveSkillIds[skillSlots[.@slot]],0,3;
+	// Random new skill
+	skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
+	// Should not same with other slot
+	freeloop(1);
+	while(true){
+		.@isSame = 0;
+		// Loop all slot
+		for(.@i = 0; .@i < 9; .@i++){
+			if(.@i == .@slot)
+			continue;
+			// Check skill was same
+			if(skillSlots[.@slot] == skillSlots[.@i]){
+				// Random new skill
+				skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
+				.@isSame = 1;
+				break;
+			}
+		}
+		if(!.@isSame)
+		break;
+	}
+	freeloop(0);
+	// Learn new skill now
+	skill $offensiveSkillIds[skillSlots[.@slot]],.@level,3;
+	mes "ช่องที่ " + .@slot + " [^1c9311" + $offensiveSkillDescs$[skillSlots[.@slot]] + "^000000]";
+	next;
+	menu "พอใจแล้ว",-,"สุ่มใหม่อีกที",MenuContinue,"เลือกช่องใหม่",MenuSkillSlot;
 	close;
 	
 MenuExchangePoints:

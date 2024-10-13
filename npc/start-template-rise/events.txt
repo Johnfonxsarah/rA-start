@@ -9,6 +9,11 @@ OnPCDieEvent:
 	end;
 	
 OnPCLoginEvent:
+	if(!isSkillSetup){
+		for(.@i = 0; .@i < 9; .@i++)
+		skillSlots[.@i] = 99999;
+		isSkillSetup = 1;
+	}
 	// Player can't attack
 	setpcblock PCBLOCK_ATTACK,true;
 	

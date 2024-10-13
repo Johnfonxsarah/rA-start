@@ -1,0 +1,29 @@
+-	script	TestDamage	-1,{
+	end;
+	
+OnInit:
+	freeloop(1);
+	for(.@i = 0; .@i < 25; .@i++)
+	callsub(OnSpawnMore);
+	freeloop(0);
+	end;
+	
+OnMonsterDead:
+	callsub(OnSpawnMore);
+	end;
+	
+OnSpawnMore:
+	// Get available cell to spawn
+	getfreecell "bl_depth2",.@rX,.@rY,214,221,rand(5,15),rand(5,15);
+	// Spawn
+	monster "bl_depth2",.@rX,.@rY,"·´ÊÍº",2411,1,strnpcinfo(0) + "::OnMonsterDead";
+	.GID = $@mobid[0];
+	setunitdata .GID,UMOB_LEVEL,1;
+	.@mHP = 2000000000;
+	setunitdata .GID,UMOB_MAXHP,.@mHP;
+	setunitdata .GID,UMOB_HP,.@mHP;
+	setunitdata .GID,UMOB_DMGIMMUNE,0;
+	setunitdata .GID,UMOB_DAMAGETAKEN,100;
+	return;
+}
+
