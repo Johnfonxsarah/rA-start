@@ -72,37 +72,12 @@ function	script	ChangeZeny	{
 }
 
 function	script	Storage	{
-	.@isFree = 1;
 	.@menu$ = "คลังเก็บของปกติ:คลังเก็บของ Guild:";
-	for(.@s = 0; .@s < 9; .@s++)
-	.@menu$ += "คลังเก็บของพิเศษ " + (.@s + 1) + ":";
 	.@selectedStorage = select(.@menu$);
 	if(.@selectedStorage == 1)
 	openstorage;
 	else if(.@selectedStorage == 2)
 	guildopenstorage();
-	else{
-		.@storageId = (.@selectedStorage - 2);
-		if(getd("#STORAGE" + .@storageId) || .@isFree)
-		openstorage2 .@storageId,STOR_MODE_GET|STOR_MODE_PUT;
-		else{
-			.@price = (10000000 * .@storageId);
-			menu
-			"ยกเลิก",-
-			,"ซื้อคลังเก็บของพิเศษ " + .@storageId + " (ใช้ได้ทั้ง ID) [^af1ada" + F_InsertComma(.@price) + "z^000000]",L_Buy;
-			end;
-			
-			L_Buy:
-			if(Zeny < .@price){
-				mes "Zeny ไม่เพียงพอ";
-				close;
-			}
-			ChangeZeny(-.@price);
-			set getd("#STORAGE" + .@storageId),1;
-			openstorage2 .@storageId,STOR_MODE_GET|STOR_MODE_PUT;
-			end;
-		}
-	}
 	return;
 }
 
@@ -177,10 +152,27 @@ function	script	ApplyCCCRules	{
 	return;
 }
 
-
 function	script	RemovePlayDelegates	{
 	deltimer "เล่นเกม::OnSpawnMonsterHint";
 	deltimer "เล่นเกม::OnSpawnMonster";
 	
+	return;
+}
+
+function	script	ApplyEffect	{
+	bonus_script_clear 8;
+	bonus_script
+	"bonus2 bAddClass,CLASS_ALL," + (100 * effectLvs[0]) + ";"
+	+ "bonus2 bMagicAddClass,CLASS_ALL," + (100 * effectLvs[1]) + ";"
+	+ "bonus2 bIgnoreDefClassRate,CLASS_ALL," + (1 * effectLvs[2]) + ";"
+	+ "bonus2 bIgnoreMdefClassRate,CLASS_ALL," + (1 * effectLvs[3]) + ";"
+	+ "bonus bNoWeaponDamage," + (1 * effectLvs[4]) + ";"
+	+ "bonus bNoMagicDamage," + (1 * effectLvs[5]) + ";"
+	+ "bonus bFixedCastrate,-" + (1 * effectLvs[6]) + ";"
+	+ "bonus bDelayrate,-" + (1 * effectLvs[7]) + ";"
+	+ "bonus bSpeedAddRate," + (1 * effectLvs[8]) + ";"
+	+ "bonus bMaxHP," + (1000 * effectLvs[9]) + ";"
+	+ "bonus bReduceDamageReturn," + (1 * effectLvs[10]) + ";"
+	,86400,8,1;
 	return;
 }

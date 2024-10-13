@@ -1,4 +1,4 @@
-prontera,144,174,3	script	คลังเก็บของ	10427,{
+bl_depth2,134,130,8	script	คลังเก็บของ	10427,{
 	callfunc("Storage");
 	end;
 	

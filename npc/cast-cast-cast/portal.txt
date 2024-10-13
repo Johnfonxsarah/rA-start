@@ -55,16 +55,29 @@ OnJoin:
 	// Remember monster id
 	tier =
 	(lastPlayMap <= 5) ? 1
-	: (lastPlayMap <= 10) ? 2
-	: (lastPlayMap <= 20) ? 3
-	: (lastPlayMap <= 30) ? 4
-	: (lastPlayMap <= 40) ? 5
-	: (lastPlayMap <= 50) ? 6
-	: (lastPlayMap <= 60) ? 7
-	: (lastPlayMap <= 70) ? 8
-	: (lastPlayMap <= 80) ? 9
-	: (lastPlayMap <= 90) ? 10
+	: (lastPlayMap <= 15) ? 2
+	: (lastPlayMap <= 30) ? 3
+	: (lastPlayMap <= 60) ? 4
+	: (lastPlayMap <= 90) ? 5
+	: (lastPlayMap <= 130) ? 6
+	: (lastPlayMap <= 170) ? 7
+	: (lastPlayMap <= 200) ? 8
+	: (lastPlayMap <= 225) ? 9
+	: (lastPlayMap <= 250) ? 10
 	: 11
+	;
+	scoreRequired =
+	(tier == 1) ? (45 + (5 * .@lv))
+	: (tier == 2) ? (65 + (5 * (.@lv - 5)))
+	: (tier == 3) ? (90 + (5 * (.@lv - 15)))
+	: (tier == 4) ? (120 + (10 * (.@lv - 30)))
+	: (tier == 5) ? (150 + (10 * (.@lv - 60)))
+	: (tier == 6) ? (190 + (10 * (.@lv - 90)))
+	: (tier == 7) ? (210 + (15 * (.@lv - 130)))
+	: (tier == 8) ? (220 + (15 * (.@lv - 170)))
+	: (tier == 9) ? (230 + (15 * (.@lv - 200)))
+	: (tier == 10) ? (240 + (20 * (.@lv - 225)))
+	: (250 + (25 * (.@lv - 250)))
 	;
 	if(tier >= 11){
 		.@arraySize = getarraysize($mvpIds);
@@ -174,7 +187,7 @@ OnMonsterDead:
 	// Check map still same otherwise stop it. || Player not attached || Boss Fight || Player dead
 	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || $isBossMaps[lastPlayMap] || isdead())
 	end;
-	.@scoreRequired = 300;
+	.@scoreRequired = scoreRequired;
 	$scoreMaps[lastPlayMap]++;
 	callfunc("CCCDrop",tier);
 	if($scoreMaps[lastPlayMap] >= .@scoreRequired){
@@ -231,7 +244,7 @@ OnBossDead:
 		announce strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! ทุกคนในชั้น " + lastPlayMap + " สามารถไปยังชั้นต่อไปได้แล้ว",bc_all,0xffff00,0,25;
 	}
 	addrid(1);
-	if((BaseLevel - 1) < lastPlayMap)
+	if(((BaseLevel - 1) < lastPlayMap) && (BaseLevel < 275))
 	atcommand "@lvup " + (lastPlayMap - (BaseLevel - 1));
 
 	callfunc("ApplyCCCRules");

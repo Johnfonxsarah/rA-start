@@ -1,0 +1,39 @@
+bl_depth2,132,159,6	script	หินผนึกพลัง	10371,{
+OnMenu:
+	.@maxEffectLv = 100;
+	.@availablePoint = ((BaseLevel >= spendLv) ? (BaseLevel - spendLv) : 0);
+	mes "คุณมี Level: " + BaseLevel;
+	mes "สามารถเพิ่มพลังได้อีก: " + .@availablePoint + " ขั้น";
+	next;
+	.@effect = (select("[Lv. ^1c9311" + effectLvs[0] + "^000000] โจมตีกายภาพ +^9300ff" + (100 * effectLvs[0]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[1] + "^000000] โจมตีเวทย์ +^9300ff" + (100 * effectLvs[1]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[2] + "^000000] เจาะ DEF +^9300ff" + (1 * effectLvs[2]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[3] + "^000000] เจาะ MDEF +^9300ff" + (1 * effectLvs[3]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[4] + "^000000] กันกายภาพ +^9300ff" + (1 * effectLvs[4]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[5] + "^000000] กันเวทย์ +^9300ff" + (1 * effectLvs[5]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[6] + "^000000] ร่ายเร็วขึ้น +^9300ff" + (1 * effectLvs[6]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[7] + "^000000] ลด Cooldown +^9300ff" + (1 * effectLvs[7]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[8] + "^000000] เคลื่อนที่เร็วขึ้น +^9300ff" + (1 * effectLvs[8]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[9] + "^000000] พลังชีวิต +^9300ff" + (1000 * effectLvs[9]) + "^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[10] + "^000000] กันการสะท้อน +^9300ff" + (1 * effectLvs[10]) + "%^000000") - 1);
+	if((.@availablePoint <= 0) || (effectLvs[.@effect] >= .@maxEffectLv)){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	.@maxInput = ((.@availablePoint + effectLvs[.@effect]) > .@maxEffectLv) ? (.@availablePoint - .@maxEffectLv) : .@availablePoint;
+	mes "โปรดระบุ 1~" + .@maxInput;
+	next;
+	input .@i;
+	if((.@i <= 0) || (.@i > .@maxInput)){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	effectLvs[.@effect] += .@i;
+	spendLv += .@i;
+	callfunc("ApplyEffect");
+	goto OnMenu;
+	
+OnInit:
+	waitingroom "เพิ่งพลัง (ถาวร)",0;
+	end;
+}

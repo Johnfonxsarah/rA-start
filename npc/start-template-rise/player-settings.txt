@@ -3,7 +3,8 @@ bl_depth2,145,159,4	script	ตั้งค่า	10372,{
 	menu
 	"ดูคำสั่งที่ใช้ได้",L_Commands,
 	"แสดง % Drop [" + (#isVerboseLog ? "^1c9311ON^000000" : "^d32323OFF^000000") + "]",L_VerboseLog,
-	"เปลี่ยน Password",L_ChangePassword
+	"เปลี่ยน Password",L_ChangePassword,
+	"เพิ่ม Level Guild",MenuGetGuildLevel
 	;
 	end;
 	
@@ -36,7 +37,11 @@ bl_depth2,145,159,4	script	ตั้งค่า	10372,{
 	next;
 	goto L_Menu;
 	
+MenuGetGuildLevel:
+	atcommand "@guildlvup 50";
+	goto L_Menu;
+	
 OnInit:
-	waitingroom "ตั้งค่า",0;
+	waitingroom strnpcinfo(0),0;
 	end;
 }

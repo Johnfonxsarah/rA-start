@@ -36,6 +36,25 @@ OnPCDieEvent:
 	traitstatusup2 bSpl,-(((.@spl - .@lostTrait) < .@minTrait) ? (.@spl - .@minTrait) : .@lostTrait);
 	traitstatusup2 bCon,-(((.@con - .@lostTrait) < .@minTrait) ? (.@con - .@minTrait) : .@lostTrait);
 	traitstatusup2 bCrt,-(((.@crt - .@lostTrait) < .@minTrait) ? (.@crt - .@minTrait) : .@lostTrait);
+	// Skill Penalty (Remove 1 Skill, Minimum 1 skill left)
+	.@learnSkillCount = 0;
+	freeloop(1);
+	for(.@i = 0; .@i < 9; .@i++){
+		if(skillSlots[.@i] != 99999)
+		.@learnSkillCount++;
+	}
+	if(.@learnSkillCount > 1){
+		.@isDoneRemoveSkill = 0;
+		while(!.@isDoneRemoveSkill){
+			.@randomLostSkillSlot = rand(9);
+			if(skillSlots[.@randomLostSkillSlot] != 99999){
+				skill $offensiveSkillIds[skillSlots[.@randomLostSkillSlot]],0,3;
+				skillSlots[.@randomLostSkillSlot] = 99999;
+				.@isDoneRemoveSkill = 1;
+			}
+		}
+	}
+	freeloop(0);
 	// Level Penalty
 	if(BaseLevel > 1)
 	atcommand "@lvup -1";
@@ -84,12 +103,15 @@ OnInit:
 	bindatcmd "tm",strnpcinfo(3) + "::OnTestMap",99,99;
 	addrid(0);
 	
+	callfunc("RemovePlayDelegates");
+	
 	callfunc("ApplyCCCRules");
 	
-	callfunc("RemovePlayDelegates");
+	callfunc("ApplyEffect");
 	
 	if(isConfirm && (strcharinfo(3) != "bl_depth2"))
 	warp "Save",0,0;
+	
 	end;
 	
 OnTestMap:

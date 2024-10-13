@@ -451,4 +451,8 @@ MenuExchangeItems:
 		break;
 	}
 	close;
+	
+OnInit:
+	waitingroom "สุ่ม Status, Trait และ Skill",0;
+	end;
 }

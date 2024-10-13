@@ -78,7 +78,7 @@ OnInit:
 1@vrsn,90,184,4	script	เอวา	10078,5,5,{
 	mes "ก่อนที่จะรับ ทางเราขอแนะนำอะไรเล็ก ๆ น้อยนะคะ";
 	next;
-	mes "เมื่อคุณหมดสติ\n^d32323• All Status จะถูกลดลง 5\n• All Trait จะถูกลดลง 1\n• สุ่มลด Level Skill ลง 1\n• Level จะถูกลดลง 1^000000\nมันฟังดูแย่.. แต่ก็ดีกว่าเล่นใหม่ตั้งแต่เริ่มใช่ไหมละ?";
+	mes "เมื่อคุณหมดสติ\n^d32323• All Status จะถูกลดลง 5 (สำหรับ Status ที่สูงกว่า 10)\n• All Trait จะถูกลดลง 1 (สำหรับ Trait ที่สูงกว่า 3)\n• Skill จะหายไป 1 Skill (เมื่อมี Skill มากกว่า 1 Skill)\n• Level จะถูกลดลง 1 (เมื่อมี Level มากกว่า 1)^000000\nมันฟังดูแย่.. แต่ก็ดีกว่าเล่นใหม่ตั้งแต่เริ่มใช่ไหมละ?";
 	next;
 	mes "อย่างไรก็ตาม คุณก็ยังสามารถ Farm เพื่อให้เก่งขึ้นได้นะ";
 	next;
@@ -150,7 +150,7 @@ OnTouch:
 	mes "ลองเลือก Skill แล้วทดลองดูน้าา ชอบอันหนายย..";
 	next;
 	.@index = select("Bash:Fire Ball:Mammonite:Holy Light:Envenom:Double Strafe:Heel Drop:Shadow Slash:Disarm:Bite");
-	if(skillSlots[0])
+	if(skillSlots[0] != 99999)
 	skill $offensiveSkillIds[skillSlots[0]],0,3;
 	setarray .@skillIndexs[0],3,15,37,34,45,22,296,222,206,598;
 	skillSlots[0] = .@skillIndexs[.@index - 1];

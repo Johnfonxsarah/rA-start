@@ -7214,6 +7214,8 @@ int pc_get_skillcooldown(map_session_data *sd, uint16 skill_id, uint16 skill_lv)
 		}
 	}
 
+	cooldown = (cooldown * (100 - (cap_value(sd->bonus.delayrate, 0, 100)))) / 100; // [Start's] Example: bonus bDelayrate,100; will reduce cooldown by 100%
+
 	return max(0, cooldown);
 }
 
