@@ -2,10 +2,46 @@
 	end;
 	
 OnPCDieEvent:
-	deltimer "เล่นเกม::OnSpawnMonsterHint";
-	deltimer "เล่นเกม::OnSpawnMonster";
+	callfunc("RemovePlayDelegates");
+	
+	// Map clean up if alone in map
 	if(getusers(0) <= 1)
 	killmonster strcharinfo(3),"เล่นเกม::OnMonsterDead",0;
+	// Status & Trait Penalties
+	.@str = readparam(bStr);
+	.@agi = readparam(bAgi);
+	.@vit = readparam(bVit);
+	.@int = readparam(bInt);
+	.@dex = readparam(bDex);
+	.@luk = readparam(bLuk);
+	.@pow = readparam(bPow);
+	.@sta = readparam(bSta);
+	.@wis = readparam(bWis);
+	.@spl = readparam(bSpl);
+	.@con = readparam(bCon);
+	.@crt = readparam(bCrt);
+	.@minStatus = 10;
+	.@lostStatus = 5;
+	.@minTrait = 3;
+	.@lostTrait = 2;
+	statusup2 bStr,-(((.@str - .@lostStatus) < .@minStatus) ? (.@str - .@minStatus) : .@lostStatus);
+	statusup2 bAgi,-(((.@agi - .@lostStatus) < .@minStatus) ? (.@agi - .@minStatus) : .@lostStatus);
+	statusup2 bVit,-(((.@vit - .@lostStatus) < .@minStatus) ? (.@vit - .@minStatus) : .@lostStatus);
+	statusup2 bInt,-(((.@int - .@lostStatus) < .@minStatus) ? (.@int - .@minStatus) : .@lostStatus);
+	statusup2 bDex,-(((.@dex - .@lostStatus) < .@minStatus) ? (.@dex - .@minStatus) : .@lostStatus);
+	statusup2 bLuk,-(((.@luk - .@lostStatus) < .@minStatus) ? (.@luk - .@minStatus) : .@lostStatus);
+	traitstatusup2 bPow,-(((.@pow - .@lostTrait) < .@minTrait) ? (.@pow - .@minTrait) : .@lostTrait);
+	traitstatusup2 bSta,-(((.@sta - .@lostTrait) < .@minTrait) ? (.@sta - .@minTrait) : .@lostTrait);
+	traitstatusup2 bWis,-(((.@wis - .@lostTrait) < .@minTrait) ? (.@wis - .@minTrait) : .@lostTrait);
+	traitstatusup2 bSpl,-(((.@spl - .@lostTrait) < .@minTrait) ? (.@spl - .@minTrait) : .@lostTrait);
+	traitstatusup2 bCon,-(((.@con - .@lostTrait) < .@minTrait) ? (.@con - .@minTrait) : .@lostTrait);
+	traitstatusup2 bCrt,-(((.@crt - .@lostTrait) < .@minTrait) ? (.@crt - .@minTrait) : .@lostTrait);
+	// Level Penalty
+	if(BaseLevel > 1)
+	atcommand "@lvup -1";
+
+	callfunc("ApplyCCCRules");
+	
 	end;
 	
 OnPCLoginEvent:
@@ -14,12 +50,8 @@ OnPCLoginEvent:
 		skillSlots[.@i] = 99999;
 		isSkillSetup = 1;
 	}
-	// Player can't attack
-	setpcblock PCBLOCK_ATTACK,true;
 	
-	StatusPoint = 0;
-	TraitPoint = 0;
-	SkillPoint = 0;
+	callfunc("ApplyCCCRules");
 
 	if(dressSlot1)
 	setlook LOOK_HEAD_BOTTOM,dressSlot1;
@@ -51,10 +83,11 @@ OnInit:
 	bindatcmd "ml",strnpcinfo(3) + "::OnMapLoad",99,99;
 	bindatcmd "tm",strnpcinfo(3) + "::OnTestMap",99,99;
 	addrid(0);
-	// Player can't attack
-	setpcblock PCBLOCK_ATTACK,true;
-	deltimer "เล่นเกม::OnSpawnMonsterHint";
-	deltimer "เล่นเกม::OnSpawnMonster";
+	
+	callfunc("ApplyCCCRules");
+	
+	callfunc("RemovePlayDelegates");
+	
 	if(isConfirm && (strcharinfo(3) != "bl_depth2"))
 	warp "Save",0,0;
 	end;

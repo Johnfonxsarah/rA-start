@@ -1,6 +1,6 @@
 bl_depth2,141,137,5	script	เล่นเกม	10558,{
-	deltimer "เล่นเกม::OnSpawnMonsterHint";
-	deltimer "เล่นเกม::OnSpawnMonster";
+	callfunc("RemovePlayDelegates");
+	
 	percentheal 100,100;
 	mes "โปรดระบุชั้นที่ต้องการเข้าเล่น";
 	mes "1~" + BaseLevel;
@@ -91,8 +91,9 @@ OnJoin:
 	;
 	// Remember spawn timer multiplier
 	spawnTimerMultiplier = 10;
-	// Player can't attack
-	setpcblock PCBLOCK_ATTACK,true;
+	
+	callfunc("ApplyCCCRules");
+	
 	// Warp now
 	warp $maps$[$playingMaps[lastPlayMap]],0,0;
 	// About to start spawn monster around player
@@ -232,9 +233,9 @@ OnBossDead:
 	addrid(1);
 	if((BaseLevel - 1) < lastPlayMap)
 	atcommand "@lvup " + (lastPlayMap - (BaseLevel - 1));
-	StatusPoint = 0;
-	TraitPoint = 0;
-	SkillPoint = 0;
+
+	callfunc("ApplyCCCRules");
+	
 	menu "เล่นต่อ",-,"กลับไปยังห้องพัก",L_Lobby;
 	hintTimer = 3;
 	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";

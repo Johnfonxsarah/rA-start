@@ -164,3 +164,23 @@ function	script	TeleportOrb	{
 	warp "Random",0,0;
 	return;
 }
+
+function	script	ApplyCCCRules	{
+	// Player can't attack
+	setpcblock PCBLOCK_ATTACK,true;
+	
+	// Not allowed to had normal game points
+	StatusPoint = 0;
+	TraitPoint = 0;
+	SkillPoint = 0;
+	
+	return;
+}
+
+
+function	script	RemovePlayDelegates	{
+	deltimer "เล่นเกม::OnSpawnMonsterHint";
+	deltimer "เล่นเกม::OnSpawnMonster";
+	
+	return;
+}

@@ -26,9 +26,9 @@ OnTouch:
 	setlook LOOK_HAIR,1;
 	setlook LOOK_HAIR_COLOR,1;
 	atcommand "@job " + .@jobId;
-	StatusPoint = 0;
-	TraitPoint = 0;
-	SkillPoint = 0;
+	
+	callfunc("ApplyCCCRules");
+	
 	specialeffect2 435;
 	end;
 	
