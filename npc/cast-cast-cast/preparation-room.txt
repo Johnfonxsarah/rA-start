@@ -10,10 +10,10 @@
 	close;
 	
 OnTouch:
-	if (@talkDelay > gettimetick(2))
+	if (.talkDelay > gettimetick(2))
 	end;
 	npctalk "~ CAST CAST CAST ยินดีต้อนรับคะ! ลูกค้าสามารถ เปลี่ยนโฉมตัวเองได้ที่ ห้องเปลี่ยนโฉม เมื่อพร้อมแล้ว เข้าห้องแนะนำได้เลยค่ะ ~";
-	@talkDelay = gettimetick(2) + 3;
+	.talkDelay = gettimetick(2) + 3;
 	end;
 }
 
@@ -119,10 +119,10 @@ OnInit:
 	close;
 	
 OnTouch:
-	if (@talkDelay > gettimetick(2))
+	if (.talkDelay > gettimetick(2))
 	end;
 	npctalk "~ สวัสดีค่า! มารับ Status และ Trait เริ่มต้นไปด้วยน้า ~";
-	@talkDelay = gettimetick(2) + 3;
+	.talkDelay = gettimetick(2) + 3;
 	end;
 }
 
@@ -138,10 +138,10 @@ OnTouch:
 	close;
 	
 OnTouch:
-	if (@talkDelay > gettimetick(2))
+	if (.talkDelay > gettimetick(2))
 	end;
 	npctalk "~ สวัสดีครับ! สนใจฟังระบบที่น่าสนใจ ของเกมเราไหมครับ? ~";
-	@talkDelay = gettimetick(2) + 3;
+	.talkDelay = gettimetick(2) + 3;
 	end;
 }
 
@@ -159,10 +159,10 @@ OnTouch:
 	close;
 	
 OnTouch:
-	if (@talkDelay > gettimetick(2))
+	if (.talkDelay > gettimetick(2))
 	end;
 	npctalk "~ มารับ Skill กับป๋มก่อนน ~";
-	@talkDelay = gettimetick(2) + 3;
+	.talkDelay = gettimetick(2) + 3;
 	end;
 }
 
@@ -189,10 +189,10 @@ MenuReset:
 	close;
 	
 OnTouch:
-	if (@talkDelay > gettimetick(2))
+	if (.talkDelay > gettimetick(2))
 	end;
 	npctalk "~ พร้อมเล่นแล้วสินะ! ~";
-	@talkDelay = gettimetick(2) + 3;
+	.talkDelay = gettimetick(2) + 3;
 	end;
 }
 
