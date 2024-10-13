@@ -137,6 +137,8 @@ function	script	TeleportOrb	{
 	if(!IsSkipTickMap())
 	progressbar "",1;
 	warp "Random",0,0;
+	if(!IsSkipTickMap() && $isBossMaps[lastPlayMap])
+	viewpoint 1,$bossX[lastPlayMap],$bossY[lastPlayMap],1,0xff0000;
 	return;
 }
 
@@ -174,5 +176,6 @@ function	script	ApplyEffect	{
 	+ "bonus bMaxHP," + (1000 * effectLvs[9]) + ";"
 	+ "bonus bReduceDamageReturn," + (1 * effectLvs[10]) + ";"
 	,86400,8,1;
+	percentheal 100,100;
 	return;
 }

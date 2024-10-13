@@ -31,6 +31,7 @@ OnMenu:
 	effectLvs[.@effect] += .@i;
 	spendLv += .@i;
 	callfunc("ApplyEffect");
+	specialeffect2 734;
 	goto OnMenu;
 	
 OnInit:
