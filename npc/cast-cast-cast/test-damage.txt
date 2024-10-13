@@ -27,3 +27,7 @@ OnSpawnMore:
 	return;
 }
 
+bl_depth2,149,145,5	script	∑¥ Õ∫ Damage	10557,{
+	warp strcharinfo(3),214,221;
+	end;
+}
