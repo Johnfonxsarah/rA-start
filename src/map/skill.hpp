@@ -256,6 +256,7 @@ struct s_skill_db {
 	int32 range[MAX_SKILL_LEVEL];				///< Range
 	e_damage_type hit;							///< Hit type
 	uint16 inf;									///< Inf: 0- passive, 1- enemy, 2- place, 4- self, 16- friend, 32- trap
+	uint16 ninf;								///< Inf: 0- passive, 1- enemy, 2- place, 4- self, 16- friend, 32- trap (Normal)
 	e_element element[MAX_SKILL_LEVEL];			///< Element
 	std::bitset<NK_MAX> nk;						///< Damage properties
 	int32 splash[MAX_SKILL_LEVEL];				///< Splash effect

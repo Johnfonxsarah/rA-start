@@ -173,6 +173,7 @@ static bool skill_check(uint16 id) {
 // Skill DB
 e_damage_type skill_get_hit( uint16 skill_id )                     { if (!skill_check(skill_id)) return DMG_NORMAL; return skill_db.find(skill_id)->hit; }
 int skill_get_inf( uint16 skill_id )                               { skill_get(skill_id, skill_db.find(skill_id)->inf); }
+int skill_get_ninf( uint16 skill_id )                               { skill_get(skill_id, skill_db.find(skill_id)->ninf); }
 int skill_get_ele( uint16 skill_id , uint16 skill_lv )             { skill_get_lv(skill_id, skill_lv, skill_db.find(skill_id)->element); }
 int skill_get_max( uint16 skill_id )                               { skill_get(skill_id, skill_db.find(skill_id)->max); }
 int skill_get_range( uint16 skill_id , uint16 skill_lv )           { skill_get_lv(skill_id, skill_lv, skill_db.find(skill_id)->range); }
@@ -14773,8 +14774,8 @@ int skill_castend_pos2(struct block_list* src, int x, int y, uint16 skill_id, ui
 
 	default:
 		i = skill_get_splash(skill_id, skill_lv);
-		if (skill_get_nk(skill_id,NK_NODAMAGE))
-			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_FRIEND | 1, skill_castend_nodamage_id);
+		if (skill_get_nk(skill_id, NK_NODAMAGE) || (skill_get_ninf(skill_id) & INF_SUPPORT_SKILL))
+			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_FRIEND, skill_castend_nodamage_id);
 		else
 			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_ENEMY | 1, skill_castend_damage_id);
 		break;
@@ -23934,6 +23935,23 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	} else {
 		if (!exists)
 			skill->skill_type = BF_NONE;
+	}
+
+	if (this->nodeExists(node, "TargetType")) {
+		std::string ninf;
+
+		if (!this->asString(node, "TargetType", ninf))
+			return 0;
+
+		std::string ninf_constant = "INF_" + ninf + "_SKILL";
+		int64 constant;
+
+		if (!script_get_constant(ninf_constant.c_str(), &constant)) {
+			this->invalidWarning(node["TargetType"], "TargetType %s is invalid.\n", ninf.c_str());
+			return 0;
+		}
+
+		skill->ninf = static_cast<uint16>(constant);
 	}
 
 	skill->inf = INF_GROUND_SKILL;

@@ -4,6 +4,26 @@ function	script	IsWeekend	{ .@day = gettime(DT_DAYOFWEEK); return (((.@day == FR
 
 function	script	IsInventoryFull	{ return (!checkweight(1100,1)); }
 
+function	script	ApplyTired	{
+	atcommand "@fakename";
+	if(tired)
+	.@debuffHint$ = "ล้า " + tired + "%";
+	if(bonusDebuff)
+	.@debuffHint$ += ((.@debuffHint$ != "") ? " " : "") + "ของเสื่อม " + bonusDebuff + "%";
+	if(.@debuffHint$ != "")
+	atcommand "@fakename [" + .@debuffHint$ + "]" + strcharinfo(0);
+	atcommand "@debuff " + tired + " " + bonusDebuff;
+	return;
+}
+
+function	script	ResetTired	{
+	tired = 0;
+	tiredSpot = 0;
+	ptt = 0;
+	ApplyTired();
+	return;
+}
+
 function	script	IsSkipTickMap	{
 	.@value$ = getarg(0,strcharinfo(3));
 	return ((.@value$ == "bl_depth2") || (.@value$ == "1@vrsn"));
