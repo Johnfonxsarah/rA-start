@@ -79,7 +79,7 @@ OnLastFollowPlayerBan:
 	end;
 
 OnLoad:
-	.@isSkip = (@isFollow || (strcharinfo(3) == "prontera"));
+	.@isSkip = (@isFollow || IsSkipTickMap());
 	if(@isFollow){
 		setpcblock PCBLOCK_ALL,false;
 		atcommand "@follow";
