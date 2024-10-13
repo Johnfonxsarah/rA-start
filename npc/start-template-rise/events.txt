@@ -30,7 +30,7 @@ OnPCLoginEvent:
 	if(dressSlot4)
 	setlook LOOK_ROBE,dressSlot4;
 
-	if(isConfirm)
+	if(isConfirm && (strcharinfo(3) != "bl_depth2"))
 	addtimer 1,strnpcinfo(0) + "::OnLoadConfirm";
 	else
 	atcommand "@speed 1";
@@ -51,6 +51,8 @@ OnInit:
 	bindatcmd "ml",strnpcinfo(3) + "::OnMapLoad",99,99;
 	bindatcmd "tm",strnpcinfo(3) + "::OnTestMap",99,99;
 	addrid(0);
+	// Player can't attack
+	setpcblock PCBLOCK_ATTACK,true;
 	deltimer "เล่นเกม::OnSpawnMonsterHint";
 	deltimer "เล่นเกม::OnSpawnMonster";
 	if(isConfirm && (strcharinfo(3) != "bl_depth2"))
