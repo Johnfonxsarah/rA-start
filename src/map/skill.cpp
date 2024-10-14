@@ -24136,19 +24136,19 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 
 	skill->cast_def_rate = 0;
 
-	skill->cast[0] = 500;
-	skill->cast[1] = 1000;
-	skill->cast[2] = 1500;
-	skill->cast[3] = 2000;
-	skill->cast[4] = 2500;
-	skill->cast[5] = 3000;
-	skill->cast[6] = 3500;
-	skill->cast[7] = 4000;
-	skill->cast[8] = 4500;
-	skill->cast[9] = 5000;
-	skill->cast[10] = 5500;
-	skill->cast[11] = 6000;
-	skill->cast[12] = 6500;
+	skill->cast[0] = 100;
+	skill->cast[1] = 200;
+	skill->cast[2] = 300;
+	skill->cast[3] = 400;
+	skill->cast[4] = 500;
+	skill->cast[5] = 1000;
+	skill->cast[6] = 1500;
+	skill->cast[7] = 2000;
+	skill->cast[8] = 2500;
+	skill->cast[9] = 3000;
+	skill->cast[10] = 4000;
+	skill->cast[11] = 5000;
+	skill->cast[12] = 6000;
 
 	memset(skill->delay, 0, sizeof(skill->delay));
 

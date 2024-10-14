@@ -91,6 +91,8 @@ OnJoin:
 	: (tier == 10) ? (0 + (1 * (.@lv - 225)))	// 1~25
 	: (0 + (1 * (.@lv - 250)))					// 1~25
 	;
+	// Divide by 2 (Minimum: x1, Maximum x10)
+	dmgMultiplier = cap_value(dmgMultiplier / 2,1,10);
 	bonusDropMultiplier =
 	(tier == 1) ? (0 + (1 * .@lv))				// 1~5
 	: (tier == 2) ? (0 + (1 * (.@lv - 5)))		// 1~10
@@ -177,10 +179,10 @@ OnSpawnMonster:
 		// Spawn
 		monster .@cMap$,.@rX,.@rY," “«°¡πµÏ¥”",monsterIds[rand(getarraysize(monsterIds))],1,strnpcinfo(0) + "::OnMonsterDead";
 		.GID = $@mobid[0];
-		.@mHP = (10 * pow(lastPlayMap,3));
+		.@mHP = (10 * max(1,((lastPlayMap * lastPlayMap) / 2)));
 		setunitdata .GID,UMOB_MAXHP,.@mHP;
 		setunitdata .GID,UMOB_HP,.@mHP;
-		.@bothSpeed = (500 - (cap_value(lastPlayMap * 5,1,350)));
+		.@bothSpeed = (500 - (cap_value(lastPlayMap * 2,1,400)));
 		setunitdata .GID,UMOB_SPEED,.@bothSpeed;
 		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
 		setunitdata .GID,UMOB_DMGIMMUNE,0;
