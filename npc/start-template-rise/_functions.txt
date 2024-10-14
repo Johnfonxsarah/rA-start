@@ -87,7 +87,7 @@ function	script	CCCDrop	{
 	// Error
 	if(.@tier <= 0)
 	return;
-	// Body Points
+	// Body Points (Base 10%)
 	.@rand = rand(100);
 	.@rate = (10 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)));
 	if(.@rand < .@rate){
@@ -97,7 +97,7 @@ function	script	CCCDrop	{
 	}
 	else if(#isVerboseLog)
 	dispbottom "(แต้ม Body) ต้องสุ่มได้ < " + .@rate + " คุณสุ่มได้ " + .@rand,0xfa8080;
-	// Trait Points
+	// Trait Points (Base 5%)
 	.@rand = rand(100);
 	.@rate = (5 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)));
 	if(.@rand < .@rate){
@@ -107,7 +107,7 @@ function	script	CCCDrop	{
 	}
 	else if(#isVerboseLog)
 	dispbottom "(แต้ม Trait) ต้องสุ่มได้ < " + .@rate + " คุณสุ่มได้ " + .@rand,0xfa8080;
-	// Skill Points
+	// Skill Points (Base 3%)
 	.@rand = rand(100);
 	.@rate = (3 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)));
 	if(.@rand < .@rate){

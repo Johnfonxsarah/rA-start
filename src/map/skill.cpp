@@ -24136,9 +24136,39 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 
 	skill->cast_def_rate = 0;
 
+	skill->cast[0] = 500;
+	skill->cast[1] = 1000;
+	skill->cast[2] = 1500;
+	skill->cast[3] = 2000;
+	skill->cast[4] = 2500;
+	skill->cast[5] = 3000;
+	skill->cast[6] = 3500;
+	skill->cast[7] = 4000;
+	skill->cast[8] = 4500;
+	skill->cast[9] = 5000;
+	skill->cast[10] = 5500;
+	skill->cast[11] = 6000;
+	skill->cast[12] = 6500;
+
 	memset(skill->delay, 0, sizeof(skill->delay));
 
 	memset(skill->walkdelay, 0, sizeof(skill->walkdelay));
+
+	skill->cooldown[0] = 1000;
+	skill->cooldown[1] = 2000;
+	skill->cooldown[2] = 3000;
+	skill->cooldown[3] = 4000;
+	skill->cooldown[4] = 5000;
+	skill->cooldown[5] = 6000;
+	skill->cooldown[6] = 7000;
+	skill->cooldown[7] = 8000;
+	skill->cooldown[8] = 9000;
+	skill->cooldown[9] = 10000;
+	skill->cooldown[10] = 11000;
+	skill->cooldown[11] = 12000;
+	skill->cooldown[12] = 13000;
+
+	memset(skill->fixed_cast, -1, sizeof(skill->fixed_cast));
 
 	if (this->nodeExists(node, "Duration1")) {
 		if (!this->parseNode("Duration1", "Time", node, skill->upkeep_time))
@@ -24155,36 +24185,6 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!exists)
 			memset(skill->upkeep_time2, 0, sizeof(skill->upkeep_time2));
 	}
-
-	skill->cooldown[0] = 1000;
-	skill->cooldown[1] = 2000;
-	skill->cooldown[2] = 3000;
-	skill->cooldown[3] = 4000;
-	skill->cooldown[4] = 5000;
-	skill->cooldown[5] = 6000;
-	skill->cooldown[6] = 7000;
-	skill->cooldown[7] = 8000;
-	skill->cooldown[8] = 9000;
-	skill->cooldown[9] = 10000;
-	skill->cooldown[10] = 11000;
-	skill->cooldown[11] = 12000;
-	skill->cooldown[12] = 13000;
-
-	skill->cast[0] = 500;
-	skill->cast[1] = 1000;
-	skill->cast[2] = 1500;
-	skill->cast[3] = 2000;
-	skill->cast[4] = 2500;
-	skill->cast[5] = 3000;
-	skill->cast[6] = 3500;
-	skill->cast[7] = 4000;
-	skill->cast[8] = 4500;
-	skill->cast[9] = 5000;
-	skill->cast[10] = 5500;
-	skill->cast[11] = 6000;
-	skill->cast[12] = 6500;
-
-	memset(skill->fixed_cast, -1, sizeof(skill->fixed_cast));
 
 	if (this->nodeExists(node, "Unit")) {
 		const auto& unitNode = node["Unit"];
