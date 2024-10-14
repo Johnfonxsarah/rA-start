@@ -14774,8 +14774,12 @@ int skill_castend_pos2(struct block_list* src, int x, int y, uint16 skill_id, ui
 
 	default:
 		i = skill_get_splash(skill_id, skill_lv);
-		if (skill_get_nk(skill_id, NK_NODAMAGE) || (skill_get_ninf(skill_id) & INF_SUPPORT_SKILL))
-			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_FRIEND, skill_castend_nodamage_id);
+		if (skill_get_nk(skill_id, NK_NODAMAGE) && skill_get_ninf(skill_id) & INF_SELF_SKILL)
+			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_SELF | 1, skill_castend_nodamage_id);
+		else if (skill_get_nk(skill_id, NK_NODAMAGE) && skill_get_ninf(skill_id) & INF_SUPPORT_SKILL)
+			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_FRIEND | 1, skill_castend_nodamage_id);
+		else if (skill_get_nk(skill_id, NK_NODAMAGE))
+			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_ENEMY | 1, skill_castend_nodamage_id);
 		else
 			map_foreachinarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_ENEMY | 1, skill_castend_damage_id);
 		break;
