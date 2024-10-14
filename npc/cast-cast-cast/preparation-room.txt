@@ -152,7 +152,7 @@ OnTouch:
 	.@index = select("Bash:Fire Ball:Mammonite:Holy Light:Envenom:Double Strafe:Heel Drop:Shadow Slash:Disarm:Bite");
 	if(skillSlots[0] != 99999)
 	skill $offensiveSkillIds[skillSlots[0]],0,3;
-	setarray .@skillIndexs[0],3,15,37,34,45,22,296,222,206,598;
+	setarray .@skillIndexs[0],3,15,35,32,43,22,294,220,204,596;
 	skillSlots[0] = .@skillIndexs[.@index - 1];
 	skill $offensiveSkillIds[skillSlots[0]],1,3;
 	specialeffect2 456;
