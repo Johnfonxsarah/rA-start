@@ -1,4 +1,4 @@
-bl_depth2,141,137,5	script	เล่นเกม	10558,{
+bl_depth2,141,137,5	script	เล่นเกม	10558,500,500,{
 	if(getcharid(1) && !is_party_leader()){
 		menu "เข้าแบบ ไม่ Spawn Monster",MenuPartyMemberNoSpawn,"เข้าแบบ Spawn Monster",MenuPartyMemberSpawn;
 MenuPartyMemberNoSpawn:
@@ -16,7 +16,6 @@ MenuStart:
 	
 	mes "เลือกชั้นที่ต้องการเข้าเล่น";
 	mes "โปรดระบุ ^d323231~" + BaseLevel + "^000000";
-	mes "^1c9311*ถ้ามี Party จะ Spawn ใส่หัวหน้า Party คนเดียวเท่านั้น (จะได้ช่วยกันสู้ได้ครับ)^000000";
 	next;
 	input .@lv;
 	if(InputOutOfRange(.@lv,BaseLevel)){
@@ -147,6 +146,8 @@ OnJoin:
 	
 	callfunc("ApplyCCCRules");
 	
+	setpcblock PCBLOCK_SKILL,false;
+	
 	// Warp now
 	warp $maps$[$playingMaps[lastPlayMap]],0,0;
 	// About to start spawn monster around player
@@ -267,6 +268,10 @@ OnBossDead:
 	
 	L_Lobby:
 	warp "Save",0,0;
+	end;
+	
+	OnTouch:
+	setpcblock PCBLOCK_SKILL,true;
 	end;
 	
 OnInit:
