@@ -24,17 +24,29 @@ OnPCDieEvent:
 	.@lostStatus = 5;
 	.@minTrait = 3;
 	.@lostTrait = 2;
+	if(.@str > .@minStatus)
 	statusup2 bStr,-(((.@str - .@lostStatus) < .@minStatus) ? (.@str - .@minStatus) : .@lostStatus);
+	if(.@agi > .@minStatus)
 	statusup2 bAgi,-(((.@agi - .@lostStatus) < .@minStatus) ? (.@agi - .@minStatus) : .@lostStatus);
+	if(.@vit > .@minStatus)
 	statusup2 bVit,-(((.@vit - .@lostStatus) < .@minStatus) ? (.@vit - .@minStatus) : .@lostStatus);
+	if(.@int > .@minStatus)
 	statusup2 bInt,-(((.@int - .@lostStatus) < .@minStatus) ? (.@int - .@minStatus) : .@lostStatus);
+	if(.@dex > .@minStatus)
 	statusup2 bDex,-(((.@dex - .@lostStatus) < .@minStatus) ? (.@dex - .@minStatus) : .@lostStatus);
+	if(.@luk > .@minStatus)
 	statusup2 bLuk,-(((.@luk - .@lostStatus) < .@minStatus) ? (.@luk - .@minStatus) : .@lostStatus);
+	if(.@pow > .@lostTrait)
 	traitstatusup2 bPow,-(((.@pow - .@lostTrait) < .@minTrait) ? (.@pow - .@minTrait) : .@lostTrait);
+	if(.@sta > .@lostTrait)
 	traitstatusup2 bSta,-(((.@sta - .@lostTrait) < .@minTrait) ? (.@sta - .@minTrait) : .@lostTrait);
+	if(.@wis > .@lostTrait)
 	traitstatusup2 bWis,-(((.@wis - .@lostTrait) < .@minTrait) ? (.@wis - .@minTrait) : .@lostTrait);
+	if(.@spl > .@lostTrait)
 	traitstatusup2 bSpl,-(((.@spl - .@lostTrait) < .@minTrait) ? (.@spl - .@minTrait) : .@lostTrait);
+	if(.@con > .@lostTrait)
 	traitstatusup2 bCon,-(((.@con - .@lostTrait) < .@minTrait) ? (.@con - .@minTrait) : .@lostTrait);
+	if(.@crt > .@lostTrait)
 	traitstatusup2 bCrt,-(((.@crt - .@lostTrait) < .@minTrait) ? (.@crt - .@minTrait) : .@lostTrait);
 	// Skill Penalty (Remove 1 Skill, Minimum 1 skill left)
 	.@learnSkillCount = 0;

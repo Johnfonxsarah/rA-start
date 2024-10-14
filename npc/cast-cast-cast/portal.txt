@@ -47,24 +47,21 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 OnJoin:
 	// Remember playing floor
 	lastPlayMap = .@lv;
-	bonusDropMultiplier = lastPlayMap;
-	while(bonusDropMultiplier > 10)
-	bonusDropMultiplier -= 10;
 	// Remember last map name
 	lastPlayMap$ = $maps$[$playingMaps[.@lv]];
 	// Remember monster id
 	tier =
-	(lastPlayMap <= 5) ? 1
-	: (lastPlayMap <= 15) ? 2
-	: (lastPlayMap <= 30) ? 3
-	: (lastPlayMap <= 60) ? 4
-	: (lastPlayMap <= 90) ? 5
-	: (lastPlayMap <= 130) ? 6
-	: (lastPlayMap <= 170) ? 7
-	: (lastPlayMap <= 200) ? 8
-	: (lastPlayMap <= 225) ? 9
-	: (lastPlayMap <= 250) ? 10
-	: 11
+	(lastPlayMap <= 5) ? 1		// 5 Floor
+	: (lastPlayMap <= 15) ? 2	// 10 Floor
+	: (lastPlayMap <= 30) ? 3	// 15 Floor
+	: (lastPlayMap <= 60) ? 4	// 30 Floor
+	: (lastPlayMap <= 90) ? 5	// 40 Floor
+	: (lastPlayMap <= 130) ? 6	// 40 Floor
+	: (lastPlayMap <= 170) ? 7	// 30 Floor
+	: (lastPlayMap <= 200) ? 8	// 25 Floor
+	: (lastPlayMap <= 225) ? 9	// 25 Floor
+	: (lastPlayMap <= 250) ? 10	// 25 Floor
+	: 11						// 25 Floor
 	;
 	scoreRequired =
 	(tier == 1) ? (45 + (5 * .@lv))
@@ -80,18 +77,33 @@ OnJoin:
 	: (250 + (25 * (.@lv - 250)))
 	;
 	dmgMultiplier =
-	(tier == 1) ? (0 + (1 * .@lv))
-	: (tier == 2) ? (0 + (1 * (.@lv - 5)))
-	: (tier == 3) ? (0 + (1 * (.@lv - 15)))
-	: (tier == 4) ? (0 + (1 * (.@lv - 30)))
-	: (tier == 5) ? (0 + (1 * (.@lv - 60)))
-	: (tier == 6) ? (0 + (1 * (.@lv - 90)))
-	: (tier == 7) ? (0 + (1 * (.@lv - 130)))
-	: (tier == 8) ? (0 + (1 * (.@lv - 170)))
-	: (tier == 9) ? (0 + (1 * (.@lv - 200)))
-	: (tier == 10) ? (0 + (1 * (.@lv - 225)))
-	: (0 + (1 * (.@lv - 250)))
+	(tier == 1) ? (0 + (1 * .@lv))				// 1~5
+	: (tier == 2) ? (0 + (1 * (.@lv - 5)))		// 1~10
+	: (tier == 3) ? (0 + (1 * (.@lv - 15)))		// 1~15
+	: (tier == 4) ? (0 + (1 * (.@lv - 30)))		// 1~30
+	: (tier == 5) ? (0 + (1 * (.@lv - 60)))		// 1~40
+	: (tier == 6) ? (0 + (1 * (.@lv - 90)))		// 1~40
+	: (tier == 7) ? (0 + (1 * (.@lv - 130)))	// 1~30
+	: (tier == 8) ? (0 + (1 * (.@lv - 170)))	// 1~25
+	: (tier == 9) ? (0 + (1 * (.@lv - 200)))	// 1~25
+	: (tier == 10) ? (0 + (1 * (.@lv - 225)))	// 1~25
+	: (0 + (1 * (.@lv - 250)))					// 1~25
 	;
+	bonusDropMultiplier =
+	(tier == 1) ? (0 + (1 * .@lv))				// 1~5
+	: (tier == 2) ? (0 + (1 * (.@lv - 5)))		// 1~10
+	: (tier == 3) ? (0 + (1 * (.@lv - 15)))		// 1~15
+	: (tier == 4) ? (0 + (1 * (.@lv - 30)))		// 1~30
+	: (tier == 5) ? (0 + (1 * (.@lv - 60)))		// 1~40
+	: (tier == 6) ? (0 + (1 * (.@lv - 90)))		// 1~40
+	: (tier == 7) ? (0 + (1 * (.@lv - 130)))	// 1~30
+	: (tier == 8) ? (0 + (1 * (.@lv - 170)))	// 1~25
+	: (tier == 9) ? (0 + (1 * (.@lv - 200)))	// 1~25
+	: (tier == 10) ? (0 + (1 * (.@lv - 225)))	// 1~25
+	: (0 + (1 * (.@lv - 250)))					// 1~25
+	;
+	// Divide by 3 (Minimum: x1, Maximum x10)
+	bonusDropMultiplier = cap_value(bonusDropMultiplier / 3,1,10);
 	if(tier >= 11){
 		.@arraySize = getarraysize($mvpIds);
 		setarray monsterIds[0],$mvpIds[rand(.@arraySize)];

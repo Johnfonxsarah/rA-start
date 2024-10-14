@@ -5018,37 +5018,6 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		mob->status.class_ = static_cast<uint8>(constant);
 	}
 
-	if (this->nodeExists(node, "Modes")) {
-		const auto& modeNode = node["Modes"];
-
-		for (const auto& modeit : modeNode) {
-			std::string modeName;
-			c4::from_chars(modeit.key(), &modeName);
-			std::string modeName_constant = "MD_" + modeName;
-			int64 constant;
-
-			if (!script_get_constant(modeName_constant.c_str(), &constant)) {
-				this->invalidWarning(modeNode[modeit.key()], "Unknown monster mode %s, skipping.\n", modeName.c_str());
-				continue;
-			}
-
-			if (constant < MD_NONE || constant > MD_SKILLIMMUNE) {
-				this->invalidWarning(modeNode[modeit.key()], "Invalid monster mode %s, skipping.\n", modeName.c_str());
-				continue;
-			}
-
-			bool active;
-
-			if (!this->asBool(modeNode, modeName, active))
-				return 0;
-
-			if (active)
-				mob->status.mode = static_cast<e_mode>(mob->status.mode | constant);
-			else
-				mob->status.mode = static_cast<e_mode>(mob->status.mode & ~constant);
-		}
-	}
-
 	mob->range3 = 30;
 
 	if (!exists)
