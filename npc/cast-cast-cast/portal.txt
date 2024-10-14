@@ -2,8 +2,10 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 	callfunc("RemovePlayDelegates");
 	
 	percentheal 100,100;
-	mes "โปรดระบุชั้นที่ต้องการเข้าเล่น";
-	mes "1~" + BaseLevel;
+	
+	mes "เลือกชั้นที่ต้องการเข้าเล่น";
+	mes "โปรดระบุ ^d323231~" + BaseLevel + "^000000";
+	mes "^1c9311*ถ้ามี Party จะ Spawn ใส่หัวหน้า Party คนเดียวเท่านั้น (จะได้ช่วยกันสู้ได้ครับ)^000000";
 	next;
 	input .@lv;
 	if(InputOutOfRange(.@lv,BaseLevel)){
@@ -136,6 +138,7 @@ OnJoin:
 	warp $maps$[$playingMaps[lastPlayMap]],0,0;
 	// About to start spawn monster around player
 	hintTimer = 3;
+	if((getcharid(1) <= 0) || is_party_leader())
 	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";
 	close;
 	
