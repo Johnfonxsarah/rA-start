@@ -215,10 +215,10 @@ OnMonsterDead:
 		// Spawn
 		monster strcharinfo(3),$bossX[lastPlayMap],$bossY[lastPlayMap],"เจ้าแห่งมนต์ดำ",monsterIds[rand(getarraysize(monsterIds))],1,strnpcinfo(0) + "::OnBossDead",Size_Large;
 		.GID = $@mobid[0];
-		.@mHP = 10 * pow(lastPlayMap,4);
+		.@mHP = (10 * max(1,(lastPlayMap * lastPlayMap)));
 		setunitdata .GID,UMOB_MAXHP,.@mHP;
 		setunitdata .GID,UMOB_HP,.@mHP;
-		.@bothSpeed = (500 - (cap_value(lastPlayMap * 5,1,350)));
+		.@bothSpeed = (500 - (cap_value(lastPlayMap * 2,1,400)));
 		setunitdata .GID,UMOB_SPEED,.@bothSpeed;
 		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
 		setunitdata .GID,UMOB_DMGIMMUNE,0;
