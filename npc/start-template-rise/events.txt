@@ -25,29 +25,29 @@ OnPCDieEvent:
 	.@minTrait = 3;
 	.@lostTrait = 2;
 	if(.@str > .@minStatus)
-	statusup2 bStr,-(((.@str - .@lostStatus) < .@minStatus) ? (.@str - .@minStatus) : .@lostStatus);
+	statusup2 bStr,-.@lostStatus;
 	if(.@agi > .@minStatus)
-	statusup2 bAgi,-(((.@agi - .@lostStatus) < .@minStatus) ? (.@agi - .@minStatus) : .@lostStatus);
+	statusup2 bAgi,-.@lostStatus;
 	if(.@vit > .@minStatus)
-	statusup2 bVit,-(((.@vit - .@lostStatus) < .@minStatus) ? (.@vit - .@minStatus) : .@lostStatus);
+	statusup2 bVit,-.@lostStatus;
 	if(.@int > .@minStatus)
-	statusup2 bInt,-(((.@int - .@lostStatus) < .@minStatus) ? (.@int - .@minStatus) : .@lostStatus);
+	statusup2 bInt,-.@lostStatus;
 	if(.@dex > .@minStatus)
-	statusup2 bDex,-(((.@dex - .@lostStatus) < .@minStatus) ? (.@dex - .@minStatus) : .@lostStatus);
+	statusup2 bDex,-.@lostStatus;
 	if(.@luk > .@minStatus)
-	statusup2 bLuk,-(((.@luk - .@lostStatus) < .@minStatus) ? (.@luk - .@minStatus) : .@lostStatus);
+	statusup2 bLuk,-.@lostStatus;
 	if(.@pow > .@lostTrait)
-	traitstatusup2 bPow,-(((.@pow - .@lostTrait) < .@minTrait) ? (.@pow - .@minTrait) : .@lostTrait);
+	traitstatusup2 bPow,-.@lostTrait;
 	if(.@sta > .@lostTrait)
-	traitstatusup2 bSta,-(((.@sta - .@lostTrait) < .@minTrait) ? (.@sta - .@minTrait) : .@lostTrait);
+	traitstatusup2 bSta,-.@lostTrait;
 	if(.@wis > .@lostTrait)
-	traitstatusup2 bWis,-(((.@wis - .@lostTrait) < .@minTrait) ? (.@wis - .@minTrait) : .@lostTrait);
+	traitstatusup2 bWis,-.@lostTrait;
 	if(.@spl > .@lostTrait)
-	traitstatusup2 bSpl,-(((.@spl - .@lostTrait) < .@minTrait) ? (.@spl - .@minTrait) : .@lostTrait);
+	traitstatusup2 bSpl,-.@lostTrait;
 	if(.@con > .@lostTrait)
-	traitstatusup2 bCon,-(((.@con - .@lostTrait) < .@minTrait) ? (.@con - .@minTrait) : .@lostTrait);
+	traitstatusup2 bCon,-.@lostTrait;
 	if(.@crt > .@lostTrait)
-	traitstatusup2 bCrt,-(((.@crt - .@lostTrait) < .@minTrait) ? (.@crt - .@minTrait) : .@lostTrait);
+	traitstatusup2 bCrt,-.@lostTrait;
 	// Skill Penalty (Remove 1 Skill, Minimum 1 skill left)
 	.@learnSkillCount = 0;
 	freeloop(1);
@@ -69,7 +69,7 @@ OnPCDieEvent:
 	freeloop(0);
 	// Level Penalty
 	if(BaseLevel > 1)
-	atcommand "@lvup -1";
+	BaseLevel--;
 
 	callfunc("ApplyCCCRules");
 	
