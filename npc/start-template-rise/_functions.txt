@@ -137,8 +137,10 @@ function	script	TeleportOrb	{
 	if(!IsSkipTickMap())
 	progressbar "",1;
 	warp "Random",0,0;
-	if(!IsSkipTickMap() && $isBossMaps[lastPlayMap])
-	viewpoint 1,$bossX[lastPlayMap],$bossY[lastPlayMap],1,0xff0000;
+	if(!IsSkipTickMap() && $isBossMaps[lastPlayMap]){
+		getunitdata $gidBossMaps[lastPlayMap],.@uds;
+		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
+	}
 	return;
 }
 
