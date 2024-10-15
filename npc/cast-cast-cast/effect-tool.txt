@@ -56,6 +56,7 @@ MenuResetEffect:
 		for(.@i = 0; .@i < 11; .@i++)
 		effectLvs[.@i] = 0;
 		spendLv = 0;
+		callfunc("ApplyCCCRules");
 		close;
 	}
 	if((.@availablePoint <= 0) || (effectLvs[.@effect] >= .@maxEffectLv)){
