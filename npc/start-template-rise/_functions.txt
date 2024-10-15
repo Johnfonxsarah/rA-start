@@ -168,6 +168,17 @@ function	script	RemovePlayDelegates	{
 
 function	script	ApplyEffect	{
 	bonus_script_clear 8;
+	.@baseMaxHp =
+	(.@maxHpLv < 10) ? 1000
+	: (.@maxHpLv < 20) ? 2500
+	: (.@maxHpLv < 30) ? 4000
+	: (.@maxHpLv < 40) ? 5500
+	: (.@maxHpLv < 50) ? 7500
+	: (.@maxHpLv < 60) ? 9500
+	: (.@maxHpLv < 70) ? 11500
+	: (.@maxHpLv < 80) ? 14000
+	: (.@maxHpLv < 90) ? 16500
+	: 20000;
 	bonus_script
 	"bonus2 bAddClass,CLASS_ALL," + (100 * effectLvs[0]) + ";"
 	+ "bonus2 bMagicAddClass,CLASS_ALL," + (100 * effectLvs[1]) + ";"
@@ -178,7 +189,7 @@ function	script	ApplyEffect	{
 	+ "bonus bFixedCastrate,-" + (1 * effectLvs[6]) + ";"
 	+ "bonus bDelayrate,-" + (1 * effectLvs[7]) + ";"
 	+ "bonus bSpeedAddRate," + (1 * effectLvs[8]) + ";"
-	+ "bonus bMaxHP," + (1000 * effectLvs[9]) + ";"
+	+ "bonus bMaxHP," + (.@baseMaxHp * .@maxHpLv) + ";"
 	+ "bonus bReduceDamageReturn," + (1 * effectLvs[10]) + ";"
 	+ "bonus bAspd,300;"
 	,86400,8,1;

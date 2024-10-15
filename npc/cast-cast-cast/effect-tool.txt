@@ -1,5 +1,17 @@
 bl_depth2,132,159,6	script	หินผนึกพลัง	10371,{
 OnMenu:
+	.@maxHpLv = effectLvs[9];
+	.@baseMaxHp =
+	(.@maxHpLv < 10) ? 1000
+	: (.@maxHpLv < 20) ? 2500
+	: (.@maxHpLv < 30) ? 4000
+	: (.@maxHpLv < 40) ? 5500
+	: (.@maxHpLv < 50) ? 7500
+	: (.@maxHpLv < 60) ? 9500
+	: (.@maxHpLv < 70) ? 11500
+	: (.@maxHpLv < 80) ? 14000
+	: (.@maxHpLv < 90) ? 16500
+	: 20000;
 	.@maxEffectLv = 100;
 	.@availablePoint = ((BaseLevel >= spendLv) ? (BaseLevel - spendLv) : 0);
 	mes "คุณมี Level: " + BaseLevel;
@@ -14,7 +26,7 @@ OnMenu:
 	+ ":[Lv. ^1c9311" + effectLvs[6] + "^000000] ร่ายเร็วขึ้น +^9300ff" + (1 * effectLvs[6]) + "%^000000"
 	+ ":[Lv. ^1c9311" + effectLvs[7] + "^000000] ลด Cooldown +^9300ff" + (1 * effectLvs[7]) + "%^000000"
 	+ ":[Lv. ^1c9311" + effectLvs[8] + "^000000] เคลื่อนที่เร็วขึ้น +^9300ff" + (1 * effectLvs[8]) + "%^000000"
-	+ ":[Lv. ^1c9311" + effectLvs[9] + "^000000] พลังชีวิต +^9300ff" + (1000 * effectLvs[9]) + "^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[9] + "^000000] พลังชีวิต +^9300ff" + (.@baseMaxHp * effectLvs[9]) + "^000000"
 	+ ":[Lv. ^1c9311" + effectLvs[10] + "^000000] กันการสะท้อน +^9300ff" + (1 * effectLvs[10]) + "%^000000"
 	+ ":Reset การผนึกพลัง") - 1);
 	if(.@effect == 11){
