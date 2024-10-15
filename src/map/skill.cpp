@@ -23806,7 +23806,7 @@ const std::string SkillDatabase::getDefaultLocation() {
 	return std::string(db_path) + "/skill_db.yml";
 }
 
-template<typename T, size_t S> bool SkillDatabase::parseNode(const std::string& nodeName, const std::string& subNodeName, const ryml::NodeRef& node, T (&arr)[S]) {
+template<typename T, size_t S> bool SkillDatabase::parseNode(const std::string& nodeName, const std::string& subNodeName, const ryml::NodeRef& node, T (&arr)[S], bool isSkipLinear) {
 	int32 value;
 	const auto& skNode = node[c4::to_csubstr(nodeName)];
 	if (!skNode.is_seq()) {
@@ -23838,6 +23838,7 @@ template<typename T, size_t S> bool SkillDatabase::parseNode(const std::string& 
 
 		size_t i = max_level, j;
 
+		if (!isSkipLinear) {
 		// Check for linear change with increasing steps until we reach half of the data acquired.
 		for (size_t step = 1; step <= i / 2; step++) {
 			int diff = arr[i - 1] - arr[i - step - 1];
@@ -23861,6 +23862,7 @@ template<typename T, size_t S> bool SkillDatabase::parseNode(const std::string& 
 			}
 
 			return true;
+		}
 		}
 
 		// Unable to determine linear trend, fill remaining array values with last value
@@ -24012,13 +24014,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 	}
 
-	if (this->nodeExists(node, "Range")) {
-		if (!this->parseNode("Range", "Size", node, skill->range))
-			return 0;
-	} else {
-		if (!exists)
-			memset(skill->range, 0, sizeof(skill->range));
-	}
+	memset(skill->range, 9, sizeof(skill->range));
 
 	if (this->nodeExists(node, "Hit")) {
 		std::string hit;
@@ -24041,7 +24037,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	}
 
 	if (this->nodeExists(node, "HitCount")) {
-		if (!this->parseNode("HitCount", "Count", node, skill->num))
+		if (!this->parseNode("HitCount", "Count", node, skill->num, true))
 			return 0;
 	} else {
 		if (!exists)
@@ -24121,7 +24117,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	skill->splash[12] = 15;
 
 	if (this->nodeExists(node, "ActiveInstance")) {
-		if (!this->parseNode("ActiveInstance", "Max", node, skill->maxcount))
+		if (!this->parseNode("ActiveInstance", "Max", node, skill->maxcount, true))
 			return 0;
 	} else {
 		if (!exists)
@@ -24129,7 +24125,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	}
 
 	if (this->nodeExists(node, "Knockback")) {
-		if (!this->parseNode("Knockback", "Amount", node, skill->blewcount))
+		if (!this->parseNode("Knockback", "Amount", node, skill->blewcount, true))
 			return 0;
 	} else {
 		if (!exists)
@@ -24175,7 +24171,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	memset(skill->fixed_cast, -1, sizeof(skill->fixed_cast));
 
 	if (this->nodeExists(node, "Duration1")) {
-		if (!this->parseNode("Duration1", "Time", node, skill->upkeep_time))
+		if (!this->parseNode("Duration1", "Time", node, skill->upkeep_time, true))
 			return 0;
 	} else {
 		if (!exists)
@@ -24183,7 +24179,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	}
 
 	if (this->nodeExists(node, "Duration2")) {
-		if (!this->parseNode("Duration2", "Time", node, skill->upkeep_time2))
+		if (!this->parseNode("Duration2", "Time", node, skill->upkeep_time2, true))
 			return 0;
 	} else {
 		if (!exists)
@@ -24235,7 +24231,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 
 		if (this->nodeExists(unitNode, "Layout")) {
-			if (!this->parseNode("Layout", "Size", unitNode, skill->unit_layout_type))
+			if (!this->parseNode("Layout", "Size", unitNode, skill->unit_layout_type, true))
 				return 0;
 		} else {
 			if (!exists)
@@ -24243,7 +24239,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 
 		if (this->nodeExists(unitNode, "Range")) {
-			if (!this->parseNode("Range", "Size", unitNode, skill->unit_range))
+			if (!this->parseNode("Range", "Size", unitNode, skill->unit_range, true))
 				return 0;
 		} else {
 			if (!exists)
