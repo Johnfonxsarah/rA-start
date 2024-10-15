@@ -168,6 +168,7 @@ function	script	RemovePlayDelegates	{
 
 function	script	ApplyEffect	{
 	bonus_script_clear 8;
+	.@maxHpLv = effectLvs[9];
 	.@baseMaxHp =
 	(.@maxHpLv < 10) ? 1000
 	: (.@maxHpLv < 20) ? 2500
