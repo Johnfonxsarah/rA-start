@@ -21,7 +21,7 @@ OnMenu:
 		menu "ยกเลิก",-,"ยืนยัน (Level -5, All Status -50, All Trait -25, สุ่มลืม Skill 1 อย่าง)",MenuResetEffect;
 		close;
 MenuResetEffect:
-		BaseLevel -= 5;
+		atcommand "@lvup -5";
 		statusup2 bStr,-50;
 		statusup2 bAgi,-50;
 		statusup2 bVit,-50;
