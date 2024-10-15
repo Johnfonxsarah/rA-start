@@ -20,7 +20,7 @@ OnMenu:
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
 	}
-	.@maxInput = ((.@availablePoint + effectLvs[.@effect]) > .@maxEffectLv) ? (.@availablePoint - .@maxEffectLv) : .@availablePoint;
+	.@maxInput = ((.@availablePoint + effectLvs[.@effect]) > .@maxEffectLv) ? (.@maxEffectLv - effectLvs[.@effect]) : .@availablePoint;
 	mes "โปรดระบุ 1~" + .@maxInput;
 	next;
 	input .@i;
