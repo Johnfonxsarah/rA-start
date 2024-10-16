@@ -102,7 +102,7 @@ Body:
     Name: Teleport Orb
     Type: DelayConsume
     Delay:
-      Duration: 3000
+      Duration: 1500
     Script:
       callfunc("TeleportOrb");
   - Id: 20000002
