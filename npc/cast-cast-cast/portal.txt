@@ -148,7 +148,6 @@ OnJoin:
 	: (tier <= 9) ? 3
 	: 2
 	;
-	spawnTimerMultiplier = 10;
 	
 	callfunc("ApplyCCCRules");
 	
@@ -217,7 +216,7 @@ OnSpawnMonster:
 	}
 	freeloop(0);
 	// Start next spawn timer
-	addtimer (1000 * rand(spawnTimerBaseMultiplier,spawnTimerMultiplier)),strnpcinfo(0) + "::OnSpawnMonster";
+	addtimer (1000 * spawnTimerBaseMultiplier),strnpcinfo(0) + "::OnSpawnMonster";
 	end;
 	
 OnMonsterDead:

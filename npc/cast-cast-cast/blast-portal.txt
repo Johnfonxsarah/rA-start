@@ -120,7 +120,7 @@ OnSpawnMonster:
 		setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
 		setunitdata .GID,UMOB_DAMAGETAKEN,rand(100);
 		setunitdata .GID,UMOB_RANK,rand(100);
-		setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(20);
+		setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(10,20);
 	}
 	freeloop(0);
 	
@@ -132,16 +132,16 @@ OnSpawnMonster:
 	.@mHP = cap_value(lastPlayMap * 100000,1000,INT_MAX);
 	setunitdata .GID,UMOB_MAXHP,.@mHP;
 	setunitdata .GID,UMOB_HP,.@mHP;
-	.@bothSpeed = rand(150,300);
+	.@bothSpeed = rand(100,200);
 	setunitdata .GID,UMOB_SPEED,.@bothSpeed;
 	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
 	setunitdata .GID,UMOB_DMGIMMUNE,0;
 	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
 	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
 	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-	setunitdata .GID,UMOB_DAMAGETAKEN,rand(50);
-	setunitdata .GID,UMOB_RANK,rand(50,100);
-	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(10,20);
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(25);
+	setunitdata .GID,UMOB_RANK,rand(75,100);
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(15,30);
 	
 	end;
 	
@@ -158,7 +158,7 @@ OnMonsterDead:
 	.@mHP = cap_value(lastPlayMap * 10000,1000,INT_MAX);
 	setunitdata .GID,UMOB_MAXHP,.@mHP;
 	setunitdata .GID,UMOB_HP,.@mHP;
-	.@bothSpeed = rand(200,500);
+	.@bothSpeed = rand(200,400);
 	setunitdata .GID,UMOB_SPEED,.@bothSpeed;
 	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
 	setunitdata .GID,UMOB_DMGIMMUNE,0;
@@ -167,7 +167,7 @@ OnMonsterDead:
 	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
 	setunitdata .GID,UMOB_DAMAGETAKEN,rand(100);
 	setunitdata .GID,UMOB_RANK,rand(100);
-	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(20);
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(10,20);
 	
 	end;
 	
@@ -184,16 +184,16 @@ OnBossDead:
 	.@mHP = cap_value(lastPlayMap * 100000,1000,INT_MAX);
 	setunitdata .GID,UMOB_MAXHP,.@mHP;
 	setunitdata .GID,UMOB_HP,.@mHP;
-	.@bothSpeed = rand(150,300);
+	.@bothSpeed = rand(100,200);
 	setunitdata .GID,UMOB_SPEED,.@bothSpeed;
 	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
 	setunitdata .GID,UMOB_DMGIMMUNE,0;
 	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
 	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
 	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-	setunitdata .GID,UMOB_DAMAGETAKEN,rand(50);
-	setunitdata .GID,UMOB_RANK,rand(50,100);
-	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(10,20);
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(25);
+	setunitdata .GID,UMOB_RANK,rand(75,100);
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(15,30);
 	
 	announce strcharinfo(0) + " °”®—¥‡®È“·ÀËß¡πµÏ¥”! (BLAST) „π™—Èπ " + lastPlayMap,bc_all,0xed4b4b,0,25;
 	
