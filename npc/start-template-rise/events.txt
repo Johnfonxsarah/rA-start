@@ -97,7 +97,7 @@ OnPCLoginEvent:
 	if(dressSlot4)
 	setlook LOOK_ROBE,dressSlot4;
 
-	if(isConfirm && (strcharinfo(3) != "bl_depth2"))
+	if(isConfirm && !((strcharinfo(3) == "bl_depth2") || (strcharinfo(3) == "nakhyang")))
 	addtimer 100,strnpcinfo(0) + "::OnLoadConfirm";
 	else if(!isConfirm)
 	atcommand "@speed 1";
