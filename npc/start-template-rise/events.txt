@@ -5,8 +5,8 @@ OnPCDieEvent:
 	callfunc("RemovePlayDelegates");
 	
 	// Map clean up if alone in map
-	if(getusers(0) <= 1)
-	killmonster strcharinfo(3),"เล่นเกม::OnMonsterDead",0;
+	callfunc("MapCleanUp");
+	
 	// Status & Trait Penalties
 	.@str = readparam(bStr);
 	.@agi = readparam(bAgi);
@@ -72,6 +72,8 @@ OnPCDieEvent:
 	BaseLevel--;
 
 	callfunc("ApplyCCCRules");
+	
+	addtimer 100,strnpcinfo(0) + "::OnLoadConfirm";
 	
 	end;
 	
@@ -170,6 +172,7 @@ OnLoad:
 		progressbar "",(strcharinfo(3) == "guild_vs1") ? 4 : 2;
 	}
 OnLoadConfirm:
+	callfunc("MapCleanUp");
 	warp "Save",0,0;
 	end;
 }

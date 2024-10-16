@@ -124,6 +124,7 @@ function	script	ReturnOrb	{
 	specialeffect2 35;
 	if(!IsSkipTickMap())
 	progressbar "",2;
+	callfunc("MapCleanUp");
 	warp "Save",0,0;
 	return;
 }
@@ -215,5 +216,24 @@ function	script	ApplyEffect	{
 	+ "bonus bAspd,300;"
 	,86400,8,1;*/
 	percentheal 100,100;
+	return;
+}
+
+function	script	MapCleanUp	{
+	if(getusers(0) <= 1){
+		killmonster strcharinfo(3),"เล่นเกม::OnMonsterDead",0;
+		killmonster strcharinfo(3),"เล่นโหมด BLAST::OnMonsterDead",0;
+
+		if(isBlast){
+			$blastPlayingMaps[lastPlayMap] = 0;
+			$isBlastSpawnMaps[lastPlayMap] = 0;
+			$gidBossBlastMaps[lastPlayMap] = 0;
+		}
+		else{
+			$playingMaps[lastPlayMap] = 0;
+			$isBossMaps[lastPlayMap] = 0;
+			$gidBossMaps[lastPlayMap] = 0;
+		}
+	}
 	return;
 }
