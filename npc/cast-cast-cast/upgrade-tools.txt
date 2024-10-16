@@ -273,7 +273,7 @@ MenuContinue:
 	skill $offensiveSkillIds[skillSlots[.@slot]],.@level,3;
 	mes "ช่องที่ " + (.@slot + 1) + " [^1c9311" + $offensiveSkillDescs$[skillSlots[.@slot]] + "^000000]";
 	next;
-	menu "พอใจแล้ว",-,"สุ่มใหม่อีกที",MenuContinue,"เลือกช่องใหม่",MenuSkillSlot;
+	menu "สุ่มใหม่อีกที",MenuContinue,"พอใจแล้ว",-,"เลือกช่องใหม่",MenuSkillSlot;
 	close;
 	
 MenuExchangePoints:

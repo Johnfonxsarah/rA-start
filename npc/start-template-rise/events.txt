@@ -21,9 +21,9 @@ OnPCDieEvent:
 	.@con = readparam(bCon);
 	.@crt = readparam(bCrt);
 	.@minStatus = 10;
-	.@lostStatus = 5;
+	.@lostStatus = 5 * tier;
 	.@minTrait = 3;
-	.@lostTrait = 2;
+	.@lostTrait = 2 * tier;
 	if(.@str > .@minStatus)
 	statusup2 bStr,-.@lostStatus;
 	if(.@agi > .@minStatus)
