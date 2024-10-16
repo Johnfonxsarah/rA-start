@@ -130,10 +130,6 @@ function	script	ReturnOrb	{
 }
 
 function	script	TeleportOrb	{
-	if(!isConfirm){
-		message strcharinfo(0),"สามารถใช้ได้ เมื่อเข้าไปยังในเกม CAST CAST CAST";
-		end;
-	}	
 	specialeffect2 780;
 	if(!IsSkipTickMap())
 	progressbar "",1;
