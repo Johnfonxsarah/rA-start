@@ -1,24 +1,8 @@
-// Producer
-1@vrsn,113,72,5	script	มิมิ	2001,5,5,{
-	mes "ยินดีต้อนรับสู่ร้านเกม CAST CAST CAST คะ!";
-	next;
-	mes "ทางเราแนะนำให้ไปที่ ห้องเปลี่ยนโฉม เพื่อเปลี่ยนรูปลักษณ์ภายนอกของตัวละคร ไม่ให้ซ้ำใครเสียก่อนนะคะ";
-	next;
-	mes "จากนั้นค่อยไปยัง ห้องแนะนำ เพื่อเตรียมเล่นเกมค่ะ";
-	next;
-	mes "ขอให้มีความสุข ในการเล่นเกมที่ร้านของเรานะคะ";
-	close;
-	
-OnTouch:
-	if (.talkDelay > gettimetick(2))
-	end;
-	npctalk "~ CAST CAST CAST ยินดีต้อนรับคะ! ลูกค้าสามารถ เปลี่ยนโฉมตัวเองได้ที่ ห้องเปลี่ยนโฉม เมื่อพร้อมแล้ว เข้าห้องแนะนำได้เลยค่ะ ~";
-	.talkDelay = gettimetick(2) + 3;
-	end;
-}
-
 // Dress Maker
-1@vrsn,133,164,4	script	บารอค	509,{
+bl_depth2,137,115,8	script	บารอค	509,{
+	mes "^d32323โปรดระวังสำหรับผู้เล่นเก่า^000000 เมื่อเปลี่ยนชุดใหม่แล้ว Status และ Trait ที่มีอยู่อาจจะหายไปได้";
+	next;
+	menu "ยกเลิก",MenuClose,"เปลี่ยน",-;
 	atcommand "@job";
 	mes "โปรดดูเลขชุด ในช่องสนทนา";
 	input .@jobId;
@@ -32,13 +16,16 @@ OnTouch:
 	specialeffect2 435;
 	end;
 	
+MenuClose:
+	close;
+	
 OnInit:
 	waitingroom "เปลี่ยนชุด",0;
 	end;
 }
 
 // Accessory Creator
-1@vrsn,151,155,4	script	มิ้น	10296,{
+bl_depth2,139,122,5	script	มิ้น	10296,{
 	.@slot = select("เปลี่ยนเครื่องประดับ ช่องที่ 1:เปลี่ยนเครื่องประดับ ช่องที่ 2:เปลี่ยนเครื่องประดับ ช่องที่ 3:เปลี่ยนเครื่องประดับ ช่องที่ 4");	
 
 OnMenu:
@@ -75,29 +62,24 @@ OnInit:
 }
 
 // Project Manager
-1@vrsn,90,184,4	script	เอวา	10078,5,5,{
-	mes "ก่อนที่จะรับ ทางเราขอแนะนำอะไรเล็ก ๆ น้อยนะคะ";
+bl_depth2,139,110,5	script	เอวา	10078,{
+	mes "^d32323โปรดระวังสำหรับผู้เล่นเก่า^000000 เมื่อเลือก Status เริ่มต้นแล้ว แล้ว Status และ Trait จะหายไป";
 	next;
-	mes "เมื่อคุณหมดสติ\n^d32323• All Status จะถูกลดลง 5 (เมื่อ Status สูงกว่า 10)\n• All Trait จะถูกลดลง 1 (เมื่อ Trait สูงกว่า 3)\n• Skill จะหายไป 1 Skill (เมื่อมี Skill มากกว่า 1 Skill)\n• Level จะถูกลดลง 1 (เมื่อ Level มากกว่า 1)^000000\nมันฟังดูแย่.. แต่ก็ดีกว่าเล่นใหม่ตั้งแต่เริ่มใช่ไหมละ?";
-	next;
-	mes "อย่างไรก็ตาม คุณก็ยังสามารถ Farm เพื่อให้เก่งขึ้นได้นะ";
-	next;
-	mes "เอาล่ะ มาเลือก Status เริ่มต้นกัน";
-	next;
+	menu "ยกเลิก",MenuClose,"เลือก Status และ Trait เริ่มต้น",-;
 	.@statusIndex = select("STR:AGI:VIT:INT:DEX:LUK");
 	.@traitIndex = select("POW:STA:WIS:SPL:CON:CRT");
-	statusup2 bStr,-100;
-	statusup2 bAgi,-100;
-	statusup2 bVit,-100;
-	statusup2 bInt,-100;
-	statusup2 bDex,-100;
-	statusup2 bLuk,-100;
-	traitstatusup2 bPow,-100;
-	traitstatusup2 bSta,-100;
-	traitstatusup2 bWis,-100;
-	traitstatusup2 bSpl,-100;
-	traitstatusup2 bCon,-100;
-	traitstatusup2 bCrt,-100;
+	statusup2 bStr,-1000;
+	statusup2 bAgi,-1000;
+	statusup2 bVit,-1000;
+	statusup2 bInt,-1000;
+	statusup2 bDex,-1000;
+	statusup2 bLuk,-1000;
+	traitstatusup2 bPow,-1000;
+	traitstatusup2 bSta,-1000;
+	traitstatusup2 bWis,-1000;
+	traitstatusup2 bSpl,-1000;
+	traitstatusup2 bCon,-1000;
+	traitstatusup2 bCrt,-1000;
 	statusup2
 	(.@statusIndex == 1) ? bStr
 	: (.@statusIndex == 2) ? bAgi
@@ -118,37 +100,19 @@ OnInit:
 	specialeffect2 444;
 	close;
 	
-OnTouch:
-	if (.talkDelay > gettimetick(2))
-	end;
-	npctalk "~ สวัสดีค่า! มารับ Status และ Trait เริ่มต้นไปด้วยน้า ~";
-	.talkDelay = gettimetick(2) + 3;
-	end;
-}
-
-// Game Designer
-1@vrsn,34,142,6	script	วีล	2000,5,5,{
-	mes "ก่อนอื่นเลยก็ขอบคุณมาก ๆ ครับ";
-	next;
-	mes "ระบบเกมของเราจะเป็นการให้ผู้เล่น ^d32323ใช้การร่าย Skill แทนการโจมตีทุกชนิด^000000 คุณอาจต้องปรับตัวเล็กน้อย แต่เดี๋ยวคุณก็จะเข้าใจมันได้อย่างแน่นอน";
-	next;
-	mes "โดยความพิเศษของเกมคือ\n^1c9311ยิ่ง Level Skill สูงจะยิ่งทำให้ Skill ร่ายได้กว้างขึ้น^000000\nไม่ว่าจะเป็น Skill อะไรก็ตาม\nลองนึกภาพตัวเองใช้ Bash แล้ว Poring ระเบิดยกจอสิ! วู้วววว";
-	next;
-	mes "นั่นเป็นเพียงส่วนหนึ่ง ที่เราอยากจะนำเสนอ ที่เหลือระบบเกมของเราจะค่อย ๆ สอนคุณเอง เอาล่ะ ไปลุยได้เลยครับ";
+MenuClose:
 	close;
 	
-OnTouch:
-	if (.talkDelay > gettimetick(2))
-	end;
-	npctalk "~ สวัสดีครับ! สนใจฟังระบบที่น่าสนใจ ของเกมเราไหมครับ? ~";
-	.talkDelay = gettimetick(2) + 3;
+OnInit:
+	waitingroom "รับ Status และ Trait เริ่มต้น",0;
 	end;
 }
 
 // Trainer
-1@vrsn,62,185,6	script	บ๊อบ	10494,5,5,{
-	mes "ลองเลือก Skill แล้วทดลองดูน้าา ชอบอันหนายย..";
+bl_depth2,144,110,3	script	บ๊อบ	10494,{
+	mes "^d32323โปรดระวังสำหรับผู้เล่นเก่า^000000 เมื่อเลือก Skill เริ่มต้นแล้ว แล้ว Skill ช่อง 1 จะหายไป";
 	next;
+	menu "ยกเลิก",MenuClose,"เลือก Skill เริ่มต้น",-;
 	.@index = select("Bash:Fire Ball:Mammonite:Holy Light:Envenom:Double Strafe:Heel Drop:Shadow Slash:Disarm:Bite");
 	if(skillSlots[0] != 99999)
 	skill $offensiveSkillIds[skillSlots[0]],0,3;
@@ -158,66 +122,10 @@ OnTouch:
 	specialeffect2 456;
 	close;
 	
-OnTouch:
-	if (.talkDelay > gettimetick(2))
-	end;
-	npctalk "~ มารับ Skill กับป๋มก่อนน ~";
-	.talkDelay = gettimetick(2) + 3;
-	end;
-}
-
-// Confirmer
-1@vrsn,202,209,1	script	ไจฟูรุ	10173,5,5,{
-	atcommand "@speed 150";
-	mes "นี่คือห้องสุดท้ายก่อนที่จะเข้าสู่เกมแล้วนะ";
-	next;
-	mes "ถ้าต้องการเปลี่ยนอะไรบอกหนูได้เลย!";
-	next;
-	menu "ยกเลิก",-,"ยืนยัน",MenuConfirm,"เลือกใหม่",MenuReset;
+MenuClose:
 	close;
-	
-MenuConfirm:
-	mes "ลุยยยยยย!";
-	close2;
-	isConfirm = 1;
-	savepoint "bl_depth2",142,138,5,5;
-	warp "SavePoint",142,138;
-	end;
-	
-MenuReset:
-	warp strnpcinfo(4),114,56;
-	close;
-	
-OnTouch:
-	if (.talkDelay > gettimetick(2))
-	end;
-	npctalk "~ พร้อมเล่นแล้วสินะ! ~";
-	.talkDelay = gettimetick(2) + 3;
-	end;
-}
-
-// Training Ground
--	script	PreparationRoomTestMonster	-1,{
-	end;
-	
-OnRespawn:
-	areamonster "1@vrsn",37,208,52,180,"--ja--",1002,1,strnpcinfo(0) + "::OnRespawn";
-	end;
 	
 OnInit:
-	areamonster "1@vrsn",37,208,52,180,"--ja--",1002,30,strnpcinfo(0) + "::OnRespawn";
+	waitingroom "รับ Skill เริ่มต้น",0;
 	end;
 }
-
-// Warp - Instruction Room
-1@vrsn,94,97,0	warp	PR_WARP_01	1,1,1@vrsn,94,102
-1@vrsn,94,100,0	warp	PR_WARP_02	1,1,1@vrsn,94,95
-// Warp - Dress Room
-1@vrsn,134,97,0	warp	PR_WARP_03	1,1,1@vrsn,134,102
-1@vrsn,134,100,0	warp	PR_WARP_04	1,1,1@vrsn,134,94
-1@vrsn,134,133,0	warp	PR_WARP_05	1,1,1@vrsn,134,139
-1@vrsn,134,136,0	warp	PR_WARP_06	1,1,1@vrsn,134,130
-// Warp - Confirmation
-1@vrsn,180,216,0	warp	PR_WARP_07	1,1,1@vrsn,195,216
-1@vrsn,190,216,0	warp	PR_WARP_08	1,1,1@vrsn,175,216
-1@vrsn,205,205,0	warp	PR_WARP_09	1,1,1@vrsn,210,205

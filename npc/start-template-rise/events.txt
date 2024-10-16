@@ -78,8 +78,8 @@ OnPCDieEvent:
 	end;
 	
 OnPCLoginEvent:
-	if(blastLv < 1)
-	blastLv = 1;
+	
+	
 
 	if(!isSkillSetup){
 		for(.@i = 0; .@i < 9; .@i++)
@@ -102,13 +102,17 @@ OnPCLoginEvent:
 	if(dressSlot4)
 	setlook LOOK_ROBE,dressSlot4;
 
-	if(isConfirm && !((strcharinfo(3) == "bl_depth2") || (strcharinfo(3) == "nakhyang")))
+	if(!((strcharinfo(3) == "bl_depth2") || (strcharinfo(3) == "nakhyang")))
 	addtimer 100,strnpcinfo(0) + "::OnLoadConfirm";
-	else if(!isConfirm)
-	atcommand "@speed 1";
 	
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
-
+	
+	if(blastLv < 1){
+		blastLv = 1;
+		savepoint "bl_depth2",139,89;
+		warp "SavePoint",139,89;
+	}
+	
 	end;
 	
 OnPCLogoutEvent:
