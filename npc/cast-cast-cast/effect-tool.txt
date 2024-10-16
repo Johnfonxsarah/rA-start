@@ -1,4 +1,4 @@
-bl_depth2,132,159,6	script	À‘πºπ÷°æ≈—ß	10371,{
+bl_depth2,138,159,6	script	À‘πºπ÷°æ≈—ß	10371,{
 OnMenu:
 	.@maxHpLv = effectLvs[9];
 	.@baseMaxHp =

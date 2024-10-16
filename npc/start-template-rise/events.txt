@@ -76,6 +76,9 @@ OnPCDieEvent:
 	end;
 	
 OnPCLoginEvent:
+	if(blastLv < 1)
+	blastLv = 1;
+
 	if(!isSkillSetup){
 		for(.@i = 0; .@i < 9; .@i++)
 		skillSlots[.@i] = 99999;

@@ -1,0 +1,95 @@
+bl_depth2,132,159,6	script	หินผนึกพลัง BLAST	10371,{
+OnMenu:
+	.@maxHpLv = blastEffectLvs[9];
+	.@baseMaxHp =
+	(.@maxHpLv < 10) ? 1000
+	: (.@maxHpLv < 20) ? 2500
+	: (.@maxHpLv < 30) ? 4000
+	: (.@maxHpLv < 40) ? 5500
+	: (.@maxHpLv < 50) ? 7500
+	: (.@maxHpLv < 60) ? 9500
+	: (.@maxHpLv < 70) ? 11500
+	: (.@maxHpLv < 80) ? 14000
+	: (.@maxHpLv < 90) ? 16500
+	: 20000;
+	.@maxEffectLv = 100;
+	.@availablePoint = ((blastLv >= blastSpendLv) ? (blastLv - blastSpendLv) : 0);
+	mes "คุณมี BLAST Level: " + blastLv;
+	mes "สามารถเพิ่มพลังได้อีก: " + .@availablePoint + " ขั้น";
+	next;
+	.@effect = (select("[Lv. ^1c9311" + blastEffectLvs[0] + "^000000] โจมตีกายภาพ +^9300ff" + (100 * blastEffectLvs[0]) + "%^000000"
+	+ ":[Lv. ^1c9311" + blastEffectLvs[1] + "^000000] โจมตีเวทย์ +^9300ff" + (100 * blastEffectLvs[1]) + "%^000000"
+	+ ":[Lv. ^1c9311" + blastEffectLvs[2] + "^000000] เจาะ DEF +^9300ff" + (1 * blastEffectLvs[2]) + "%^000000"
+	+ ":[Lv. ^1c9311" + blastEffectLvs[3] + "^000000] เจาะ MDEF +^9300ff" + (1 * blastEffectLvs[3]) + "%^000000"
+	+ ":[Lv. ^1c9311" + blastEffectLvs[4] + "^000000] กันกายภาพ +^9300ff" + (1 * blastEffectLvs[4]) + "%^000000"
+	+ ":[Lv. ^1c9311" + blastEffectLvs[5] + "^000000] กันเวทย์ +^9300ff" + (1 * blastEffectLvs[5]) + "%^000000"
+	+ ":[Lv. ^1c9311" + blastEffectLvs[6] + "^000000] ร่ายเร็วขึ้น +^9300ff" + (1 * blastEffectLvs[6]) + "%^000000"
+	+ ":[Lv. ^1c9311" + blastEffectLvs[7] + "^000000] ลด Cooldown +^9300ff" + (1 * blastEffectLvs[7]) + "%^000000"
+	+ ":[Lv. ^1c9311" + blastEffectLvs[8] + "^000000] เคลื่อนที่เร็วขึ้น +^9300ff" + (1 * blastEffectLvs[8]) + "%^000000"
+	+ ":[Lv. ^1c9311" + blastEffectLvs[9] + "^000000] พลังชีวิต +^9300ff" + (.@baseMaxHp * blastEffectLvs[9]) + "^000000"
+	+ ":[Lv. ^1c9311" + blastEffectLvs[10] + "^000000] กันการสะท้อน +^9300ff" + (1 * blastEffectLvs[10]) + "%^000000"
+	+ ":Reset การผนึกพลัง") - 1);
+	if(.@effect == 11){
+		menu "ยกเลิก",-,"ยืนยัน (Level -50, All Status -500, All Trait -250, สุ่มลืม Skill 1 อย่าง)",MenuResetEffect;
+		close;
+MenuResetEffect:
+		atcommand "@lvup -50";
+		statusup2 bStr,-500;
+		statusup2 bAgi,-500;
+		statusup2 bVit,-500;
+		statusup2 bInt,-500;
+		statusup2 bDex,-500;
+		statusup2 bLuk,-500;
+		traitstatusup2 bPow,-250;
+		traitstatusup2 bSta,-250;
+		traitstatusup2 bWis,-250;
+		traitstatusup2 bSpl,-250;
+		traitstatusup2 bCon,-250;
+		traitstatusup2 bCrt,-250;
+		// Skill Penalty (Remove 1 Skill, Minimum 1 skill left)
+		.@learnSkillCount = 0;
+		freeloop(1);
+		for(.@i = 0; .@i < 9; .@i++){
+			if(skillSlots[.@i] != 99999)
+			.@learnSkillCount++;
+		}
+		if(.@learnSkillCount > 1){
+			.@isDoneRemoveSkill = 0;
+			while(!.@isDoneRemoveSkill){
+				.@randomLostSkillSlot = rand(9);
+				if(skillSlots[.@randomLostSkillSlot] != 99999){
+					skill $offensiveSkillIds[skillSlots[.@randomLostSkillSlot]],0,3;
+					skillSlots[.@randomLostSkillSlot] = 99999;
+					.@isDoneRemoveSkill = 1;
+				}
+			}
+		}
+		freeloop(0);
+		for(.@i = 0; .@i < 11; .@i++)
+		blastEffectLvs[.@i] = 0;
+		blastSpendLv = 0;
+		callfunc("ApplyCCCRules");
+		close;
+	}
+	if((.@availablePoint <= 0) || (blastEffectLvs[.@effect] >= .@maxEffectLv)){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	.@maxInput = ((.@availablePoint + blastEffectLvs[.@effect]) > .@maxEffectLv) ? (.@maxEffectLv - blastEffectLvs[.@effect]) : .@availablePoint;
+	mes "โปรดระบุ 1~" + .@maxInput;
+	next;
+	input .@i;
+	if((.@i <= 0) || (.@i > .@maxInput)){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	blastEffectLvs[.@effect] += .@i;
+	blastSpendLv += .@i;
+	callfunc("ApplyEffect");
+	specialeffect2 734;
+	goto OnMenu;
+	
+OnInit:
+	waitingroom "เพิ่งพลัง BLAST (ถาวร)",0;
+	end;
+}

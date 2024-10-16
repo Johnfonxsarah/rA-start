@@ -1,4 +1,4 @@
-bl_depth2,138,159,6	script	เครื่องเสริมแกร่ง	10545,{
+bl_depth2,145,159,6	script	เครื่องเสริมแกร่ง	10545,{
 	menu
 	"สุ่มเพิ่ม Status",MenuBody,
 	"สุ่มเพิ่ม Trait",MenuTrait,

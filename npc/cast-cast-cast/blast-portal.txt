@@ -1,0 +1,223 @@
+bl_depth2,145,137,5	script	เล่นโหมด BLAST	10558,{
+	callfunc("RemovePlayDelegates");
+	
+	percentheal 100,100;
+	
+	mes "วิธีเล่น";
+	mes "• กำจัด Boss จะได้รับ Blast Points เอาไว้ใช้ ผนึกพลัง พิเศษได้";
+	mes "---";
+	mes "เลือกชั้นที่ต้องการเข้าเล่น";
+	mes "โปรดระบุ ^d323231~" + blastLv + "^000000";
+	next;
+	input .@lv;
+	if(InputOutOfRange(.@lv,blastLv)){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	
+	freeloop(1);
+	
+	// Check map index existed on those level
+	// Just join
+	if($blastPlayingMaps[.@lv])
+	goto OnJoin;
+	
+	// Random the map
+	.@isFoundSameMap = 1;
+	.@retry = 300;
+	while(.@isFoundSameMap && (.@retry > 0)){
+		// Random map index
+		.@mapIndex = rand(getarraysize($maps$));
+		.@isContinue = 0;
+		// Loop all level and check map available
+		for(.@i = 0; .@i < getarraysize($playingMaps); .@i++){
+			// Error because found same map index
+			if(.@mapIndex == $playingMaps[.@i]){
+				.@isContinue = 1;
+				break;
+			}
+		}
+		// Loop all level and check map available
+		for(.@i = 0; .@i < getarraysize($blastPlayingMaps); .@i++){
+			// Error because found same map index
+			if(.@mapIndex == $blastPlayingMaps[.@i]){
+				.@isContinue = 1;
+				break;
+			}
+		}
+		// Good! Found available map now
+		if(!.@isContinue)
+		.@isFoundSameMap = 0;
+	}
+	// Error..
+	if(.@retry <= 0){
+		mes "โปรดรอสักครู่ ขณะนี้ Map เต็ม";
+		close;
+	}
+	// Set playing map index
+	$blastPlayingMaps[.@lv] = .@mapIndex;
+OnJoin:
+	// Remember playing floor
+	lastPlayMap = .@lv;
+	// Remember last map name
+	lastPlayMap$ = $maps$[$blastPlayingMaps[.@lv]];
+	
+	freeloop(0);
+	
+	callfunc("ApplyCCCRules");
+	
+	setpcblock PCBLOCK_ALL,true;
+	setpcblock PCBLOCK_MOVE,false;
+	
+	isBlast = 1;
+	
+	// Warp now
+	warp $maps$[$blastPlayingMaps[lastPlayMap]],0,0;
+	// About to start spawn monster around player
+	hintTimer = 3;
+	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";
+	callsub OnSpawnMonster;
+	close;
+	
+OnSpawnMonsterHint:
+	getunitdata $gidBossBlastMaps[lastPlayMap],.@uds;
+	viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
+	
+	if(hintTimer){
+		announce "จะควบคุมตัวละครได้ภายใน " + hintTimer + " วินาที",bc_self,0x9e978b,0,25;
+		hintTimer--;
+		addtimer 1000,strnpcinfo(0) + "::OnSpawnMonsterHint";
+	}
+	else{
+		setpcblock PCBLOCK_ALL,false;
+		setpcblock PCBLOCK_ATTACK,true;
+	}
+	end;
+	
+OnSpawnMonster:
+	if($isBlastSpawnMaps[lastPlayMap])
+	end;
+
+	$isBlastSpawnMaps[lastPlayMap] = 1;
+	
+	.@spawnAmount = 150;
+	freeloop(1);
+	for(.@i = 0; .@i < .@spawnAmount; .@i++){
+		// Spawn
+		.@randTier = rand(1,10);
+		.@arraySize = getarraysize(getd("$attackableMonsterTier" + .@randTier + "Ids"));
+		monster $maps$[$blastPlayingMaps[lastPlayMap]],0,0,"สาวกมนต์ดำ",getd("$attackableMonsterTier" + .@randTier + "Ids[" + rand(.@arraySize) + "]"),1,strnpcinfo(0) + "::OnMonsterDead";
+		.GID = $@mobid[0];
+		.@mHP = cap_value(lastPlayMap * 10000,1000,INT_MAX);
+		setunitdata .GID,UMOB_MAXHP,.@mHP;
+		setunitdata .GID,UMOB_HP,.@mHP;
+		.@bothSpeed = rand(200,400);
+		setunitdata .GID,UMOB_SPEED,.@bothSpeed;
+		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+		setunitdata .GID,UMOB_DMGIMMUNE,0;
+		setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
+		setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
+		setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
+		setunitdata .GID,UMOB_DAMAGETAKEN,rand(100);
+		setunitdata .GID,UMOB_RANK,rand(100);
+		setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(20);
+	}
+	freeloop(0);
+	
+	// Spawn Boss
+	.@arraySize = getarraysize($mvpIds);
+	monster $maps$[$blastPlayingMaps[lastPlayMap]],0,0,"เจ้าแห่งมนต์ดำ",$mvpIds[rand(.@arraySize)],1,strnpcinfo(0) + "::OnBossDead",Size_Large;
+	.GID = $@mobid[0];
+	$gidBossBlastMaps[lastPlayMap] = .GID;
+	.@mHP = cap_value(lastPlayMap * 100000,1000,INT_MAX);
+	setunitdata .GID,UMOB_MAXHP,.@mHP;
+	setunitdata .GID,UMOB_HP,.@mHP;
+	.@bothSpeed = rand(150,300);
+	setunitdata .GID,UMOB_SPEED,.@bothSpeed;
+	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+	setunitdata .GID,UMOB_DMGIMMUNE,0;
+	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
+	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
+	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(50);
+	setunitdata .GID,UMOB_RANK,rand(50,100);
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(10,20);
+	
+	end;
+	
+OnMonsterDead:
+	// Check map still same otherwise stop it. || Player not attached || Player dead
+	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || isdead())
+	end;
+
+	// Spawn
+	.@randTier = rand(1,10);
+	.@arraySize = getarraysize(getd("$attackableMonsterTier" + .@randTier + "Ids"));
+	monster strcharinfo(3),0,0,"สาวกมนต์ดำ",getd("$attackableMonsterTier" + .@randTier + "Ids[" + rand(.@arraySize) + "]"),1,strnpcinfo(0) + "::OnMonsterDead";
+	.GID = $@mobid[0];
+	.@mHP = cap_value(lastPlayMap * 10000,1000,INT_MAX);
+	setunitdata .GID,UMOB_MAXHP,.@mHP;
+	setunitdata .GID,UMOB_HP,.@mHP;
+	.@bothSpeed = rand(200,500);
+	setunitdata .GID,UMOB_SPEED,.@bothSpeed;
+	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+	setunitdata .GID,UMOB_DMGIMMUNE,0;
+	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
+	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
+	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(100);
+	setunitdata .GID,UMOB_RANK,rand(100);
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(20);
+	
+	end;
+	
+OnBossDead:
+	// Check map still same otherwise stop it. || Player not attached || Player dead
+	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || isdead())
+	end;
+
+	// Spawn Boss
+	.@arraySize = getarraysize($mvpIds);
+	monster strcharinfo(3),0,0,"เจ้าแห่งมนต์ดำ",$mvpIds[rand(.@arraySize)],1,strnpcinfo(0) + "::OnBossDead",Size_Large;
+	.GID = $@mobid[0];
+	$gidBossBlastMaps[lastPlayMap] = .GID;
+	.@mHP = cap_value(lastPlayMap * 100000,1000,INT_MAX);
+	setunitdata .GID,UMOB_MAXHP,.@mHP;
+	setunitdata .GID,UMOB_HP,.@mHP;
+	.@bothSpeed = rand(150,300);
+	setunitdata .GID,UMOB_SPEED,.@bothSpeed;
+	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+	setunitdata .GID,UMOB_DMGIMMUNE,0;
+	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
+	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
+	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(50);
+	setunitdata .GID,UMOB_RANK,rand(50,100);
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(10,20);
+	
+	announce strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! (BLAST) ในชั้น " + lastPlayMap,bc_all,0xed4b4b,0,25;
+	
+	if(blastLv <= lastPlayMap){
+		blastLv++;
+		dispbottom "BLAST Level: " + blastLv;
+	}
+
+	addtimer 2000,strnpcinfo(0) + "::OnEnd";
+	end;
+	
+OnEnd:
+	warp "Save",0,0;
+	end;
+	
+OnInit:
+	// Clean all BLAST playing map
+	deletearray $blastPlayingMaps[0],getarraysize($blastPlayingMaps);
+	// Clean all BLAST spawn
+	deletearray $isBlastSpawnMaps[0],getarraysize($isBlastSpawnMaps);
+	// Clean all BLAST boss GID
+	deletearray $gidBossBlastMaps[0],getarraysize($gidBossBlastMaps);
+	
+	waitingroom "โหมด BLAST",0;
+	
+	end;
+}
