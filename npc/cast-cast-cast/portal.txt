@@ -170,6 +170,9 @@ OnSpawnMonsterHint:
 		if(playerattached() && $isBossMaps[lastPlayMap]){
 			getunitdata $gidBossMaps[lastPlayMap],.@uds;
 			viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
+			// Get available cell to warp to boss
+			getfreecell .@cMap$,.@rX,.@rY,.@uds[UMOB_X],.@uds[UMOB_Y],rand(5),rand(5);
+			warp strcharinfo(3),.@rX,.@rY;
 		}
 		
 		end;
