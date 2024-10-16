@@ -28,8 +28,8 @@ MenuStart:
 	// Check map index existed on those level
 	if($playingMaps[.@lv]){
 		// Check user first
-		if(getmapusers($maps$[$playingMaps[lastPlayMap]]) <= 0){
-			killmonster $maps$[$playingMaps[lastPlayMap]],"เล่นเกม::OnMonsterDead",0;
+		if(getmapusers($maps$[$playingMaps[.@lv]]) <= 0){
+			killmonster $maps$[$playingMaps[.@lv]],"เล่นเกม::OnMonsterDead",0;
 			
 			$playingMaps[.@lv] = 0;
 			$isBossMaps[.@lv] = 0;

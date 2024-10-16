@@ -20,8 +20,8 @@ bl_depth2,145,137,5	script	เล่นโหมด BLAST	10558,{
 	// Check map index existed on those level
 	if($blastPlayingMaps[.@lv]){
 		// Check user first
-		if(getmapusers($maps$[$blastPlayingMaps[lastPlayMap]]) <= 0){
-			killmonster $maps$[$blastPlayingMaps[lastPlayMap]],"เล่นเกม::OnMonsterDead",0;
+		if(getmapusers($maps$[$blastPlayingMaps[.@lv]]) <= 0){
+			killmonster $maps$[$blastPlayingMaps[.@lv]],"เล่นเกม::OnMonsterDead",0;
 			
 			$blastPlayingMaps[.@lv] = 0;
 			$isBlastSpawnMaps[.@lv] = 0;
