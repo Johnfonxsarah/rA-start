@@ -3,12 +3,11 @@ bl_depth2,141,165,5	script	ป้าย#BLASTER RANK	857,{
 	mes "BLASTER RANK";
 	for(.@i = 0; .@i < getarraysize(.@playerCIDs); .@i++){
 		query_sql("SELECT `char`.`name` FROM `char` WHERE `char`.char_id = '" + .@playerCIDs[.@i] + "'",.@name$);
-	mes (.@i + 1) + ".) " + .@name$ + " (" + .@values[.@i] + ")";
+		mes (.@i + 1) + ".) " + .@name$ + " (" + .@values[.@i] + ")";
 	}
 	close;
 
 OnInit:
 	waitingroom strnpcinfo(2),0;
-	debugmes "Hi";
 	end;
 }

@@ -120,7 +120,7 @@ OnSpawnMonster:
 		setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
 		setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
 		setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-		setunitdata .GID,UMOB_DAMAGETAKEN,rand(100);
+		setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
 		setunitdata .GID,UMOB_RANK,rand(100);
 		setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(10,20);
 	}
@@ -141,7 +141,7 @@ OnSpawnMonster:
 	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
 	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
 	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-	setunitdata .GID,UMOB_DAMAGETAKEN,rand(25);
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,25);
 	setunitdata .GID,UMOB_RANK,rand(75,100);
 	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(15,30);
 	
@@ -167,7 +167,7 @@ OnMonsterDead:
 	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
 	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
 	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-	setunitdata .GID,UMOB_DAMAGETAKEN,rand(100);
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
 	setunitdata .GID,UMOB_RANK,rand(100);
 	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(10,20);
 	
@@ -193,7 +193,7 @@ OnBossDead:
 	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
 	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
 	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-	setunitdata .GID,UMOB_DAMAGETAKEN,rand(25);
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,25);
 	setunitdata .GID,UMOB_RANK,rand(75,100);
 	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(15,30);
 	
