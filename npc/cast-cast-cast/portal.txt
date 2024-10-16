@@ -57,6 +57,14 @@ MenuStart:
 				break;
 			}
 		}
+		// Loop all level and check map available
+		for(.@i = 0; .@i < getarraysize($blastPlayingMaps); .@i++){
+			// Error because found same map index
+			if(.@mapIndex == $blastPlayingMaps[.@i]){
+				.@isContinue = 1;
+				break;
+			}
+		}
 		// Good! Found available map now
 		if(!.@isContinue)
 		.@isFoundSameMap = 0;
