@@ -10,7 +10,7 @@ bl_depth2,145,159,6	script	เครื่องเสริมแกร่ง	10545,{
 	
 MenuBody:
 	setarray .@maxStatuses[0],10,20,40,70,110,160,220,290,370,460,560;
-	for(.@i = 0; .@i < 10; .@i++){
+	for(.@i = 0; .@i < 11; .@i++){
 		.@tier = (.@i + 1);
 		.@tierMenu$ += "แต้ม Body Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(bodyPoints[.@tier]) + " แต้ม^000000):";
 	}
@@ -110,7 +110,7 @@ MenuBody:
 	
 MenuTrait:
 	setarray .@maxTraits[0],5,10,20,35,55,80,110,145,185,230,280;
-	for(.@i = 0; .@i < 10; .@i++){
+	for(.@i = 0; .@i < 11; .@i++){
 		.@tier = (.@i + 1);
 		.@tierMenu$ += "แต้ม Trait Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(traitPoints[.@tier]) + " แต้ม^000000):";
 	}
