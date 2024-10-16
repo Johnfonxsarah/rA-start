@@ -18,9 +18,19 @@ bl_depth2,145,137,5	script	เล่นโหมด BLAST	10558,{
 	freeloop(1);
 	
 	// Check map index existed on those level
-	// Just join
-	if($blastPlayingMaps[.@lv])
-	goto OnJoin;
+	if($blastPlayingMaps[.@lv]){
+		// Check user first
+		if(getmapusers($maps$[$blastPlayingMaps[lastPlayMap]]) <= 0){
+			killmonster $maps$[$blastPlayingMaps[lastPlayMap]],"เล่นเกม::OnMonsterDead",0;
+			
+			$blastPlayingMaps[.@lv] = 0;
+			$isBlastSpawnMaps[.@lv] = 0;
+			$gidBossBlastMaps[.@lv] = 0;
+		}
+		// Just join
+		else
+		goto OnJoin;
+	}
 	
 	// Random the map
 	.@isFoundSameMap = 1;
