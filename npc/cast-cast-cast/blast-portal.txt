@@ -26,6 +26,8 @@ bl_depth2,145,137,5	script	เล่นโหมด BLAST	10558,{
 	.@isFoundSameMap = 1;
 	.@retry = 300;
 	while(.@isFoundSameMap && (.@retry > 0)){
+		.@retry--;
+		
 		// Random map index
 		.@mapIndex = rand(getarraysize($maps$));
 		.@isContinue = 0;

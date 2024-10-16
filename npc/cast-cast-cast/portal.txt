@@ -34,6 +34,8 @@ MenuStart:
 	.@isFoundSameMap = 1;
 	.@retry = 300;
 	while(.@isFoundSameMap && (.@retry > 0)){
+		.@retry--;
+		
 		// Random map index
 		.@mapIndex = rand(getarraysize($maps$));
 		.@isContinue = 0;
