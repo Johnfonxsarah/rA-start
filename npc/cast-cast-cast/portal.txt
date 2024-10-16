@@ -271,7 +271,7 @@ OnBossDead:
 
 	callfunc("ApplyCCCRules");
 	
-	menu "เล่นต่อ",-,"กลับไปยังห้องพัก",L_Lobby;
+	menu "กลับไปยังห้องพัก",L_Lobby,"เล่นต่อ",-;
 	hintTimer = 3;
 	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";
 	end;
