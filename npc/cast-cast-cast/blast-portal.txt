@@ -120,7 +120,7 @@ OnSpawnMonster:
 		.@arraySize = getarraysize(getd("$attackableMonsterTier" + .@randTier + "Ids"));
 		monster $maps$[$blastPlayingMaps[lastPlayMap]],0,0," “«°¡πµÏ¥”",getd("$attackableMonsterTier" + .@randTier + "Ids[" + rand(.@arraySize) + "]"),1,strnpcinfo(0) + "::OnMonsterDead";
 		.GID = $@mobid[0];
-		.@mHP = cap_value(lastPlayMap * 10000,1000,INT_MAX);
+		.@mHP = cap_value(lastPlayMap * 100000,1000,INT_MAX);
 		setunitdata .GID,UMOB_MAXHP,.@mHP;
 		setunitdata .GID,UMOB_HP,.@mHP;
 		.@bothSpeed = rand(200,400);
@@ -132,7 +132,7 @@ OnSpawnMonster:
 		setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
 		setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
 		setunitdata .GID,UMOB_RANK,rand(100);
-		setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(10,20);
+		setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,lastPlayMap;
 	}
 	freeloop(0);
 	
@@ -141,7 +141,7 @@ OnSpawnMonster:
 	monster $maps$[$blastPlayingMaps[lastPlayMap]],0,0,"‡®È“·ÀËß¡πµÏ¥”",$mvpIds[rand(.@arraySize)],1,strnpcinfo(0) + "::OnBossDead",Size_Large;
 	.GID = $@mobid[0];
 	$gidBossBlastMaps[lastPlayMap] = .GID;
-	.@mHP = cap_value(lastPlayMap * 100000,1000,INT_MAX);
+	.@mHP = cap_value(lastPlayMap * 1000000,1000,INT_MAX);
 	setunitdata .GID,UMOB_MAXHP,.@mHP;
 	setunitdata .GID,UMOB_HP,.@mHP;
 	.@bothSpeed = rand(100,200);
@@ -153,7 +153,7 @@ OnSpawnMonster:
 	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
 	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,25);
 	setunitdata .GID,UMOB_RANK,rand(75,100);
-	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(15,30);
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,lastPlayMap;
 	
 	end;
 	
