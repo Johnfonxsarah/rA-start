@@ -21,33 +21,31 @@ OnPCDieEvent:
 	.@con = readparam(bCon);
 	.@crt = readparam(bCrt);
 	.@minStatus = 10;
-	.@lostStatus = 5 * tier;
 	.@minTrait = 3;
-	.@lostTrait = 2 * tier;
 	if(.@str > .@minStatus)
-	statusup2 bStr,-.@lostStatus;
+	statusup2 bStr,-(.@str / 2);
 	if(.@agi > .@minStatus)
-	statusup2 bAgi,-.@lostStatus;
+	statusup2 bAgi,-(.@agi / 2);
 	if(.@vit > .@minStatus)
-	statusup2 bVit,-.@lostStatus;
+	statusup2 bVit,-(.@vit / 2);
 	if(.@int > .@minStatus)
-	statusup2 bInt,-.@lostStatus;
+	statusup2 bInt,-(.@int / 2);
 	if(.@dex > .@minStatus)
-	statusup2 bDex,-.@lostStatus;
+	statusup2 bDex,-(.@dex / 2);
 	if(.@luk > .@minStatus)
-	statusup2 bLuk,-.@lostStatus;
+	statusup2 bLuk,-(.@luk / 2);
 	if(.@pow > .@lostTrait)
-	traitstatusup2 bPow,-.@lostTrait;
+	traitstatusup2 bPow,-(.@pow / 2);
 	if(.@sta > .@lostTrait)
-	traitstatusup2 bSta,-.@lostTrait;
+	traitstatusup2 bSta,-(.@sta / 2);
 	if(.@wis > .@lostTrait)
-	traitstatusup2 bWis,-.@lostTrait;
+	traitstatusup2 bWis,-(.@wis / 2);
 	if(.@spl > .@lostTrait)
-	traitstatusup2 bSpl,-.@lostTrait;
+	traitstatusup2 bSpl,-(.@spl / 2);
 	if(.@con > .@lostTrait)
-	traitstatusup2 bCon,-.@lostTrait;
+	traitstatusup2 bCon,-(.@con / 2);
 	if(.@crt > .@lostTrait)
-	traitstatusup2 bCrt,-.@lostTrait;
+	traitstatusup2 bCrt,-(.@crt / 2);
 	// Skill Penalty (Remove 1 Skill, Minimum 1 skill left)
 	.@learnSkillCount = 0;
 	freeloop(1);
