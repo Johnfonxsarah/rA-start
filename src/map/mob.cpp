@@ -4606,8 +4606,6 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		mob->range3 = range;
 	}
 
-	mob->range3 = 20;
-
 	if (this->nodeExists(node, "Size")) {
 		std::string size;
 

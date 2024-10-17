@@ -196,7 +196,7 @@ OnSpawnMonsterOne:
 	.@mHP = (10 * max(1,((lastPlayMap * lastPlayMap) / 2)));
 	setunitdata .GID,UMOB_MAXHP,.@mHP;
 	setunitdata .GID,UMOB_HP,.@mHP;
-	.@bothSpeed = (500 - (cap_value(lastPlayMap,1,400)));
+	.@bothSpeed = 400 - rand(0,30 * tier);
 	setunitdata .GID,UMOB_SPEED,.@bothSpeed;
 	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
 	setunitdata .GID,UMOB_DMGIMMUNE,0;
@@ -231,7 +231,7 @@ OnMonsterDead:
 		.@mHP = (10 * max(1,(lastPlayMap * lastPlayMap)));
 		setunitdata .GID,UMOB_MAXHP,.@mHP;
 		setunitdata .GID,UMOB_HP,.@mHP;
-		.@bothSpeed = (500 - (cap_value(lastPlayMap * 2,1,400)));
+		.@bothSpeed = 300 - rand(0,20 * tier);
 		setunitdata .GID,UMOB_SPEED,.@bothSpeed;
 		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
 		setunitdata .GID,UMOB_DMGIMMUNE,0;

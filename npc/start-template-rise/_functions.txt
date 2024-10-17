@@ -222,7 +222,7 @@ function	script	ApplyEffect	{
 }
 
 function	script	MapCleanUp	{
-	if(getusers(0) <= 1){
+	if(getusers(0) <= 1 && !IsSkipTickMap()){
 		killmonsterall strcharinfo(3),0;
 
 		if(isBlast){
