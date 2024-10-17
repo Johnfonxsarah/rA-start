@@ -219,7 +219,9 @@ function	script	ApplyEffect	{
 function	script	MapCleanUp	{
 	if(getusers(0) <= 1){
 		killmonster strcharinfo(3),"เล่นเกม::OnMonsterDead",0;
+		killmonster strcharinfo(3),"เล่นเกม::OnBossDead",0;
 		killmonster strcharinfo(3),"เล่นโหมด BLAST::OnMonsterDead",0;
+		killmonster strcharinfo(3),"เล่นโหมด BLAST::OnBossDead",0;
 
 		if(isBlast){
 			$blastPlayingMaps[lastPlayMap] = 0;

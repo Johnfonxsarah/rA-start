@@ -22,6 +22,7 @@ bl_depth2,145,137,5	script	เล่นโหมด BLAST	10558,{
 		// Check user first
 		if(getmapusers($maps$[$blastPlayingMaps[.@lv]]) <= 0){
 			killmonster $maps$[$blastPlayingMaps[.@lv]],"เล่นโหมด BLAST::OnMonsterDead",0;
+			killmonster $maps$[$blastPlayingMaps[.@lv]],"เล่นโหมด BLAST::OnBossDead",0;
 			
 			$blastPlayingMaps[.@lv] = 0;
 			$isBlastSpawnMaps[.@lv] = 0;
