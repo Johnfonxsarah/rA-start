@@ -14529,7 +14529,7 @@ TIMER_FUNC(status_change_timer){
 		break;
 
 	case SC__INVISIBILITY:
-		if( !status_charge(bl, 0, (12 - 2 * sce->val1) * status->max_sp / 100) ) // 6% - skill_lv.
+		if( !status_charge(bl, 0, (cap_value(12 - (2 * sce->val1),1,100)) * status->max_sp / 100) ) // 6% - skill_lv.
 			break;
 		sc_timer_next(1000 + tick);
 		return 0;
@@ -14672,7 +14672,7 @@ TIMER_FUNC(status_change_timer){
 
 	case SC_INSPIRATION:
 		if(--(sce->val4) >= 0) {
-			if (!status_charge(bl, status->max_hp * (35 - 5 * sce->val1) / 1000, status->max_sp * (45 - 5 * sce->val1) / 1000))
+			if (!status_charge(bl,status->max_hp * cap_value(35 - 5 * sce->val1,1,100) / 1000, status->max_sp * cap_value(45 - 5 * sce->val1, 1, 100) / 1000))
 				break;
 
 			sc_timer_next(5000+tick);
