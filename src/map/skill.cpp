@@ -13308,7 +13308,6 @@ TIMER_FUNC(skill_castend_id){
 			case WL_FROSTMISTY:
 			case SU_CN_POWDERING:
 			case AG_RAIN_OF_CRYSTAL:
-			default:
 				ud->skillx = target->x;
 				ud->skilly = target->y;
 				ud->skilltimer = tid;
@@ -23944,23 +23943,24 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	}
 
 	if (this->nodeExists(node, "TargetType")) {
-		std::string ninf;
+		std::string inf;
 
-		if (!this->asString(node, "TargetType", ninf))
+		if (!this->asString(node, "TargetType", inf))
 			return 0;
 
-		std::string ninf_constant = "INF_" + ninf + "_SKILL";
+		std::string inf_constant = "INF_" + inf + "_SKILL";
 		int64 constant;
 
-		if (!script_get_constant(ninf_constant.c_str(), &constant)) {
-			this->invalidWarning(node["TargetType"], "TargetType %s is invalid.\n", ninf.c_str());
+		if (!script_get_constant(inf_constant.c_str(), &constant)) {
+			this->invalidWarning(node["TargetType"], "TargetType %s is invalid.\n", inf.c_str());
 			return 0;
 		}
 
-		skill->ninf = static_cast<uint16>(constant);
+		skill->inf = static_cast<uint16>(constant);
 	}
 
-	skill->inf = INF_GROUND_SKILL;
+	if (skill->inf & INF_ATTACK_SKILL)
+		skill->inf = INF_GROUND_SKILL;
 
 	if (this->nodeExists(node, "DamageFlags")) {
 		const auto& damageNode = node["DamageFlags"];
@@ -24014,7 +24014,19 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 	}
 
-	memset(skill->range, 9, sizeof(skill->range));
+	skill->range[0] = 2;
+	skill->range[1] = 3;
+	skill->range[2] = 4;
+	skill->range[3] = 5;
+	skill->range[4] = 6;
+	skill->range[5] = 7;
+	skill->range[6] = 8;
+	skill->range[7] = 9;
+	skill->range[8] = 10;
+	skill->range[9] = 11;
+	skill->range[10] = 12;
+	skill->range[11] = 13;
+	skill->range[12] = 14;
 
 	if (this->nodeExists(node, "Hit")) {
 		std::string hit;
@@ -24154,22 +24166,6 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 
 	memset(skill->walkdelay, 0, sizeof(skill->walkdelay));
 
-	skill->cooldown[0] = 1000;
-	skill->cooldown[1] = 2000;
-	skill->cooldown[2] = 3000;
-	skill->cooldown[3] = 4000;
-	skill->cooldown[4] = 5000;
-	skill->cooldown[5] = 6000;
-	skill->cooldown[6] = 7000;
-	skill->cooldown[7] = 8000;
-	skill->cooldown[8] = 9000;
-	skill->cooldown[9] = 10000;
-	skill->cooldown[10] = 11000;
-	skill->cooldown[11] = 12000;
-	skill->cooldown[12] = 13000;
-
-	memset(skill->fixed_cast, -1, sizeof(skill->fixed_cast));
-
 	if (this->nodeExists(node, "Duration1")) {
 		if (!this->parseNode("Duration1", "Time", node, skill->upkeep_time, true))
 			return 0;
@@ -24185,6 +24181,22 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!exists)
 			memset(skill->upkeep_time2, 0, sizeof(skill->upkeep_time2));
 	}
+
+	skill->cooldown[0] = 1000;
+	skill->cooldown[1] = 2000;
+	skill->cooldown[2] = 3000;
+	skill->cooldown[3] = 4000;
+	skill->cooldown[4] = 5000;
+	skill->cooldown[5] = 6000;
+	skill->cooldown[6] = 7000;
+	skill->cooldown[7] = 8000;
+	skill->cooldown[8] = 9000;
+	skill->cooldown[9] = 10000;
+	skill->cooldown[10] = 11000;
+	skill->cooldown[11] = 12000;
+	skill->cooldown[12] = 13000;
+
+	memset(skill->fixed_cast, -1, sizeof(skill->fixed_cast));
 
 	if (this->nodeExists(node, "Unit")) {
 		const auto& unitNode = node["Unit"];
