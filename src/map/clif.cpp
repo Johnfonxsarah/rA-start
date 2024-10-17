@@ -5471,7 +5471,7 @@ void clif_getareachar_skillunit(struct block_list *bl, struct skill_unit *unit, 
 			WBUFL(buf,pos+14) = unit_id;
 			WBUFB(buf,pos+18) = (unsigned char)unit->range;
 			WBUFB(buf,pos+19) = visible;
-			WBUFB(buf,pos+20) = (unsigned char)1;
+			WBUFB(buf,pos+20) = (unsigned char)1; // [Start's] Fix client crash when cast skill exceed level
 			break;
 	}
 	clif_send(buf, len, bl, target);

@@ -218,6 +218,7 @@ OnBossDead:
 	end;
 	
 OnEnd:
+	callfunc("MapCleanUp");
 	warp "Save",0,0;
 	end;
 	

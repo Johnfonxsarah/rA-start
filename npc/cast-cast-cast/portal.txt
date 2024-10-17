@@ -300,6 +300,7 @@ OnBossDead:
 	end;
 	
 	L_Lobby:
+	callfunc("MapCleanUp");
 	warp "Save",0,0;
 	end;
 	
