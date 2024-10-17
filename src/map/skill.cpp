@@ -8701,28 +8701,28 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 		if (sd == nullptr)
 			break;
 
-		if (!sd->ed || !(sd->ed->elemental.class_ >= ELEMENTALID_DILUVIO && sd->ed->elemental.class_ <= ELEMENTALID_SERPENS)) {
+		/*if (!sd->ed || !(sd->ed->elemental.class_ >= ELEMENTALID_DILUVIO && sd->ed->elemental.class_ <= ELEMENTALID_SERPENS)) {
 			clif_skill_fail( *sd, skill_id );
 			map_freeblock_unlock();
 			return 0;
-		}
+		}*/
 
 		uint16 buster_element;
 
-		switch (sd->ed->elemental.class_) {
-			case ELEMENTALID_ARDOR:
+		switch (rnd() % 5) {
+			case 0:
 				buster_element = EM_ELEMENTAL_BUSTER_FIRE;
 				break;
-			case ELEMENTALID_DILUVIO:
+			case 1:
 				buster_element = EM_ELEMENTAL_BUSTER_WATER;
 				break;
-			case ELEMENTALID_PROCELLA:
+			case 2:
 				buster_element = EM_ELEMENTAL_BUSTER_WIND;
 				break;
-			case ELEMENTALID_TERREMOTUS:
+			case 3:
 				buster_element = EM_ELEMENTAL_BUSTER_GROUND;
 				break;
-			case ELEMENTALID_SERPENS:
+			case 4:
 				buster_element = EM_ELEMENTAL_BUSTER_POISON;
 				break;
 		}
@@ -24013,19 +24013,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 	}
 
-	skill->range[0] = 2;
-	skill->range[1] = 3;
-	skill->range[2] = 4;
-	skill->range[3] = 5;
-	skill->range[4] = 6;
-	skill->range[5] = 7;
-	skill->range[6] = 8;
-	skill->range[7] = 9;
-	skill->range[8] = 10;
-	skill->range[9] = 11;
-	skill->range[10] = 12;
-	skill->range[11] = 13;
-	skill->range[12] = 14;
+	memset(skill->range, 9, sizeof(skill->range));
 
 	if (this->nodeExists(node, "Hit")) {
 		std::string hit;
