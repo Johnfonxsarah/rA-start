@@ -913,7 +913,7 @@ struct PACKET_ZC_PAR_CHANGE_USER {
 	int16 packetType;
 	uint32 gid;
 	int16 type;
-	uint32 value;
+	uint16 value;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_PAR_CHANGE_USER, 0x1ab)
 
