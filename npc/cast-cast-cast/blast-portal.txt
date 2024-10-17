@@ -21,8 +21,7 @@ bl_depth2,145,137,5	script	เล่นโหมด BLAST	10558,{
 	if($blastPlayingMaps[.@lv]){
 		// Check user first
 		if(getmapusers($maps$[$blastPlayingMaps[.@lv]]) <= 0){
-			killmonster $maps$[$blastPlayingMaps[.@lv]],"เล่นโหมด BLAST::OnMonsterDead",0;
-			killmonster $maps$[$blastPlayingMaps[.@lv]],"เล่นโหมด BLAST::OnBossDead",0;
+			killmonsterall $maps$[$blastPlayingMaps[.@lv]],0;
 			
 			$blastPlayingMaps[.@lv] = 0;
 			$isBlastSpawnMaps[.@lv] = 0;
@@ -115,28 +114,36 @@ OnSpawnMonster:
 	
 	.@spawnAmount = 150;
 	freeloop(1);
-	for(.@i = 0; .@i < .@spawnAmount; .@i++){
-		// Spawn
-		.@randTier = rand(1,10);
-		.@arraySize = getarraysize(getd("$attackableMonsterTier" + .@randTier + "Ids"));
-		monster $maps$[$blastPlayingMaps[lastPlayMap]],0,0,"สาวกมนต์ดำ",getd("$attackableMonsterTier" + .@randTier + "Ids[" + rand(.@arraySize) + "]"),1,strnpcinfo(0) + "::OnMonsterDead";
-		.GID = $@mobid[0];
-		.@mHP = cap_value(lastPlayMap * 100000,1000,INT_MAX);
-		setunitdata .GID,UMOB_MAXHP,.@mHP;
-		setunitdata .GID,UMOB_HP,.@mHP;
-		.@bothSpeed = rand(200,400);
-		setunitdata .GID,UMOB_SPEED,.@bothSpeed;
-		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
-		setunitdata .GID,UMOB_DMGIMMUNE,0;
-		setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
-		setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
-		setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-		setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
-		setunitdata .GID,UMOB_RANK,rand(100);
-		setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,lastPlayMap;
-	}
+	for(.@i = 0; .@i < .@spawnAmount; .@i++)
+	callsub OnSpawnMonsterOne;
 	freeloop(0);
 	
+	callsub OnSpawnBossOne;
+	
+	end;
+	
+OnSpawnMonsterOne:
+	// Spawn
+	.@randTier = rand(1,10);
+	.@arraySize = getarraysize(getd("$attackableMonsterTier" + .@randTier + "Ids"));
+	monster $maps$[$blastPlayingMaps[lastPlayMap]],0,0,"สาวกมนต์ดำ",getd("$attackableMonsterTier" + .@randTier + "Ids[" + rand(.@arraySize) + "]"),1,strnpcinfo(0) + "::OnMonsterDead";
+	.GID = $@mobid[0];
+	.@mHP = cap_value(lastPlayMap * 100000,1000,INT_MAX);
+	setunitdata .GID,UMOB_MAXHP,.@mHP;
+	setunitdata .GID,UMOB_HP,.@mHP;
+	.@bothSpeed = rand(200,400);
+	setunitdata .GID,UMOB_SPEED,.@bothSpeed;
+	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+	setunitdata .GID,UMOB_DMGIMMUNE,0;
+	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
+	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
+	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
+	setunitdata .GID,UMOB_RANK,rand(100);
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,lastPlayMap;
+	return;
+	
+OnSpawnBossOne:
 	// Spawn Boss
 	.@arraySize = getarraysize($mvpIds);
 	monster $maps$[$blastPlayingMaps[lastPlayMap]],0,0,"เจ้าแห่งมนต์ดำ",$mvpIds[rand(.@arraySize)],1,strnpcinfo(0) + "::OnBossDead",Size_Large;
@@ -155,32 +162,14 @@ OnSpawnMonster:
 	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,25);
 	setunitdata .GID,UMOB_RANK,rand(75,100);
 	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,lastPlayMap;
-	
-	end;
+	return;
 	
 OnMonsterDead:
 	// Check map still same otherwise stop it. || Player not attached || Player dead
 	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || isdead())
 	end;
 
-	// Spawn
-	.@randTier = rand(1,10);
-	.@arraySize = getarraysize(getd("$attackableMonsterTier" + .@randTier + "Ids"));
-	monster strcharinfo(3),0,0,"สาวกมนต์ดำ",getd("$attackableMonsterTier" + .@randTier + "Ids[" + rand(.@arraySize) + "]"),1,strnpcinfo(0) + "::OnMonsterDead";
-	.GID = $@mobid[0];
-	.@mHP = cap_value(lastPlayMap * 10000,1000,INT_MAX);
-	setunitdata .GID,UMOB_MAXHP,.@mHP;
-	setunitdata .GID,UMOB_HP,.@mHP;
-	.@bothSpeed = rand(200,400);
-	setunitdata .GID,UMOB_SPEED,.@bothSpeed;
-	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
-	setunitdata .GID,UMOB_DMGIMMUNE,0;
-	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
-	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
-	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
-	setunitdata .GID,UMOB_RANK,rand(100);
-	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(10,20);
+	callsub OnSpawnMonsterOne;
 	
 	end;
 	
@@ -189,24 +178,7 @@ OnBossDead:
 	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || isdead())
 	end;
 
-	// Spawn Boss
-	.@arraySize = getarraysize($mvpIds);
-	monster strcharinfo(3),0,0,"เจ้าแห่งมนต์ดำ",$mvpIds[rand(.@arraySize)],1,strnpcinfo(0) + "::OnBossDead",Size_Large;
-	.GID = $@mobid[0];
-	$gidBossBlastMaps[lastPlayMap] = .GID;
-	.@mHP = cap_value(lastPlayMap * 100000,1000,INT_MAX);
-	setunitdata .GID,UMOB_MAXHP,.@mHP;
-	setunitdata .GID,UMOB_HP,.@mHP;
-	.@bothSpeed = rand(100,200);
-	setunitdata .GID,UMOB_SPEED,.@bothSpeed;
-	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
-	setunitdata .GID,UMOB_DMGIMMUNE,0;
-	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
-	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
-	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,25);
-	setunitdata .GID,UMOB_RANK,rand(75,100);
-	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(15,30);
+	callsub OnSpawnBossOne;
 	
 	announce strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! (BLAST) ในชั้น " + lastPlayMap,bc_all,0xed4b4b,0,25;
 	

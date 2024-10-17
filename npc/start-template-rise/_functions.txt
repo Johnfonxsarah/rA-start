@@ -141,6 +141,10 @@ function	script	TeleportOrb	{
 	else if(!IsSkipTickMap() && $isBossMaps[lastPlayMap]){
 		getunitdata $gidBossMaps[lastPlayMap],.@uds;
 		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
+		
+		// Get available cell to warp to boss
+		getfreecell .@cMap$,.@rX,.@rY,.@uds[UMOB_X],.@uds[UMOB_Y],rand(5),rand(5);
+		warp strcharinfo(3),.@rX,.@rY;
 	}
 	return;
 }
@@ -218,10 +222,7 @@ function	script	ApplyEffect	{
 
 function	script	MapCleanUp	{
 	if(getusers(0) <= 1){
-		killmonster strcharinfo(3),"เล่นเกม::OnMonsterDead",0;
-		killmonster strcharinfo(3),"เล่นเกม::OnBossDead",0;
-		killmonster strcharinfo(3),"เล่นโหมด BLAST::OnMonsterDead",0;
-		killmonster strcharinfo(3),"เล่นโหมด BLAST::OnBossDead",0;
+		killmonsterall strcharinfo(3),0;
 
 		if(isBlast){
 			$blastPlayingMaps[lastPlayMap] = 0;
