@@ -181,7 +181,8 @@ OnSpawnMonster:
 	setarray getd("$m" + lastPlayMap + "MID[3]"),getd("$attackableMonsterTier" + tier + "Ids[" + rand(.@arraySize) + "]");
 	setarray getd("$m" + lastPlayMap + "MID[4]"),getd("$attackableMonsterTier" + tier + "Ids[" + rand(.@arraySize) + "]");
 	
-	.@spawnAmount = 150;
+	.@spawnAmount = 150 + (tier * 10);
+	
 	freeloop(1);
 	for(.@i = 0; .@i < .@spawnAmount; .@i++)
 	callsub OnSpawnMonsterOne;
