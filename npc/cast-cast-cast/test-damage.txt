@@ -23,7 +23,8 @@ OnSpawnMore:
 	setunitdata .GID,UMOB_MAXHP,.@mHP;
 	setunitdata .GID,UMOB_HP,.@mHP;
 	setunitdata .GID,UMOB_DMGIMMUNE,0;
-	setunitdata .GID,UMOB_DAMAGETAKEN,100;
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
+	setunitdata .GID,UMOB_RANK,rand(0,100);
 	return;
 }
 
