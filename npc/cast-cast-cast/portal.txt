@@ -203,8 +203,8 @@ OnSpawnMonsterOne:
 	setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
 	setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
 	setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
-	setunitdata .GID,UMOB_RANK,rand(100);
+	setunitdata .GID,UMOB_DAMAGETAKEN,cap_value(100 - rand((10 * tier)),1,100);
+	setunitdata .GID,UMOB_RANK,cap_value(rand((10 * tier)),1,100);
 	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,dmgMultiplier;
 	return;
 	
@@ -238,8 +238,8 @@ OnMonsterDead:
 		setunitdata .GID,UMOB_AMOTION,.@bothSpeed;
 		setunitdata .GID,UMOB_ADELAY,.@bothSpeed;
 		setunitdata .GID,UMOB_DMOTION,.@bothSpeed;
-		setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
-		setunitdata .GID,UMOB_RANK,rand(100);
+		setunitdata .GID,UMOB_DAMAGETAKEN,cap_value(100 - rand((10 * tier)),1,100);
+		setunitdata .GID,UMOB_RANK,cap_value(rand((10 * tier)),1,100);
 		setunitdata $@mobid[0],UMOB_DAMAGE_MULTIPLIER,dmgMultiplier * 2;
 		addrid(1);
 		// Mark on minimap
@@ -269,12 +269,7 @@ OnBossDead:
 
 	callfunc("ApplyCCCRules");
 	
-	menu "กลับไปยังห้องพัก",L_Lobby,"เล่นต่อ",-;
-	hintTimer = 3;
-	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";
-	end;
-	
-	L_Lobby:
+	menu "กลับไปยังห้องพัก",-;
 	callfunc("MapCleanUp");
 	warp "Save",0,0;
 	end;
@@ -286,6 +281,8 @@ OnTouch:
 OnInit:
 	// Clean all playing map
 	deletearray $playingMaps[0],getarraysize($playingMaps);
+	// Clean all BLAST spawn
+	deletearray $isSpawnMaps[0],getarraysize($isSpawnMaps);
 	// Clean all boss remember
 	deletearray $isBossMaps[0],getarraysize($isBossMaps);
 	// Clean all boss GID

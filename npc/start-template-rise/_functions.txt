@@ -133,19 +133,20 @@ function	script	TeleportOrb	{
 	specialeffect2 780;
 	if(!IsSkipTickMap())
 	progressbar "",1;
-	warp "Random",0,0;
 	if(isBlast){
+		warp "Random",0,0;
 		getunitdata $gidBossBlastMaps[lastPlayMap],.@uds;
 		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
 	}
 	else if(!IsSkipTickMap() && $isBossMaps[lastPlayMap]){
 		getunitdata $gidBossMaps[lastPlayMap],.@uds;
-		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
-		
 		// Get available cell to warp to boss
-		getfreecell .@cMap$,.@rX,.@rY,.@uds[UMOB_X],.@uds[UMOB_Y],rand(5),rand(5);
+		getfreecell strcharinfo(3),.@rX,.@rY,.@uds[UMOB_X],.@uds[UMOB_Y],rand(5),rand(5);
 		warp strcharinfo(3),.@rX,.@rY;
+		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
 	}
+	else
+		warp "Random",0,0;
 	return;
 }
 
@@ -231,6 +232,7 @@ function	script	MapCleanUp	{
 		}
 		else{
 			$playingMaps[lastPlayMap] = 0;
+			$isSpawnMaps[lastPlayMap] = 0;
 			$isBossMaps[lastPlayMap] = 0;
 			$gidBossMaps[lastPlayMap] = 0;
 		}
