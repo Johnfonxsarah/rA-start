@@ -225,3 +225,43 @@ Body:
     AegisName: Skill_Orb_Tier_10
     Name: Skill Orb Tier 10
     Type: Etc
+  - Id: 20000032
+    AegisName: Effect_Orb_Tier_1
+    Name: Effect Orb Tier 1
+    Type: Etc
+  - Id: 20000033
+    AegisName: Effect_Orb_Tier_2
+    Name: Effect Orb Tier 2
+    Type: Etc
+  - Id: 20000034
+    AegisName: Effect_Orb_Tier_3
+    Name: Effect Orb Tier 3
+    Type: Etc
+  - Id: 20000035
+    AegisName: Effect_Orb_Tier_4
+    Name: Effect Orb Tier 4
+    Type: Etc
+  - Id: 20000036
+    AegisName: Effect_Orb_Tier_5
+    Name: Effect Orb Tier 5
+    Type: Etc
+  - Id: 20000037
+    AegisName: Effect_Orb_Tier_6
+    Name: Effect Orb Tier 6
+    Type: Etc
+  - Id: 20000038
+    AegisName: Effect_Orb_Tier_7
+    Name: Effect Orb Tier 7
+    Type: Etc
+  - Id: 20000039
+    AegisName: Effect_Orb_Tier_8
+    Name: Effect Orb Tier 8
+    Type: Etc
+  - Id: 20000040
+    AegisName: Effect_Orb_Tier_9
+    Name: Effect Orb Tier 9
+    Type: Etc
+  - Id: 20000041
+    AegisName: Effect_Orb_Tier_10
+    Name: Effect Orb Tier 10
+    Type: Etc

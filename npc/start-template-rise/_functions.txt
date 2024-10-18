@@ -294,3 +294,34 @@ function	script	DeadPenalty	{
 	return;
 }
 
+function	script	GetBodyExpReq	{
+	for(.@req = 0; .@req < 10; .@req++){
+		if($bodyMax[.@req] > bodyLv) 
+		return ($bodyExpReq[.@req] * max(1,bodyLv));
+	}
+	return;
+}
+
+function	script	GetTraitExpReq	{
+	for(.@req = 0; .@req < 10; .@req++){
+		if($traitMax[.@req] > traitLv) 
+		return ($traitExpReq[.@req] * max(1,traitLv));
+	}
+	return;
+}
+
+function	script	GetSkillExpReq	{
+	for(.@req = 0; .@req < 10; .@req++){
+		if($skillMax[.@req] > skillLv) 
+		return ($skillExpReq[.@req] * max(1,skillLv));
+	}
+	return;
+}
+
+function	script	GetEffectExpReq	{
+	for(.@req = 0; .@req < 10; .@req++){
+		if($effectMax[.@req] > effectLv) 
+		return ($effectExpReq[.@req] * max(1,effectLv));
+	}
+	return;
+}

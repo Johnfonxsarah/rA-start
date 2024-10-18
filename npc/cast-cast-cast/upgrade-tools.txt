@@ -1,31 +1,42 @@
 bl_depth2,145,159,6	script	เครื่องเสริมแกร่ง	10545,{
+	mes "Body Level: " + F_InsertComma(bodyLv);
+	mes "Trait Level: " + F_InsertComma(traitLv);
+	mes "Skill Level: " + F_InsertComma(skillLv);
+	mes "Effect Level: " + F_InsertComma(traitLv);
+	next;
 	menu
-	"สุ่มเพิ่ม Status",MenuBody,
-	"สุ่มเพิ่ม Trait",MenuTrait,
-	"สุ่ม Skill",MenuSkill,
+	"เพิ่ม Max Status ที่จะสุ่มได้",MenuBody,
+	"เพิ่ม Max Trait ที่จะสุ่มได้",MenuTrait,
+	"เพิ่ม Max Level Skill",MenuSkill,
+	"เพิ่ม Max Level Effect",MenuEffect,
 	"แลกแต้มเป็น Item",MenuExchangePoints,
 	"แลก Item เป็นแต้ม",MenuExchangeItems
 	;
 	close;
 	
 MenuBody:
-	setarray .@maxStatuses[0],30,100,250,500,1000,1600,2300,3100,4000,5000;
-	for(.@i = 0; .@i < 11; .@i++){
+	// Select tier
+	for(.@i = 0; .@i < 10; .@i++){
 		.@tier = (.@i + 1);
 		.@tierMenu$ += "แต้ม Body Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(bodyPoints[.@tier]) + " แต้ม^000000):";
 	}
 	.@index = select(.@tierMenu$);
+	// Check points was available
 	if(bodyPoints[.@index] <= 0){
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
 	}
-	.@maxStatus = .@maxStatuses[.@index - 1];
-	.@isMaxedOut = (readparam(bStr) >= .@maxStatus) && (readparam(bAgi) >= .@maxStatus) && (readparam(bVit) >= .@maxStatus) && (readparam(bInt) >= .@maxStatus) && (readparam(bDex) >= .@maxStatus) && (readparam(bLuk) >= .@maxStatus);
+	// Check level was not exceeded
+	.@isMaxedOut = (bodyLv >= $bodyMax[9]);
 	if(.@isMaxedOut){
-		mes "Status ทุกประเภท มีค่าสูงสุดแล้วใน Tier " + .@index;
+		mes "Max Status ที่จะสุ่มได้ มีค่าสูงสุดแล้ว";
 		close;
 	}
+	// Information
+	mes "Body Level: " + F_InsertComma(bodyLv);
 	mes "ต้องการใช้แต้ม ^1c9311Body Tier " + .@index + "^000000 กี่รอบ?";
+	mes "EXP ต่อรอบ:" + $bodyExp[.@index - 1];
+	mes "EXP ของคุณ:" + bodyExp + "/" + callfunc("GetBodyExpReq");
 	mes "โปรดระบุ 1~" + bodyPoints[.@index];
 	next;
 	input .@amount;
@@ -33,99 +44,58 @@ MenuBody:
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
 	}
+	.@previousLv = bodyLv;
 	freeloop(1);
 	while(!.@isMaxedOut && (.@amount > 0)){
-		.@isPointUsed = 0;
+		.@amount--;
+		bodyPoints[.@index]--;
 		
-		switch(rand(6)){
-		case 0:
-			if(readparam(bStr) < .@maxStatus){
-				.@isPointUsed = 1;
-				statusup2 bStr,1;
-				.@str++;
-			}
-			break;
-		case 1:
-			if(readparam(bAgi) < .@maxStatus){
-				.@isPointUsed = 1;
-				statusup2 bAgi,1;
-				.@agi++;
-			}
-			break;
-		case 2:
-			if(readparam(bVit) < .@maxStatus){
-				.@isPointUsed = 1;
-				statusup2 bVit,1;
-				.@vit++;
-			}
-			break;
-		case 3:
-			if(readparam(bInt) < .@maxStatus){
-				.@isPointUsed = 1;
-				statusup2 bInt,1;
-				.@int++;
-			}
-			break;
-		case 4:
-			if(readparam(bDex) < .@maxStatus){
-				.@isPointUsed = 1;
-				statusup2 bDex,1;
-				.@dex++;
-			}
-			break;
-		case 5:
-			if(readparam(bLuk) < .@maxStatus){
-				.@isPointUsed = 1;
-				statusup2 bLuk,1;
-				.@luk++;
-			}
-			break;
-		default:
-			mes "เกิดข้อผิดพลาด";
-			goto L_EndOfBodyTrade;
-		}
-
-		if(.@isPointUsed){
-			.@amount--;
-			bodyPoints[.@index]--;
+		bodyExp += $bodyExp[.@index - 1];
+		.@bodyExp += $bodyExp[.@index - 1];
+		
+		if(bodyExp >= callfunc("GetBodyExpReq")){
+			bodyExp = 0;
+			bodyLv++;
 		}
 		
-		.@isMaxedOut = (readparam(bStr) >= .@maxStatus) && (readparam(bAgi) >= .@maxStatus) && (readparam(bVit) >= .@maxStatus) && (readparam(bInt) >= .@maxStatus) && (readparam(bDex) >= .@maxStatus) && (readparam(bLuk) >= .@maxStatus);
+		// Check level was not exceeded
+		.@isMaxedOut = (bodyLv >= $bodyMax[9]);
 		if(.@isMaxedOut){
-			mes "Status ทุกประเภท มีค่าสูงสุดแล้วใน Tier " + .@index;
+			mes "Max Status ที่จะสุ่มได้ มีค่าสูงสุดแล้ว";
 			goto L_EndOfBodyTrade;
 		}
 	}
 	L_EndOfBodyTrade:
 	freeloop(0);
 	mes "ผลลัพธ์";
-	mes "STR +" + .@str;
-	mes "AGI +" + .@agi;
-	mes "VIT +" + .@vit;
-	mes "INT +" + .@int;
-	mes "DEX +" + .@dex;
-	mes "LUK +" + .@luk;
+	mes "Max Status ที่จะสุ่มได้มากสุดจาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(bodyLv);
+	mes "Body EXP +" + F_InsertComma(.@bodyExp);
 	specialeffect2 675;
 	close;
 	
 MenuTrait:
-	setarray .@maxTraits[0],5,10,25,50,100,160,230,310,400,500;
-	for(.@i = 0; .@i < 11; .@i++){
+	// Select tier
+	for(.@i = 0; .@i < 10; .@i++){
 		.@tier = (.@i + 1);
 		.@tierMenu$ += "แต้ม Trait Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(traitPoints[.@tier]) + " แต้ม^000000):";
 	}
 	.@index = select(.@tierMenu$);
+	// Check points was available
 	if(traitPoints[.@index] <= 0){
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
 	}
-	.@maxTrait = .@maxTraits[.@index - 1];
-	.@isMaxedOut = (readparam(bPow) >= .@maxTrait) && (readparam(bSta) >= .@maxTrait) && (readparam(bWis) >= .@maxTrait) && (readparam(bSpl) >= .@maxTrait) && (readparam(bCon) >= .@maxTrait) && (readparam(bCrt) >= .@maxTrait);
+	// Check level was not exceeded
+	.@isMaxedOut = (traitLv >= $traitMax[9]);
 	if(.@isMaxedOut){
-		mes "Trait ทุกประเภท มีค่าสูงสุดแล้วใน Tier " + .@index;
+		mes "Max Trait ที่จะสุ่มได้ มีค่าสูงสุดแล้ว";
 		close;
 	}
+	// Information
+	mes "Trait Level: " + F_InsertComma(traitLv);
 	mes "ต้องการใช้แต้ม ^1c9311Trait Tier " + .@index + "^000000 กี่รอบ?";
+	mes "EXP ต่อรอบ:" + $traitExp[.@index - 1];
+	mes "EXP ของคุณ:" + traitExp + "/" + callfunc("GetTraitExpReq");
 	mes "โปรดระบุ 1~" + traitPoints[.@index];
 	next;
 	input .@amount;
@@ -133,78 +103,32 @@ MenuTrait:
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
 	}
+	.@previousLv = traitLv;
 	freeloop(1);
 	while(!.@isMaxedOut && (.@amount > 0)){
-		.@isPointUsed = 0;
+		.@amount--;
+		traitPoints[.@index]--;
 		
-		switch(rand(6)){
-		case 0:
-			if(readparam(bPow) < .@maxTrait){
-				.@isPointUsed = 1;
-				traitstatusup2 bPow,1;
-				.@pow++;
-			}
-			break;
-		case 1:
-			if(readparam(bSta) < .@maxTrait){
-				.@isPointUsed = 1;
-				traitstatusup2 bSta,1;
-				.@sta++;
-			}
-			break;
-		case 2:
-			if(readparam(bWis) < .@maxTrait){
-				.@isPointUsed = 1;
-				traitstatusup2 bWis,1;
-				.@wis++;
-			}
-			break;
-		case 3:
-			if(readparam(bSpl) < .@maxTrait){
-				.@isPointUsed = 1;
-				traitstatusup2 bSpl,1;
-				.@spl++;
-			}
-			break;
-		case 4:
-			if(readparam(bCon) < .@maxTrait){
-				.@isPointUsed = 1;
-				traitstatusup2 bCon,1;
-				.@con++;
-			}
-			break;
-		case 5:
-			if(readparam(bCrt) < .@maxTrait){
-				.@isPointUsed = 1;
-				traitstatusup2 bCrt,1;
-				.@crt++;
-			}
-			break;
-		default:
-			mes "เกิดข้อผิดพลาด";
-			goto L_EndOfTraitTrade;
-		}
-
-		if(.@isPointUsed){
-			.@amount--;
-			traitPoints[.@index]--;
+		traitExp += $traitExp[.@index - 1];
+		.@traitExp += $traitExp[.@index - 1];
+		
+		if(traitExp >= callfunc("GetTraitExpReq")){
+			traitExp = 0;
+			traitLv++;
 		}
 		
-		.@isMaxedOut = (readparam(bPow) >= .@maxTrait) && (readparam(bSta) >= .@maxTrait) && (readparam(bWis) >= .@maxTrait) && (readparam(bSpl) >= .@maxTrait) && (readparam(bCon) >= .@maxTrait) && (readparam(bCrt) >= .@maxTrait);
+		// Check level was not exceeded
+		.@isMaxedOut = (traitLv >= $traitMax[9]);
 		if(.@isMaxedOut){
-			mes "Trait ทุกประเภท มีค่าสูงสุดแล้วใน Tier " + .@index;
+			mes "Max Trait ที่จะสุ่มได้ มีค่าสูงสุดแล้ว";
 			goto L_EndOfTraitTrade;
 		}
 	}
 	L_EndOfTraitTrade:
 	freeloop(0);
 	mes "ผลลัพธ์";
-	mes "POW +" + .@pow;
-	mes "STA +" + .@sta;
-	mes "WIS +" + .@wis;
-	mes "SPL +" + .@spl;
-	mes "CON +" + .@con;
-	mes "CRT +" + .@crt;
+	mes "Max Trait ที่จะสุ่มได้มากสุดจาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(traitLv);
+	mes "Trait EXP +" + F_InsertComma(.@traitExp);
 	specialeffect2 668;
 	close;
 	
@@ -214,20 +138,126 @@ MenuSkill:
 		.@tier = (.@i + 1);
 		.@tierMenu$ += "แต้ม Skill Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(skillPoints[.@tier]) + " แต้ม^000000):";
 	}
-	.@level = select(.@tierMenu$);
-	// Is available?
-	if(skillPoints[.@level] <= 0){
+	.@index = select(.@tierMenu$);
+	// Check points was available
+	if(skillPoints[.@index] <= 0){
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
 	}
-MenuSkillSlot:
-	.@slotMenu$ = "";
-	// Select slot
-	for(.@i = 0; .@i < 9; .@i++)
-	.@slotMenu$ += "ช่องที่ " + (.@i + 1) + " [^1c9311" + ((skillSlots[.@i] != 99999) ? $offensiveSkillDescs$[skillSlots[.@i]] : "ว่าง") + "^000000]:";
-	.@slot = (select(.@slotMenu$) - 1);
-MenuContinue:
-	// Is still available?
+	// Check level was not exceeded
+	.@isMaxedOut = (skillLv >= $skillMax[9]);
+	if(.@isMaxedOut){
+		mes "Skill Level มีค่าสูงสุดแล้ว";
+		close;
+	}
+	// Information
+	mes "Skill Level: " + F_InsertComma(skillLv);
+	mes "ต้องการใช้แต้ม ^1c9311Skill Tier " + .@index + "^000000 กี่รอบ?";
+	mes "EXP ต่อรอบ:" + $skillExp[.@index - 1];
+	mes "EXP ของคุณ:" + skillExp + "/" + callfunc("GetSkillExpReq");
+	mes "โปรดระบุ 1~" + skillPoints[.@index];
+	next;
+	input .@amount;
+	if((.@amount <= 0) || (.@amount > skillPoints[.@index])){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	.@previousLv = skillLv;
+	freeloop(1);
+	while(!.@isMaxedOut && (.@amount > 0)){
+		.@amount--;
+		skillPoints[.@index]--;
+		
+		skillExp += $skillExp[.@index - 1];
+		.@skillExp += $skillExp[.@index - 1];
+		
+		if(skillExp >= callfunc("GetSkillExpReq")){
+			skillExp = 0;
+			skillLv++;
+		}
+		
+		// Check level was not exceeded
+		.@isMaxedOut = (skillLv >= $skillMax[9]);
+		if(.@isMaxedOut){
+			mes "Skill Level มีค่าสูงสุดแล้ว";
+			goto L_EndOfSkillTrade;
+		}
+	}
+	L_EndOfSkillTrade:
+	freeloop(0);
+	mes "ผลลัพธ์";
+	mes "Skill Level จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(skillLv);
+	mes "Skill EXP +" + F_InsertComma(.@skillExp);
+	specialeffect2 534;
+	close;
+	
+MenuEffect:
+	// Select tier
+	for(.@i = 0; .@i < 10; .@i++){
+		.@tier = (.@i + 1);
+		.@tierMenu$ += "แต้ม Effect Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(effectPoints[.@tier]) + " แต้ม^000000):";
+	}
+	.@index = select(.@tierMenu$);
+	// Check points was available
+	if(effectPoints[.@index] <= 0){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	// Check level was not exceeded
+	.@isMaxedOut = (effectLv >= $effectMax[9]);
+	if(.@isMaxedOut){
+		mes "Max Effect ที่จะสุ่มได้ มีค่าสูงสุดแล้ว";
+		close;
+	}
+	// Information
+	mes "Effect Level: " + F_InsertComma(effectLv);
+	mes "ต้องการใช้แต้ม ^1c9311Effect Tier " + .@index + "^000000 กี่รอบ?";
+	mes "EXP ต่อรอบ:" + $effectExp[.@index - 1];
+	mes "EXP ของคุณ:" + effectExp + "/" + callfunc("GetEffectExpReq");
+	mes "โปรดระบุ 1~" + effectPoints[.@index];
+	next;
+	input .@amount;
+	if((.@amount <= 0) || (.@amount > effectPoints[.@index])){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	.@previousLv = effectLv;
+	freeloop(1);
+	while(!.@isMaxedOut && (.@amount > 0)){
+		.@amount--;
+		effectPoints[.@index]--;
+		
+		effectExp += $effectExp[.@index - 1];
+		.@effectExp += $effectExp[.@index - 1];
+		
+		if(effectExp >= callfunc("GetEffectExpReq")){
+			effectExp = 0;
+			effectLv++;
+		}
+		
+		// Check level was not exceeded
+		.@isMaxedOut = (effectLv >= $effectMax[9]);
+		if(.@isMaxedOut){
+			mes "Max Effect ที่จะสุ่มได้ มีค่าสูงสุดแล้ว";
+			goto L_EndOfEffectTrade;
+		}
+	}
+	L_EndOfEffectTrade:
+	freeloop(0);
+	mes "ผลลัพธ์";
+	mes "Max Effect ที่จะสุ่มได้มากสุดจาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(effectLv);
+	mes "Effect EXP +" + F_InsertComma(.@effectExp);
+	specialeffect2 128;
+	close;
+	
+	/*MenuSkill:
+	// Select tier
+	for(.@i = 0; .@i < 10; .@i++){
+		.@tier = (.@i + 1);
+		.@tierMenu$ += "แต้ม Skill Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(skillPoints[.@tier]) + " แต้ม^000000):";
+	}
+	.@level = select(.@tierMenu$);
+	// Is available?
 	if(skillPoints[.@level] <= 0){
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
@@ -270,14 +300,12 @@ MenuContinue:
 	}
 	freeloop(0);
 	// Learn new skill now
-	skill $offensiveSkillIds[skillSlots[.@slot]],100,3;
-	mes "ช่องที่ " + (.@slot + 1) + " [^1c9311" + $offensiveSkillDescs$[skillSlots[.@slot]] + "^000000]";
-	next;
-	menu "สุ่มใหม่อีกที",MenuContinue,"พอใจแล้ว",-,"เลือกช่องใหม่",MenuSkillSlot;
+	skill $offensiveSkillIds[skillSlots[.@slot]],.@level,3;
 	close;
+	*/
 	
 MenuExchangePoints:
-	switch(select("แต้ม Body:แต้ม Trait:แต้ม Skill")){
+	switch(select("แต้ม Body:แต้ม Trait:แต้ม Skill:แต้ม Effect")){
 	case 1:
 		for(.@i = 0; .@i < 10; .@i++){
 			.@tier = (.@i + 1);
@@ -356,13 +384,39 @@ MenuExchangePoints:
 		skillPoints[.@index] -= .@amount;
 		getitem .@itemId,.@amount;
 		break;
+	case 4:
+		for(.@i = 0; .@i < 10; .@i++){
+			.@tier = (.@i + 1);
+			.@tierMenu$ += "แต้ม Effect Tier " + .@tier + " (^9300ffมีอยู่ " + F_InsertComma(effectPoints[.@tier]) + " แต้ม^000000):";
+		}
+		.@index = select(.@tierMenu$);
+		if(effectPoints[.@index] <= 0){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		.@itemId = (20000032 + (.@index - 1));
+		.@inHandAmount = countitem(.@itemId);
+		.@highestInput = effectPoints[.@index];
+		if((effectPoints[.@index] + .@inHandAmount) > 30000)
+		.@highestInput = (30000 - .@inHandAmount);
+		mes "ต้องการแลก\n^1c9311แต้ม Effect Tier " + .@index + "^000000 เป็น " + mesitemlink(.@itemId,false) + " กี่ชิ้น?";
+		mes "โปรดระบุ 1~" + .@highestInput;
+		next;
+		input .@amount;
+		if((.@amount <= 0) || (.@amount > .@highestInput)){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		effectPoints[.@index] -= .@amount;
+		getitem .@itemId,.@amount;
+		break;
 	default:
 		break;
 	}
 	close;
 	
 MenuExchangeItems:
-	switch(select("Body Orb:Trait Orb:Skill Orb")){
+	switch(select("Body Orb:Trait Orb:Skill Orb:Effect Orb")){
 	case 1:
 		for(.@i = 0; .@i < 10; .@i++){
 			.@tier = (.@i + 1);
@@ -447,12 +501,40 @@ MenuExchangeItems:
 		skillPoints[.@index] += .@amount;
 		delitem .@itemId,.@amount;
 		break;
+	case 4:
+		for(.@i = 0; .@i < 10; .@i++){
+			.@tier = (.@i + 1);
+			.@itemId = (20000032 + .@i);
+			.@inHandAmount = countitem(.@itemId);
+			.@tierMenu$ += getitemname(.@itemId) + " (^9300ffมีอยู่ " + F_InsertComma(.@inHandAmount) + " ชิ้น^000000):";
+		}
+		.@index = select(.@tierMenu$);
+		.@itemId = (20000032 + (.@index - 1));
+		.@inHandAmount = countitem(.@itemId);
+		if(.@inHandAmount <= 0){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		.@highestInput = .@inHandAmount;
+		if((effectPoints[.@index] + .@inHandAmount) > INT_MAX)
+		.@highestInput = (INT_MAX - .@inHandAmount);
+		mes "ต้องการแลก\n" + mesitemlink(.@itemId,false) + " เป็น ^9300ffแต้ม^000000 เท่าไหร่?";
+		mes "โปรดระบุ 1~" + .@highestInput;
+		next;
+		input .@amount;
+		if((.@amount <= 0) || (.@amount > .@highestInput)){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		effectPoints[.@index] += .@amount;
+		delitem .@itemId,.@amount;
+		break;
 	default:
 		break;
 	}
 	close;
 	
 OnInit:
-	waitingroom "สุ่ม Status, Trait และ Skill",0;
+	waitingroom "เสริมแกร่งตัวละคร",0;
 	end;
 }
