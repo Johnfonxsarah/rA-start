@@ -16,6 +16,12 @@ OnPCDieEvent:
 	end;
 	
 OnPCLoginEvent:
+	if($isTestMode){
+		bodyPoints[10] = 100000;
+		traitPoints[10] = 100000;
+		skillPoints[10] = 100000;
+	}
+
 	if(!isSkillSetup){
 		for(.@i = 0; .@i < 9; .@i++)
 		skillSlots[.@i] = 99999;
