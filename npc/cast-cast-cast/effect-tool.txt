@@ -29,12 +29,14 @@ OnMenu:
 	+ ":[Lv. ^1c9311" + effectLvs[9] + "^000000] พลังชีวิต +^9300ff" + (.@baseMaxHp * effectLvs[9]) + "^000000"
 	+ ":[Lv. ^1c9311" + effectLvs[10] + "^000000] กันการสะท้อน +^9300ff" + (1 * effectLvs[10]) + "%^000000"
 	+ ":[Lv. ^1c9311" + effectLvs[11] + "^000000] กันสถานะผิดปกติ +^9300ff" + (1 * effectLvs[11]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[12] + "^000000] เจาะ RES +^9300ff" + (1 * effectLvs[12]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[13] + "^000000] เจาะ MRES +^9300ff" + (1 * effectLvs[13]) + "%^000000"
 	+ ":Reset การผนึกพลัง") - 1);
-	if(.@effect == 12){
-		menu "ยกเลิก",-,"ยืนยัน (All Status -500, All Trait -250, สุ่มลืม Skill 2 อย่าง)",MenuResetEffect;
+	if(.@effect == 14){
+		menu "ยกเลิก",-,"ยืนยัน (All Status -250, All Trait -125, สุ่มลืม Skill 2 อย่าง)",MenuResetEffect;
 		close;
 MenuResetEffect:
-		callfunc("DeadPenalty",10,10,2);
+		callfunc("DeadPenalty",5,5,2);
 		for(.@i = 0; .@i < 12; .@i++)
 		effectLvs[.@i] = 0;
 		spendLv = 0;

@@ -201,6 +201,8 @@ function	script	ApplyEffect	{
 	+ "bonus bMaxHP," + (.@baseMaxHp * .@maxHpLv) + ";"
 	+ "bonus bReduceDamageReturn," + (1 * (effectLvs[10] + blastEffectLvs[10])) + ";"
 	+ "bonus2 bResEff,eff," + (1 * (effectLvs[11] + blastEffectLvs[11])) + ";"
+	+ "bonus2 bIgnoreResRaceRate,RC_ALL," + (1 * (effectLvs[12] + blastEffectLvs[12])) + ";"
+	+ "bonus2 bIgnoreMResRaceRate,RC_ALL," + (1 * (effectLvs[13] + blastEffectLvs[13])) + ";"
 	+ "bonus bMaxSP,10000;"
 	+ "bonus bAspd,300;"
 	,86400,8,1;
