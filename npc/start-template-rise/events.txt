@@ -7,67 +7,7 @@ OnPCDieEvent:
 	// Map clean up if alone in map
 	callfunc("MapCleanUp");
 	
-	// Status & Trait Penalties
-	.@str = readparam(bStr);
-	.@agi = readparam(bAgi);
-	.@vit = readparam(bVit);
-	.@int = readparam(bInt);
-	.@dex = readparam(bDex);
-	.@luk = readparam(bLuk);
-	.@pow = readparam(bPow);
-	.@sta = readparam(bSta);
-	.@wis = readparam(bWis);
-	.@spl = readparam(bSpl);
-	.@con = readparam(bCon);
-	.@crt = readparam(bCrt);
-	.@minStatus = 10;
-	.@minTrait = 3;
-	if(.@str > .@minStatus)
-	statusup2 bStr,-(.@str / 2);
-	if(.@agi > .@minStatus)
-	statusup2 bAgi,-(.@agi / 2);
-	if(.@vit > .@minStatus)
-	statusup2 bVit,-(.@vit / 2);
-	if(.@int > .@minStatus)
-	statusup2 bInt,-(.@int / 2);
-	if(.@dex > .@minStatus)
-	statusup2 bDex,-(.@dex / 2);
-	if(.@luk > .@minStatus)
-	statusup2 bLuk,-(.@luk / 2);
-	if(.@pow > .@lostTrait)
-	traitstatusup2 bPow,-(.@pow / 2);
-	if(.@sta > .@lostTrait)
-	traitstatusup2 bSta,-(.@sta / 2);
-	if(.@wis > .@lostTrait)
-	traitstatusup2 bWis,-(.@wis / 2);
-	if(.@spl > .@lostTrait)
-	traitstatusup2 bSpl,-(.@spl / 2);
-	if(.@con > .@lostTrait)
-	traitstatusup2 bCon,-(.@con / 2);
-	if(.@crt > .@lostTrait)
-	traitstatusup2 bCrt,-(.@crt / 2);
-	// Skill Penalty (Remove 1 Skill, Minimum 1 skill left)
-	.@learnSkillCount = 0;
-	freeloop(1);
-	for(.@i = 0; .@i < 9; .@i++){
-		if(skillSlots[.@i] != 99999)
-		.@learnSkillCount++;
-	}
-	if(.@learnSkillCount > 1){
-		.@isDoneRemoveSkill = 0;
-		while(!.@isDoneRemoveSkill){
-			.@randomLostSkillSlot = rand(9);
-			if(skillSlots[.@randomLostSkillSlot] != 99999){
-				skill $offensiveSkillIds[skillSlots[.@randomLostSkillSlot]],0,3;
-				skillSlots[.@randomLostSkillSlot] = 99999;
-				.@isDoneRemoveSkill = 1;
-			}
-		}
-	}
-	freeloop(0);
-	// Level Penalty
-	if(BaseLevel > 1)
-	BaseLevel--;
+	callfunc("DeadPenalty");
 
 	callfunc("ApplyCCCRules");
 	

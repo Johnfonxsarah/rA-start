@@ -200,6 +200,7 @@ function	script	ApplyEffect	{
 	+ "bonus bSpeedAddRate," + (1 * (effectLvs[8] + blastEffectLvs[8])) + ";"
 	+ "bonus bMaxHP," + (.@baseMaxHp * .@maxHpLv) + ";"
 	+ "bonus bReduceDamageReturn," + (1 * (effectLvs[10] + blastEffectLvs[10])) + ";"
+	+ "bonus2 bResEff,eff," + (1 * (effectLvs[11] + blastEffectLvs[11])) + ";"
 	+ "bonus bMaxSP,10000;"
 	+ "bonus bAspd,300;"
 	,86400,8,1;
@@ -246,3 +247,46 @@ function	script	MapCleanUp	{
 	}
 	return;
 }
+
+function	script	DeadPenalty	{
+	.@status = (50 * getarg(0,1));
+	.@trait = (25 * getarg(1,1));
+	.@skill = (1 * getarg(2,1));
+	// Status Penalty
+	statusup2 bStr,-.@status;
+	statusup2 bAgi,-.@status;
+	statusup2 bVit,-.@status;
+	statusup2 bInt,-.@status;
+	statusup2 bDex,-.@status;
+	statusup2 bLuk,-.@status;
+	// Trait Penalty
+	traitstatusup2 bPow,-.@trait;
+	traitstatusup2 bSta,-.@trait;
+	traitstatusup2 bWis,-.@trait;
+	traitstatusup2 bSpl,-.@trait;
+	traitstatusup2 bCon,-.@trait;
+	traitstatusup2 bCrt,-.@trait;
+	// Skill Penalty
+	freeloop(1);
+	for(.@s = 0; .@s < .@skill; .@s++){
+		.@learnSkillCount = 0;
+		for(.@i = 0; .@i < 9; .@i++){
+			if(skillSlots[.@i] != 99999)
+			.@learnSkillCount++;
+		}
+		if(.@learnSkillCount > 1){
+			.@isDoneRemoveSkill = 0;
+			while(!.@isDoneRemoveSkill){
+				.@randomLostSkillSlot = rand(9);
+				if(skillSlots[.@randomLostSkillSlot] != 99999){
+					skill $offensiveSkillIds[skillSlots[.@randomLostSkillSlot]],0,3;
+					skillSlots[.@randomLostSkillSlot] = 99999;
+					.@isDoneRemoveSkill = 1;
+				}
+			}
+		}
+	}
+	freeloop(0);
+	return;
+}
+

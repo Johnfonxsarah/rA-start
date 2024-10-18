@@ -28,44 +28,14 @@ OnMenu:
 	+ ":[Lv. ^1c9311" + effectLvs[8] + "^000000] เคลื่อนที่เร็วขึ้น +^9300ff" + (1 * effectLvs[8]) + "%^000000"
 	+ ":[Lv. ^1c9311" + effectLvs[9] + "^000000] พลังชีวิต +^9300ff" + (.@baseMaxHp * effectLvs[9]) + "^000000"
 	+ ":[Lv. ^1c9311" + effectLvs[10] + "^000000] กันการสะท้อน +^9300ff" + (1 * effectLvs[10]) + "%^000000"
+	+ ":[Lv. ^1c9311" + effectLvs[11] + "^000000] กันสถานะผิดปกติ +^9300ff" + (1 * effectLvs[11]) + "%^000000"
 	+ ":Reset การผนึกพลัง") - 1);
-	if(.@effect == 11){
-		menu "ยกเลิก",-,"ยืนยัน (Level -5, All Status -50, All Trait -25, สุ่มลืม Skill 1 อย่าง)",MenuResetEffect;
+	if(.@effect == 12){
+		menu "ยกเลิก",-,"ยืนยัน (All Status -500, All Trait -250, สุ่มลืม Skill 2 อย่าง)",MenuResetEffect;
 		close;
 MenuResetEffect:
-		atcommand "@lvup -5";
-		statusup2 bStr,-50;
-		statusup2 bAgi,-50;
-		statusup2 bVit,-50;
-		statusup2 bInt,-50;
-		statusup2 bDex,-50;
-		statusup2 bLuk,-50;
-		traitstatusup2 bPow,-25;
-		traitstatusup2 bSta,-25;
-		traitstatusup2 bWis,-25;
-		traitstatusup2 bSpl,-25;
-		traitstatusup2 bCon,-25;
-		traitstatusup2 bCrt,-25;
-		// Skill Penalty (Remove 1 Skill, Minimum 1 skill left)
-		.@learnSkillCount = 0;
-		freeloop(1);
-		for(.@i = 0; .@i < 9; .@i++){
-			if(skillSlots[.@i] != 99999)
-			.@learnSkillCount++;
-		}
-		if(.@learnSkillCount > 1){
-			.@isDoneRemoveSkill = 0;
-			while(!.@isDoneRemoveSkill){
-				.@randomLostSkillSlot = rand(9);
-				if(skillSlots[.@randomLostSkillSlot] != 99999){
-					skill $offensiveSkillIds[skillSlots[.@randomLostSkillSlot]],0,3;
-					skillSlots[.@randomLostSkillSlot] = 99999;
-					.@isDoneRemoveSkill = 1;
-				}
-			}
-		}
-		freeloop(0);
-		for(.@i = 0; .@i < 11; .@i++)
+		callfunc("DeadPenalty",10,10,2);
+		for(.@i = 0; .@i < 12; .@i++)
 		effectLvs[.@i] = 0;
 		spendLv = 0;
 		callfunc("ApplyCCCRules");
