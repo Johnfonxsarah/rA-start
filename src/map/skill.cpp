@@ -6188,6 +6188,7 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 		break;
 
 	case AG_DEADLY_PROJECTION:
+		sc_start(src, bl, SC_DEADLY_DEFEASANCE, 100, skill_lv, skill_get_time(skill_id, skill_lv));
 		skill_attack(BF_MAGIC, src, src, bl, skill_id, skill_lv, tick, flag);
 		break;
 
@@ -24101,19 +24102,8 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			memset(skill->element, ELE_NEUTRAL, sizeof(skill->element));
 	}
 
-	skill->splash[0] = 3;
-	skill->splash[1] = 4;
-	skill->splash[2] = 5;
-	skill->splash[3] = 6;
-	skill->splash[4] = 7;
-	skill->splash[5] = 8;
-	skill->splash[6] = 9;
-	skill->splash[7] = 10;
-	skill->splash[8] = 11;
-	skill->splash[9] = 12;
-	skill->splash[10] = 13;
-	skill->splash[11] = 14;
-	skill->splash[12] = 15;
+	for (size_t i = 0; i < MAX_SKILL_LEVEL; i++)
+		skill->splash[i] = cap_value(((float)(i + 1) / (float)100) * 15, 1, 15);
 
 	if (this->nodeExists(node, "ActiveInstance")) {
 		if (!this->parseNode("ActiveInstance", "Max", node, skill->maxcount, true))
@@ -24135,19 +24125,8 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 
 	skill->cast_def_rate = 0;
 
-	skill->cast[0] = 100;
-	skill->cast[1] = 200;
-	skill->cast[2] = 300;
-	skill->cast[3] = 400;
-	skill->cast[4] = 500;
-	skill->cast[5] = 1000;
-	skill->cast[6] = 1500;
-	skill->cast[7] = 2000;
-	skill->cast[8] = 2500;
-	skill->cast[9] = 3000;
-	skill->cast[10] = 4000;
-	skill->cast[11] = 5000;
-	skill->cast[12] = 6000;
+	for (size_t i = 0; i < MAX_SKILL_LEVEL; i++)
+		skill->cast[i] = (i + 1) * 100;
 
 	memset(skill->delay, 0, sizeof(skill->delay));
 
@@ -24169,19 +24148,8 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			memset(skill->upkeep_time2, 0, sizeof(skill->upkeep_time2));
 	}
 
-	skill->cooldown[0] = 1000;
-	skill->cooldown[1] = 2000;
-	skill->cooldown[2] = 3000;
-	skill->cooldown[3] = 4000;
-	skill->cooldown[4] = 5000;
-	skill->cooldown[5] = 6000;
-	skill->cooldown[6] = 7000;
-	skill->cooldown[7] = 8000;
-	skill->cooldown[8] = 9000;
-	skill->cooldown[9] = 10000;
-	skill->cooldown[10] = 11000;
-	skill->cooldown[11] = 12000;
-	skill->cooldown[12] = 13000;
+	for (size_t i = 0; i < MAX_SKILL_LEVEL; i++)
+		skill->cooldown[i] = (i+1)*1000;
 
 	memset(skill->fixed_cast, -1, sizeof(skill->fixed_cast));
 

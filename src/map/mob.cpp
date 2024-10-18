@@ -4456,6 +4456,7 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		mob->lv = level;
 	}
 
+	mob->status.max_hp = INT_MAX;
 
 	if (this->nodeExists(node, "Attack")) {
 		uint16 atk;

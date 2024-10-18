@@ -6,7 +6,14 @@ OnInit:
 	for(.@i = 0; .@i < 25; .@i++)
 	callsub(OnSpawnMore);
 	freeloop(0);
+	//initnpctimer;
 	end;
+	
+	/*OnTimer1000:
+	getunitdata .GID,.t;
+	announce .t[UMOB_DAMAGETAKEN] + " - " + .t[UMOB_RANK] + " - " + .t[UMOB_MAXHP],bc_all;
+	initnpctimer;
+	end;*/
 	
 OnMonsterDead:
 	callsub(OnSpawnMore);
@@ -18,9 +25,7 @@ OnSpawnMore:
 	// Spawn
 	monster "bl_depth2",.@rX,.@rY,"·´ÊÍº",2411,1,strnpcinfo(0) + "::OnMonsterDead";
 	.GID = $@mobid[0];
-	setunitdata .GID,UMOB_LEVEL,1;
 	.@mHP = 2000000000;
-	setunitdata .GID,UMOB_MAXHP,.@mHP;
 	setunitdata .GID,UMOB_HP,.@mHP;
 	setunitdata .GID,UMOB_DMGIMMUNE,0;
 	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
