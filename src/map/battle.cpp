@@ -9364,7 +9364,8 @@ struct Damage battle_calc_misc_attack(struct block_list *src,struct block_list *
 			ShowError("0 enemies targeted by %d:%s, divide per 0 avoided!\n", skill_id, skill_get_name(skill_id));
 	}
 
-	if (!nk[NK_IGNOREFLEE]) {
+	// [Start's] All attack are hit
+	/*if (!nk[NK_IGNOREFLEE]) {
 		status_change *sc = status_get_sc(target);
 
 		i = 0; //Temp for "hit or no hit"
@@ -9406,7 +9407,7 @@ struct Damage battle_calc_misc_attack(struct block_list *src,struct block_list *
 			md.damage = 0;
 			md.dmg_lv = ATK_FLEE;
 		}
-	}
+	}*/
 
 	md.damage += battle_calc_cardfix(BF_MISC, src, target, nk, s_ele, 0, md.damage, 0, md.flag);
 
