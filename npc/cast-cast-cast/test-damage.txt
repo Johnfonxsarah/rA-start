@@ -14,9 +14,9 @@ OnMonsterDead:
 	
 OnSpawnMore:
 	// Get available cell to spawn
-	getfreecell "nakhyang",.@rX,.@rY,33,33,rand(5,15),rand(5,15);
+	getfreecell "bl_depth2",.@rX,.@rY,215,220,rand(5,15),rand(5,15);
 	// Spawn
-	monster "nakhyang",.@rX,.@rY,"∑¥ Õ∫",2411,1,strnpcinfo(0) + "::OnMonsterDead";
+	monster "bl_depth2",.@rX,.@rY,"∑¥ Õ∫",2411,1,strnpcinfo(0) + "::OnMonsterDead";
 	.GID = $@mobid[0];
 	setunitdata .GID,UMOB_LEVEL,1;
 	.@mHP = 2000000000;
@@ -28,8 +28,12 @@ OnSpawnMore:
 	return;
 }
 
-bl_depth2,149,145,5	script	∑¥ Õ∫ Damage	10557,{
+bl_depth2,149,145,5	script	∑¥ Õ∫ Damage	10557,30,30,{
 	setpcblock PCBLOCK_SKILL,false;
-	warp "nakhyang",33,33;
+	warp strcharinfo(3),215,220;
+	end;
+	
+OnTouch:
+	setpcblock PCBLOCK_SKILL,true;
 	end;
 }

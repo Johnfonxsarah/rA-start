@@ -130,7 +130,7 @@ OnInit:
 	
 	callfunc("ApplyEffect");
 	
-	if(strcharinfo(3) != "bl_depth2")
+	if(!IsSkipTickMap())
 	warp "Save",0,0;
 
 	if(strcharinfo(3) == "bl_depth2")

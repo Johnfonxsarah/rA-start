@@ -241,7 +241,7 @@ MenuContinue:
 	skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
 	// Should not same with other slot
 	freeloop(1);
-	setarray .@errorSkillIds[0],5344,5345,5346,5348,3012,5302,5303,5304,5305,232,2281,5375,5376,5377,5378,5379,2457,2458,2459,2460,2428,2423,378;
+	setarray .@errorSkillIds[0],5344,5345,5346,5348,3012,5302,5303,5304,5305,232,2281,5375,5376,5377,5378,5379,2457,2458,2459,2460,2428,2423,378,2559;
 	while(true){
 		.@isSame = 0;
 		// Loop all slot

@@ -26,7 +26,7 @@ function	script	ResetTired	{
 
 function	script	IsSkipTickMap	{
 	.@value$ = getarg(0,strcharinfo(3));
-	return ((.@value$ == "bl_depth2") || (.@value$ == "1@vrsn") || (.@value$ == "nakhyang"));
+	return (.@value$ == "bl_depth2");
 }
 
 function	script	StringBase10000	{
@@ -147,7 +147,7 @@ function	script	TeleportOrb	{
 		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
 	}
 	else
-		warp "Random",0,0;
+	warp "Random",0,0;
 	return;
 }
 
@@ -203,21 +203,27 @@ function	script	ApplyEffect	{
 	+ "bonus bMaxSP,10000;"
 	+ "bonus bAspd,300;"
 	,86400,8,1;
-	/*bonus_script_clear 8;
-	bonus_script
-	"bonus2 bAddClass,CLASS_ALL,10000;"
-	+ "bonus2 bMagicAddClass,CLASS_ALL,10000;"
-	+ "bonus2 bIgnoreDefClassRate,CLASS_ALL,100;"
-	+ "bonus2 bIgnoreMdefClassRate,CLASS_ALL,100;"
-	+ "bonus bNoWeaponDamage,100;"
-	+ "bonus bNoMagicDamage,100;"
-	+ "bonus bFixedCastrate,-100;"
-	+ "bonus bDelayrate,-100;"
-	+ "bonus bSpeedAddRate,100;"
-	+ "bonus bMaxHP,2000000;"
-	+ "bonus bReduceDamageReturn,100;"
-	+ "bonus bAspd,300;"
-	,86400,8,1;*/
+	
+	.@isTest = 0;
+	
+	if(.@isTest){
+		bonus_script_clear 8;
+		bonus_script
+		"bonus2 bAddClass,CLASS_ALL,10000;"
+		+ "bonus2 bMagicAddClass,CLASS_ALL,10000;"
+		+ "bonus2 bIgnoreDefClassRate,CLASS_ALL,100;"
+		+ "bonus2 bIgnoreMdefClassRate,CLASS_ALL,100;"
+		+ "bonus bNoWeaponDamage,100;"
+		+ "bonus bNoMagicDamage,100;"
+		+ "bonus bFixedCastrate,-100;"
+		+ "bonus bDelayrate,-100;"
+		+ "bonus bSpeedAddRate,100;"
+		+ "bonus bMaxHP,2000000;"
+		+ "bonus bReduceDamageReturn,100;"
+		+ "bonus bAspd,300;"
+		,86400,8,1;
+	}
+	
 	percentheal 100,100;
 	return;
 }
