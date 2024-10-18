@@ -176,6 +176,7 @@ function	script	RemovePlayDelegates	{
 
 function	script	ApplyEffect	{
 	bonus_script_clear 8;
+	.@regenRate = (effectLvs[14] + blastEffectLvs[14]);
 	.@maxHpLv = (effectLvs[9] + blastEffectLvs[9]);
 	.@baseMaxHp =
 	(.@maxHpLv < 10) ? 1000
@@ -203,6 +204,7 @@ function	script	ApplyEffect	{
 	+ "bonus2 bResEff,eff," + (1 * (effectLvs[11] + blastEffectLvs[11])) + ";"
 	+ "bonus2 bIgnoreResRaceRate,RC_ALL," + (1 * (effectLvs[12] + blastEffectLvs[12])) + ";"
 	+ "bonus2 bIgnoreMResRaceRate,RC_ALL," + (1 * (effectLvs[13] + blastEffectLvs[13])) + ";"
+	+ "bonus2 bRegenPercentHP," + (.@regenRate ? 1 : 0) + "," + (11000 - cap_value(100 * .@regenRate,0,10000)) + ";"
 	+ "bonus bMaxSP,10000;"
 	+ "bonus bAspd,300;"
 	,86400,8,1;
