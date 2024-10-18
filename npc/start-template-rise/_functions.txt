@@ -139,6 +139,7 @@ function	script	TeleportOrb	{
 		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
 	}
 	else if(!IsSkipTickMap() && $isBossMaps[lastPlayMap]){
+		menu "ลงหัว Boss",-;
 		getunitdata $gidBossMaps[lastPlayMap],.@uds;
 		// Get available cell to warp to boss
 		getfreecell strcharinfo(3),.@rX,.@rY,.@uds[UMOB_X],.@uds[UMOB_Y],rand(5),rand(5);
@@ -200,7 +201,7 @@ function	script	ApplyEffect	{
 	+ "bonus bMaxHP," + (.@baseMaxHp * .@maxHpLv) + ";"
 	+ "bonus bReduceDamageReturn," + (1 * (effectLvs[10] + blastEffectLvs[10])) + ";"
 	+ "bonus bMaxSP,10000;"
-	+ "bonus bAspd,300; bonus bFleeRate,-1000;"
+	+ "bonus bAspd,300;"
 	,86400,8,1;
 	/*bonus_script_clear 8;
 	bonus_script

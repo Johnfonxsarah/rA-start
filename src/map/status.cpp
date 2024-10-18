@@ -7597,6 +7597,7 @@ static signed short status_calc_hit(struct block_list *bl, status_change *sc, in
 static signed short status_calc_flee(struct block_list *bl, status_change *sc, int flee)
 {
 	if( bl->type == BL_PC ) {
+		return 0;
 		struct map_data *mapdata = map_getmapdata(bl->m);
 
 		if( mapdata_flag_gvg(mapdata) )
