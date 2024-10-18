@@ -270,7 +270,7 @@ MenuContinue:
 	}
 	freeloop(0);
 	// Learn new skill now
-	skill $offensiveSkillIds[skillSlots[.@slot]],.@level,3;
+	skill $offensiveSkillIds[skillSlots[.@slot]],100,3;
 	mes "ช่องที่ " + (.@slot + 1) + " [^1c9311" + $offensiveSkillDescs$[skillSlots[.@slot]] + "^000000]";
 	next;
 	menu "สุ่มใหม่อีกที",MenuContinue,"พอใจแล้ว",-,"เลือกช่องใหม่",MenuSkillSlot;
