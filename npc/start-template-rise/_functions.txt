@@ -95,7 +95,7 @@ function	script	CCCDrop	{
 		bodyPoints[.@tier] = cap_value(bodyPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Body Tier " + .@tier + " (รวม " + F_InsertComma(bodyPoints[.@tier]) + ")",0xfafa80;
 	}
-	else if(#isVerboseLog)
+	else if(!#isSkipVerboseLog)
 	dispbottom "(แต้ม Body) ต้องสุ่มได้ < " + .@rate + " คุณสุ่มได้ " + .@rand,0xfa8080;
 	// Trait Points (Base 5%)
 	.@rand = rand(100);
@@ -105,7 +105,7 @@ function	script	CCCDrop	{
 		traitPoints[.@tier] = cap_value(traitPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Trait Tier " + .@tier + " (รวม " + F_InsertComma(traitPoints[.@tier]) + ")",0xfafa80;
 	}
-	else if(#isVerboseLog)
+	else if(!#isSkipVerboseLog)
 	dispbottom "(แต้ม Trait) ต้องสุ่มได้ < " + .@rate + " คุณสุ่มได้ " + .@rand,0xfa8080;
 	// Skill Points (Base 3%)
 	.@rand = rand(100);
@@ -115,7 +115,7 @@ function	script	CCCDrop	{
 		skillPoints[.@tier] = cap_value(skillPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Skill Tier " + .@tier + " (รวม " + F_InsertComma(skillPoints[.@tier]) + ")",0xfafa80;
 	}
-	else if(#isVerboseLog)
+	else if(!#isSkipVerboseLog)
 	dispbottom "(แต้ม Skill) ต้องสุ่มได้ < " + .@rate + " คุณสุ่มได้ " + .@rand,0xfa8080;
 	// Effect Points (Base 1%)
 	.@rand = rand(100);
@@ -125,7 +125,7 @@ function	script	CCCDrop	{
 		effectPoints[.@tier] = cap_value(effectPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Effect Tier " + .@tier + " (รวม " + F_InsertComma(effectPoints[.@tier]) + ")",0xfafa80;
 	}
-	else if(#isVerboseLog)
+	else if(!#isSkipVerboseLog)
 	dispbottom "(แต้ม Effect) ต้องสุ่มได้ < " + .@rate + " คุณสุ่มได้ " + .@rand,0xfa8080;
 	return;
 }
@@ -216,26 +216,6 @@ function	script	ApplyEffect	{
 	+ "bonus bMaxSP,10000;"
 	+ "bonus bAspd,300;"
 	,86400,8,1;
-	
-	.@isTest = 0;
-	
-	if(.@isTest){
-		bonus_script_clear 8;
-		bonus_script
-		"bonus2 bAddClass,CLASS_ALL,10000;"
-		+ "bonus2 bMagicAddClass,CLASS_ALL,10000;"
-		+ "bonus2 bIgnoreDefClassRate,CLASS_ALL,100;"
-		+ "bonus2 bIgnoreMdefClassRate,CLASS_ALL,100;"
-		+ "bonus bNoWeaponDamage,100;"
-		+ "bonus bNoMagicDamage,100;"
-		+ "bonus bFixedCastrate,-100;"
-		+ "bonus bDelayrate,-100;"
-		+ "bonus bSpeedAddRate,100;"
-		+ "bonus bMaxHP,2000000;"
-		+ "bonus bReduceDamageReturn,100;"
-		+ "bonus bAspd,300;"
-		,86400,8,1;
-	}
 	
 	percentheal 100,100;
 	return;

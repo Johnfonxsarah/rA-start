@@ -2,7 +2,7 @@ bl_depth2,151,159,4	script	ตั้งค่า	10372,{
 	L_Menu:
 	menu
 	"ดูคำสั่งที่ใช้ได้",L_Commands,
-	"แสดง % Drop [" + (#isVerboseLog ? "^1c9311ON^000000" : "^d32323OFF^000000") + "]",L_VerboseLog,
+	"แสดง % Drop [" + (!#isSkipVerboseLog ? "^1c9311ON^000000" : "^d32323OFF^000000") + "]",L_VerboseLog,
 	"เปลี่ยน Password",L_ChangePassword,
 	"เพิ่ม Level Guild",MenuGetGuildLevel,
 	"ลบของที่เป็นตัว X",MenuDeleteNormalItem
@@ -17,7 +17,7 @@ bl_depth2,151,159,4	script	ตั้งค่า	10372,{
 	goto L_Menu;
 	
 	L_VerboseLog:
-	#isVerboseLog = !#isVerboseLog;
+	#isSkipVerboseLog = !#isSkipVerboseLog;
 	goto L_Menu;
 	
 	L_ChangePassword:
