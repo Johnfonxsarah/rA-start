@@ -79,8 +79,8 @@ OnInit:
 	if(!IsSkipTickMap())
 	warp "Save",0,0;
 
-	if(strcharinfo(3) == "bl_depth2")
-	setpcblock PCBLOCK_SKILL,true;
+	//if(strcharinfo(3) == "bl_depth2")
+	//setpcblock PCBLOCK_SKILL,true;
 	
 	end;
 	

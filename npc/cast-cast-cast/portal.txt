@@ -1,4 +1,4 @@
-bl_depth2,138,137,5	script	เล่นเกม	10558,500,500,{
+bl_depth2,138,137,5	script	เล่นเกม	10558,{
 	callfunc("RemovePlayDelegates");
 	
 	percentheal 100,100;
@@ -273,10 +273,6 @@ OnBossDead:
 	menu "กลับไปยังห้องพัก",-;
 	callfunc("MapCleanUp");
 	warp "Save",0,0;
-	end;
-	
-OnTouch:
-	setpcblock PCBLOCK_SKILL,true;
 	end;
 	
 OnInit:

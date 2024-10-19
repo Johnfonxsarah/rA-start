@@ -962,10 +962,10 @@ bool skill_isNotOk( uint16 skill_id, map_session_data& sd ){
 			}
 			break;
 		case GC_DARKILLUSION:
-			if( mapdata_flag_gvg2(mapdata) ) {
+			/*if (mapdata_flag_gvg2(mapdata)) {
 				clif_skill_fail( sd, skill_id );
 				return true;
-			}
+			}*/
 			break;
 		case GD_EMERGENCYCALL:
 		case GD_ITEMEMERGENCYCALL:
@@ -983,10 +983,10 @@ bool skill_isNotOk( uint16 skill_id, map_session_data& sd ){
 		case WM_LULLABY_DEEPSLEEP:
 		case WM_GLOOMYDAY:
 		case WM_SATURDAY_NIGHT_FEVER:
-			if( !mapdata_flag_vs(mapdata) ) {
+			/*if (!mapdata_flag_vs(mapdata)) {
 				clif_skill_teleportmessage( sd, NOTIFY_MAPINFO_CANT_USE_SKILL );	// This skill cannot be used in this area
 				return true;
-			}
+			}*/
 			break;
 
 	}
@@ -6412,12 +6412,7 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 		break;
 
 	case GC_CROSSRIPPERSLASHER:
-		if( sd && !(sc && sc->getSCE(SC_ROLLINGCUTTER)) )
-			clif_skill_fail( *sd, skill_id, USESKILL_FAIL_CONDITION );
-		else
-		{
-			skill_attack(BF_WEAPON,src,src,bl,skill_id,skill_lv,tick,flag);
-		}
+		skill_attack(BF_WEAPON, src, src, bl, skill_id, skill_lv, tick, flag);
 		break;
 	case GC_CROSSIMPACT: {
 		uint8 dir = DIR_NORTHEAST;
@@ -6476,62 +6471,24 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 		break;
 
 	case WL_TETRAVORTEX:
-		if (sd == nullptr) { // Monster usage
-			uint8 i = 0;
-			const static std::vector<std::vector<uint16>> tetra_skills = { { WL_TETRAVORTEX_FIRE, 1 },
-																		   { WL_TETRAVORTEX_WIND, 4 },
-																		   { WL_TETRAVORTEX_WATER, 2 },
-																		   { WL_TETRAVORTEX_GROUND, 8 } };
+	{
+		uint8 i = 0;
+		const static std::vector<std::vector<uint16>> tetra_skills = { { WL_TETRAVORTEX_FIRE, 1 },
+																	   { WL_TETRAVORTEX_WIND, 4 },
+																	   { WL_TETRAVORTEX_WATER, 2 },
+																	   { WL_TETRAVORTEX_GROUND, 8 } };
 
-			for (const auto &skill : tetra_skills) {
-				if (skill_lv > 5) {
-					skill_area_temp[0] = i;
-					skill_area_temp[1] = skill[1];
-					map_foreachinallrange(skill_area_sub, bl, skill_get_splash(skill_id, skill_lv), BL_CHAR, src, skill[0], skill_lv, tick, flag | BCT_ENEMY, skill_castend_damage_id);
-				} else
-					skill_addtimerskill(src, tick + i * 200, bl->id, skill[1], 0, skill[0], skill_lv, i, flag);
-				i++;
+		for (const auto& skill : tetra_skills) {
+			if (skill_lv > 5) {
+				skill_area_temp[0] = i;
+				skill_area_temp[1] = skill[1];
+				map_foreachinallrange(skill_area_sub, bl, skill_get_splash(skill_id, skill_lv), BL_CHAR, src, skill[0], skill_lv, tick, flag | BCT_ENEMY, skill_castend_damage_id);
 			}
-		} else if (sc) { // No SC? No spheres
-			int i, k = 0;
-
-			if (sc->getSCE(SC_SPHERE_5)) // If 5 spheres, remove last one (based on reverse order) and only do 4 actions (Official behavior)
-				status_change_end(src, SC_SPHERE_1);
-
-			for (i = SC_SPHERE_5; i >= SC_SPHERE_1; i--) { // Loop should always be 4 for regular players, but unconditional_skill could be less
-				if (sc->getSCE(static_cast<sc_type>(i)) == nullptr)
-					continue;
-
-				uint16 subskill = 0;
-
-				switch (sc->getSCE(static_cast<sc_type>(i))->val1) {
-					case WLS_FIRE:
-						subskill = WL_TETRAVORTEX_FIRE;
-						k |= 1;
-						break;
-					case WLS_WIND:
-						subskill = WL_TETRAVORTEX_WIND;
-						k |= 4;
-						break;
-					case WLS_WATER:
-						subskill = WL_TETRAVORTEX_WATER;
-						k |= 2;
-						break;
-					case WLS_STONE:
-						subskill = WL_TETRAVORTEX_GROUND;
-						k |= 8;
-						break;
-				}
-
-				if (skill_lv > 5) {
-					skill_area_temp[0] = abs(i - SC_SPHERE_5);
-					skill_area_temp[1] = k;
-					map_foreachinallrange(skill_area_sub, bl, skill_get_splash(skill_id, skill_lv), BL_CHAR, src, subskill, skill_lv, tick, flag | BCT_ENEMY, skill_castend_damage_id);
-				} else
-					skill_addtimerskill(src, tick + abs(i - SC_SPHERE_5) * 200, bl->id, k, 0, subskill, skill_lv, abs(i - SC_SPHERE_5), flag);
-				status_change_end(src, static_cast<sc_type>(i));
-			}
+			else
+				skill_addtimerskill(src, tick + i * 200, bl->id, skill[1], 0, skill[0], skill_lv, i, flag);
+			i++;
 		}
+	}
 		break;
 
 	case WL_RELEASE:
@@ -15546,11 +15503,13 @@ std::shared_ptr<s_skill_unit_group> skill_unitsetting(struct block_list *src, ui
 				unit_val2 = map_getcell(src->m, ux, uy, CELL_GETTYPE);
 				break;
 			case WZ_WATERBALL:
+				break;
+				/*
 				//Check if there are cells that can be turned into waterball units
 				if (!sd || map_getcell(src->m, ux, uy, CELL_CHKWATER) 
 					|| (map_find_skill_unit_oncell(src, ux, uy, SA_DELUGE, nullptr, 1)) != nullptr || (map_find_skill_unit_oncell(src, ux, uy, NJ_SUITON, nullptr, 1)) != nullptr)
 					break; //Turn water, deluge or suiton into waterball cell
-				continue;
+				continue;*/
 			case GS_DESPERADO:
 				unit_val1 = abs(layout->dx[i]);
 				unit_val2 = abs(layout->dy[i]);
@@ -23959,9 +23918,6 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		skill->inf = static_cast<uint16>(constant);
 	}
 
-	if (skill->inf & INF_ATTACK_SKILL)
-		skill->inf = INF_GROUND_SKILL;
-
 	if (this->nodeExists(node, "DamageFlags")) {
 		const auto& damageNode = node["DamageFlags"];
 
@@ -24013,6 +23969,11 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 				skill->inf2.reset(static_cast<uint8>(constant));
 		}
 	}
+
+	if (skill->inf & INF_ATTACK_SKILL)
+		skill->inf = INF_GROUND_SKILL;
+	if ((skill->inf & INF_SELF_SKILL) && (skill->inf2[INF2_NOTARGETSELF]))
+		skill->inf = INF_GROUND_SKILL;
 
 	memset(skill->range, 9, sizeof(skill->range));
 
