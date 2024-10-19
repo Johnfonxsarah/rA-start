@@ -57,6 +57,14 @@ OnTouch:
 
 	freeloop(1);
 	
+	.@skillAmount = 1;
+	.@levelPerSkill = 5;
+	.@bLv = BaseLevel;
+	while(.@bLv >= .@levelPerSkill){
+		.@bLv -= .@levelPerSkill;
+		.@skillAmount++;
+	}
+
 	// Forgot old skill if available
 	.@maxSkillAmount = 55;
 	for(.@m = 0; .@m < .@maxSkillAmount; .@m++){
@@ -64,35 +72,59 @@ OnTouch:
 		skill $offensiveSkillIds[skillSlots[.@m]],0,3;
 	}
 	
-	// Random new skill
-	skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
-	// Should not same with other slot
+	.@slot = 0;
 	
-	while(true){
-		.@isSame = 0;
-		// Loop all slot
-		for(.@i = 0; .@i < 9; .@i++){
-			if(.@i == .@slot)
-			continue;
+	while(.@skillAmount > 0){
+		.@skillAmount--;
+		
+		// Random new skill
+		skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
+		// Should not same with other slot
+		while(true){
+			.@isSame = 0;
+			// Loop all slot
+			for(.@i = 0; .@i < .@maxSkillAmount; .@i++){
+				if(.@i == .@slot)
+				continue;
 
-			// Check skill was same
-			if(!isSame && (skillSlots[.@slot] == skillSlots[.@i])){
-				// Random new skill
-				skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
-				.@isSame = 1;
-				break;
+				// Check skill was same
+				if(!isSame && (skillSlots[.@slot] == skillSlots[.@i])){
+					// Random new skill
+					skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
+					.@isSame = 1;
+					break;
+				}
 			}
+			if(!.@isSame)
+			break;
 		}
-		if(!.@isSame)
-		break;
+		
+		// Learn new skill now
+		skill $offensiveSkillIds[skillSlots[.@slot]],max(1,skillLv),3;
+		
+		.@slot++;
 	}
 	
-	// Learn new skill now
-	skill $offensiveSkillIds[skillSlots[.@slot]],.@level,3;
 	freeloop(0);
 	
-	
 	// Effect
+	
+	freeloop(1);
+	
+	.@maxEffectAmount = 14;
+	
+	for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
+		effectLvs[.@m] = 0;
+	
+	if(effectLv){
+		for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
+		effectLvs[.@m] = rand(effectLv);
+	}
+
+	freeloop(0);
+	
+	callfunc("ApplyEffect");
+	
 	// Warp back to save point
 	warp "Save",0,0;
 	end;

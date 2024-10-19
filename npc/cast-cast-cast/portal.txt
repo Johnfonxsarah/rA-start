@@ -47,14 +47,6 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 				break;
 			}
 		}
-		// Loop all level and check map available
-		for(.@i = 0; .@i < getarraysize($blastPlayingMaps); .@i++){
-			// Error because found same map index
-			if(.@mapIndex == $blastPlayingMaps[.@i]){
-				.@isContinue = 1;
-				break;
-			}
-		}
 		// Good! Found available map now
 		if(!.@isContinue)
 		.@isFoundSameMap = 0;
@@ -136,8 +128,6 @@ OnJoin:
 	
 	setpcblock PCBLOCK_ALL,true;
 	setpcblock PCBLOCK_MOVE,false;
-	
-	isBlast = 0;
 	
 	// Warp now
 	warp $maps$[$playingMaps[lastPlayMap]],0,0;
@@ -278,7 +268,7 @@ OnBossDead:
 OnInit:
 	// Clean all playing map
 	deletearray $playingMaps[0],getarraysize($playingMaps);
-	// Clean all BLAST spawn
+	// Clean all spawn remember
 	deletearray $isSpawnMaps[0],getarraysize($isSpawnMaps);
 	// Clean all boss remember
 	deletearray $isBossMaps[0],getarraysize($isBossMaps);

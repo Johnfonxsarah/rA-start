@@ -89,8 +89,8 @@ function	script	CCCDrop	{
 	return;
 	// Body Points (Base 10%)
 	.@rand = rand(100);
-	.@rate = (10 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)));
-	if(.@rand < .@rate){
+	.@rate = (10 * bonusDropMultiplier);
+	if((.@rand < .@rate) || .@isBoss){
 		.@reward = (.@isBoss ? 5 : 1);
 		bodyPoints[.@tier] = cap_value(bodyPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Body Tier " + .@tier + " (รวม " + F_InsertComma(bodyPoints[.@tier]) + ")",0xfafa80;
@@ -99,9 +99,9 @@ function	script	CCCDrop	{
 	dispbottom "(แต้ม Body) ต้องสุ่มได้ < " + .@rate + " คุณสุ่มได้ " + .@rand,0xfa8080;
 	// Trait Points (Base 5%)
 	.@rand = rand(100);
-	.@rate = (5 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)));
-	if(.@rand < .@rate){
-		.@reward = (.@isBoss ? 3 : 1);
+	.@rate = (5 * bonusDropMultiplier);
+	if((.@rand < .@rate) || .@isBoss){
+		.@reward = (.@isBoss ? 4 : 1);
 		traitPoints[.@tier] = cap_value(traitPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Trait Tier " + .@tier + " (รวม " + F_InsertComma(traitPoints[.@tier]) + ")",0xfafa80;
 	}
@@ -109,14 +109,24 @@ function	script	CCCDrop	{
 	dispbottom "(แต้ม Trait) ต้องสุ่มได้ < " + .@rate + " คุณสุ่มได้ " + .@rand,0xfa8080;
 	// Skill Points (Base 3%)
 	.@rand = rand(100);
-	.@rate = (3 * (bonusDropMultiplier * (.@isBoss ? 2 : 1)));
-	if(.@rand < .@rate){
-		.@reward = (.@isBoss ? 2 : 1);
+	.@rate = (3 * bonusDropMultiplier);
+	if((.@rand < .@rate) || .@isBoss){
+		.@reward = (.@isBoss ? 3 : 1);
 		skillPoints[.@tier] = cap_value(skillPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Skill Tier " + .@tier + " (รวม " + F_InsertComma(skillPoints[.@tier]) + ")",0xfafa80;
 	}
 	else if(#isVerboseLog)
 	dispbottom "(แต้ม Skill) ต้องสุ่มได้ < " + .@rate + " คุณสุ่มได้ " + .@rand,0xfa8080;
+	// Effect Points (Base 1%)
+	.@rand = rand(100);
+	.@rate = (1 * bonusDropMultiplier);
+	if((.@rand < .@rate) || .@isBoss){
+		.@reward = (.@isBoss ? 2 : 1);
+		effectPoints[.@tier] = cap_value(effectPoints[.@tier] + .@reward,0,INT_MAX);
+		dispbottom "+" + .@reward + " แต้ม Effect Tier " + .@tier + " (รวม " + F_InsertComma(effectPoints[.@tier]) + ")",0xfafa80;
+	}
+	else if(#isVerboseLog)
+	dispbottom "(แต้ม Effect) ต้องสุ่มได้ < " + .@rate + " คุณสุ่มได้ " + .@rand,0xfa8080;
 	return;
 }
 
@@ -133,12 +143,7 @@ function	script	TeleportOrb	{
 	specialeffect2 780;
 	if(!IsSkipTickMap())
 	progressbar "",1;
-	if(isBlast){
-		warp "Random",0,0;
-		getunitdata $gidBossBlastMaps[lastPlayMap],.@uds;
-		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
-	}
-	else if(!IsSkipTickMap() && $isBossMaps[lastPlayMap]){
+	if(!IsSkipTickMap() && $isBossMaps[lastPlayMap]){
 		menu "ลงหัว Boss",-;
 		getunitdata $gidBossMaps[lastPlayMap],.@uds;
 		// Get available cell to warp to boss
@@ -167,7 +172,6 @@ function	script	ApplyCCCRules	{
 }
 
 function	script	RemovePlayDelegates	{
-	deltimer "เล่นโหมด BLAST::OnSpawnMonsterHint";
 	deltimer "เล่นเกม::OnSpawnMonsterHint";
 	deltimer "เล่นเกม::OnSpawnMonster";
 	
@@ -176,8 +180,8 @@ function	script	RemovePlayDelegates	{
 
 function	script	ApplyEffect	{
 	bonus_script_clear 8;
-	.@regenRate = (effectLvs[14] + blastEffectLvs[14]);
-	.@maxHpLv = (effectLvs[9] + blastEffectLvs[9]);
+	.@regenRate = effectLvs[14];
+	.@maxHpLv = effectLvs[9]);
 	.@baseMaxHp =
 	(.@maxHpLv < 10) ? 1000
 	: (.@maxHpLv < 20) ? 2500
@@ -190,20 +194,20 @@ function	script	ApplyEffect	{
 	: (.@maxHpLv < 90) ? 16500
 	: 20000;
 	bonus_script
-	"bonus2 bAddClass,CLASS_ALL," + (100 * (effectLvs[0] + blastEffectLvs[0])) + ";"
-	+ "bonus2 bMagicAddClass,CLASS_ALL," + (100 * (effectLvs[1] + blastEffectLvs[1])) + ";"
-	+ "bonus2 bIgnoreDefClassRate,CLASS_ALL," + (1 * (effectLvs[2] + blastEffectLvs[2])) + ";"
-	+ "bonus2 bIgnoreMdefClassRate,CLASS_ALL," + (1 * (effectLvs[3] + blastEffectLvs[3])) + ";"
-	+ "bonus bNoWeaponDamage," + (1 * (effectLvs[4] + blastEffectLvs[4])) + ";"
-	+ "bonus bNoMagicDamage," + (1 * (effectLvs[5] + blastEffectLvs[5])) + ";"
-	+ "bonus bFixedCastrate,-" + (1 * (effectLvs[6] + blastEffectLvs[6])) + ";"
-	+ "bonus bDelayrate,-" + (1 * (effectLvs[7] + blastEffectLvs[7])) + ";"
-	+ "bonus bSpeedAddRate," + (1 * (effectLvs[8] + blastEffectLvs[8])) + ";"
+	"bonus2 bAddClass,CLASS_ALL," + (100 * effectLvs[0]) + ";"
+	+ "bonus2 bMagicAddClass,CLASS_ALL," + (100 * effectLvs[1]) + ";"
+	+ "bonus2 bIgnoreDefClassRate,CLASS_ALL," + (1 * effectLvs[2]) + ";"
+	+ "bonus2 bIgnoreMdefClassRate,CLASS_ALL," + (1 * effectLvs[3]) + ";"
+	+ "bonus bNoWeaponDamage," + (1 * effectLvs[4]) + ";"
+	+ "bonus bNoMagicDamage," + (1 * effectLvs[5]) + ";"
+	+ "bonus bFixedCastrate,-" + (1 * effectLvs[6]) + ";"
+	+ "bonus bDelayrate,-" + (1 * effectLvs[7]) + ";"
+	+ "bonus bSpeedAddRate," + (1 * effectLvs[8]) + ";"
 	+ "bonus bMaxHP," + (.@baseMaxHp * .@maxHpLv) + ";"
-	+ "bonus bReduceDamageReturn," + (1 * (effectLvs[10] + blastEffectLvs[10])) + ";"
-	+ "bonus2 bResEff,eff," + (1 * (effectLvs[11] + blastEffectLvs[11])) + ";"
-	+ "bonus2 bIgnoreResRaceRate,RC_ALL," + (1 * (effectLvs[12] + blastEffectLvs[12])) + ";"
-	+ "bonus2 bIgnoreMResRaceRate,RC_ALL," + (1 * (effectLvs[13] + blastEffectLvs[13])) + ";"
+	+ "bonus bReduceDamageReturn," + (1 * effectLvs[10]) + ";"
+	+ "bonus2 bResEff,eff," + (1 * effectLvs[11]) + ";"
+	+ "bonus2 bIgnoreResRaceRate,RC_ALL," + (1 * effectLvs[12]) + ";"
+	+ "bonus2 bIgnoreMResRaceRate,RC_ALL," + (1 * effectLvs[13]) + ";"
 	+ "bonus2 bRegenPercentHP," + (.@regenRate ? 1 : 0) + "," + (11000 - cap_value(100 * .@regenRate,0,10000)) + ";"
 	+ "bonus bMaxSP,10000;"
 	+ "bonus bAspd,300;"
@@ -237,60 +241,49 @@ function	script	MapCleanUp	{
 	if(getusers(0) <= 1 && !IsSkipTickMap()){
 		killmonsterall strcharinfo(3),0;
 
-		if(isBlast){
-			$blastPlayingMaps[lastPlayMap] = 0;
-			$isBlastSpawnMaps[lastPlayMap] = 0;
-			$gidBossBlastMaps[lastPlayMap] = 0;
-		}
-		else{
-			$playingMaps[lastPlayMap] = 0;
-			$isSpawnMaps[lastPlayMap] = 0;
-			$isBossMaps[lastPlayMap] = 0;
-			$gidBossMaps[lastPlayMap] = 0;
-		}
+		$playingMaps[lastPlayMap] = 0;
+		$isSpawnMaps[lastPlayMap] = 0;
+		$isBossMaps[lastPlayMap] = 0;
+		$gidBossMaps[lastPlayMap] = 0;
 	}
 	return;
 }
 
 function	script	DeadPenalty	{
-	.@status = (50 * getarg(0,1));
-	.@trait = (25 * getarg(1,1));
-	.@skill = (1 * getarg(2,1));
-	// Status Penalty
-	statusup2 bStr,-.@status;
-	statusup2 bAgi,-.@status;
-	statusup2 bVit,-.@status;
-	statusup2 bInt,-.@status;
-	statusup2 bDex,-.@status;
-	statusup2 bLuk,-.@status;
-	// Trait Penalty
-	traitstatusup2 bPow,-.@trait;
-	traitstatusup2 bSta,-.@trait;
-	traitstatusup2 bWis,-.@trait;
-	traitstatusup2 bSpl,-.@trait;
-	traitstatusup2 bCon,-.@trait;
-	traitstatusup2 bCrt,-.@trait;
-	// Skill Penalty
 	freeloop(1);
-	for(.@s = 0; .@s < .@skill; .@s++){
-		.@learnSkillCount = 0;
-		for(.@i = 0; .@i < 9; .@i++){
-			if(skillSlots[.@i] != 99999)
-			.@learnSkillCount++;
-		}
-		if(.@learnSkillCount > 1){
-			.@isDoneRemoveSkill = 0;
-			while(!.@isDoneRemoveSkill){
-				.@randomLostSkillSlot = rand(9);
-				if(skillSlots[.@randomLostSkillSlot] != 99999){
-					skill $offensiveSkillIds[skillSlots[.@randomLostSkillSlot]],0,3;
-					skillSlots[.@randomLostSkillSlot] = 99999;
-					.@isDoneRemoveSkill = 1;
-				}
-			}
-		}
+	
+	// Clean all status
+	statusup2 bStr,-5000;
+	statusup2 bAgi,-5000;
+	statusup2 bVit,-5000;
+	statusup2 bInt,-5000;
+	statusup2 bDex,-5000;
+	statusup2 bLuk,-5000;
+	
+	// Clean all trait
+	traitstatusup2 bPow,-500;
+	traitstatusup2 bSta,-500;
+	traitstatusup2 bWis,-500;
+	traitstatusup2 bSpl,-500;
+	traitstatusup2 bCon,-500;
+	traitstatusup2 bCrt,-500;
+	
+	// Clean all skill
+	.@maxSkillAmount = 55;
+	for(.@m = 0; .@m < .@maxSkillAmount; .@m++){
+		if(skillSlots[.@m] != 99999)
+		skill $offensiveSkillIds[skillSlots[.@m]],0,3;
 	}
+	// Clean all effect
+	.@maxEffectAmount = 14;
+	for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
+	effectLvs[.@m] = 0;
+	
+	// Clean PORTAL OF CASTER delay
+	pocDelay = 0;
+	
 	freeloop(0);
+	
 	return;
 }
 
