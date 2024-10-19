@@ -221,6 +221,7 @@ OnSpawnMonsterOne:
 	monster $maps$[$playingMaps[lastPlayMap]],0,0,"สาวกมนต์ดำ",getd("$m" + lastPlayMap + "MID[" + rand(5) + "]"),1,strnpcinfo(0) + "::OnMonsterDead";
 	.GID = $@mobid[0];
 	.@mHP = cap_value(5 * max(1,(lastPlayMap * lastPlayMap * lastPlayMap)),5,INT_MAX);
+	setunitdata .GID,UMOB_MAXHP,.@mHP;
 	setunitdata .GID,UMOB_HP,.@mHP;
 	.@bothSpeed = 400 - rand(0,30 * tier);
 	setunitdata .GID,UMOB_SPEED,.@bothSpeed;

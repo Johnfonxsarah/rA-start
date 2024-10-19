@@ -64,6 +64,7 @@ OnInit:
 	bindatcmd "ll",strnpcinfo(3) + "::OnLastFollowPlayerLoad",99,99;
 	bindatcmd "ml",strnpcinfo(3) + "::OnMapLoad",99,99;
 	bindatcmd "tm",strnpcinfo(3) + "::OnTestMap",99,99;
+	bindatcmd "ask",strnpcinfo(3) + "::OnAddSkill",99,99;
 	
 	addrid(0);
 	
@@ -128,4 +129,23 @@ OnDeadHint:
 MenuKnow:
 	isKnowDeadPenalty = 1;
 	close;
+	
+OnAddSkill:
+	skill atoi(.@atcmd_parameters$[0]),100,3;
+	bonus_script_clear 8;
+	bonus_script
+	"bonus2 bAddClass,CLASS_ALL,10000;"
+	+ "bonus2 bMagicAddClass,CLASS_ALL,10000;"
+	+ "bonus2 bIgnoreDefClassRate,CLASS_ALL,100;"
+	+ "bonus2 bIgnoreMdefClassRate,CLASS_ALL,100;"
+	+ "bonus bNoWeaponDamage,100;"
+	+ "bonus bNoMagicDamage,100;"
+	+ "bonus bFixedCastrate,-100;"
+	+ "bonus bDelayrate,-100;"
+	+ "bonus bSpeedAddRate,100;"
+	+ "bonus bMaxHP,2000000;"
+	+ "bonus bReduceDamageReturn,100;"
+	+ "bonus bAspd,300;"
+	,86400,8,1;
+	end;
 }
