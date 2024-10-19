@@ -117,7 +117,7 @@ OnTouch:
 	
 	freeloop(1);
 	
-	.@maxEffectAmount = 14;
+	.@maxEffectAmount = 15;
 	
 	for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
 	effectLvs[.@m] = 0;

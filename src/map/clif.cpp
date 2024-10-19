@@ -10028,7 +10028,7 @@ void clif_name( struct block_list* src, struct block_list *bl, send_target targe
 				}
 
 				if( battle_config.show_mob_info&1 ){
-					str_p += sprintf( str_p, "HP: %u/%u | ", md->status.hp, md->status.max_hp );
+					str_p += sprintf( str_p, "HP: %u | ", md->status.hp );
 				}
 
 				if( battle_config.show_mob_info&2 ){

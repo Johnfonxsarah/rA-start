@@ -24087,7 +24087,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	skill->cast_def_rate = 0;
 
 	for (size_t i = 0; i < MAX_SKILL_LEVEL; i++)
-		skill->cast[i] = (i + 1) * 100;
+		skill->cast[i] = (i + 1) * 50;
 
 	memset(skill->delay, 0, sizeof(skill->delay));
 
