@@ -16,12 +16,6 @@ OnPCDieEvent:
 	end;
 	
 OnPCLoginEvent:
-	if($isTestMode){
-		bodyPoints[10] = 100000;
-		traitPoints[10] = 100000;
-		skillPoints[10] = 100000;
-	}
-	
 	freeloop(1);
 	if(!isSkillSetup){
 		.@maxSkillAmount = 55;
@@ -47,7 +41,7 @@ OnPCLoginEvent:
 	if(dressSlot4)
 	setlook LOOK_ROBE,dressSlot4;
 
-	if(!((strcharinfo(3) == "bl_depth2") || (strcharinfo(3) == "nakhyang")))
+	if(strcharinfo(3) != "bl_depth2")
 	addtimer 100,strnpcinfo(0) + "::OnLoadConfirm";
 	
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
