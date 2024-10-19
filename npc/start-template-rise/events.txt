@@ -5,13 +5,18 @@ OnPCDieEvent:
 	callfunc("RemovePlayDelegates");
 	
 	// Map clean up if alone in map
-	callfunc("MapCleanUp");
-	
-	callfunc("DeadPenalty");
+	if(!IsSkipTickMap()){
+		callfunc("MapCleanUp");
+		
+		callfunc("DeadPenalty");
+	}
 
 	callfunc("ApplyCCCRules");
 	
 	addtimer 100,strnpcinfo(0) + "::OnLoadConfirm";
+	
+	if(!isKnowDeadPenalty)
+	addtimer 2000,strnpcinfo(0) + "::OnDeadHint";
 	
 	end;
 	
@@ -113,4 +118,14 @@ OnLoadConfirm:
 	callfunc("MapCleanUp");
 	warp "Save",0,0;
 	end;
+	
+OnDeadHint:
+	mes "คุณหมดสติ";
+	mes "ทำให้ Status, Trait, Skill, Effect ที่ได้มาจากการเข้า PORTAL OF CASTER หายไป โปรดเข้าอีกครั้งได้เลยทันที";
+	menu "เข้าใจแล้ว",-,"ไม่ต้องแสดงข้อความนี้อีก",MenuKnow;
+	end;
+	
+MenuKnow:
+	isKnowDeadPenalty = 1;
+	close;
 }

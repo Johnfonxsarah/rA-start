@@ -26,7 +26,7 @@ function	script	ResetTired	{
 
 function	script	IsSkipTickMap	{
 	.@value$ = getarg(0,strcharinfo(3));
-	return (.@value$ == "bl_depth2");
+	return ((.@value$ == "bl_depth2") || (.@value$ == "pvp_n_1-1") || (.@value$ == "pvp_n_1-3") || (.@value$ == "pvp_n_1-5"));
 }
 
 function	script	StringBase10000	{
@@ -203,7 +203,8 @@ function	script	ApplyEffect	{
 	+ "bonus bFixedCastrate,-" + (1 * effectLvs[6]) + ";"
 	+ "bonus bDelayrate,-" + (1 * effectLvs[7]) + ";"
 	+ "bonus bSpeedAddRate," + (1 * effectLvs[8]) + ";"
-	+ "bonus bMaxHP," + ((50 * BaseLevel) + (.@baseMaxHp * .@maxHpLv)) + ";"
+	+ "bonus bMaxHP," + (50 * BaseLevel) + ";"
+	+ "bonus bMaxHP," + (.@baseMaxHp * .@maxHpLv) + ";"
 	+ "bonus bReduceDamageReturn," + (1 * effectLvs[10]) + ";"
 	+ "bonus2 bResEff,eff," + (1 * effectLvs[11]) + ";"
 	+ "bonus2 bIgnoreResRaceRate,RC_ALL," + (1 * effectLvs[12]) + ";"
@@ -304,7 +305,7 @@ function	script	DeadPenalty	{
 	}
 	
 	// Clean all effect
-	.@maxEffectAmount = 14;
+	.@maxEffectAmount = 15;
 	for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
 	effectLvs[.@m] = 0;
 	
