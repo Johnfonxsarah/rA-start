@@ -254,32 +254,44 @@ function	script	DeadPenalty	{
 	freeloop(1);
 	
 	.@previousLv = bodyLv;
-	.@minus = rand($bodyMax[callfunc("GetBodyTier") - 1]);
+	.@minus = $bodyMax[callfunc("GetBodyTier") - 1];
 	if(.@minus)
 	.@minus /= 10;
-	bodyLv = cap_value(bodyLv - rand(.@minus),0,INT_MAX);
-	dispbottom "(โทษการหมดสติ) Max Status ที่จะสุ่มได้มากสุด ลดลง " + F_InsertComma(.@minus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(bodyLv);
+	if(.@minus <= 1)
+	.@minus = 2;
+	.@randMinus = rand(.@minus);
+	bodyLv = cap_value(bodyLv - .@randMinus,0,INT_MAX);
+	dispbottom "(โทษการหมดสติ) Max Status ที่จะสุ่มได้มากสุด ลดลง " + F_InsertComma(.@randMinus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(bodyLv);
 	
 	.@previousLv = traitLv;
-	.@minus = rand($traitMax[callfunc("GetTraitTier") - 1]);
+	.@minus = $traitMax[callfunc("GetTraitTier") - 1];
 	if(.@minus)
 	.@minus /= 10;
-	traitLv = cap_value(traitLv - rand(.@minus),0,INT_MAX);
-	dispbottom "(โทษการหมดสติ) Max Trait ที่จะสุ่มได้มากสุด ลดลง " + F_InsertComma(.@minus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(traitLv);
+	if(.@minus <= 1)
+	.@minus = 2;
+	.@randMinus = rand(.@minus);
+	traitLv = cap_value(traitLv - .@randMinus,0,INT_MAX);
+	dispbottom "(โทษการหมดสติ) Max Trait ที่จะสุ่มได้มากสุด ลดลง " + F_InsertComma(.@randMinus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(traitLv);
 	
 	.@previousLv = skillLv;
-	.@minus = rand($skillMax[callfunc("GetSkillTier") - 1]);
+	.@minus = $skillMax[callfunc("GetSkillTier") - 1];
 	if(.@minus)
 	.@minus /= 10;
-	skillLv = cap_value(skillLv - rand(.@minus),0,INT_MAX);
-	dispbottom "(โทษการหมดสติ) Skill Level ลดลง " + F_InsertComma(.@minus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(skillLv);
+	if(.@minus <= 1)
+	.@minus = 2;
+	.@randMinus = rand(.@minus);
+	skillLv = cap_value(skillLv - .@randMinus,0,INT_MAX);
+	dispbottom "(โทษการหมดสติ) Skill Level ลดลง " + F_InsertComma(.@randMinus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(skillLv);
 	
 	.@previousLv = effectLv;
-	.@minus = rand($effectMax[callfunc("GetEffectTier") - 1]);
+	.@minus = $effectMax[callfunc("GetEffectTier") - 1];
 	if(.@minus)
 	.@minus /= 10;
-	effectLv = cap_value(effectLv - rand(.@minus),0,INT_MAX);
-	dispbottom "(โทษการหมดสติ) Max Effect ที่จะสุ่มได้มากสุด ลดลง " + F_InsertComma(.@minus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(effectLv);
+	if(.@minus <= 1)
+	.@minus = 2;
+	.@randMinus = rand(.@minus);
+	effectLv = cap_value(effectLv - .@randMinus,0,INT_MAX);
+	dispbottom "(โทษการหมดสติ) Max Effect ที่จะสุ่มได้มากสุด ลดลง " + F_InsertComma(.@randMinus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(effectLv);
 	
 	// Clean all status
 	statusup2 bStr,-5000;
