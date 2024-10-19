@@ -20,7 +20,7 @@ function	script	ResetTired	{
 	tired = 0;
 	tiredSpot = 0;
 	ptt = 0;
-	ApplyTired();
+	callfunc("ApplyTired");
 	return;
 }
 
@@ -302,6 +302,7 @@ function	script	DeadPenalty	{
 		if(skillSlots[.@m] != 99999)
 		skill $offensiveSkillIds[skillSlots[.@m]],0,3;
 	}
+	
 	// Clean all effect
 	.@maxEffectAmount = 14;
 	for(.@m = 0; .@m < .@maxEffectAmount; .@m++)

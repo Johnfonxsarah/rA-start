@@ -34,8 +34,8 @@ bl_depth2,132,159,6	script	เครื่องเสริมแกร่ง	10545,{
 	menu
 	"เพิ่ม Max Status ที่จะสุ่มได้",MenuBody,
 	"เพิ่ม Max Trait ที่จะสุ่มได้",MenuTrait,
-	"เพิ่ม Max Level Skill",MenuSkill,
-	"เพิ่ม Max Level Effect",MenuEffect,
+	"เพิ่ม Level Skill ที่จะสุ่มได้",MenuSkill,
+	"เพิ่ม Max Level Effect ที่จะสุ่มได้",MenuEffect,
 	"แลกแต้มเป็น Item",MenuExchangePoints,
 	"แลก Item เป็นแต้ม",MenuExchangeItems
 	;

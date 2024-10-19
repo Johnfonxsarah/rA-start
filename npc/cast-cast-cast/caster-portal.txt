@@ -1,15 +1,21 @@
 bl_depth2,141,171,5	script	PORTAL OF CASTER	10043,2,2,{
 	mes "เดินผ่านเพื่อ";
-	mes "• สุ่ม Status ตามจำนวนสุ่มสูงสุด";
-	mes "• สุ่ม Trait ตามจำนวนสุ่มสูงสุด";
-	mes "• สุ่ม Skill ตามจำนวนสุ่มสูงสุด";
-	mes "• สุ่ม Effect ตามจำนวนสุ่มสูงสุด";
+	mes "• สุ่ม Status";
+	mes "• สุ่ม Trait";
+	mes "• สุ่ม Skill";
+	mes "• สุ่ม Effect";
+	mes "ตามจำนวนสุ่มสูงสุด";
 	mes "Cooldown 3 นาที ต่อการเดินผ่าน";
 	close;
 	
 OnTouch:
+	if((bodyLv <= 0) && (traitLv <= 0) && (skillLv <= 0) && (effectLv <= 0)){
+		mes "คุณยังไม่ได้เสริมแกร่งตัวละครใด ๆ เลย";
+		close;
+	}
+
 	.@delay = 180;
-	.@delay = 4;
+	
 	// Delay check
 	if(pocDelay > gettimetick(2)){
 		mes "โปรดรอ " + (pocDelay - gettimetick(2)) + " วินาที";
@@ -114,7 +120,7 @@ OnTouch:
 	.@maxEffectAmount = 14;
 	
 	for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
-		effectLvs[.@m] = 0;
+	effectLvs[.@m] = 0;
 	
 	if(effectLv){
 		for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
