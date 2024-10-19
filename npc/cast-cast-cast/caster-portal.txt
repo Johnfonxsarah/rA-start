@@ -5,7 +5,7 @@ bl_depth2,141,171,5	script	PORTAL OF CASTER	10043,2,2,{
 	mes "• สุ่ม Skill";
 	mes "• สุ่ม Effect";
 	mes "ตามจำนวนสุ่มสูงสุด";
-	mes "Cooldown 3 นาที ต่อการเดินผ่าน";
+	mes "Cooldown 90 วินาที ต่อการเดินผ่าน";
 	close;
 	
 OnTouch:
@@ -14,7 +14,7 @@ OnTouch:
 		close;
 	}
 
-	.@delay = 180;
+	.@delay = 90;
 	
 	// Delay check
 	if(pocDelay > gettimetick(2)){
