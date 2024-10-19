@@ -252,6 +252,34 @@ function	script	MapCleanUp	{
 function	script	DeadPenalty	{
 	freeloop(1);
 	
+	.@previousLv = bodyLv;
+	.@minus = rand($bodyMax[tier - 1]);
+	if(.@minus)
+	.@minus /= 10;
+	bodyLv = cap_value(bodyLv - rand($bodyMax[tier - 1]),0,INT_MAX);
+	dispbottom "(โทษการหมดสติ) Max Status ที่จะสุ่มได้มากสุด ลดลง " + F_InsertComma(.@minus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(bodyLv);
+	
+	.@previousLv = traitLv;
+	.@minus = rand($traitMax[tier - 1]);
+	if(.@minus)
+	.@minus /= 10;
+	traitLv = cap_value(traitLv - rand($traitMax[tier - 1]),0,INT_MAX);
+	dispbottom "(โทษการหมดสติ) Max Trait ที่จะสุ่มได้มากสุด ลดลง " + F_InsertComma(.@minus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(traitLv);
+	
+	.@previousLv = skillLv;
+	.@minus = rand($skillMax[tier - 1]);
+	if(.@minus)
+	.@minus /= 10;
+	skillLv = cap_value(skillLv - rand($skillMax[tier - 1]),0,INT_MAX);
+	dispbottom "(โทษการหมดสติ) Skill Level ลดลง " + F_InsertComma(.@minus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(skillLv);
+	
+	.@previousLv = effectLv;
+	.@minus = rand($effectMax[tier - 1]);
+	if(.@minus)
+	.@minus /= 10;
+	effectLv = cap_value(effectLv - rand($effectMax[tier - 1]),0,INT_MAX);
+	dispbottom "(โทษการหมดสติ) Max Effect ที่จะสุ่มได้มากสุด ลดลง " + F_InsertComma(.@minus) + " จาก " + F_InsertComma(.@previousLv) + " เป็น " + F_InsertComma(effectLv);
+	
 	// Clean all status
 	statusup2 bStr,-5000;
 	statusup2 bAgi,-5000;
