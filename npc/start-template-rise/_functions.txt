@@ -203,7 +203,7 @@ function	script	ApplyEffect	{
 	+ "bonus bFixedCastrate,-" + (1 * effectLvs[6]) + ";"
 	+ "bonus bDelayrate,-" + (1 * effectLvs[7]) + ";"
 	+ "bonus bSpeedAddRate," + (1 * effectLvs[8]) + ";"
-	+ "bonus bMaxHP," + (.@baseMaxHp * .@maxHpLv) + ";"
+	+ "bonus bMaxHP," + ((50 * BaseLevel) + (.@baseMaxHp * .@maxHpLv)) + ";"
 	+ "bonus bReduceDamageReturn," + (1 * effectLvs[10]) + ";"
 	+ "bonus2 bResEff,eff," + (1 * effectLvs[11]) + ";"
 	+ "bonus2 bIgnoreResRaceRate,RC_ALL," + (1 * effectLvs[12]) + ";"

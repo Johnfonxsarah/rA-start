@@ -2,7 +2,7 @@ bl_depth2,132,159,6	script	เครื่องเสริมแกร่ง	10545,{
 	mes "Body Level: " + F_InsertComma(bodyLv);
 	mes "Trait Level: " + F_InsertComma(traitLv);
 	mes "Skill Level: " + F_InsertComma(skillLv);
-	mes "Effect Level: " + F_InsertComma(traitLv);
+	mes "Effect Level: " + F_InsertComma(effectLv);
 	.@maxHpLv = effectLvs[9];
 	.@baseMaxHp =
 	(.@maxHpLv < 10) ? 1000
