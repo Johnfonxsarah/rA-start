@@ -1,4 +1,4 @@
-bl_depth2,141,165,5	script	ป้าย#RANK	857,{
+bl_depth2,127,141,6	script	ป้าย#RANK	857,{
 	query_sql("SELECT `char`.`name`, `char`.base_level FROM `char` ORDER BY `char`.base_level DESC LIMIT 100",.@name$,.@lv);
 	mes "LEVEL";
 	for(.@i = 0; .@i < getarraysize(.@lv); .@i++)

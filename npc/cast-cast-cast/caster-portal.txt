@@ -1,0 +1,113 @@
+bl_depth2,141,171,5	script	PORTAL OF CASTER	10043,2,2,{
+	mes "เดินผ่านเพื่อ";
+	mes "• สุ่ม Status ตามจำนวนสุ่มสูงสุด";
+	mes "• สุ่ม Trait ตามจำนวนสุ่มสูงสุด";
+	mes "• สุ่ม Skill ตามจำนวนสุ่มสูงสุด";
+	mes "• สุ่ม Effect ตามจำนวนสุ่มสูงสุด";
+	mes "Cooldown 3 นาที ต่อการเดินผ่าน";
+	close;
+	
+OnTouch:
+	.@delay = 180;
+	.@delay = 4;
+	// Delay check
+	if(pocDelay > gettimetick(2)){
+		mes "โปรดรอ " + (pocDelay - gettimetick(2)) + " วินาที";
+		close;
+	}
+	
+	// Delay
+	pocDelay = gettimetick(2) + .@delay;
+	
+	// Status
+	statusup2 bStr,-5000;
+	statusup2 bAgi,-5000;
+	statusup2 bVit,-5000;
+	statusup2 bInt,-5000;
+	statusup2 bDex,-5000;
+	statusup2 bLuk,-5000;
+	if(bodyLv){
+		statusup2 bStr,rand(bodyLv);
+		statusup2 bAgi,rand(bodyLv);
+		statusup2 bVit,rand(bodyLv);
+		statusup2 bInt,rand(bodyLv);
+		statusup2 bDex,rand(bodyLv);
+		statusup2 bLuk,rand(bodyLv);
+	}
+	
+	// Trait
+	traitstatusup2 bPow,-500;
+	traitstatusup2 bSta,-500;
+	traitstatusup2 bWis,-500;
+	traitstatusup2 bSpl,-500;
+	traitstatusup2 bCon,-500;
+	traitstatusup2 bCrt,-500;
+	if(traitLv){
+		traitstatusup2 bPow,rand(traitLv);
+		traitstatusup2 bSta,rand(traitLv);
+		traitstatusup2 bWis,rand(traitLv);
+		traitstatusup2 bSpl,rand(traitLv);
+		traitstatusup2 bCon,rand(traitLv);
+		traitstatusup2 bCrt,rand(traitLv);
+	}
+	
+	// Skill
+	// Skill Amount = 1 + (Level / 5)
+	// Skill cannot be same
+
+	freeloop(1);
+	
+	// Forgot old skill if available
+	.@maxSkillAmount = 55;
+	for(.@m = 0; .@m < .@maxSkillAmount; .@m++){
+		if(skillSlots[.@m] != 99999)
+		skill $offensiveSkillIds[skillSlots[.@m]],0,3;
+	}
+	
+	// Random new skill
+	skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
+	// Should not same with other slot
+	
+	setarray .@errorSkillIds[0],5344,5345,5346,5348,3012,5302,5303,5304,5305,232,2281,5375,5376,5377,5378,5379,2457,2458,2459,2460,2428,378,2559,2222,247,244,2535,279,2464,475,2230,2269,222,220,147,154,2544,41,2240,5336,2025,40,2456,1007,398,478,2495,228,1013,496,497,498,411,488,508,2242,2445,405,2032,499,151,251,5009,5204;
+	
+	while(true){
+		.@isSame = 0;
+		// Loop all slot
+		for(.@i = 0; .@i < 9; .@i++){
+			if(.@i == .@slot)
+			continue;
+			// Check for error skill
+			for(.@j = 0; .@j < getarraysize(.@errorSkillIds); .@j++){
+				if(skillSlots[.@slot] == .@errorSkillIds[.@j]){
+					// Random new skill
+					skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
+					.@isSame = 1;
+					break;
+				}
+			}
+			// Check skill was same
+			if(!isSame && (skillSlots[.@slot] == skillSlots[.@i])){
+				// Random new skill
+				skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
+				.@isSame = 1;
+				break;
+			}
+		}
+		if(!.@isSame)
+		break;
+	}
+	
+	// Learn new skill now
+	skill $offensiveSkillIds[skillSlots[.@slot]],.@level,3;
+	freeloop(0);
+	
+	
+	// Effect
+	// Warp back to save point
+	warp "Save",0,0;
+	end;
+	
+OnInit:
+	waitingroom "เดินผ่านสุ่มทุกอย่างใหม่",0;
+	end;
+}

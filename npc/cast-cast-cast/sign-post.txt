@@ -9,3 +9,4 @@ OnInit:
 
 1@vrsn,128,97,4	duplicate(SignPost)	ป้าย#ห้องเปลี่ยนโฉม	857
 1@vrsn,99,97,4	duplicate(SignPost)	ป้าย#ห้องแนะนำ	857
+bl_depth2,141,160,5	duplicate(SignPost)	ป้าย#ประตูมิติ	857
