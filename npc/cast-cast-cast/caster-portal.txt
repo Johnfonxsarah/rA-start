@@ -32,13 +32,13 @@ OnTouch:
 	statusup2 bInt,-5000;
 	statusup2 bDex,-5000;
 	statusup2 bLuk,-5000;
-	if(bodyLv){
-		statusup2 bStr,rand(bodyLv);
-		statusup2 bAgi,rand(bodyLv);
-		statusup2 bVit,rand(bodyLv);
-		statusup2 bInt,rand(bodyLv);
-		statusup2 bDex,rand(bodyLv);
-		statusup2 bLuk,rand(bodyLv);
+	if(bodyLv > 0){
+		statusup2 bStr,rand(bodyLv + 1);
+		statusup2 bAgi,rand(bodyLv + 1);
+		statusup2 bVit,rand(bodyLv + 1);
+		statusup2 bInt,rand(bodyLv + 1);
+		statusup2 bDex,rand(bodyLv + 1);
+		statusup2 bLuk,rand(bodyLv + 1);
 	}
 	
 	// Trait
@@ -48,13 +48,13 @@ OnTouch:
 	traitstatusup2 bSpl,-500;
 	traitstatusup2 bCon,-500;
 	traitstatusup2 bCrt,-500;
-	if(traitLv){
-		traitstatusup2 bPow,rand(traitLv);
-		traitstatusup2 bSta,rand(traitLv);
-		traitstatusup2 bWis,rand(traitLv);
-		traitstatusup2 bSpl,rand(traitLv);
-		traitstatusup2 bCon,rand(traitLv);
-		traitstatusup2 bCrt,rand(traitLv);
+	if(traitLv > 0){
+		traitstatusup2 bPow,rand(traitLv + 1);
+		traitstatusup2 bSta,rand(traitLv + 1);
+		traitstatusup2 bWis,rand(traitLv + 1);
+		traitstatusup2 bSpl,rand(traitLv + 1);
+		traitstatusup2 bCon,rand(traitLv + 1);
+		traitstatusup2 bCrt,rand(traitLv + 1);
 	}
 	
 	// Skill
@@ -121,10 +121,10 @@ OnTouch:
 	
 	for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
 	effectLvs[.@m] = 0;
-	
-	if(effectLv){
+
+	if(effectLv > 0){
 		for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
-		effectLvs[.@m] = rand(effectLv);
+		effectLvs[.@m] = rand(effectLv + 1);
 	}
 
 	freeloop(0);

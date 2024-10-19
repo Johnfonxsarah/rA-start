@@ -24087,7 +24087,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	skill->cast_def_rate = 0;
 
 	for (size_t i = 0; i < MAX_SKILL_LEVEL; i++)
-		skill->cast[i] = (i + 1) * 50;
+		skill->cast[i] = (i + 1) * battle_config.config_base_cast_time;
 
 	memset(skill->delay, 0, sizeof(skill->delay));
 
@@ -24110,7 +24110,7 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	}
 
 	for (size_t i = 0; i < MAX_SKILL_LEVEL; i++)
-		skill->cooldown[i] = (i+1)*1000;
+		skill->cooldown[i] = (i + 1) * battle_config.config_base_cooldown;
 
 	memset(skill->fixed_cast, -1, sizeof(skill->fixed_cast));
 

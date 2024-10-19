@@ -33,3 +33,5 @@
  { "config_equipment_drop_auto_identify", &battle_config.config_equipment_drop_auto_identify, 1, 0, 1 },
  { "config_random_monster_rank", &battle_config.config_random_monster_rank, 91, 0, 50000 },
  { "config_auto_trade_player_count", &battle_config.config_auto_trade_player_count, 0, 0, 1 },
+ { "config_base_cast_time", &battle_config.config_base_cast_time, 50, 0, INT_MAX },
+ { "config_base_cooldown", &battle_config.config_base_cooldown, 500, 0, INT_MAX },

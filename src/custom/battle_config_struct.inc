@@ -34,3 +34,5 @@
  int config_equipment_drop_auto_identify;
  int config_random_monster_rank;
  int config_auto_trade_player_count;
+ int config_base_cast_time;
+ int config_base_cooldown;

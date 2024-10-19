@@ -62,3 +62,12 @@ config_random_monster_rank: 1
 
 // ไม่นับคน Auto Trade (0 ไม่นับ)
 config_auto_trade_player_count: 0
+
+// - - - - - - - -
+// - - - - - - - -
+// - - - - - - - -
+// CAST CAST CAST
+// Config Cast Time (50 = 0.05s)
+config_base_cast_time: 50
+// Config Cooldown Time (200 = 0.2s)
+config_base_cooldown: 200
