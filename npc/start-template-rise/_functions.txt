@@ -154,6 +154,7 @@ function	script	TeleportOrb	{
 	else{
 MenuTeleportNormal:
 		warp "Random",0,0;
+		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
 	}
 	
 	return;
