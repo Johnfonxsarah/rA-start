@@ -2236,7 +2236,7 @@ int64 battle_calc_pk_damage(block_list &src, block_list &bl, int64 damage, uint1
  * @return Modified damage
  */
 int64 battle_calc_debuff_damage(struct block_list* src, struct block_list* bl, int64 damage) {
-	if (damage < 0) // No reductions to make.
+	if (damage == 0) // No reductions to make.
 		return 0;
 
 	map_session_data* sd = sd = BL_CAST(BL_PC, src);
@@ -2248,7 +2248,7 @@ int64 battle_calc_debuff_damage(struct block_list* src, struct block_list* bl, i
 	if (md && (md->dmgMultiplier != 0))
 		damage = i64max(damage * md->dmgMultiplier, 1); // Example: Damage Multiplier 2 will increase damage by x2
 
-	return i64max(damage, 5);
+	return i64max(damage, 1);
 }
 
 /**
