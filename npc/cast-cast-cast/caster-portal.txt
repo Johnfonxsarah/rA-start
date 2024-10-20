@@ -80,6 +80,8 @@ OnTouch:
 	
 	.@slot = 0;
 	
+	setarray .@errorSkillIds[0],5350,5338,408,271,5260,5255,45;
+	
 	while(.@skillAmount > 0){
 		.@skillAmount--;
 		
@@ -92,7 +94,18 @@ OnTouch:
 			for(.@i = 0; .@i < .@maxSkillAmount; .@i++){
 				if(.@i == .@slot)
 				continue;
-
+				
+				// Check for error skill
+				for(.@j = 0; .@j < getarraysize(.@errorSkillIds); .@j++){
+					if(skillSlots[.@slot] == .@errorSkillIds[.@j]){
+						// Random new skill
+						skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
+						.@isSame = 1;
+						.@i = 0;
+						break;
+					}
+				}
+				
 				// Check skill was same
 				if(!isSame && (skillSlots[.@slot] == skillSlots[.@i])){
 					// Random new skill
