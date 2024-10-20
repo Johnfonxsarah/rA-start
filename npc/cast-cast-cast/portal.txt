@@ -109,6 +109,22 @@ OnJoin:
 	;
 	bonusDropMultiplier = cap_value(bonusDropMultiplier / 3,1,10);
 	
+	// Boss Drop Multiplier
+	bonusBossDropMultiplier =
+	(tier == 1) ? (0 + (1 * .@lv))				// 1~5
+	: (tier == 2) ? (0 + (1 * (.@lv - 5)))		// 1~10
+	: (tier == 3) ? (0 + (1 * (.@lv - 15)))		// 1~15
+	: (tier == 4) ? (0 + (1 * (.@lv - 30)))		// 1~30
+	: (tier == 5) ? (0 + (1 * (.@lv - 60)))		// 1~40
+	: (tier == 6) ? (0 + (1 * (.@lv - 100)))	// 1~50
+	: (tier == 7) ? (0 + (1 * (.@lv - 150)))	// 1~50
+	: (tier == 8) ? (0 + (1 * (.@lv - 200)))	// 1~50
+	: (tier == 9) ? (0 + (1 * (.@lv - 225)))	// 1~25
+	: (tier == 10) ? (0 + (1 * (.@lv - 250)))	// 1~25
+	: (0 + (1 * (.@lv - 275)))					// 1~25
+	;
+	bonusBossDropMultiplier = cap_value(2 * bonusBossDropMultiplier,1,100);
+	
 	// Debuff Rate
 	debuffRate =
 	(tier == 1) ? (0 + (1 * .@lv))				// 1~5
