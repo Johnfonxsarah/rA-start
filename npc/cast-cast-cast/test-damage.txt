@@ -45,11 +45,11 @@ bl_depth2,149,145,5	script	∑¥ Õ∫ Damage	10557,30,30,{
 	
 	callfunc("ApplyTired");
 	
-	//setpcblock PCBLOCK_SKILL,false;
+	setpcblock PCBLOCK_SKILL,false;
 	warp strcharinfo(3),215,220;
 	end;
 	
 OnTouch:
-	//setpcblock PCBLOCK_SKILL,true;
+	setpcblock PCBLOCK_SKILL,true;
 	end;
 }
