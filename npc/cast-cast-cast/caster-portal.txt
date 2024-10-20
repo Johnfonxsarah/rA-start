@@ -80,7 +80,7 @@ OnTouch:
 	
 	.@slot = 0;
 	
-	setarray .@errorSkillIds[0],5350,5338,408,271,5260,5255,45;
+	setarray .@errorSkillIds[0],5350,5338,408,271,5260,5255,45,2234;
 	
 	while(.@skillAmount > 0){
 		.@skillAmount--;

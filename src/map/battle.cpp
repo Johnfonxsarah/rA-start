@@ -2236,8 +2236,8 @@ int64 battle_calc_pk_damage(block_list &src, block_list &bl, int64 damage, uint1
  * @return Modified damage
  */
 int64 battle_calc_debuff_damage(struct block_list* src, struct block_list* bl, int64 damage) {
-	if (damage < 5) // No reductions to make.
-		damage = 5; // Mininum damage 5
+	if (damage < 0) // No reductions to make.
+		return 0;
 
 	map_session_data* sd = sd = BL_CAST(BL_PC, src);
 
