@@ -168,7 +168,7 @@ OnJoin:
 	// Warp now
 	warp $maps$[$playingMaps[lastPlayMap]],0,0;
 	// About to start spawn monster around player
-	hintTimer = 3;
+	hintTimer = myHintTimer ? myHintTimer : 3;
 	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";
 	callsub OnSpawnMonster;
 	close;

@@ -51,6 +51,9 @@ OnPCLoginEvent:
 	
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
 	
+	if(!myHintTimer)
+	myHintTimer = 3;
+
 	end;
 	
 OnPCLogoutEvent:

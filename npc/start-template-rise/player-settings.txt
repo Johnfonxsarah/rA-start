@@ -3,6 +3,7 @@ bl_depth2,151,159,4	script	ตั้งค่า	10372,{
 	menu
 	"ดูคำสั่งที่ใช้ได้",L_Commands,
 	"แสดง % Drop [" + (!#isSkipVerboseLog ? "^1c9311ON^000000" : "^d32323OFF^000000") + "]",L_VerboseLog,
+	"ตั้งเวลาอมตะ [" + myHintTimer + " ^1c9311วินาที^000000]",L_HintTimerSetup,
 	"เปลี่ยน Password",L_ChangePassword,
 	"เพิ่ม Level Guild",MenuGetGuildLevel,
 	"ลบของที่เป็นตัว X",MenuDeleteNormalItem
@@ -18,6 +19,16 @@ bl_depth2,151,159,4	script	ตั้งค่า	10372,{
 	
 	L_VerboseLog:
 	#isSkipVerboseLog = !#isSkipVerboseLog;
+	goto L_Menu;
+	
+	L_HintTimerSetup:
+	.@min = 1;
+	.@max = 7;
+	mes "ระบุ " + .@min + "~" + .@max;
+	next;
+	input .@myHintTimer;
+	.@myHintTimer = cap_value(.@myHintTimer,.@min,.@max);
+	myHintTimer = .@myHintTimer;
 	goto L_Menu;
 	
 	L_ChangePassword:
