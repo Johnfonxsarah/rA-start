@@ -11,6 +11,12 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 	
 	percentheal 100,100;
 	
+	if(playCooldown >= gettimetick(2))
+	{
+		mes "โปรดรอ " + (playCooldown - gettimetick(2)) + " วินาที";
+		close;
+	}
+	
 	mes "เลือกชั้นที่ต้องการเข้าเล่น";
 	mes "โปรดระบุ ^d323231~" + BaseLevel + "^000000";
 	next;
@@ -167,6 +173,10 @@ OnJoin:
 	
 	setpcblock PCBLOCK_ALL,true;
 	setpcblock PCBLOCK_MOVE,false;
+	setpcblock PCBLOCK_USEITEM,false;
+	setpcblock PCBLOCK_COMMANDS,false;
+	
+	playCooldown = gettimetick(2) + rand(30,60);
 	
 	// Warp now
 	warp $maps$[$playingMaps[lastPlayMap]],0,0;
@@ -295,6 +305,8 @@ OnBossDead:
 	}
 	
 	addrid(1);
+
+	playCooldown = 0;
 
 	if(((BaseLevel - 1) < lastPlayMap) && (BaseLevel < 275))
 	atcommand "@lvup " + (lastPlayMap - (BaseLevel - 1));

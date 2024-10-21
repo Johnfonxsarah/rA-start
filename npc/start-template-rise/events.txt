@@ -18,6 +18,8 @@ OnPCDieEvent:
 	if(!isKnowDeadPenalty)
 	addtimer 2000,strnpcinfo(0) + "::OnDeadHint";
 	
+	playCooldown = 0;
+	
 	end;
 	
 OnPCLoginEvent:
@@ -121,6 +123,8 @@ OnLoad:
 OnLoadConfirm:
 	callfunc("MapCleanUp");
 	warp "Save",0,0;
+	setpcblock PCBLOCK_ALL,false;
+	callfunc("ApplyCCCRules");
 	end;
 	
 OnDeadHint:

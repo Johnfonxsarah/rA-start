@@ -136,6 +136,8 @@ function	script	ReturnOrb	{
 	progressbar "",2;
 	callfunc("MapCleanUp");
 	warp "Save",0,0;
+	setpcblock PCBLOCK_ALL,false;
+	callfunc("ApplyCCCRules");
 	return;
 }
 
