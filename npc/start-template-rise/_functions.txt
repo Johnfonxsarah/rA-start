@@ -157,8 +157,8 @@ function	script	TeleportOrb	{
 	if(!IsSkipTickMap())
 	progressbar "",1;
 	if(!IsSkipTickMap() && $isBossMaps[lastPlayMap]){
-		menu "Teleport ปกติ",MenuTeleportNormal,"ลงหัว Boss",-;
 		getunitdata $gidBossMaps[lastPlayMap],.@uds;
+		menu "Teleport ปกติ",MenuTeleportNormal,"ลงหัว Boss",-;
 		// Get available cell to warp to boss
 		getfreecell strcharinfo(3),.@rX,.@rY,.@uds[UMOB_X],.@uds[UMOB_Y],rand(5),rand(5);
 		warp strcharinfo(3),.@rX,.@rY;
