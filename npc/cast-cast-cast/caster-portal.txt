@@ -1,18 +1,18 @@
-bl_depth2,141,171,5	script	PORTAL OF CASTER	10043,2,2,{
-	mes "เดินผ่านเพื่อ";
+bl_depth2,141,171,5	script	PORTAL OF CASTER	10043,{
+	mes "จะทำการสุ่ม";
 	mes "• สุ่ม Status";
 	mes "• สุ่ม Trait";
 	mes "• สุ่ม Skill";
 	mes "• สุ่ม Effect";
 	mes "ตามจำนวนสุ่มสูงสุด";
-	mes "Cooldown 90 วินาที ต่อการเดินผ่าน";
-	menu "ไม่ทำอะไร",-,"โกงเวลา + สุ่มใหม่ทันที (เสีย 1 Body Level และ 1 Trait Level)",MenuForceResetCooldown;
+	mes "Cooldown 30~90 วินาที ต่อการใช้งาน";
+	menu "ไม่ทำอะไร",-,"สุ่มใหม่",MenuRandomNow,"โกงเวลา + สุ่มใหม่ทันที (เสีย 1 Body Level และ 1 Trait Level)",MenuForceResetCooldown;
 	close;
 	
 MenuForceResetCooldown:
 	bodyLv = cap_value(bodyLv - 1,0,5000);
 	traitLv = cap_value(traitLv - 1,0,500);
-OnTouch:
+MenuRandomNow:
 	if((bodyLv <= 0) && (traitLv <= 0) && (skillLv <= 0) && (effectLv <= 0)){
 		mes "คุณยังไม่ได้เสริมแกร่งตัวละครใด ๆ เลย";
 		close;
