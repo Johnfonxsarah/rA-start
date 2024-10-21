@@ -73,7 +73,6 @@ MenuRandomNow:
 			else
 			skill $offensiveSkillIds[pSkill[.@i]],1,3;
 		}
-		
 	}
 	
 	// Skill Amount = 1 + (Level / 5)

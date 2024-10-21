@@ -1,0 +1,50 @@
+-	script	HappyFloor	-1,{
+	end;
+	
+OnInit:
+OnHour00:
+OnHour01:
+OnHour02:
+OnHour03:
+OnHour04:
+OnHour05:
+OnHour06:
+OnHour07:
+OnHour08:
+OnHour09:
+OnHour10:
+OnHour11:
+OnHour12:
+OnHour13:
+OnHour14:
+OnHour15:
+OnHour16:
+OnHour17:
+OnHour18:
+OnHour19:
+OnHour20:
+OnHour21:
+OnHour22:
+OnHour23:
+	query_sql("SELECT `char`.base_level FROM `char` ORDER BY `char`.base_level DESC LIMIT 100",.@lv);
+	
+	// At least 3 floor
+	if(getarraysize(.@lv) > 2){
+		.@highestLv = .@lv[0];
+		.@segment = (.@highestLv / 3);
+		
+		$happyFloor[0] = .@segment;
+		$happyFloor[1] = (.@segment * 2);
+		$happyFloor[2] = (.@segment * 3);
+		
+		// At least 6 floor should able to randomize
+		if(getarraysize(.@lv) > 5){
+			$happyFloor[0] = 1;
+			$happyFloor[0] += rand(.@segment);
+			$happyFloor[1] += rand(.@segment);
+			$happyFloor[2] -= rand(.@segment);
+		}
+		announce "HAPPY FLOOR ชั้นที่ " + $happyFloor[0] + ", " + $happyFloor[1] + " และ " + $happyFloor[2] + " จะ x2 รางวัล!",bc_all,0xe184f0,0,25;
+	}
+	end;
+}
