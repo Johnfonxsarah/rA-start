@@ -93,6 +93,7 @@ MenuRandomNow:
 	for(.@m = 0; .@m < .@maxSkillAmount; .@m++){
 		if(skillSlots[.@m] != 99999)
 		skill $offensiveSkillIds[skillSlots[.@m]],0,3;
+		skillSlots[.@m] = 99999;
 	}
 	
 	.@slot = 0;
@@ -109,9 +110,6 @@ MenuRandomNow:
 			.@isSame = 0;
 			// Loop all slot
 			for(.@i = 0; .@i < .@maxSkillAmount; .@i++){
-				if(.@i == .@slot)
-				continue;
-				
 				// Check for error skill
 				for(.@j = 0; .@j < getarraysize(.@errorSkillIds); .@j++){
 					if(skillSlots[.@slot] == .@errorSkillIds[.@j]){
@@ -119,16 +117,21 @@ MenuRandomNow:
 						skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
 						.@isSame = 1;
 						.@i = 0;
+						//debugmes "Found error skill at slot " + .@i + " | .@skillAmount: " + .@skillAmount;
 						break;
 					}
 				}
 				
+				if(.@i == .@slot)
+				continue;
+			
 				// Check skill was same
 				if(!isSame && (skillSlots[.@slot] == skillSlots[.@i])){
 					// Random new skill
 					skillSlots[.@slot] = rand(getarraysize($offensiveSkillIds));
 					.@isSame = 1;
 					.@i = 0;
+					//debugmes "Found same skill at slot " + .@i + " | .@skillAmount: " + .@skillAmount;
 					break;
 				}
 			}
