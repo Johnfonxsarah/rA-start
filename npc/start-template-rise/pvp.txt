@@ -36,14 +36,17 @@ bl_depth2,134,130,8	script	PvP	10554,{
 	" ~ PvP (Guild ได้) [^af1ada" + getmapusers("pvp_n_1-1") + " คน^000000]",PvpGuild;
 	
 Pvp:
+	setpcblock PCBLOCK_SKILL,false;
 	warp "pvp_n_1-3",0,0;
 	end;
 
 PvpParty:
+	setpcblock PCBLOCK_SKILL,false;
 	warp "pvp_n_1-5",0,0;
 	end;
 
 PvpGuild:
+	setpcblock PCBLOCK_SKILL,false;
 	warp "pvp_n_1-1",0,0;
 	end;
 }

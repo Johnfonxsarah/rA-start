@@ -1,3 +1,5 @@
+bl_depth2	mapflag	loadevent
+
 -	script	Events	-1,{
 	end;
 	
@@ -147,5 +149,15 @@ OnAddSkill:
 	+ "bonus bMaxHP,2000000;"
 	+ "bonus bAspd,300;"
 	,86400,8,1;
+	end;
+	
+OnPCLoadMapEvent:
+	tired = 0;
+	bonusDebuff = 0;
+	
+	callfunc("ApplyTired");
+	callfunc("RemovePlayDelegates");
+	
+	percentheal 100,100;
 	end;
 }
