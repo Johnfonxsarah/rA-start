@@ -1,0 +1,102 @@
+bl_depth2,138,164,5	script	CASTER WISH	10044,{
+	// First time setup
+	if(pSkill[0] <= 0){
+		for(.@i = 0; .@i < 8; .@i++)
+		pSkill[.@i] = 99999;
+	}
+	
+	// Talking
+	mes "• เลือก Skill ได้เลย";
+	mes "• ^d32323ไม่สามารถเลือกใหม่ได้^000000";
+	mes "• เลือกได้ 1 Skill + ทุก ๆ 50 Level ตัวละครได้อีก 1 Skill";
+	mes "• เมื่อใช้ PORTAL OF CASTER จะทำการสุ่ม Level Skill ให้กับ Skill ที่เลือก (1~Skill Level)";
+	next;
+	menu "ไม่ทำอะไร",-,"เลือก",MenuChoose;
+	close;
+	
+MenuChoose:
+	freeloop(1);
+	
+	// Permanent skill amount
+	.@skillAmount = 1;
+	.@levelPerSkill = 50;
+	.@bLv = BaseLevel;
+	while(.@bLv >= .@levelPerSkill){
+		.@bLv -= .@levelPerSkill;
+		.@skillAmount++;
+	}
+
+	// Choose slot
+	for(.@i = 0; .@i < .@skillAmount; .@i++){
+		.@skillName$ = ((pSkill[.@i] != 99999) ? $offensiveSkillDescs$[pSkill[.@i]] : "ยังไม่ได้เลือก");
+		.@menu$ += "ช่องที่ " + (.@i + 1) + " [" + .@skillName$ + "]:";
+	}
+	
+	freeloop(0);
+	
+	.@selectIndex = (select(.@menu$) - 1);
+	if(pSkill[.@selectIndex] != 99999){
+		mes "ไม่สามารถเลือกใหม่ได้";
+		close;
+	}
+	mes "คุณกำลังจะเลือก Skill ถาวรช่องที่ " + (.@selectIndex + 1);
+	mes "โปรดระบุ Skill ID";
+	mes "<URL>ดู Skill ID ที่นี่<INFO>https://github.com/kaninhot004/rathena/blob/ccc/db/re/skill_db.yml</INFO></URL>";
+	next;
+	input .@skillId;
+	if(.@skillId){
+		freeloop(1);
+
+		setarray .@errorSkillIds[0],5350,5338,408,271,5260,5255,45,2234;
+		for(.@j = 0; .@j < getarraysize(.@errorSkillIds); .@j++){
+			if(.@skillId == .@errorSkillIds[.@j]){
+				freeloop(0);
+				
+				mes "Skill ID ดังกล่าวไม่เปิดให้ใช้งาน";
+				close;
+			}
+		}
+		
+		for(.@j = 0; .@j < getarraysize($offensiveSkillIds); .@j++){
+			if(.@skillId == $offensiveSkillIds[.@j]){
+				freeloop(0);
+				
+				.@skillIndex = .@j;
+				
+				// Check skill was same from other slot
+				for(.@k = 0; .@k < 8; .@k++){
+					if(.@selectIndex == .@k)
+					continue;
+					
+					if(pSkill[.@k] == .@skillIndex){
+						mes "ซ้ำกับช่อง " + (.@k + 1);
+						close;
+					}
+				}
+				
+				mes "ต้องการใส่ " + $offensiveSkillDescs$[.@skillIndex] + " ถาวร ไว้ช่องที่ " + (.@selectIndex + 1) + "?";
+				next;
+				menu "ยกเลิก",MenuCancel,"ใช่ ต้องการ",MenuConfirmSet;
+				break;
+			}
+		}
+		
+		freeloop(0);
+		mes "Skill ID ดังกล่าวไม่เปิดให้ใช้งาน";
+		close;
+	}
+	else{
+MenuCancel:
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	
+MenuConfirmSet:
+	pSkill[.@selectIndex] = .@skillIndex;
+	mes "ใส่ " + $offensiveSkillDescs$[pSkill[.@selectIndex]] + " ถาวร ไว้ช่องที่ " + (.@selectIndex + 1) + " เรียบร้อยแล้ว";
+	close;
+	
+OnInit:
+	waitingroom "รับ Skill ถาวร",0;
+	end;
+}

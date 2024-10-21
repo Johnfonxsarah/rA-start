@@ -1,4 +1,4 @@
-bl_depth2,141,171,5	script	PORTAL OF CASTER	10043,{
+bl_depth2,145,164,5	script	PORTAL OF CASTER	10043,{
 	mes "จะทำการสุ่ม";
 	mes "• สุ่ม Status";
 	mes "• สุ่ม Trait";
@@ -6,10 +6,12 @@ bl_depth2,141,171,5	script	PORTAL OF CASTER	10043,{
 	mes "• สุ่ม Effect";
 	mes "ตามจำนวนสุ่มสูงสุด";
 	mes "Cooldown 30~90 วินาที ต่อการใช้งาน";
+	next;
 	menu "ไม่ทำอะไร",-,"สุ่มใหม่",MenuRandomNow,"โกงเวลา + สุ่มใหม่ทันที (เสีย 1 Body Level และ 1 Trait Level)",MenuForceResetCooldown;
 	close;
 	
 MenuForceResetCooldown:
+	pocDelay = 0;
 	bodyLv = cap_value(bodyLv - 1,0,5000);
 	traitLv = cap_value(traitLv - 1,0,500);
 MenuRandomNow:
@@ -62,6 +64,18 @@ MenuRandomNow:
 	}
 	
 	// Skill
+	
+	// Permanent Skill
+	for(.@i = 0; .@i < 8; .@i++){
+		if(pSkill[.@i] != 99999){
+			if(skillLv > 1)
+			skill $offensiveSkillIds[pSkill[.@i]],rand(1,skillLv),3;
+			else
+			skill $offensiveSkillIds[pSkill[.@i]],1,3;
+		}
+		
+	}
+	
 	// Skill Amount = 1 + (Level / 5)
 	// Skill cannot be same
 
@@ -154,6 +168,6 @@ MenuRandomNow:
 	end;
 	
 OnInit:
-	waitingroom "เดินผ่านสุ่มทุกอย่างใหม่",0;
+	waitingroom "สุ่มทุกอย่างใหม่",0;
 	end;
 }
