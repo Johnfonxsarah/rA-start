@@ -200,21 +200,21 @@ MenuRandomNow:
 	: (.@maxHpLv < 80) ? 14000
 	: (.@maxHpLv < 90) ? 16500
 	: 20000;
-	dispbottom "[Lv. ^1c9311" + effectLvs[0] + "^000000] โจมตีกายภาพ +^9300ff" + (100 * effectLvs[0]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[1] + "^000000] โจมตีเวทย์ +^9300ff" + (100 * effectLvs[1]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[2] + "^000000] เจาะ DEF +^9300ff" + (1 * effectLvs[2]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[3] + "^000000] เจาะ MDEF +^9300ff" + (1 * effectLvs[3]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[4] + "^000000] กันกายภาพ +^9300ff" + (1 * effectLvs[4]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[5] + "^000000] กันเวทย์ +^9300ff" + (1 * effectLvs[5]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[6] + "^000000] ร่ายเร็วขึ้น +^9300ff" + (1 * effectLvs[6]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[7] + "^000000] ลด Cooldown +^9300ff" + (1 * effectLvs[7]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[8] + "^000000] เคลื่อนที่เร็วขึ้น +^9300ff" + (1 * effectLvs[8]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[9] + "^000000] พลังชีวิต +^9300ff" + (.@baseMaxHp * effectLvs[9]) + "^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[10] + "^000000] กันการสะท้อน +^9300ff" + (1 * effectLvs[10]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[11] + "^000000] กันสถานะผิดปกติ +^9300ff" + (1 * effectLvs[11]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[12] + "^000000] เจาะ RES +^9300ff" + (1 * effectLvs[12]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[13] + "^000000] เจาะ MRES +^9300ff" + (1 * effectLvs[13]) + "%^000000",0xedf084;
-	dispbottom "[Lv. ^1c9311" + effectLvs[14] + "^000000] ฟื้นฟู HP " + (effectLvs[14] ? 1 : 0) + "% ทุก ๆ +^9300ff" + ((11000 - cap_value(100 * effectLvs[14],0,10000)) / 1000) + " วินาที^000000",0xedf084;
+	dispbottom "[Lv. " + effectLvs[0] + "] โจมตีกายภาพ +" + (100 * effectLvs[0]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[1] + "] โจมตีเวทย์ +" + (100 * effectLvs[1]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[2] + "] เจาะ DEF +" + (1 * effectLvs[2]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[3] + "] เจาะ MDEF +" + (1 * effectLvs[3]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[4] + "] กันกายภาพ +" + (1 * effectLvs[4]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[5] + "] กันเวทย์ +" + (1 * effectLvs[5]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[6] + "] ร่ายเร็วขึ้น +" + (1 * effectLvs[6]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[7] + "] ลด Cooldown +" + (1 * effectLvs[7]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[8] + "] เคลื่อนที่เร็วขึ้น +" + (1 * effectLvs[8]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[9] + "] พลังชีวิต +" + (.@baseMaxHp * effectLvs[9]) + "",0xedf084;
+	dispbottom "[Lv. " + effectLvs[10] + "] กันการสะท้อน +" + (1 * effectLvs[10]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[11] + "] กันสถานะผิดปกติ +" + (1 * effectLvs[11]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[12] + "] เจาะ RES +" + (1 * effectLvs[12]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[13] + "] เจาะ MRES +" + (1 * effectLvs[13]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[14] + "] ฟื้นฟู HP " + (effectLvs[14] ? 1 : 0) + "% ทุก ๆ +" + ((11000 - cap_value(100 * effectLvs[14],0,10000)) / 1000) + " วินาที",0xedf084;
 	
 	freeloop(0);
 	
