@@ -200,8 +200,8 @@ MenuRandomNow:
 	: (.@maxHpLv < 80) ? 14000
 	: (.@maxHpLv < 90) ? 16500
 	: 20000;
-	dispbottom "[Lv. " + effectLvs[0] + "] â¨ÁµÕ¡ÒÂÀÒ¾ +" + (50 * effectLvs[0]) + "%",0xedf084;
-	dispbottom "[Lv. " + effectLvs[1] + "] â¨ÁµÕàÇ·Âì +" + (50 * effectLvs[1]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[0] + "] â¨ÁµÕ¡ÒÂÀÒ¾ +" + (100 * effectLvs[0]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[1] + "] â¨ÁµÕàÇ·Âì +" + (100 * effectLvs[1]) + "%",0xedf084;
 	dispbottom "[Lv. " + effectLvs[2] + "] à¨ÒÐ DEF +" + (1 * effectLvs[2]) + "%",0xedf084;
 	dispbottom "[Lv. " + effectLvs[3] + "] à¨ÒÐ MDEF +" + (1 * effectLvs[3]) + "%",0xedf084;
 	dispbottom "[Lv. " + effectLvs[4] + "] ¡Ñ¹¡ÒÂÀÒ¾ +" + (1 * effectLvs[4]) + "%",0xedf084;
