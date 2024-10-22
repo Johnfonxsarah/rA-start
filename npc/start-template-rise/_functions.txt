@@ -211,8 +211,8 @@ function	script	ApplyEffect	{
 	: (.@maxHpLv < 90) ? 16500
 	: 20000;
 	bonus_script
-	"bonus2 bAddClass,CLASS_ALL," + (10 * effectLvs[0]) + ";"
-	+ "bonus2 bMagicAddClass,CLASS_ALL," + (10 * effectLvs[1]) + ";"
+	"bonus2 bAddClass,CLASS_ALL," + (50 * effectLvs[0]) + ";"
+	+ "bonus2 bMagicAddClass,CLASS_ALL," + (50 * effectLvs[1]) + ";"
 	+ "bonus2 bIgnoreDefClassRate,CLASS_ALL," + (1 * effectLvs[2]) + ";"
 	+ "bonus2 bIgnoreMdefClassRate,CLASS_ALL," + (1 * effectLvs[3]) + ";"
 	+ "bonus bNoWeaponDamage," + (1 * effectLvs[4]) + ";"
