@@ -178,7 +178,7 @@ MenuRandomNow:
 	
 	freeloop(1);
 	
-	.@maxEffectAmount = 15;
+	.@maxEffectAmount = 17;
 	
 	for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
 	effectLvs[.@m] = 0;
@@ -200,8 +200,8 @@ MenuRandomNow:
 	: (.@maxHpLv < 80) ? 14000
 	: (.@maxHpLv < 90) ? 16500
 	: 20000;
-	dispbottom "[Lv. " + effectLvs[0] + "] â¨ÁµÕ¡ÒÂÀÒ¾ +" + (100 * effectLvs[0]) + "%",0xedf084;
-	dispbottom "[Lv. " + effectLvs[1] + "] â¨ÁµÕàÇ·Âì +" + (100 * effectLvs[1]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[0] + "] â¨ÁµÕ¡ÒÂÀÒ¾ +" + (10 * effectLvs[0]) + "%",0xedf084;
+	dispbottom "[Lv. " + effectLvs[1] + "] â¨ÁµÕàÇ·Âì +" + (10 * effectLvs[1]) + "%",0xedf084;
 	dispbottom "[Lv. " + effectLvs[2] + "] à¨ÒÐ DEF +" + (1 * effectLvs[2]) + "%",0xedf084;
 	dispbottom "[Lv. " + effectLvs[3] + "] à¨ÒÐ MDEF +" + (1 * effectLvs[3]) + "%",0xedf084;
 	dispbottom "[Lv. " + effectLvs[4] + "] ¡Ñ¹¡ÒÂÀÒ¾ +" + (1 * effectLvs[4]) + "%",0xedf084;
@@ -215,6 +215,8 @@ MenuRandomNow:
 	dispbottom "[Lv. " + effectLvs[12] + "] à¨ÒÐ RES +" + (1 * effectLvs[12]) + "%",0xedf084;
 	dispbottom "[Lv. " + effectLvs[13] + "] à¨ÒÐ MRES +" + (1 * effectLvs[13]) + "%",0xedf084;
 	dispbottom "[Lv. " + effectLvs[14] + "] ¿×é¹¿Ù HP " + (effectLvs[14] ? 1 : 0) + "% ·Ø¡ æ +" + ((11000 - cap_value(100 * effectLvs[14],0,10000)) / 1000) + " ÇÔ¹Ò·Õ",0xedf084;
+	dispbottom "[Lv. " + effectLvs[15] + "] ATK +^9300ff" + (10 * effectLvs[15]),0xedf084;
+	dispbottom "[Lv. " + effectLvs[16] + "] MATK +^9300ff" + (10 * effectLvs[16]),0xedf084;
 	
 	freeloop(0);
 	
