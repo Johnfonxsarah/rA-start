@@ -220,6 +220,8 @@ GetNewSkillId:
 	.@workingSkillId = rand(getarraysize($offensiveSkillIds));
 	
 	while(true){
+		.@isBadSkillId = 0;
+		
 		// Check for error skill
 		for(.@bad = 0; .@bad < getarraysize(.@errorSkillIds); .@bad++){
 			if(.@workingSkillId == .@errorSkillIds[.@bad]){
