@@ -188,6 +188,18 @@ MenuRandomNow:
 		effectLvs[.@m] = rand(effectLv + 1);
 	}
 	
+	.@maxHpLv = effectLvs[9];
+	.@baseMaxHp =
+	(.@maxHpLv < 10) ? 1000
+	: (.@maxHpLv < 20) ? 2500
+	: (.@maxHpLv < 30) ? 4000
+	: (.@maxHpLv < 40) ? 5500
+	: (.@maxHpLv < 50) ? 7500
+	: (.@maxHpLv < 60) ? 9500
+	: (.@maxHpLv < 70) ? 11500
+	: (.@maxHpLv < 80) ? 14000
+	: (.@maxHpLv < 90) ? 16500
+	: 20000;
 	dispbottom "[Lv. ^1c9311" + effectLvs[0] + "^000000] â¨ÁµÕ¡ÒÂÀÒ¾ +^9300ff" + (100 * effectLvs[0]) + "%^000000",0xedf084;
 	dispbottom "[Lv. ^1c9311" + effectLvs[1] + "^000000] â¨ÁµÕàÇ·Âì +^9300ff" + (100 * effectLvs[1]) + "%^000000",0xedf084;
 	dispbottom "[Lv. ^1c9311" + effectLvs[2] + "^000000] à¨ÒÐ DEF +^9300ff" + (1 * effectLvs[2]) + "%^000000",0xedf084;
