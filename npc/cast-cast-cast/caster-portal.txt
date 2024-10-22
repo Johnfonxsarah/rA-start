@@ -39,12 +39,24 @@ MenuRandomNow:
 	statusup2 bDex,-5000;
 	statusup2 bLuk,-5000;
 	if(bodyLv > 0){
-		statusup2 bStr,rand(bodyLv + 1);
-		statusup2 bAgi,rand(bodyLv + 1);
-		statusup2 bVit,rand(bodyLv + 1);
-		statusup2 bInt,rand(bodyLv + 1);
-		statusup2 bDex,rand(bodyLv + 1);
-		statusup2 bLuk,rand(bodyLv + 1);
+		.@addStr = rand(bodyLv + 1);
+		.@addAgi = rand(bodyLv + 1);
+		.@addVit = rand(bodyLv + 1);
+		.@addInt = rand(bodyLv + 1);
+		.@addDex = rand(bodyLv + 1);
+		.@addLuk = rand(bodyLv + 1);
+		statusup2 bStr,.@addStr;
+		statusup2 bAgi,.@addAgi;
+		statusup2 bVit,.@addVit;
+		statusup2 bInt,.@addInt;
+		statusup2 bDex,.@addDex;
+		statusup2 bLuk,.@addLuk;
+		dispbottom "STR: " + F_InsertComma(.@addStr)
+		+ " | AGI: " + F_InsertComma(.@addAgi)
+		+ " | VIT: " + F_InsertComma(.@addVit)
+		+ " | INT: " + F_InsertComma(.@addInt)
+		+ " | DEX: " + F_InsertComma(.@addDex)
+		+ " | LUK: " + F_InsertComma(.@addLuk),0xf0c284;
 	}
 	
 	// Trait
@@ -55,12 +67,24 @@ MenuRandomNow:
 	traitstatusup2 bCon,-500;
 	traitstatusup2 bCrt,-500;
 	if(traitLv > 0){
-		traitstatusup2 bPow,rand(traitLv + 1);
-		traitstatusup2 bSta,rand(traitLv + 1);
-		traitstatusup2 bWis,rand(traitLv + 1);
-		traitstatusup2 bSpl,rand(traitLv + 1);
-		traitstatusup2 bCon,rand(traitLv + 1);
-		traitstatusup2 bCrt,rand(traitLv + 1);
+		.@addPow = rand(traitLv + 1);
+		.@addSta = rand(traitLv + 1);
+		.@addWis = rand(traitLv + 1);
+		.@addSpl = rand(traitLv + 1);
+		.@addCon = rand(traitLv + 1);
+		.@addCrt = rand(traitLv + 1);
+		traitstatusup2 bPow,.@addPow;
+		traitstatusup2 bSta,.@addSta;
+		traitstatusup2 bWis,.@addWis;
+		traitstatusup2 bSpl,.@addSpl;
+		traitstatusup2 bCon,.@addCon;
+		traitstatusup2 bCrt,.@addCrt;
+		dispbottom "POW: " + F_InsertComma(.@addPow)
+		+ " | STA: " + F_InsertComma(.@addSta)
+		+ " | WIS: " + F_InsertComma(.@addWis)
+		+ " | SPL: " + F_InsertComma(.@addSpl)
+		+ " | CON: " + F_InsertComma(.@addCon)
+		+ " | CRT: " + F_InsertComma(.@addCrt),0x84f099;
 	}
 	
 	// Skill
@@ -69,9 +93,11 @@ MenuRandomNow:
 	for(.@i = 0; .@i < 8; .@i++){
 		if(pSkill[.@i] != 99999){
 			if(skillLv > 1)
-			skill $offensiveSkillIds[pSkill[.@i]],rand(1,skillLv),3;
+			.@permaSkillLv[.@i] = rand(1,skillLv);
 			else
-			skill $offensiveSkillIds[pSkill[.@i]],1,3;
+			.@permaSkillLv[.@i] = 1;
+			skill $offensiveSkillIds[pSkill[.@i]],.@permaSkillLv[.@i],3;
+			dispbottom "Skill ถาวรช่องที่ " + (.@i + 1) + " " + $offensiveSkillDescs$[pSkill[.@i]] + " Level " + .@permaSkillLv[.@i],0x84d4f0;
 		}
 	}
 	
@@ -124,7 +150,7 @@ MenuRandomNow:
 				
 				if(.@i == .@slot)
 				continue;
-			
+				
 				// Check skill was same
 				if(!isSame && (skillSlots[.@slot] == skillSlots[.@i])){
 					// Random new skill
@@ -138,9 +164,10 @@ MenuRandomNow:
 			if(!.@isSame)
 			break;
 		}
-		
+
 		// Learn new skill now
 		skill $offensiveSkillIds[skillSlots[.@slot]],max(1,skillLv),3;
+		dispbottom "Skill สุ่มได้ช่องที่ " + (.@slot + 1) + " " + $offensiveSkillDescs$[skillSlots[.@slot]] + " Level " + max(1,skillLv),0x84f0ed;
 		
 		.@slot++;
 	}
@@ -160,13 +187,30 @@ MenuRandomNow:
 		for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
 		effectLvs[.@m] = rand(effectLv + 1);
 	}
-
+	
+	dispbottom "[Lv. ^1c9311" + effectLvs[0] + "^000000] โจมตีกายภาพ +^9300ff" + (100 * effectLvs[0]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[1] + "^000000] โจมตีเวทย์ +^9300ff" + (100 * effectLvs[1]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[2] + "^000000] เจาะ DEF +^9300ff" + (1 * effectLvs[2]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[3] + "^000000] เจาะ MDEF +^9300ff" + (1 * effectLvs[3]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[4] + "^000000] กันกายภาพ +^9300ff" + (1 * effectLvs[4]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[5] + "^000000] กันเวทย์ +^9300ff" + (1 * effectLvs[5]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[6] + "^000000] ร่ายเร็วขึ้น +^9300ff" + (1 * effectLvs[6]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[7] + "^000000] ลด Cooldown +^9300ff" + (1 * effectLvs[7]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[8] + "^000000] เคลื่อนที่เร็วขึ้น +^9300ff" + (1 * effectLvs[8]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[9] + "^000000] พลังชีวิต +^9300ff" + (.@baseMaxHp * effectLvs[9]) + "^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[10] + "^000000] กันการสะท้อน +^9300ff" + (1 * effectLvs[10]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[11] + "^000000] กันสถานะผิดปกติ +^9300ff" + (1 * effectLvs[11]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[12] + "^000000] เจาะ RES +^9300ff" + (1 * effectLvs[12]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[13] + "^000000] เจาะ MRES +^9300ff" + (1 * effectLvs[13]) + "%^000000",0xedf084;
+	dispbottom "[Lv. ^1c9311" + effectLvs[14] + "^000000] ฟื้นฟู HP " + (effectLvs[14] ? 1 : 0) + "% ทุก ๆ +^9300ff" + ((11000 - cap_value(100 * effectLvs[14],0,10000)) / 1000) + " วินาที^000000",0xedf084;
+	
 	freeloop(0);
 	
 	callfunc("ApplyEffect");
 	
 	// Warp back to save point
 	warp "Save",0,0;
+	
 	end;
 	
 OnInit:
