@@ -249,7 +249,8 @@ OnSpawnMonsterOne:
 	setunitdata .GID,UMOB_DMOTION,.@attackSpeed;
 	setunitdata .GID,UMOB_DAMAGETAKEN,cap_value(100 - rand((10 * tier)),1,100);
 	setunitdata .GID,UMOB_RANK,cap_value(rand((10 * tier)),1,100);
-	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,(dmgMultiplier > 1) ? rand(1,dmgMultiplier) : 1;
+	if(dmgMultiplier > 1)
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(1,dmgMultiplier);
 	return;
 	
 OnMonsterDead:
@@ -285,7 +286,8 @@ OnMonsterDead:
 		setunitdata .GID,UMOB_DMOTION,.@attackSpeed;
 		setunitdata .GID,UMOB_DAMAGETAKEN,cap_value(100 - rand((10 * tier)),1,100);
 		setunitdata .GID,UMOB_RANK,cap_value(rand((10 * tier)),1,100);
-		setunitdata $@mobid[0],UMOB_DAMAGE_MULTIPLIER,((dmgMultiplier > 1) ? rand(1,dmgMultiplier) : 1) * 2;
+		if(dmgMultiplier > 1)
+		setunitdata $@mobid[0],UMOB_DAMAGE_MULTIPLIER,rand(1,dmgMultiplier) * 2;
 		addrid(1);
 		// Mark on minimap
 		getunitdata $gidBossMaps[lastPlayMap],.@uds;
