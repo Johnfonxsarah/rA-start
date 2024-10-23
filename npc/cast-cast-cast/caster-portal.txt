@@ -89,9 +89,19 @@ MenuRandomNow:
 	
 	// Skill
 	
+	freeloop(1);
+	
+	// Forgot old skill if available
+	.@maxSkillAmount = 55;
+	for(.@m = 0; .@m < .@maxSkillAmount; .@m++){
+		if(skillSlots[.@m] != 99999)
+		skill $offensiveSkillIds[skillSlots[.@m]],0,3;
+		skillSlots[.@m] = 99999;
+	}
+	
 	// Permanent Skill
 	for(.@i = 0; .@i < 8; .@i++){
-		if(pSkill[.@i] != 99999){
+		if((pSkill[.@i] != 99999) && (pSkill[.@i] != 0)){
 			if(skillLv > 1)
 			.@permaSkillLv[.@i] = rand(1,skillLv);
 			else
@@ -103,55 +113,14 @@ MenuRandomNow:
 	
 	// Skill Amount = 1 + (Level / 5)
 	// Skill cannot be same
-
-	freeloop(1);
-	
-	.@skillAmount = 1;
-	.@levelPerSkill = 5;
-	.@bLv = BaseLevel;
-	while(.@bLv >= .@levelPerSkill){
-		.@bLv -= .@levelPerSkill;
-		.@skillAmount++;
-	}
-
-	// Forgot old skill if available
-	.@maxSkillAmount = 55;
-	for(.@m = 0; .@m < .@maxSkillAmount; .@m++){
-		if(skillSlots[.@m] != 99999)
-		skill $offensiveSkillIds[skillSlots[.@m]],0,3;
-		skillSlots[.@m] = 99999;
-	}
-	
+	.@skillAmount = 1 + (BaseLevel / 5);
 	.@slot = 0;
-	
 	while(.@skillAmount > 0){
 		.@skillAmount--;
 		
 		// Random new skill
 		skillSlots[.@slot] = callsub(GetNewSkillId);
 		
-		// Should not same with other slot
-		while(true){
-			.@isSame = 0;
-			
-			// Loop all slot
-			for(.@i = 0; .@i < .@maxSkillAmount; .@i++){
-				if(.@i == .@slot)
-				continue;
-				
-				// Check skill was same
-				if(!isSame && (skillSlots[.@slot] == skillSlots[.@i])){
-					// Random new skill
-					skillSlots[.@slot] = callsub(GetNewSkillId);
-					.@isSame = 1;
-					break;
-				}
-			}
-			
-			if(!.@isSame)
-			break;
-		}
-
 		// Learn new skill now
 		skill $offensiveSkillIds[skillSlots[.@slot]],max(1,skillLv),3;
 		dispbottom "Skill สุ่มได้ช่องที่ " + (.@slot + 1) + " " + $offensiveSkillDescs$[skillSlots[.@slot]] + " Level " + max(1,skillLv),0x84f0ed;
@@ -215,16 +184,15 @@ MenuRandomNow:
 	end;
 	
 GetNewSkillId:
-	setarray .@errorSkillIds[0],5350,5338,408,271,5260,5255,45,2234;
-	
 	.@workingSkillId = rand(getarraysize($offensiveSkillIds));
 	
 	while(true){
 		.@isBadSkillId = 0;
+		.@isSame = 0;
 		
 		// Check for error skill
-		for(.@bad = 0; .@bad < getarraysize(.@errorSkillIds); .@bad++){
-			if(.@workingSkillId == .@errorSkillIds[.@bad]){
+		for(.@bad = 0; .@bad < getarraysize($errorSkillId); .@bad++){
+			if(.@workingSkillId == $errorSkillId[.@bad]){
 				// Random new skill
 				.@workingSkillId = rand(getarraysize($offensiveSkillIds));
 				.@isBadSkillId = 1;
@@ -232,7 +200,24 @@ GetNewSkillId:
 			}
 		}
 		
-		if(!.@isBadSkillId)
+		if(.@isBadSkillId)
+		continue;
+		
+		// Should not same with other slot
+		for(.@i = 0; .@i < .@maxSkillAmount; .@i++){
+			if(.@i == .@slot)
+			continue;
+			
+			// Check skill was same
+			if(!isSame && (skillSlots[.@slot] == skillSlots[.@i])){
+				// Random new skill
+				.@workingSkillId = rand(getarraysize($offensiveSkillIds));
+				.@isSame = 1;
+				break;
+			}
+		}
+		
+		if(!.@isBadSkillId && !.@isSame)
 		break;
 	}
 	

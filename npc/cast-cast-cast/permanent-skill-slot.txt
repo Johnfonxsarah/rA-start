@@ -46,10 +46,9 @@ MenuChoose:
 	input .@skillId;
 	if(.@skillId){
 		freeloop(1);
-
-		setarray .@errorSkillIds[0],5350,5338,408,271,5260,5255,45,2234;
-		for(.@j = 0; .@j < getarraysize(.@errorSkillIds); .@j++){
-			if(.@skillId == .@errorSkillIds[.@j]){
+		
+		for(.@j = 0; .@j < getarraysize($errorSkillId); .@j++){
+			if(.@skillId == $errorSkillId[.@j]){
 				freeloop(0);
 				
 				mes "Skill ID ดังกล่าวไม่เปิดให้ใช้งาน";
