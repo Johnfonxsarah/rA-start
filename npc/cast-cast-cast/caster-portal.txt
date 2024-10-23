@@ -209,7 +209,7 @@ GetNewSkillId:
 			continue;
 			
 			// Check skill was same
-			if(!isSame && (skillSlots[.@slot] == skillSlots[.@i])){
+			if(.@workingSkillId == skillSlots[.@i]){
 				// Random new skill
 				.@workingSkillId = rand(getarraysize($offensiveSkillIds));
 				.@isSame = 1;
@@ -217,7 +217,7 @@ GetNewSkillId:
 			}
 		}
 		
-		if(!.@isBadSkillId && !.@isSame)
+		if((.@isBadSkillId <= 0) && (.@isSame <= 0))
 		break;
 	}
 	
