@@ -304,7 +304,7 @@ OnMonsterDead:
 		announce "สาวกมนต์ดำ เหลือ " + (scoreRequired - $scoreMaps[lastPlayMap]) + " ตัว",bc_map,0x9e978b,0,25;
 		callsub OnSpawnMonsterOne;
 		// Bunch of monsters
-		if(rand(100) < 5){
+		if(rand(100) < 10){
 			getunitdata killedgid,.@uds;
 			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
 			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
