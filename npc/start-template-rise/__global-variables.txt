@@ -2,8 +2,8 @@
 	end;
 	
 OnInit:
-	if($globalVariableType1Version != 9){
-		$globalVariableType1Version = 9;
+	if($globalVariableType1Version != 10){
+		$globalVariableType1Version = 10;
 		
 		deletearray $errorSkillId[0],getarraysize($errorSkillId);
 		setarray $errorSkillId[0],5350,5338,408,271,5260,5255,45,2234,407,409;
@@ -23,7 +23,7 @@ OnInit:
 		setarray $killCount[0],50,75,100,125,150,200,250,300,400,500;
 
 		deletearray $bodyExp[0],getarraysize($bodyExp);
-		setarray $bodyExp[0],5,15,25,45,65,95,125,165,205,300;
+		setarray $bodyExp[0],5,20,40,65,95,130,170,215,255,300;
 		deletearray $bodyExpReq[0],getarraysize($bodyExpReq);
 		setarray $bodyExpReq[0],10,20,35,55,80,110,145,185,230,280;
 		deletearray $bodyMax[0],getarraysize($bodyMax);
