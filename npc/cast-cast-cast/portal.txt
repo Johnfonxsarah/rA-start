@@ -233,8 +233,14 @@ OnSpawnMonster:
 	end;
 	
 OnSpawnMonsterOne:
+	.@isBonus = getarg(0,0);
+	.@spawnX = getarg(1,0);
+	.@spawnY = getarg(2,0);
 	// Spawn
-	monster $maps$[$playingMaps[lastPlayMap]],0,0,"สาวกมนต์ดำ",getd("$m" + lastPlayMap + "MID[" + rand(5) + "]"),1,strnpcinfo(0) + "::OnMonsterDead";
+	if(.@isBonus)
+	monster $maps$[$playingMaps[lastPlayMap]],.@spawnX,.@spawnY,"สาวกมนต์ดำ (Bonus)",getd("$m" + lastPlayMap + "MID[" + rand(5) + "]"),1,strnpcinfo(0) + "::OnMonsterDeadBonus";
+	else
+	monster $maps$[$playingMaps[lastPlayMap]],.@spawnX,.@spawnY,"สาวกมนต์ดำ",getd("$m" + lastPlayMap + "MID[" + rand(5) + "]"),1,strnpcinfo(0) + "::OnMonsterDead";
 	.GID = $@mobid[0];
 	.@mHP = cap_value(5 * max(1,(lastPlayMap * lastPlayMap * lastPlayMap)),5,INT_MAX);
 	setunitdata .GID,UMOB_MAXHP,.@mHP;
@@ -297,7 +303,61 @@ OnMonsterDead:
 	else{
 		announce "สาวกมนต์ดำ เหลือ " + (scoreRequired - $scoreMaps[lastPlayMap]) + " ตัว",bc_map,0x9e978b,0,25;
 		callsub OnSpawnMonsterOne;
+		// Bunch of monsters
+		if(rand(100) < 5){
+			getunitdata killedgid,.@uds;
+			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
+			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
+			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
+			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
+			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
+		}
 	}
+	end;
+	
+OnMonsterDeadBonus:
+	// Check map still same otherwise stop it. || Player not attached || Boss Fight || Player dead
+	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || $isBossMaps[lastPlayMap] || isdead())
+	end;
+
+	callfunc("CCCDrop",tier);
+	
+	$scoreMaps[lastPlayMap]++;
+	
+	if($scoreMaps[lastPlayMap] >= scoreRequired){
+		$scoreMaps[lastPlayMap] = 0;
+		$isBossMaps[lastPlayMap] = 1;
+		killmonsterall strcharinfo(3),0;
+		announce "เจ้าแห่งมนต์ดำ ปรากฎแล้ว! (เช็ค Minimap)",bc_map,0x9e978b,0,25;
+		// Get available cell to spawn
+		getfreecell strcharinfo(3),.@bossX,.@bossY;
+		// Spawn
+		monster strcharinfo(3),.@bossX,.@bossY,"เจ้าแห่งมนต์ดำ",getd("$m" + lastPlayMap + "MID[" + rand(5) + "]"),1,strnpcinfo(0) + "::OnBossDead",Size_Large;
+		.GID = $@mobid[0];
+		$gidBossMaps[lastPlayMap] = .GID;
+		.@mHP = cap_value(100 * max(1,(lastPlayMap * lastPlayMap * lastPlayMap)),100,INT_MAX);
+		setunitdata .GID,UMOB_MAXHP,.@mHP;
+		setunitdata .GID,UMOB_HP,.@mHP;
+		.@moveSpeed = 400 - rand(15,30 * tier);
+		.@attackSpeed = 800 - rand(35,70 * tier);
+		setunitdata .GID,UMOB_SPEED,.@moveSpeed;
+		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
+		setunitdata .GID,UMOB_DMGIMMUNE,0;
+		setunitdata .GID,UMOB_AMOTION,.@attackSpeed;
+		setunitdata .GID,UMOB_ADELAY,.@attackSpeed;
+		setunitdata .GID,UMOB_DMOTION,.@attackSpeed;
+		setunitdata .GID,UMOB_DAMAGETAKEN,cap_value(100 - rand((10 * tier)),1,100);
+		setunitdata .GID,UMOB_RANK,cap_value(rand((10 * tier)),1,100);
+		if(dmgMultiplier > 1)
+		setunitdata $@mobid[0],UMOB_DAMAGE_MULTIPLIER,rand(1,dmgMultiplier) * 2;
+		addrid(1);
+		// Mark on minimap
+		getunitdata $gidBossMaps[lastPlayMap],.@uds;
+		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
+		end;
+	}
+	else
+	announce "สาวกมนต์ดำ เหลือ " + (scoreRequired - $scoreMaps[lastPlayMap]) + " ตัว",bc_map,0x9e978b,0,25;
 	end;
 	
 OnBossDead:
