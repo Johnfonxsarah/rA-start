@@ -229,11 +229,12 @@ function	script	ApplyEffect	{
 	+ "bonus2 bResEff,eff," + (1 * effectLvs[11]) + ";"
 	+ "bonus2 bIgnoreResRaceRate,RC_ALL," + (1 * effectLvs[12]) + ";"
 	+ "bonus2 bIgnoreMResRaceRate,RC_ALL," + (1 * effectLvs[13]) + ";"
-	+ "bonus2 bRegenPercentHP," + (.@regenRate ? 1 : 0) + "," + (11000 - cap_value(100 * .@regenRate,0,10000)) + ";"
 	,86400,8,1;
 	
 	bonus_script
-	"bonus bAtk," + (10 * effectLvs[15]) + ";"
+	"bonus2 bRegenPercentHP," + (.@regenRate ? 1 : 0) + "," + (11000 - cap_value(100 * .@regenRate,0,10000)) + ";"
+	+ "bonus2 bRegenPercentSP," + (.@regenRate ? 1 : 0) + "," + (11000 - cap_value(100 * .@regenRate,0,10000)) + ";"
+	+ "bonus bAtk," + (10 * effectLvs[15]) + ";"
 	+ "bonus bMatk," + (10 * effectLvs[16]) + ";"
 	+ "bonus bMaxSP,10000;"
 	+ "bonus bAspd,300;"

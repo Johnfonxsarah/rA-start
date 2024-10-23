@@ -29,7 +29,7 @@ bl_depth2,132,159,6	script	เครื่องเสริมแกร่ง	10545,{
 	mes "[Lv. ^1c9311" + effectLvs[11] + "^000000] กันสถานะผิดปกติ +^9300ff" + (1 * effectLvs[11]) + "%^000000";
 	mes "[Lv. ^1c9311" + effectLvs[12] + "^000000] เจาะ RES +^9300ff" + (1 * effectLvs[12]) + "%^000000";
 	mes "[Lv. ^1c9311" + effectLvs[13] + "^000000] เจาะ MRES +^9300ff" + (1 * effectLvs[13]) + "%^000000";
-	mes "[Lv. ^1c9311" + effectLvs[14] + "^000000] ฟื้นฟู HP " + (effectLvs[14] ? 1 : 0) + "% ทุก ๆ +^9300ff" + ((11000 - cap_value(100 * effectLvs[14],0,10000)) / 1000) + " วินาที^000000";
+	mes "[Lv. ^1c9311" + effectLvs[14] + "^000000] ฟื้นฟู HP & SP " + (effectLvs[14] ? 1 : 0) + "% ทุก ๆ +^9300ff" + ((11000 - cap_value(100 * effectLvs[14],0,10000)) / 1000) + " วินาที^000000";
 	mes "[Lv. ^1c9311" + effectLvs[15] + "^000000] ATK +^9300ff" + (10 * effectLvs[15]) + "^000000";
 	mes "[Lv. ^1c9311" + effectLvs[16] + "^000000] MATK +^9300ff" + (10 * effectLvs[16]) + "^000000";
 	next;
