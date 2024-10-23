@@ -2,8 +2,8 @@
 	end;
 	
 OnInit:
-	if($globalVariableType1Version != 8){
-		$globalVariableType1Version = 8;
+	if($globalVariableType1Version != 9){
+		$globalVariableType1Version = 9;
 		
 		deletearray $errorSkillId[0],getarraysize($errorSkillId);
 		setarray $errorSkillId[0],5350,5338,408,271,5260,5255,45,2234,407,409;
@@ -23,14 +23,14 @@ OnInit:
 		setarray $killCount[0],50,75,100,125,150,200,250,300,400,500;
 
 		deletearray $bodyExp[0],getarraysize($bodyExp);
-		setarray $bodyExp[0],3,6,10,15,21,28,36,45,55,150;
+		setarray $bodyExp[0],5,15,25,45,65,95,125,165,205,300;
 		deletearray $bodyExpReq[0],getarraysize($bodyExpReq);
 		setarray $bodyExpReq[0],10,20,35,55,80,110,145,185,230,280;
 		deletearray $bodyMax[0],getarraysize($bodyMax);
 		setarray $bodyMax[0],30,100,250,500,1000,1600,2300,3100,4000,5000;
 
 		deletearray $traitExp[0],getarraysize($traitExp);
-		setarray $traitExp[0],2,4,7,11,16,22,29,37,50,100;
+		setarray $traitExp[0],3,6,9,15,20,25,50,75,100,150;
 		deletearray $traitExpReq[0],getarraysize($traitExpReq);
 		setarray $traitExpReq[0],7,13,23,37,53,73,97,123,153,187;
 		deletearray $traitMax[0],getarraysize($traitMax);
