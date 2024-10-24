@@ -14187,7 +14187,7 @@ Body:
     Description: Disarm
     MaxLevel: 5
     Type: Weapon
-    TargetType: Attack
+    TargetType: Passive
     Range: -9
     Hit: Single
     HitCount: 1
