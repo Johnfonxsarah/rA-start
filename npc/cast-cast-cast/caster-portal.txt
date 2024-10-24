@@ -206,7 +206,7 @@ GetGoodSkillId:
 				.@isBad = 1;
 				break;
 			}
-			if(.@bad == (getarraysize($errorSkillId) - 1))
+			if(!.@isBad && (.@bad == (getarraysize($errorSkillId) - 1)))
 			.@isBad = 0;
 		}
 	}
