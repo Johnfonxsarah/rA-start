@@ -184,10 +184,9 @@ GetNewSkillId:
 		// Should not same with other slot
 		for(.@gs = 0; .@gs < getarraysize(.@grantSkill); .@gs++){
 			// Check skill was same
-			if(.@workingSkillId == .@grantSkill[.@gs]){
-				.@isSame = 1;
-				break;
-			}
+			if(.@workingSkillId == .@grantSkill[.@gs])
+			break;
+			
 			if(.@gs == (getarraysize(.@grantSkill) - 1))
 			.@isSame = 0;
 		}
@@ -202,10 +201,9 @@ GetGoodSkillId:
 		.@goodSkillId = rand(getarraysize($offensiveSkillIds));
 		// Check for error skill
 		for(.@bad = 0; .@bad < getarraysize($errorSkillId); .@bad++){
-			if(.@goodSkillId == $errorSkillId[.@bad]){
-				.@isBad = 1;
-				break;
-			}
+			if($offensiveSkillIds[.@goodSkillId] == $errorSkillId[.@bad])
+			break;
+			
 			if(.@bad == (getarraysize($errorSkillId) - 1))
 			.@isBad = 0;
 		}
