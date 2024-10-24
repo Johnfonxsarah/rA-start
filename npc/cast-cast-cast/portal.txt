@@ -21,7 +21,8 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 	mes "โปรดระบุ ^d323231~" + BaseLevel + "^000000";
 	mes "---";
 	mes "^e184f0HAPPY FLOOR (x2 รางวัล)^000000";
-	mes "ชั้นที่ " + $happyFloor[0] + ", " + $happyFloor[1] + " และ " + $happyFloor[2];
+	for(.@hf = 0; .@hf < getarraysize($happyFloor); .@hf++)
+	mes "ชั้นที่ " + $happyFloor[.@hf];
 	next;
 	input .@lv;
 	if(InputOutOfRange(.@lv,BaseLevel)){
@@ -78,6 +79,16 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 OnJoin:
 	// Remember playing floor
 	lastPlayMap = .@lv;
+	
+	// Happy floor
+	isHappyFloor = 0;
+	for(.@hf = 0; .@hf < getarraysize($happyFloor); .@hf++){
+		if($happyFloor[.@hf] == lastPlayMap)
+		{
+			isHappyFloor = 1;
+			break;
+		}
+	}
 	
 	// Remember last map name
 	lastPlayMap$ = $maps$[$playingMaps[.@lv]];

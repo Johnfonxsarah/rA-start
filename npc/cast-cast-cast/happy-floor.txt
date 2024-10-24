@@ -28,23 +28,37 @@ OnHour22:
 OnHour23:
 	query_sql("SELECT `char`.base_level FROM `char` ORDER BY `char`.base_level DESC LIMIT 100",.@lv);
 	
-	// At least 3 floor
-	if(getarraysize(.@lv) > 2){
+	deletearray $happyFloor[0],getarraysize($happyFloor);
+	
+	// At least 1 floor
+	if(getarraysize(.@lv)){
 		.@highestLv = .@lv[0];
-		.@segment = (.@highestLv / 3);
-		
-		$happyFloor[0] = .@segment;
-		$happyFloor[1] = (.@segment * 2);
-		$happyFloor[2] = (.@segment * 3);
-		
-		// At least 6 floor should able to randomize
-		if(getarraysize(.@lv) > 5){
-			$happyFloor[0] = 1;
-			$happyFloor[0] += rand(.@segment);
-			$happyFloor[1] += rand(.@segment);
-			$happyFloor[2] -= rand(.@segment);
+		.@loop = min(10,.@highestLv);
+		freeloop(1);
+		for(.@i = 0; .@i < .@loop; .@i++){
+			setarray .@loops[.@i],callsub(GetRandomFloor,.@highestLv);
+			$happyFloor[.@i] = .@loops[.@i];
+			debugmes ".@i:" + .@i;
 		}
-		announce "HAPPY FLOOR ชั้นที่ " + $happyFloor[0] + ", " + $happyFloor[1] + " และ " + $happyFloor[2] + " จะ x2 รางวัล!",bc_all,0xe184f0,0,25;
+		freeloop(0);
+		announce "HAPPY FLOOR เปลี่ยนชั้นแล้ว!",bc_all,0xe184f0,0,25;
 	}
 	end;
+	
+GetRandomFloor:
+	.@max = getarg(0,0);
+	
+	if(.@max <= 1)
+	return 1;
+
+	.@r = rand(1,.@max);
+	
+	for(.@j = 0; .@j < getarraysize(.@loops); .@j++){
+		if(.@r == .@loop[j]){
+			.@j = 0;
+			.@r = rand(1,.@max);
+		}
+	}
+	
+	return .@r;
 }
