@@ -171,8 +171,8 @@ MenuRandomNow:
 	dispbottom "[Lv. " + effectLvs[12] + "] เจาะ RES +" + (1 * effectLvs[12]) + "%",0xedf084;
 	dispbottom "[Lv. " + effectLvs[13] + "] เจาะ MRES +" + (1 * effectLvs[13]) + "%",0xedf084;
 	dispbottom "[Lv. " + effectLvs[14] + "] ฟื้นฟู HP & SP " + (effectLvs[14] ? 1 : 0) + "% ทุก ๆ +" + ((11000 - cap_value(100 * effectLvs[14],0,10000)) / 1000) + " วินาที",0xedf084;
-	dispbottom "[Lv. " + effectLvs[15] + "] ATK +^9300ff" + (10 * effectLvs[15]),0xedf084;
-	dispbottom "[Lv. " + effectLvs[16] + "] MATK +^9300ff" + (10 * effectLvs[16]),0xedf084;
+	dispbottom "[Lv. " + effectLvs[15] + "] ATK +" + (10 * effectLvs[15]),0xedf084;
+	dispbottom "[Lv. " + effectLvs[16] + "] MATK +" + (10 * effectLvs[16]),0xedf084;
 	
 	freeloop(0);
 	
