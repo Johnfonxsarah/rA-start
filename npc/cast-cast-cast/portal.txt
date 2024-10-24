@@ -315,13 +315,18 @@ OnMonsterDead:
 		announce "สาวกมนต์ดำ เหลือ " + (scoreRequired - $scoreMaps[lastPlayMap]) + " ตัว",bc_map,0x9e978b,0,25;
 		callsub OnSpawnMonsterOne;
 		// Bunch of monsters
-		if(rand(100) < 10){
+		if((rand(100) < 10) || ((swDelay > 0) && (swDelay < gettimetick(2)))){
 			getunitdata killedgid,.@uds;
 			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
 			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
 			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
 			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
 			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
+		}
+		// Shockwave
+		if(rand(100) < 3){
+			swDelay = gettimetick(2) + 30;
+			announce "คุณติดสถานะ SHOCKWAVE ทำให้ Monster ปกติทุกตัวที่กำจัดเกิดเป็น Bonus Monster!!",bc_self,0xfed711,0,35;
 		}
 	}
 	end;
