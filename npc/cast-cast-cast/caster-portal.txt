@@ -186,7 +186,7 @@ GetNewSkillId:
 		// Check skill was same
 		if(.@workingSkillId == .@grantSkill[.@gs]){
 			// Random new skill
-			.@workingSkillId = callsub(GetGoodSkillId,rand(getarraysize($offensiveSkillIds)))
+			.@workingSkillId = callsub(GetGoodSkillId,rand(getarraysize($offensiveSkillIds)));
 			.@gs = 0;
 		}
 	}
