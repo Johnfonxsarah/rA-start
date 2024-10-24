@@ -91,13 +91,7 @@ MenuRandomNow:
 	
 	freeloop(1);
 	
-	// Forgot old skill if available
-	.@maxSkillAmount = 55;
-	for(.@m = 0; .@m < .@maxSkillAmount; .@m++){
-		if(skillSlots[.@m] != 99999)
-		skill $offensiveSkillIds[skillSlots[.@m]],0,3;
-		skillSlots[.@m] = 99999;
-	}
+	resetskill;
 	
 	// Permanent Skill
 	for(.@i = 0; .@i < 8; .@i++){

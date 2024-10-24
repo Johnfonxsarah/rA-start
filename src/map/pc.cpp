@@ -9396,8 +9396,9 @@ int pc_resetskill(map_session_data* sd, int flag)
 		if (skill_id == NV_BASIC && (sd->class_&MAPID_UPPERMASK) != MAPID_NOVICE )
 			continue;
 
-		if( sd->status.skill[idx].flag == SKILL_FLAG_PERM_GRANTED )
-			continue;
+		// [Start's] permanent also got reset!
+		//if( sd->status.skill[idx].flag == SKILL_FLAG_PERM_GRANTED )
+		//	continue;
 
 		if( flag&4 && !skill_ischangesex(skill_id) )
 			continue;
