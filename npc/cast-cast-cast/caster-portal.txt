@@ -119,7 +119,8 @@ MenuRandomNow:
 		.@skillAmount--;
 		
 		// Random new skill
-		skillSlots[.@slot] = callsub(GetNewSkillId);
+		setarray .@grantSkill[.@slot],callsub(GetNewSkillId);
+		skillSlots[.@slot] = .@grantSkill[.@slot];
 		
 		// Learn new skill now
 		skill $offensiveSkillIds[skillSlots[.@slot]],max(1,skillLv),3;
@@ -184,44 +185,33 @@ MenuRandomNow:
 	end;
 	
 GetNewSkillId:
-	.@workingSkillId = rand(getarraysize($offensiveSkillIds));
+	.@workingSkillId = callsub(GetGoodSkillId,rand(getarraysize($offensiveSkillIds)));
 	
-	while(true){
-		.@isBadSkillId = 0;
-		.@isSame = 0;
-		
-		// Check for error skill
-		for(.@bad = 0; .@bad < getarraysize($errorSkillId); .@bad++){
-			if(.@workingSkillId == $errorSkillId[.@bad]){
-				// Random new skill
-				.@workingSkillId = rand(getarraysize($offensiveSkillIds));
-				.@isBadSkillId = 1;
-				break;
-			}
+	// Should not same with other slot
+	for(.@gs = 0; .@gs < getarraysize(.@grantSkill); .@gs++){
+		// Check skill was same
+		if(.@workingSkillId == .@grantSkill[.@gs]){
+			// Random new skill
+			.@workingSkillId = callsub(GetGoodSkillId,rand(getarraysize($offensiveSkillIds)))
+			.@gs = 0;
 		}
-		
-		if(.@isBadSkillId)
-		continue;
-		
-		// Should not same with other slot
-		for(.@i = 0; .@i < .@maxSkillAmount; .@i++){
-			if(.@i == .@slot)
-			continue;
-			
-			// Check skill was same
-			if(.@workingSkillId == skillSlots[.@i]){
-				// Random new skill
-				.@workingSkillId = rand(getarraysize($offensiveSkillIds));
-				.@isSame = 1;
-				break;
-			}
-		}
-		
-		if((.@isBadSkillId <= 0) && (.@isSame <= 0))
-		break;
 	}
 	
 	return .@workingSkillId;
+	
+GetGoodSkillId:
+	.@inputSkillId = getarg(0,0);
+	
+	// Check for error skill
+	for(.@bad = 0; .@bad < getarraysize($errorSkillId); .@bad++){
+		if(.@inputSkillId == $errorSkillId[.@bad]){
+			// Random new skill
+			.@inputSkillId = rand(getarraysize($offensiveSkillIds));
+			.@bad = 0;
+		}
+	}
+	
+	return .@inputSkillId;
 	
 OnInit:
 	waitingroom "สุ่มทุกอย่างใหม่",0;
