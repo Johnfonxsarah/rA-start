@@ -325,8 +325,14 @@ OnMonsterDead:
 		}
 		// Shockwave
 		if(rand(100) < 3){
-			swDelay = gettimetick(2) + 30;
-			announce "คุณติดสถานะ SHOCKWAVE ทำให้ Monster ปกติทุกตัวที่กำจัดเกิดเป็น Bonus Monster!!",bc_self,0xfed711,0,35;
+			.@isShockwave = 1;
+			if((swDelay > 0) && (swDelay >= gettimetick(2)))
+			.@isShockwave = 0;
+			if(.@isShockwave){
+				swDelay = gettimetick(2) + 30;
+				message strcharinfo(0),"คุณติดสถานะ SHOCKWAVE เป็นเวลา 30 วินาที ลองกำจัด Monster ดูสิ!";
+				sc_start SC_SPEEDUP0,30000,50;
+			}
 		}
 	}
 	end;
@@ -382,7 +388,9 @@ OnBossDead:
 		
 		callfunc("CCCDrop",tier,1);
 		
-		announce strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! ทุกคนในชั้น " + lastPlayMap + " สามารถไปยังชั้นต่อไปได้แล้ว",bc_all,0xffff00,0,25;
+		.@announceText$ = strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! ทุกคนในชั้น " + lastPlayMap + " สามารถไปยังชั้นต่อไปได้แล้ว";
+		announce .@announceText$,bc_map,0xffff00,0,25;
+		mapannounce "bl_depth2",.@announceText$,bc_map,0xffff00,0,25;
 	}
 	
 	addrid(1);

@@ -75,6 +75,8 @@ OnInit:
 	
 	addrid(0);
 	
+	playCooldown = 0;
+	
 	callfunc("RemovePlayDelegates");
 	
 	callfunc("ApplyCCCRules");
