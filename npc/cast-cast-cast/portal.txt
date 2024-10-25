@@ -321,11 +321,10 @@ OnMonsterDead:
 		// Bunch of monsters
 		if((rand(100) < 10) || ((swDelay > 0) && (swDelay >= gettimetick(2)))){
 			getunitdata killedgid,.@uds;
-			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
-			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
-			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
-			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
-			callsub OnSpawnMonsterOne,1,.@uds[UMOB_X] + rand(-3,3),.@uds[UMOB_Y] + rand(-3,3);
+			for(.@bonus = 0; .@bonus < 5; .@bonus++){
+				getfreecell strcharinfo(3),.@rX,.@rY,.@uds[UMOB_X],.@uds[UMOB_Y],rand(6),rand(6);
+				callsub OnSpawnMonsterOne,1,.@rX,.@rY;
+			}
 		}
 		// Shockwave
 		if(rand(100) < 3){

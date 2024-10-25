@@ -2967,7 +2967,7 @@ bool skill_strip_equip(struct block_list *src, struct block_list *target, uint16
 			break;
 		}
 		case GS_DISARM:
-			rate = sstatus->dex / (4 * (7 - skill_lv)) + sstatus->luk / (4 * (6 - skill_lv));
+			rate = sstatus->dex / (4 * (7 - min(5, skill_lv))) + sstatus->luk / (4 * (6 - min(5, skill_lv)));
 			rate = rate + status_get_lv(src) - (tstatus->agi * rate / 100) - tstatus->luk - status_get_lv(target);
 			break;
 		case WL_EARTHSTRAIN: {
