@@ -1,4 +1,4 @@
-bl_depth2,141,137,5	script	เล่นเกม	10558,{
+bl_depth2,138,137,5	script	เล่นเกม	10558,{
 	getmapxy(.@map$,.@x,.@y,BL_PC);
 	savepoint strcharinfo(3),.@x,.@y,2,2;
 	specialeffect2 747;
@@ -44,6 +44,7 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 			killmonster $maps$[$playingMaps[.@lv]],"เล่นเกม::OnBossDead",0;
 			
 			$playingMaps[.@lv] = 0;
+			$isSpawnMaps[.@lv] = 0;
 			$isBossMaps[.@lv] = 0;
 			$gidBossMaps[.@lv] = 0;
 		}
@@ -52,35 +53,14 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 		goto OnJoin;
 	}
 	
-	// Random the map
-	.@isFoundSameMap = 1;
-	.@retry = 300;
-	while(.@isFoundSameMap && (.@retry > 0)){
-		.@retry--;
-		
-		// Random map index
-		.@mapIndex = rand(getarraysize($maps$));
-		.@isContinue = 0;
-		// Loop all level and check map available
-		for(.@i = 0; .@i < getarraysize($playingMaps); .@i++){
-			// Error because found same map index
-			if(.@mapIndex == $playingMaps[.@i]){
-				.@isContinue = 1;
-				break;
-			}
-		}
-		// Good! Found available map now
-		if(!.@isContinue)
-		.@isFoundSameMap = 0;
-	}
-	// Error..
-	if(.@retry <= 0){
-		mes "โปรดรอสักครู่ ขณะนี้ Map เต็ม";
-		close;
-	}
+	.@mapIndex = callfunc("GetAvailableMap");
+	
 	// Set playing map index
 	$playingMaps[.@lv] = .@mapIndex;
+	
 OnJoin:
+	isBossMap = 0;
+
 	// Remember playing floor
 	lastPlayMap = .@lv;
 	

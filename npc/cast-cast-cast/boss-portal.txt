@@ -1,0 +1,187 @@
+// Boss Map
+// 1.) Enter room
+// 2.) Kill n amount
+// 3.) Got a bossPortalLv (This will be minimal to random from PORTAL OF CASTER)
+bl_depth2,145,137,5	script	เล่นเกมบอส	10558,{
+	tired = 0;
+	bonusDebuff = 0;
+	
+	callfunc("ApplyTired");
+	callfunc("RemovePlayDelegates");
+	
+	percentheal 100,100;
+	
+	mes "เลือกชั้นที่ต้องการเข้าเล่น";
+	mes "โปรดระบุ ^d323231~" + max(1,bossPortalLv) + "^000000";
+	next;
+	input .@lv;
+	if(InputOutOfRange(.@lv,max(1,bossPortalLv)) || (.@lv >= 100)){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	
+	freeloop(1);
+	
+	// Check map index existed on those level
+	if($playingBossMaps[.@lv]){
+		// Check user first
+		if(getmapusers($maps$[$playingBossMaps[.@lv]]) <= 0){
+			killmonster $maps$[$playingBossMaps[.@lv]],"เล่นเกมบอส::OnMonsterDead",0;
+			
+			$playingBossMaps[.@lv] = 0;
+			$isSpawnBossMaps[.@lv] = 0;
+		}
+		// Just join
+		else
+		goto OnJoin;
+	}
+	
+	.@mapIndex = callfunc("GetAvailableMap");
+	
+	// Set playing map index
+	$playingBossMaps[.@lv] = .@mapIndex;
+	
+OnJoin:
+	isBossMap = 1;
+
+	// Remember playing floor
+	lastPlayMap = .@lv;
+	
+	// Remember last map name
+	lastPlayMap$ = $maps$[$playingBossMaps[.@lv]];
+	
+	// Remember tier
+	tier = .@lv;
+	
+	// Score requirement
+	scoreRequired = 100;
+
+	// Damage Multiplier
+	dmgMultiplier = cap_value(tier / 2,1,50);
+	
+	// Drop Multiplier
+	bonusDropMultiplier = 1;
+	
+	// Boss Drop Multiplier
+	bonusBossDropMultiplier = 1;
+	
+	// Debuff Rate
+	debuffRate = cap_value(tier,0,90);
+	tired = debuffRate;
+	
+	// Bonus Debuff Rate
+	bonusDividerRate = cap_value(tier/2,0,50);
+	bonusDebuff = bonusDividerRate;
+	
+	freeloop(0);
+
+	callfunc("ApplyTired");
+	
+	callfunc("ApplyCCCRules");
+	
+	setpcblock PCBLOCK_ALL,true;
+	setpcblock PCBLOCK_MOVE,false;
+	setpcblock PCBLOCK_USEITEM,false;
+	setpcblock PCBLOCK_COMMANDS,false;
+	
+	// Warp now
+	warp $maps$[$playingBossMaps[lastPlayMap]],0,0;
+	// About to start spawn monster around player
+	hintTimer = myHintTimer ? myHintTimer : 3;
+	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";
+	callsub OnSpawnMonster;
+	close;
+	
+OnSpawnMonsterHint:
+	if(!playerattached() || (lastPlayMap$ != strcharinfo(3)) || isdead())
+	end;
+	
+	if(hintTimer){
+		announce "จะควบคุมตัวละครได้ภายใน " + hintTimer + " วินาที",bc_self,0x9e978b,0,25;
+		hintTimer--;
+		addtimer 1000,strnpcinfo(0) + "::OnSpawnMonsterHint";
+	}
+	else{
+		setpcblock PCBLOCK_ALL,false;
+		setpcblock PCBLOCK_ATTACK,true;
+	}
+	end;
+	
+OnSpawnMonster:
+	if($isSpawnBossMaps[lastPlayMap])
+	end;
+
+	$isSpawnBossMaps[lastPlayMap] = 1;
+	
+	.@spawnAmount = 250;
+	
+	freeloop(1);
+	for(.@i = 0; .@i < .@spawnAmount; .@i++)
+	callsub OnSpawnMonsterOne;
+	freeloop(0);
+	
+	end;
+	
+OnSpawnMonsterOne:
+	monster $maps$[$playingBossMaps[lastPlayMap]],0,0,"เจ้าแห่งมนต์ดำ",$mvpIds[rand(getarraysize($mvpIds))],1,strnpcinfo(0) + "::OnMonsterDead";
+	.GID = $@mobid[0];
+	.@mHP = 1000000 * lastPlayMap;
+	setunitdata .GID,UMOB_MAXHP,.@mHP;
+	setunitdata .GID,UMOB_HP,.@mHP;
+	.@moveSpeed = 200 - rand(tier + 1);
+	.@attackSpeed = 400 - rand(tier + 1);
+	setunitdata .GID,UMOB_SPEED,.@moveSpeed;
+	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_MVP|MD_DETECTOR|MD_STATUSIMMUNE;
+	setunitdata .GID,UMOB_DMGIMMUNE,0;
+	setunitdata .GID,UMOB_AMOTION,.@attackSpeed;
+	setunitdata .GID,UMOB_ADELAY,.@attackSpeed;
+	setunitdata .GID,UMOB_DMOTION,.@attackSpeed;
+	setunitdata .GID,UMOB_DAMAGETAKEN,cap_value(100 - tier,1,100);
+	setunitdata .GID,UMOB_RANK,cap_value(tier,1,100);
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,cap_value(dmgMultiplier,1,50);
+	return;
+	
+OnMonsterDead:
+	// Check map still same otherwise stop it. || Player not attached || Boss Fight || Player dead
+	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || isdead())
+	end;
+
+	// Keep spawning
+	callsub OnSpawnMonsterOne;
+	
+	if(playerattached()){
+		// Don't pass this line if already pass the stage
+		if(bossPortalLv > lastPlayMap)
+		end;
+		
+		killBossMap[lastPlayMap] = cap_value(killBossMap[lastPlayMap] + 1,0,scoreRequired);
+		if(killBossMap[lastPlayMap] >= scoreRequired){
+			if(!bossPortalLv)
+			bossPortalLv = 1;
+			// Mark as passed
+			bossPortalLv = cap_value(bossPortalLv + 1,0,100);
+			// Announce in map
+			.@announceText$ = strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำครบแล้ว! ทำให้สามารถไปยังชั้นต่อไปได้";
+			announce .@announceText$,bc_map,0xffff00,0,25;
+			// Create waiting room in town
+			if(.isWaitingRoom)
+			delwaitingroom;
+			.isWaitingRoom = 1;
+			waitingroom strcharinfo(0) + " ผ่านด่านบอส " + lastPlayMap + "!",0;
+		}
+		else{
+			// Announce to keep killing
+			announce "คุณต้องกำจัดอีก " + (scoreRequired - killBossMap[lastPlayMap]) + " ตัว",bc_self,0x9e978b,0,25;
+		}
+	}
+	
+	end;
+	
+OnInit:
+	// Clean all playing map
+	deletearray $playingBossMaps[0],getarraysize($playingBossMaps);
+	// Clean all spawn remember
+	deletearray $isSpawnBossMaps[0],getarraysize($isSpawnBossMaps);
+	
+	end;
+}

@@ -45,6 +45,34 @@ MenuRandomNow:
 		.@addInt = rand(bodyLv + 1);
 		.@addDex = rand(bodyLv + 1);
 		.@addLuk = rand(bodyLv + 1);
+		// Boss Level
+		if(bossPortalLv){
+			// Minimum value
+			.@min = $bodyMax[cap_value(bossPortalLv / 10,1,9)];
+			// Check level was greater than minimum
+			if(bodyLv > .@min)
+			{
+				dispbottom "Body สุ่มต่ำสุด: " + .@min;
+				// Random again
+				.@addStr = rand(.@min,bodyLv);
+				.@addAgi = rand(.@min,bodyLv);
+				.@addVit = rand(.@min,bodyLv);
+				.@addInt = rand(.@min,bodyLv);
+				.@addDex = rand(.@min,bodyLv);
+				.@addLuk = rand(.@min,bodyLv);
+			}
+			else if(bodyLv == .@min){
+				dispbottom "Body สุ่มต่ำสุด: " + .@min;
+				.@addStr = .@min;
+				.@addAgi = .@min;
+				.@addVit = .@min;
+				.@addInt = .@min;
+				.@addDex = .@min;
+				.@addLuk = .@min;
+			}
+			else
+			dispbottom "Body Level ไม่เพียงพอที่จะสุ่มต่ำสุด ต้องการ: " + .@min;
+		}
 		statusup2 bStr,.@addStr;
 		statusup2 bAgi,.@addAgi;
 		statusup2 bVit,.@addVit;
@@ -73,6 +101,34 @@ MenuRandomNow:
 		.@addSpl = rand(traitLv + 1);
 		.@addCon = rand(traitLv + 1);
 		.@addCrt = rand(traitLv + 1);
+		// Boss Level
+		if(bossPortalLv){
+			// Minimum value
+			.@min = $traitMax[cap_value(bossPortalLv / 10,1,9)];
+			// Check level was greater than minimum
+			if(traitLv > .@min)
+			{
+				dispbottom "Trait สุ่มต่ำสุด: " + .@min;
+				// Random again
+				.@addPow = rand(.@min,traitLv);
+				.@addSta = rand(.@min,traitLv);
+				.@addWis = rand(.@min,traitLv);
+				.@addSpl = rand(.@min,traitLv);
+				.@addCon = rand(.@min,traitLv);
+				.@addCrt = rand(.@min,traitLv);
+			}
+			else if(traitLv == .@min){
+				dispbottom "Trait สุ่มต่ำสุด: " + .@min;
+				.@addPow = .@min;
+				.@addSta = .@min;
+				.@addWis = .@min;
+				.@addSpl = .@min;
+				.@addCon = .@min;
+				.@addCrt = .@min;
+			}
+			else
+			dispbottom "Trait Level ไม่เพียงพอที่จะสุ่มต่ำสุด ต้องการ: " + .@min;
+		}
 		traitstatusup2 bPow,.@addPow;
 		traitstatusup2 bSta,.@addSta;
 		traitstatusup2 bWis,.@addWis;
@@ -93,11 +149,42 @@ MenuRandomNow:
 	
 	resetskill;
 	
+	.@isHintMin = 0;
 	// Permanent Skill
 	for(.@permSkill = 0; .@permSkill < 8; .@permSkill++){
 		if((pSkill[.@permSkill] != 99999) && (pSkill[.@permSkill] != 0)){
-			if(skillLv > 1)
-			.@permaSkillLv[.@permSkill] = rand(1,skillLv);
+			if(skillLv > 1){
+				.@permaSkillLv[.@permSkill] = rand(1,skillLv);
+				// Boss Level
+				if(bossPortalLv){
+					// Minimum value
+					.@min = cap_value(bossPortalLv,1,100);
+					// Check level was greater than minimum
+					if(skillLv > .@min)
+					{
+						if(!.@isHintMin){
+							.@isHintMin = 1;
+							dispbottom "Skill สุ่มต่ำสุด: " + .@min;
+						}
+						// Random again
+						.@permaSkillLv[.@permSkill] = rand(.@min,skillLv);
+					}
+					// Maximum
+					else if((skillLv >= 100) && (bossPortalLv >= 100)){
+						if(!.@isHintMin){
+							.@isHintMin = 1;
+							dispbottom "Skill สุ่มต่ำสุด: " + .@min;
+						}
+						.@permaSkillLv[.@permSkill] = 100;
+					}
+					else{
+						if(!.@isHintMin){
+							.@isHintMin = 1;
+							dispbottom "Skill Level ไม่เพียงพอที่จะสุ่มต่ำสุด ต้องการ: " + .@min;
+						}
+					}
+				}
+			}
 			else
 			.@permaSkillLv[.@permSkill] = 1;
 			skill $offensiveSkillIds[pSkill[.@permSkill]],.@permaSkillLv[.@permSkill],3;
@@ -129,9 +216,42 @@ MenuRandomNow:
 	for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
 	effectLvs[.@m] = 0;
 
+	.@isHintMin = 0;
+
 	if(effectLv > 0){
-		for(.@m = 0; .@m < .@maxEffectAmount; .@m++)
-		effectLvs[.@m] = rand(effectLv + 1);
+		for(.@m = 0; .@m < .@maxEffectAmount; .@m++){
+			effectLvs[.@m] = rand(effectLv + 1);
+			// Boss Level
+			if(bossPortalLv){
+				// Minimum value
+				.@min = cap_value(bossPortalLv,1,100);
+				
+				// Check level was greater than minimum
+				if(effectLv > .@min)
+				{
+					if(!.@isHintMin){
+						.@isHintMin = 1;
+						dispbottom "Effect สุ่มต่ำสุด: " + .@min;
+					}
+					// Random again
+					effectLvs[.@m] = rand(.@min,effectLv);
+				}
+				// Maximum
+				else if((effectLv >= 100) && (bossPortalLv >= 100)){
+					if(!.@isHintMin){
+						.@isHintMin = 1;
+						dispbottom "Effect สุ่มต่ำสุด: " + .@min;
+					}
+					effectLvs[.@m] = 100;
+				}
+				else{
+					if(!.@isHintMin){
+						.@isHintMin = 1;
+						dispbottom "Effect Level ไม่เพียงพอที่จะสุ่มต่ำสุด ต้องการ: " + .@min;
+					}
+				}
+			}
+		}
 	}
 	
 	.@maxHpLv = effectLvs[9];

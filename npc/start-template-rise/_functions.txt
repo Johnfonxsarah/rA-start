@@ -243,13 +243,20 @@ function	script	ApplyEffect	{
 }
 
 function	script	MapCleanUp	{
-	if(getusers(0) <= 1 && !IsSkipTickMap()){
+	if((getusers(0) <= 1) && !IsSkipTickMap()){
 		killmonsterall strcharinfo(3),0;
 
-		$playingMaps[lastPlayMap] = 0;
-		$isSpawnMaps[lastPlayMap] = 0;
-		$isBossMaps[lastPlayMap] = 0;
-		$gidBossMaps[lastPlayMap] = 0;
+		if(isBossMap){
+			$playingBossMaps[lastPlayMap] = 0;
+			$isSpawnBossMaps[lastPlayMap] = 0;
+		}
+		else{
+			$playingMaps[lastPlayMap] = 0;
+			$isSpawnMaps[lastPlayMap] = 0;
+			$isBossMaps[lastPlayMap] = 0;
+			$gidBossMaps[lastPlayMap] = 0;
+		}
+		
 	}
 	return;
 }
@@ -395,4 +402,42 @@ function	script	GetEffectTier	{
 		return (.@req + 1);
 	}
 	return 10;
+}
+
+function	script	GetAvailableMap	{
+	// Random the map
+	.@isFoundSameMap = 1;
+	.@retry = 300;
+	while(.@isFoundSameMap && (.@retry > 0)){
+		.@retry--;
+		
+		// Random map index
+		.@mapIndex = rand(getarraysize($maps$));
+		.@isContinue = 0;
+		// Loop all level and check map available
+		for(.@i = 0; .@i < getarraysize($playingMaps); .@i++){
+			// Error because found same map index
+			if(.@mapIndex == $playingMaps[.@i]){
+				.@isContinue = 1;
+				break;
+			}
+		}
+		// Loop all level and check map available
+		for(.@i = 0; .@i < getarraysize($playingBossMaps); .@i++){
+			// Error because found same map index
+			if(.@mapIndex == $playingBossMaps[.@i]){
+				.@isContinue = 1;
+				break;
+			}
+		}
+		// Good! Found available map now
+		if(!.@isContinue)
+		.@isFoundSameMap = 0;
+	}
+	// Error..
+	if(.@retry <= 0){
+		mes "โปรดรอสักครู่ ขณะนี้ Map เต็ม";
+		close;
+	}
+	return .@mapIndex;
 }
