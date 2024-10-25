@@ -20,9 +20,13 @@ bl_depth2,141,137,5	script	เล่นเกม	10558,{
 	mes "เลือกชั้นที่ต้องการเข้าเล่น";
 	mes "โปรดระบุ ^d323231~" + BaseLevel + "^000000";
 	mes "---";
-	mes "^e184f0HAPPY FLOOR (x2 รางวัล)^000000";
+	mes "^e184f0HAPPY FLOOR^000000";
 	for(.@hf = 0; .@hf < getarraysize($happyFloor); .@hf++)
-	mes "ชั้นที่ " + $happyFloor[.@hf];
+	.@hfmes$ += $happyFloor[.@hf] + ", ";
+	.@length = getstrlen(.@hfmes$);
+	.@hfmes$ = delchar(.@hfmes$,.@length - 1);
+	.@hfmes$ = delchar(.@hfmes$,.@length - 2);
+	mes "ชั้นที่ ^9300ff" + .@hfmes$ + " รางวัล x2^000000";
 	next;
 	input .@lv;
 	if(InputOutOfRange(.@lv,BaseLevel)){

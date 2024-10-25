@@ -50,14 +50,22 @@ GetRandomFloor:
 	if(.@max <= 1)
 	return 1;
 
-	.@r = rand(1,.@max);
+	.@isSame = 1;
+	do{
+		.@r = rand(1,.@max);
+		
+		if(getarraysize(.@loops) < 1)
+		.@isSame = 0;
 	
-	for(.@j = 0; .@j < getarraysize(.@loops); .@j++){
-		if(.@r == .@loop[j]){
-			.@j = 0;
-			.@r = rand(1,.@max);
+		for(.@j = 0; .@j < getarraysize(.@loops); .@j++){
+			if(.@r == .@loop[j])
+				break;
+			
+			if(.@j == (getarraysize(.@loops) - 1))
+			.@isSame = 0;
 		}
 	}
+	while(.@isSame);
 	
 	return .@r;
 }
