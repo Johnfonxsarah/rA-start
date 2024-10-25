@@ -39583,8 +39583,8 @@ Body:
     Name: WH_FLAMETRAP
     Description: Flame Trap
     MaxLevel: 5
-    Type: Passive
-    TargetType: Ground
+    Type: Weapon
+    TargetType: Passive
     DamageFlags:
       IgnoreFlee: true
     Flags:
