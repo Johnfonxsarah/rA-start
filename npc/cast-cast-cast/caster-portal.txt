@@ -168,8 +168,7 @@ MenuRandomNow:
 	
 	callfunc("ApplyEffect");
 	
-	// Warp back to save point
-	warp "Save",0,0;
+	atcommand "@refresh";
 	
 	end;
 	

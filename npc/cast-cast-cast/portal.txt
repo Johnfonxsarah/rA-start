@@ -390,7 +390,10 @@ OnBossDead:
 		
 		.@announceText$ = strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! ทุกคนในชั้น " + lastPlayMap + " สามารถไปยังชั้นต่อไปได้แล้ว";
 		announce .@announceText$,bc_map,0xffff00,0,25;
-		mapannounce "bl_depth2",.@announceText$,bc_map,0xffff00,0,25;
+		if(.isWaitingRoom)
+		delwaitingroom;
+		.isWaitingRoom = 1;
+		waitingroom strcharinfo(0) + " ผ่านด่าน " + lastPlayMap + "!",0;
 	}
 	
 	addrid(1);
