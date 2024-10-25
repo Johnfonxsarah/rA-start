@@ -58,7 +58,7 @@ GetRandomFloor:
 		.@isSame = 0;
 	
 		for(.@j = 0; .@j < getarraysize(.@loops); .@j++){
-			if(.@r == .@loop[j])
+			if(.@r == .@loops[j])
 				break;
 			
 			if(.@j == (getarraysize(.@loops) - 1))
