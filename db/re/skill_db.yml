@@ -14187,7 +14187,7 @@ Body:
     Description: Disarm
     MaxLevel: 5
     Type: Weapon
-    TargetType: Passive
+    TargetType: Attack
     Range: -9
     Hit: Single
     HitCount: 1
@@ -39584,7 +39584,7 @@ Body:
     Description: Flame Trap
     MaxLevel: 5
     Type: Weapon
-    TargetType: Passive
+    TargetType: Ground
     DamageFlags:
       IgnoreFlee: true
     Flags:
