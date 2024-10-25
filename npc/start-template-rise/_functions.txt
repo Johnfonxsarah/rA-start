@@ -370,7 +370,7 @@ function	script	GetBodyTier	{
 		if($bodyMax[.@req] > bodyLv) 
 		return (.@req + 1);
 	}
-	return;
+	return 10;
 }
 
 function	script	GetTraitTier	{
@@ -378,7 +378,7 @@ function	script	GetTraitTier	{
 		if($traitMax[.@req] > traitLv) 
 		return (.@req + 1);
 	}
-	return;
+	return 10;
 }
 
 function	script	GetSkillTier	{
@@ -386,7 +386,7 @@ function	script	GetSkillTier	{
 		if($skillMax[.@req] > skillLv) 
 		return (.@req + 1);
 	}
-	return;
+	return 10;
 }
 
 function	script	GetEffectTier	{
@@ -394,5 +394,5 @@ function	script	GetEffectTier	{
 		if($effectMax[.@req] > effectLv) 
 		return (.@req + 1);
 	}
-	return;
+	return 10;
 }
