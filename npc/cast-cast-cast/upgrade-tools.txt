@@ -62,14 +62,18 @@ MenuBody:
 		mes "Max Status ที่จะสุ่มได้ มีค่าสูงสุดแล้ว";
 		close;
 	}
-	// Information
-	mes "Body Level: " + F_InsertComma(bodyLv);
-	mes "ต้องการใช้แต้ม ^1c9311Body Tier " + .@index + "^000000 กี่รอบ?";
-	mes "EXP ต่อรอบ:" + $bodyExp[.@index - 1];
-	mes "EXP ของคุณ:" + bodyExp + "/" + callfunc("GetBodyExpReq");
-	mes "โปรดระบุ 1~" + bodyPoints[.@index];
-	next;
-	input .@amount;
+	if(!isSkipUsePointInput){
+		// Information
+		mes "Body Level: " + F_InsertComma(bodyLv);
+		mes "ต้องการใช้แต้ม ^1c9311Body Tier " + .@index + "^000000 กี่รอบ?";
+		mes "EXP ต่อรอบ:" + $bodyExp[.@index - 1];
+		mes "EXP ของคุณ:" + bodyExp + "/" + callfunc("GetBodyExpReq");
+		mes "โปรดระบุ 1~" + bodyPoints[.@index];
+		next;
+		input .@amount;
+	}
+	else
+	.@amount = bodyPoints[.@index];
 	if((.@amount <= 0) || (.@amount > bodyPoints[.@index])){
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
@@ -121,14 +125,18 @@ MenuTrait:
 		mes "Max Trait ที่จะสุ่มได้ มีค่าสูงสุดแล้ว";
 		close;
 	}
-	// Information
-	mes "Trait Level: " + F_InsertComma(traitLv);
-	mes "ต้องการใช้แต้ม ^1c9311Trait Tier " + .@index + "^000000 กี่รอบ?";
-	mes "EXP ต่อรอบ:" + $traitExp[.@index - 1];
-	mes "EXP ของคุณ:" + traitExp + "/" + callfunc("GetTraitExpReq");
-	mes "โปรดระบุ 1~" + traitPoints[.@index];
-	next;
-	input .@amount;
+	if(!isSkipUsePointInput){
+		// Information
+		mes "Trait Level: " + F_InsertComma(traitLv);
+		mes "ต้องการใช้แต้ม ^1c9311Trait Tier " + .@index + "^000000 กี่รอบ?";
+		mes "EXP ต่อรอบ:" + $traitExp[.@index - 1];
+		mes "EXP ของคุณ:" + traitExp + "/" + callfunc("GetTraitExpReq");
+		mes "โปรดระบุ 1~" + traitPoints[.@index];
+		next;
+		input .@amount;
+	}
+	else
+	.@amount = traitPoints[.@index];
 	if((.@amount <= 0) || (.@amount > traitPoints[.@index])){
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
@@ -180,14 +188,18 @@ MenuSkill:
 		mes "Skill Level มีค่าสูงสุดแล้ว";
 		close;
 	}
-	// Information
-	mes "Skill Level: " + F_InsertComma(skillLv);
-	mes "ต้องการใช้แต้ม ^1c9311Skill Tier " + .@index + "^000000 กี่รอบ?";
-	mes "EXP ต่อรอบ:" + $skillExp[.@index - 1];
-	mes "EXP ของคุณ:" + skillExp + "/" + callfunc("GetSkillExpReq");
-	mes "โปรดระบุ 1~" + skillPoints[.@index];
-	next;
-	input .@amount;
+	if(!isSkipUsePointInput){
+		// Information
+		mes "Skill Level: " + F_InsertComma(skillLv);
+		mes "ต้องการใช้แต้ม ^1c9311Skill Tier " + .@index + "^000000 กี่รอบ?";
+		mes "EXP ต่อรอบ:" + $skillExp[.@index - 1];
+		mes "EXP ของคุณ:" + skillExp + "/" + callfunc("GetSkillExpReq");
+		mes "โปรดระบุ 1~" + skillPoints[.@index];
+		next;
+		input .@amount;
+	}
+	else
+	.@amount = skillPoints[.@index];
 	if((.@amount <= 0) || (.@amount > skillPoints[.@index])){
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
@@ -239,14 +251,18 @@ MenuEffect:
 		mes "Max Effect ที่จะสุ่มได้ มีค่าสูงสุดแล้ว";
 		close;
 	}
-	// Information
-	mes "Effect Level: " + F_InsertComma(effectLv);
-	mes "ต้องการใช้แต้ม ^1c9311Effect Tier " + .@index + "^000000 กี่รอบ?";
-	mes "EXP ต่อรอบ:" + $effectExp[.@index - 1];
-	mes "EXP ของคุณ:" + effectExp + "/" + callfunc("GetEffectExpReq");
-	mes "โปรดระบุ 1~" + effectPoints[.@index];
-	next;
-	input .@amount;
+	if(!isSkipUsePointInput){
+		// Information
+		mes "Effect Level: " + F_InsertComma(effectLv);
+		mes "ต้องการใช้แต้ม ^1c9311Effect Tier " + .@index + "^000000 กี่รอบ?";
+		mes "EXP ต่อรอบ:" + $effectExp[.@index - 1];
+		mes "EXP ของคุณ:" + effectExp + "/" + callfunc("GetEffectExpReq");
+		mes "โปรดระบุ 1~" + effectPoints[.@index];
+		next;
+		input .@amount;
+	}
+	else
+	.@amount = effectPoints[.@index];
 	if((.@amount <= 0) || (.@amount > effectPoints[.@index])){
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
