@@ -7,7 +7,6 @@ bl_depth2,138,164,5	script	CASTER WISH	10044,{
 	
 	// Talking
 	mes "• เลือก Skill ได้เลย";
-	mes "• ^d32323ไม่สามารถเลือกใหม่ได้^000000";
 	mes "• เลือกได้ 1 Skill + ทุก ๆ 50 Level ตัวละครได้อีก 1 Skill";
 	mes "• เมื่อใช้ PORTAL OF CASTER จะทำการสุ่ม Level Skill ให้กับ Skill ที่เลือก (1~Skill Level)";
 	next;
@@ -36,7 +35,18 @@ MenuChoose:
 	
 	.@selectIndex = (select(.@menu$) - 1);
 	if(pSkill[.@selectIndex] != 99999){
-		mes "ไม่สามารถเลือกใหม่ได้";
+		mes "คุณเลือก Skill ถาวร ช่องดัวกล่าวไปแล้ว";
+		menu "เข้าใจแล้ว",-,"ขอเลือกใหม่ แต่จะจ่ายด้วย Skill Level 100",MenuForgetPermanentSkill;
+		close;
+		
+MenuForgetPermanentSkill:
+		if(skillLv < 100){
+			mes "ต้องการ Skill Level 100";
+			close;
+		}
+		skillLv = 0;
+		pSkill[.@selectIndex] = 99999;
+		mes "สามารถเลือก Skill ถาวร ไว้ช่องที่ " + (.@selectIndex + 1) + " ใหม่ได้แล้ว";
 		close;
 	}
 	mes "คุณกำลังจะเลือก Skill ถาวรช่องที่ " + (.@selectIndex + 1);
