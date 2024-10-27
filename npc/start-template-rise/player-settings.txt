@@ -7,6 +7,7 @@ bl_depth2,151,159,4	script	ตั้งค่า	10372,{
 	"เปลี่ยน Password",L_ChangePassword,
 	"เพิ่ม Level Guild",MenuGetGuildLevel,
 	"ลบของที่เป็นตัว X",MenuDeleteNormalItem
+	"ลบ Buff ทั้งตัว",MenuRemoveBuff
 	;
 	end;
 	
@@ -70,6 +71,11 @@ MenuDeleteNormalItem:
 		delitemidx @inventorylist_idx[.@i];
 	}
 	freeloop(0);
+	end;
+	
+MenuRemoveBuff:
+	sc_end SC_ALL;
+	goto L_Menu;
 	end;
 	
 OnInit:
