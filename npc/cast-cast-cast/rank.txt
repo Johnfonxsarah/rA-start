@@ -3,6 +3,13 @@ bl_depth2,127,141,6	script	ป้าย#RANK	857,{
 	mes "LEVEL";
 	for(.@i = 0; .@i < getarraysize(.@lv); .@i++)
 	mes (.@i + 1) + ".) " + .@name$[.@i] + " (" + .@lv[.@i] + ")";
+    next;
+    query_sql("SELECT char_reg_num.char_id, char_reg_num.`value` FROM char_reg_num WHERE char_reg_num.`key` = 'bossPortalLv' ORDER BY char_reg_num.`value` DESC LIMIT 100",.@brCID,.@v);
+    mes "BOSS LEVEL";
+    for(.@i = 0; .@i < getarraysize(.@brCID); .@i++){
+        query_sql("SELECT `char`.`name` FROM `char` WHERE `char`.char_id = '" + .@brCID[.@i] + "'",.@name$);
+        mes (.@i + 1) + ".) " + .@name$ + " (" + .@v[.@i] + ")";
+    }
 	close;
 
 OnInit:
