@@ -34,23 +34,27 @@ OnSpawnMore:
 }
 
 bl_depth2,149,145,5	script	ทดสอบ Damage	10557,30,30,{
-	mes "ระบุ % ล้า";
-	next;
-	input .@debuff;
-	mes "ระบุ % Effect เสื่อม";
-	input .@effectDebuff;
-
 	setpcblock PCBLOCK_SKILL,false;
 	warp strcharinfo(3),215,220;
-	
-	tired = cap_value(.@debuff,0,100);
-	bonusDebuff = cap_value(.@effectDebuff,0,100);
-	
-	callfunc("ApplyTired");
-	
 	end;
 	
 OnTouch:
 	setpcblock PCBLOCK_SKILL,true;
 	end;
+}
+
+bl_depth2,225,231,3	script	ทดสอบล้า	10557,{
+	mes "ระบุ % ล้า";
+	next;
+	input .@debuff;
+	mes "ระบุ % Effect เสื่อม";
+	input .@effectDebuff;
+	
+	tired = cap_value(.@debuff,0,100);
+	bonusDebuff = cap_value(.@effectDebuff,0,100);
+	
+	callfunc("ApplyTired");
+
+	close;
+
 }
