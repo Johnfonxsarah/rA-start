@@ -11,7 +11,7 @@ bl_depth2,138,137,5	script	เล่นเกม	10558,{
 	
 	percentheal 100,100;
 	
-	if(playCooldown >= gettimetick(2))
+	if(!$isBonus && (playCooldown >= gettimetick(2)))
 	{
 		mes "โปรดรอ " + (playCooldown - gettimetick(2)) + " วินาที";
 		close;

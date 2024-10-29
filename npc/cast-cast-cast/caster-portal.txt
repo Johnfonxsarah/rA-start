@@ -23,7 +23,7 @@ MenuRandomNow:
 	.@delay = rand(30,90);
 	
 	// Delay check
-	if(pocDelay > gettimetick(2)){
+	if(!$isBonus && (pocDelay > gettimetick(2))){
 		mes "โปรดรอ " + (pocDelay - gettimetick(2)) + " วินาที";
 		close;
 	}
