@@ -300,9 +300,10 @@ OnMonsterDead:
 		callsub OnSpawnMonsterOne;
 		// Bunch of monsters
 		if((rand(100) < 10) || ((swDelay > 0) && (swDelay >= gettimetick(2)))){
-			getunitdata killedgid,.@uds;
+			getmapxy(.@map$,.@x,.@y,BL_PC);
+			getfreecell .@map$,.@rX,.@rY,.@x,.@y,rand(5),rand(5);
 			for(.@bonus = 0; .@bonus < 5; .@bonus++)
-				callsub OnSpawnMonsterOne,1,.@uds[UMOB_X],.@uds[UMOB_Y];
+			callsub OnSpawnMonsterOne,1,.@rX,.@rY;
 		}
 		// Shockwave
 		if(rand(100) < 3){
