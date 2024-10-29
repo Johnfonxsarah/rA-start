@@ -95,6 +95,8 @@ function	script	CCCDrop	{
 		.@reward = (.@isBoss ? bonusBossDropMultiplier : 1);
 		if(isHappyFloor)
 		.@reward *= 2;
+		if($isBonus)
+		.@reward *= 2;
 		bodyPoints[.@tier] = cap_value(bodyPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Body Tier " + .@tier + " (รวม " + F_InsertComma(bodyPoints[.@tier]) + ")",0xfafa80;
 	}
@@ -106,6 +108,8 @@ function	script	CCCDrop	{
 	if((.@rand < .@rate) || .@isBoss){
 		.@reward = (.@isBoss ? bonusBossDropMultiplier : 1);
 		if(isHappyFloor)
+		.@reward *= 2;
+		if($isBonus)
 		.@reward *= 2;
 		traitPoints[.@tier] = cap_value(traitPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Trait Tier " + .@tier + " (รวม " + F_InsertComma(traitPoints[.@tier]) + ")",0xfafa80;
@@ -119,6 +123,8 @@ function	script	CCCDrop	{
 		.@reward = (.@isBoss ? bonusBossDropMultiplier : 1);
 		if(isHappyFloor)
 		.@reward *= 2;
+		if($isBonus)
+		.@reward *= 2;
 		skillPoints[.@tier] = cap_value(skillPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Skill Tier " + .@tier + " (รวม " + F_InsertComma(skillPoints[.@tier]) + ")",0xfafa80;
 	}
@@ -130,6 +136,8 @@ function	script	CCCDrop	{
 	if((.@rand < .@rate) || .@isBoss){
 		.@reward = (.@isBoss ? bonusBossDropMultiplier : 1);
 		if(isHappyFloor)
+		.@reward *= 2;
+		if($isBonus)
 		.@reward *= 2;
 		effectPoints[.@tier] = cap_value(effectPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Effect Tier " + .@tier + " (รวม " + F_InsertComma(effectPoints[.@tier]) + ")",0xfafa80;
