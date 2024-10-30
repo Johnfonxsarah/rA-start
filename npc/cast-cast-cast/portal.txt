@@ -259,10 +259,14 @@ OnMonsterDead:
 	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || $isBossMaps[lastPlayMap] || isdead())
 	end;
 
-	callfunc("CCCDrop",tier);
+	.@isShockWave = (swDelay >= gettimetick(2));
+
+	callfunc("CCCDrop",tier,.@isShockWave);
 	
 	$scoreMaps[lastPlayMap]++;
-	
+	if(.@isShockWave)
+	$scoreMaps[lastPlayMap] += 5;
+
 	if($scoreMaps[lastPlayMap] >= scoreRequired){
 		$scoreMaps[lastPlayMap] = 0;
 		$isBossMaps[lastPlayMap] = 1;
@@ -298,23 +302,11 @@ OnMonsterDead:
 	else{
 		announce "สาวกมนต์ดำ เหลือ " + (scoreRequired - $scoreMaps[lastPlayMap]) + " ตัว",bc_map,0x9e978b,0,25;
 		callsub OnSpawnMonsterOne;
-		// Bunch of monsters
-		if((rand(100) < 10) || ((swDelay > 0) && (swDelay >= gettimetick(2)))){
-			getmapxy(.@map$,.@x,.@y,BL_PC);
-			getfreecell .@map$,.@rX,.@rY,.@x,.@y,rand(5),rand(5);
-			for(.@bonus = 0; .@bonus < 5; .@bonus++)
-			callsub OnSpawnMonsterOne,1,.@rX,.@rY;
-		}
 		// Shockwave
 		if(rand(100) < 3){
-			.@isShockwave = 1;
-			if((swDelay > 0) && (swDelay >= gettimetick(2)))
-			.@isShockwave = 0;
-			if(.@isShockwave){
-				swDelay = gettimetick(2) + 30;
-				message strcharinfo(0),"คุณติดสถานะ SHOCKWAVE เป็นเวลา 30 วินาที ลองกำจัด Monster ดูสิ!";
-				sc_start SC_SPEEDUP0,30000,50;
-			}
+			swDelay = gettimetick(2) + 30;
+			message strcharinfo(0),"คุณติดสถานะ SHOCKWAVE เป็นเวลา 30 วินาที ลองกำจัด Monster ดูสิ!";
+			sc_start SC_SPEEDUP0,30000,50;
 		}
 	}
 	end;

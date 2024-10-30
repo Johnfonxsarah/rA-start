@@ -84,6 +84,8 @@ function	script	Storage	{
 function	script	CCCDrop	{
 	.@tier = getarg(0,0);
 	.@isBoss = getarg(1,0);
+	.@isShockwave = getarg(2,0);
+	
 	// Error
 	if(.@tier <= 0)
 	return;
@@ -97,6 +99,8 @@ function	script	CCCDrop	{
 		.@reward *= 2;
 		if($isBonus)
 		.@reward *= 2;
+		if(.@isShockwave)
+		.@reward *= 5;
 		bodyPoints[.@tier] = cap_value(bodyPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Body Tier " + .@tier + " (รวม " + F_InsertComma(bodyPoints[.@tier]) + ")",0xfafa80;
 	}
@@ -111,6 +115,8 @@ function	script	CCCDrop	{
 		.@reward *= 2;
 		if($isBonus)
 		.@reward *= 2;
+		if(.@isShockwave)
+		.@reward *= 5;
 		traitPoints[.@tier] = cap_value(traitPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Trait Tier " + .@tier + " (รวม " + F_InsertComma(traitPoints[.@tier]) + ")",0xfafa80;
 	}
@@ -125,6 +131,9 @@ function	script	CCCDrop	{
 		.@reward *= 2;
 		if($isBonus)
 		.@reward *= 2;
+		if(.@isShockwave)
+		.@reward *= 5;
+		
 		skillPoints[.@tier] = cap_value(skillPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Skill Tier " + .@tier + " (รวม " + F_InsertComma(skillPoints[.@tier]) + ")",0xfafa80;
 	}
@@ -139,6 +148,8 @@ function	script	CCCDrop	{
 		.@reward *= 2;
 		if($isBonus)
 		.@reward *= 2;
+		if(.@isShockwave)
+		.@reward *= 5;
 		effectPoints[.@tier] = cap_value(effectPoints[.@tier] + .@reward,0,INT_MAX);
 		dispbottom "+" + .@reward + " แต้ม Effect Tier " + .@tier + " (รวม " + F_InsertComma(effectPoints[.@tier]) + ")",0xfafa80;
 	}
