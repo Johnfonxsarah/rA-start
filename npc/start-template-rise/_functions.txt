@@ -26,7 +26,7 @@ function	script	ResetTired	{
 
 function	script	IsSkipTickMap	{
 	.@value$ = getarg(0,strcharinfo(3));
-	return ((.@value$ == "bl_depth2") || (.@value$ == "pvp_n_1-1") || (.@value$ == "pvp_n_1-3") || (.@value$ == "pvp_n_1-5"));
+	return ((.@value$ == "bl_depth2") || (.@value$ == "pvp_n_1-1") || (.@value$ == "pvp_n_1-3") || (.@value$ == "pvp_n_1-5") || (.@value$ == "ba_bath"));
 }
 
 function	script	StringBase10000	{

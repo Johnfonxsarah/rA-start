@@ -1,0 +1,120 @@
+// Random Map
+// 1.) Enter room
+// 2.) Kill n amount
+bl_depth2,124,137,6	script	เล่นเกมมั่ว	10558,{
+	tired = 0;
+	bonusDebuff = 0;
+	
+	callfunc("ApplyTired");
+	callfunc("RemovePlayDelegates");
+	
+	percentheal 100,100;
+	
+	isRandomMap = 1;
+
+	// Remember playing floor
+	lastPlayMap = 0;
+	
+	// Remember last map name
+	lastPlayMap$ = "ba_bath";
+	
+	// Remember tier
+	tier = 0;
+	
+	// Debuff Rate
+	debuffRate = 99;
+	tired = debuffRate;
+	
+	// Bonus Debuff Rate
+	bonusDividerRate = 50;
+	bonusDebuff = bonusDividerRate;
+	
+	freeloop(0);
+
+	callfunc("ApplyTired");
+	
+	callfunc("ApplyCCCRules");
+	
+	setpcblock PCBLOCK_ALL,true;
+	setpcblock PCBLOCK_MOVE,false;
+	setpcblock PCBLOCK_USEITEM,false;
+	setpcblock PCBLOCK_COMMANDS,false;
+	
+	// Warp now
+	warp "ba_bath",0,0;
+	// About to start spawn monster around player
+	hintTimer = myHintTimer ? myHintTimer : 3;
+	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";
+	callsub OnSpawnMonster;
+	close;
+	
+OnSpawnMonsterHint:
+	if(!playerattached() || (lastPlayMap$ != strcharinfo(3)) || isdead())
+	end;
+	
+	if(hintTimer){
+		announce "จะควบคุมตัวละครได้ภายใน " + hintTimer + " วินาที",bc_self,0x9e978b,0,25;
+		hintTimer--;
+		addtimer 1000,strnpcinfo(0) + "::OnSpawnMonsterHint";
+	}
+	else{
+		setpcblock PCBLOCK_ALL,false;
+		setpcblock PCBLOCK_ATTACK,true;
+	}
+	end;
+	
+OnSpawnMonster:
+	if($isSpawnRandomMap)
+	end;
+
+	$isSpawnRandomMap = 1;
+	
+	.@spawnAmount = 500;
+	
+	freeloop(1);
+	for(.@i = 0; .@i < .@spawnAmount; .@i++)
+	callsub OnSpawnMonsterOne;
+	freeloop(0);
+	
+	end;
+	
+OnSpawnMonsterOne:
+	monster "ba_bath",0,0,"สุ่ม",$monsterIds[rand(getarraysize($monsterIds))],1,strnpcinfo(0) + "::OnMonsterDead";
+	.GID = $@mobid[0];
+	.@mHP = rand(1,(INT_MAX - 1));
+	setunitdata .GID,UMOB_MAXHP,.@mHP;
+	setunitdata .GID,UMOB_HP,.@mHP;
+	.@moveSpeed = rand(1,200);
+	.@attackSpeed = rand(1,400);
+	setunitdata .GID,UMOB_SPEED,.@moveSpeed;
+	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_MVP|MD_DETECTOR|MD_STATUSIMMUNE;
+	setunitdata .GID,UMOB_DMGIMMUNE,0;
+	setunitdata .GID,UMOB_AMOTION,.@attackSpeed;
+	setunitdata .GID,UMOB_ADELAY,.@attackSpeed;
+	setunitdata .GID,UMOB_DMOTION,.@attackSpeed;
+	setunitdata .GID,UMOB_DAMAGETAKEN,rand(1,100);
+	setunitdata .GID,UMOB_RANK,rand(1,100);
+	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(1,100);
+	return;
+	
+OnMonsterDead:
+	// Check map still same otherwise stop it. || Player not attached || Boss Fight || Player dead
+	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || isdead())
+	end;
+
+	// Keep spawning
+	callsub OnSpawnMonsterOne;
+	
+	if(playerattached()){
+		randomMapScore = cap_value(randomMapScore + 1,0,INT_MAX);
+		announce "คะแนนไว้อวด: " + randomMapScore,bc_self,0x9e978b,0,25;
+	}
+	
+	end;
+	
+OnInit:
+	// Clean all spawn remember
+	$isSpawnRandomMap = 0;
+	
+	end;
+}
