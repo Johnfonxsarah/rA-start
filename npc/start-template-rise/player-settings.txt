@@ -1,4 +1,4 @@
-bl_depth2,151,159,4	script	ตั้งค่า	10372,{
+mid_camp,209,242,4	script	ตั้งค่า	10372,{
 	L_Menu:
 	menu
 	"ดูคำสั่งที่ใช้ได้",L_Commands,

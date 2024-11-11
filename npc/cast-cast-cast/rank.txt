@@ -1,9 +1,9 @@
-bl_depth2,127,141,6	script	ป้าย#RANK	857,{
+mid_camp,219,292,6	script	ป้าย#RANK	857,{
 	query_sql("SELECT `char`.`name`, `char`.base_level FROM `char` ORDER BY `char`.base_level DESC LIMIT 100",.@name$,.@lv);
 	mes "LEVEL";
 	for(.@i = 0; .@i < getarraysize(.@lv); .@i++)
 	mes (.@i + 1) + ".) " + .@name$[.@i] + " (" + .@lv[.@i] + ")";
-    next;
+    /*next;
     query_sql("SELECT char_reg_num.char_id, char_reg_num.`value` FROM char_reg_num WHERE char_reg_num.`key` = 'bossPortalLv' ORDER BY char_reg_num.`value` DESC LIMIT 100",.@brCID,.@v);
     mes "BOSS LEVEL";
     for(.@i = 0; .@i < getarraysize(.@brCID); .@i++){
@@ -16,7 +16,7 @@ bl_depth2,127,141,6	script	ป้าย#RANK	857,{
     for(.@i = 0; .@i < getarraysize(.@rmsCID); .@i++){
         query_sql("SELECT `char`.`name` FROM `char` WHERE `char`.char_id = '" + .@rmsCID[.@i] + "'",.@name$);
         mes (.@i + 1) + ".) " + .@name$ + " (" + .@v2[.@i] + ")";
-    }
+    }*/
 	close;
 
 OnInit:

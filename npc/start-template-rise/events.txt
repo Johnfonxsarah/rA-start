@@ -15,6 +15,16 @@ OnPCLoginEvent:
 	setlook LOOK_ROBE,dressSlot4;
 	
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
+	
+	if(!isInit){
+		isInit = 1;
+		atcommand "@job 4253";
+		StatusPoint = 0;
+		SkillPoint = 0;
+		TraitPoint = 0;
+	}
+	
+	
 	end;
 	
 OnPCLogoutEvent:
@@ -25,6 +35,8 @@ OnInit:
 	bindatcmd "load",strnpcinfo(3) + "::OnLoad";
 	bindatcmd "tm",strnpcinfo(3) + "::OnTestMap",99,99;
 	bindatcmd "ask",strnpcinfo(3) + "::OnAddSkill",99,99;
+	if(!$lv)
+	$lv = 1;
 	end;
 	
 OnLoad:

@@ -1,35 +1,11 @@
-bl_depth2,138,137,5	script	เล่นเกม	10558,{
-	getmapxy(.@map$,.@x,.@y,BL_PC);
-	savepoint strcharinfo(3),.@x,.@y,2,2;
-	specialeffect2 747;
-	
-	tired = 0;
-	bonusDebuff = 0;
-	
-	callfunc("ApplyTired");
-	callfunc("RemovePlayDelegates");
-	
+mid_camp,209,288,5	script	เล่นเกม	10558,{
 	percentheal 100,100;
 	
-	if(!$isBonus && (playCooldown >= gettimetick(2)))
-	{
-		mes "โปรดรอ " + (playCooldown - gettimetick(2)) + " วินาที";
-		close;
-	}
-	
 	mes "เลือกชั้นที่ต้องการเข้าเล่น";
-	mes "โปรดระบุ ^d323231~" + BaseLevel + "^000000";
-	mes "---";
-	mes "^e184f0HAPPY FLOOR^000000";
-	for(.@hf = 0; .@hf < getarraysize($happyFloor); .@hf++)
-	.@hfmes$ += $happyFloor[.@hf] + ", ";
-	.@length = getstrlen(.@hfmes$);
-	.@hfmes$ = delchar(.@hfmes$,.@length - 1);
-	.@hfmes$ = delchar(.@hfmes$,.@length - 2);
-	mes "ชั้นที่ ^9300ff" + .@hfmes$ + " รางวัล x2^000000";
+	mes "โปรดระบุ ^d323231~" + $lv + "^000000";
 	next;
 	input .@lv;
-	if(InputOutOfRange(.@lv,BaseLevel)){
+	if(InputOutOfRange(.@lv,$lv)){
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
 	}
@@ -37,21 +13,8 @@ bl_depth2,138,137,5	script	เล่นเกม	10558,{
 	freeloop(1);
 	
 	// Check map index existed on those level
-	if($playingMaps[.@lv]){
-		// Check user first
-		if(getmapusers($maps$[$playingMaps[.@lv]]) <= 0){
-			killmonster $maps$[$playingMaps[.@lv]],"เล่นเกม::OnMonsterDead",0;
-			killmonster $maps$[$playingMaps[.@lv]],"เล่นเกม::OnBossDead",0;
-			
-			$playingMaps[.@lv] = 0;
-			$isSpawnMaps[.@lv] = 0;
-			$isBossMaps[.@lv] = 0;
-			$gidBossMaps[.@lv] = 0;
-		}
-		// Just join
-		else
-		goto OnJoin;
-	}
+	if($playingMaps[.@lv])
+	goto OnJoin;
 	
 	.@mapIndex = callfunc("GetAvailableMap");
 	
@@ -59,151 +22,18 @@ bl_depth2,138,137,5	script	เล่นเกม	10558,{
 	$playingMaps[.@lv] = .@mapIndex;
 	
 OnJoin:
-	isBossMap = 0;
-
 	// Remember playing floor
 	lastPlayMap = .@lv;
 	
-	// Happy floor
-	isHappyFloor = 0;
-	for(.@hf = 0; .@hf < getarraysize($happyFloor); .@hf++){
-		if($happyFloor[.@hf] == lastPlayMap)
-		{
-			isHappyFloor = 1;
-			break;
-		}
-	}
-	
-	// Remember last map name
-	lastPlayMap$ = $maps$[$playingMaps[.@lv]];
-	
-	// Remember tier
-	tier =
-	(lastPlayMap <= 5) ? 1		// 5 Floor
-	: (lastPlayMap <= 15) ? 2	// 10 Floor
-	: (lastPlayMap <= 30) ? 3	// 15 Floor
-	: (lastPlayMap <= 60) ? 4	// 30 Floor
-	: (lastPlayMap <= 100) ? 5	// 40 Floor
-	: (lastPlayMap <= 150) ? 6	// 50 Floor
-	: (lastPlayMap <= 200) ? 7	// 50 Floor
-	: (lastPlayMap <= 225) ? 8	// 25 Floor
-	: (lastPlayMap <= 250) ? 9	// 25 Floor
-	: 10						// 25 Floor
-	;
-	
-	// Score requirement
-	scoreRequired = $killCount[tier - 1];
-
-	// Damage Multiplier
-	dmgMultiplier = cap_value(tier,1,10);
-	
-	// Drop Multiplier
-	bonusDropMultiplier =
-	(tier == 1) ? (0 + (1 * .@lv))				// 1~5
-	: (tier == 2) ? (0 + (1 * (.@lv - 5)))		// 1~10
-	: (tier == 3) ? (0 + (1 * (.@lv - 15)))		// 1~15
-	: (tier == 4) ? (0 + (1 * (.@lv - 30)))		// 1~30
-	: (tier == 5) ? (0 + (1 * (.@lv - 60)))		// 1~40
-	: (tier == 6) ? (0 + (1 * (.@lv - 100)))	// 1~50
-	: (tier == 7) ? (0 + (1 * (.@lv - 150)))	// 1~50
-	: (tier == 8) ? (0 + (1 * (.@lv - 200)))	// 1~50
-	: (tier == 9) ? (0 + (1 * (.@lv - 225)))	// 1~25
-	: (tier == 10) ? (0 + (1 * (.@lv - 250)))	// 1~25
-	: (0 + (1 * (.@lv - 275)))					// 1~25
-	;
-	bonusDropMultiplier = cap_value(bonusDropMultiplier / 3,1,10);
-	
-	// Boss Drop Multiplier
-	bonusBossDropMultiplier =
-	(tier == 1) ? (0 + (1 * .@lv))				// 1~5
-	: (tier == 2) ? (0 + (1 * (.@lv - 5)))		// 1~10
-	: (tier == 3) ? (0 + (1 * (.@lv - 15)))		// 1~15
-	: (tier == 4) ? (0 + (1 * (.@lv - 30)))		// 1~30
-	: (tier == 5) ? (0 + (1 * (.@lv - 60)))		// 1~40
-	: (tier == 6) ? (0 + (1 * (.@lv - 100)))	// 1~50
-	: (tier == 7) ? (0 + (1 * (.@lv - 150)))	// 1~50
-	: (tier == 8) ? (0 + (1 * (.@lv - 200)))	// 1~50
-	: (tier == 9) ? (0 + (1 * (.@lv - 225)))	// 1~25
-	: (tier == 10) ? (0 + (1 * (.@lv - 250)))	// 1~25
-	: (0 + (1 * (.@lv - 275)))					// 1~25
-	;
-	bonusBossDropMultiplier = cap_value(2 * bonusBossDropMultiplier,1,100);
-	
-	// Debuff Rate
-	debuffRate =
-	(tier == 1) ? (0 + (1 * .@lv))				// 1~5
-	: (tier == 2) ? (0 + (1 * (.@lv - 5)))		// 1~10
-	: (tier == 3) ? (0 + (1 * (.@lv - 15)))		// 1~15
-	: (tier == 4) ? (0 + (1 * (.@lv - 30)))		// 1~30
-	: (tier == 5) ? (0 + (1 * (.@lv - 60)))		// 1~40
-	: (tier == 6) ? (0 + (1 * (.@lv - 100)))	// 1~50
-	: (tier == 7) ? (0 + (1 * (.@lv - 150)))	// 1~50
-	: (tier == 8) ? (0 + (1 * (.@lv - 200)))	// 1~50
-	: (tier == 9) ? (0 + (1 * (.@lv - 225)))	// 1~25
-	: (tier == 10) ? (0 + (1 * (.@lv - 250)))	// 1~25
-	: (0 + (1 * (.@lv - 275)))					// 1~25
-	;
-	debuffRate = cap_value(debuffRate * 2,0,50);
-	tired = debuffRate;
-	
-	// Bonus Debuff Rate
-	bonusDividerRate =
-	(tier == 1) ? (0 + (1 * .@lv))				// 1~5
-	: (tier == 2) ? (0 + (1 * (.@lv - 5)))		// 1~10
-	: (tier == 3) ? (0 + (1 * (.@lv - 15)))		// 1~15
-	: (tier == 4) ? (0 + (1 * (.@lv - 30)))		// 1~30
-	: (tier == 5) ? (0 + (1 * (.@lv - 60)))		// 1~40
-	: (tier == 6) ? (0 + (1 * (.@lv - 100)))	// 1~50
-	: (tier == 7) ? (0 + (1 * (.@lv - 150)))	// 1~50
-	: (tier == 8) ? (0 + (1 * (.@lv - 200)))	// 1~50
-	: (tier == 9) ? (0 + (1 * (.@lv - 225)))	// 1~25
-	: (tier == 10) ? (0 + (1 * (.@lv - 250)))	// 1~25
-	: (0 + (1 * (.@lv - 275)))					// 1~25
-	;
-	bonusDividerRate = cap_value((bonusDividerRate / 10) * tier,0,50);
-	bonusDebuff = bonusDividerRate;
-	
 	freeloop(0);
-
-	callfunc("ApplyTired");
-	
-	callfunc("ApplyCCCRules");
-	
-	setpcblock PCBLOCK_ALL,true;
-	setpcblock PCBLOCK_MOVE,false;
-	setpcblock PCBLOCK_USEITEM,false;
-	setpcblock PCBLOCK_COMMANDS,false;
-	
-	playCooldown = gettimetick(2) + rand(30,60);
 	
 	// Warp now
 	warp $maps$[$playingMaps[lastPlayMap]],0,0;
-	// About to start spawn monster around player
-	hintTimer = myHintTimer ? myHintTimer : 3;
-	addtimer 2000,strnpcinfo(0) + "::OnSpawnMonsterHint";
+	
 	callsub OnSpawnMonster;
+	
 	close;
-	
-OnSpawnMonsterHint:
-	if(!playerattached() || (lastPlayMap$ != strcharinfo(3)) || isdead())
-	end;
-	
-	// Mark on minimap
-	if($isBossMaps[lastPlayMap]){
-		getunitdata $gidBossMaps[lastPlayMap],.@uds;
-		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
-	}
-	
-	if(hintTimer){
-		announce "จะควบคุมตัวละครได้ภายใน " + hintTimer + " วินาที",bc_self,0x9e978b,0,25;
-		hintTimer--;
-		addtimer 1000,strnpcinfo(0) + "::OnSpawnMonsterHint";
-	}
-	else{
-		setpcblock PCBLOCK_ALL,false;
-		setpcblock PCBLOCK_ATTACK,true;
-	}
-	end;
+
 	
 OnSpawnMonster:
 	if($isSpawnMaps[lastPlayMap])
@@ -254,93 +84,6 @@ OnSpawnMonsterOne:
 	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(1,dmgMultiplier);
 	return;
 	
-OnMonsterDead:
-	// Check map still same otherwise stop it. || Player not attached || Boss Fight || Player dead
-	if((lastPlayMap$ != strcharinfo(3)) || !playerattached() || $isBossMaps[lastPlayMap] || isdead())
-	end;
-
-	.@isShockWave = (swDelay >= gettimetick(2));
-
-	callfunc("CCCDrop",tier,0,.@isShockWave);
-	
-	$scoreMaps[lastPlayMap]++;
-	if(.@isShockWave)
-	$scoreMaps[lastPlayMap] += 5;
-
-	if($scoreMaps[lastPlayMap] >= scoreRequired){
-		$scoreMaps[lastPlayMap] = 0;
-		$isBossMaps[lastPlayMap] = 1;
-		killmonsterall strcharinfo(3),0;
-		announce "เจ้าแห่งมนต์ดำ ปรากฎแล้ว! (เช็ค Minimap)",bc_map,0x9e978b,0,25;
-		// Get available cell to spawn
-		getfreecell strcharinfo(3),.@bossX,.@bossY;
-		// Spawn
-		monster strcharinfo(3),.@bossX,.@bossY,"เจ้าแห่งมนต์ดำ",getd("$m" + lastPlayMap + "MID[" + rand(5) + "]"),1,strnpcinfo(0) + "::OnBossDead",Size_Large;
-		.GID = $@mobid[0];
-		$gidBossMaps[lastPlayMap] = .GID;
-		.@mHP = cap_value(100 * max(1,(lastPlayMap * lastPlayMap * lastPlayMap)),100,INT_MAX);
-		setunitdata .GID,UMOB_MAXHP,.@mHP;
-		setunitdata .GID,UMOB_HP,.@mHP;
-		.@moveSpeed = 400 - rand(15,30 * tier);
-		.@attackSpeed = 800 - rand(35,70 * tier);
-		setunitdata .GID,UMOB_SPEED,.@moveSpeed;
-		setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
-		setunitdata .GID,UMOB_DMGIMMUNE,0;
-		setunitdata .GID,UMOB_AMOTION,.@attackSpeed;
-		setunitdata .GID,UMOB_ADELAY,.@attackSpeed;
-		setunitdata .GID,UMOB_DMOTION,.@attackSpeed;
-		setunitdata .GID,UMOB_DAMAGETAKEN,cap_value(100 - rand((10 * tier)),1,100);
-		setunitdata .GID,UMOB_RANK,cap_value(rand((10 * tier)),1,100);
-		if(dmgMultiplier > 1)
-		setunitdata $@mobid[0],UMOB_DAMAGE_MULTIPLIER,rand(1,dmgMultiplier) * 2;
-		addrid(1);
-		// Mark on minimap
-		getunitdata $gidBossMaps[lastPlayMap],.@uds;
-		viewpoint 1,.@uds[UMOB_X],.@uds[UMOB_Y],1,0xff0000;
-		end;
-	}
-	else{
-		announce "สาวกมนต์ดำ เหลือ " + (scoreRequired - $scoreMaps[lastPlayMap]) + " ตัว",bc_map,0x9e978b,0,25;
-		callsub OnSpawnMonsterOne;
-		// Shockwave
-		if(rand(100) < 3){
-			swDelay = gettimetick(2) + 30;
-			message strcharinfo(0),"คุณติดสถานะ SHOCKWAVE เป็นเวลา 30 วินาที ลองกำจัด Monster ดูสิ!";
-			sc_start SC_SPEEDUP0,30000,50;
-		}
-	}
-	end;
-	
-OnBossDead:
-	if(playerattached()){
-		$isBossMaps[lastPlayMap] = 0;
-		
-		.@isShockWave = (swDelay >= gettimetick(2));
-
-		callfunc("CCCDrop",tier,1,.@isShockWave);
-		
-		.@announceText$ = strcharinfo(0) + " กำจัดเจ้าแห่งมนต์ดำ! ทุกคนในชั้น " + lastPlayMap + " สามารถไปยังชั้นต่อไปได้แล้ว";
-		announce .@announceText$,bc_map,0xffff00,0,25;
-		if(.isWaitingRoom)
-		delwaitingroom;
-		.isWaitingRoom = 1;
-		waitingroom strcharinfo(0) + " ผ่านด่าน " + lastPlayMap + "!",0;
-	}
-	
-	addrid(1);
-
-	playCooldown = 0;
-
-	if(((BaseLevel - 1) < lastPlayMap) && (BaseLevel < 275))
-	atcommand "@lvup " + (lastPlayMap - (BaseLevel - 1));
-
-	callfunc("ApplyCCCRules");
-	
-	menu "กลับไปยังห้องพัก",-;
-	callfunc("MapCleanUp");
-	warp "Save",0,0;
-	end;
-	
 OnInit:
 	// Clean all playing map
 	deletearray $playingMaps[0],getarraysize($playingMaps);
@@ -358,6 +101,8 @@ OnInit:
 		deletearray $maps$[0],getarraysize($maps$);
 		setarray $maps$[0],"gef_fild00","gef_fild01","gef_fild02","gef_fild03","gef_fild04","gef_fild05","gef_fild06","gef_fild07","gef_fild08","gef_fild09","gef_fild10","gef_fild11","gef_fild12","gef_fild13","gef_fild14","moc_fild01","moc_fild02","moc_fild03","moc_fild07","moc_fild11","moc_fild12","moc_fild13","moc_fild16","moc_fild17","moc_fild18","moc_fild19","pay_fild01","pay_fild02","pay_fild03","pay_fild04","pay_fild05","pay_fild06","pay_fild07","pay_fild08","pay_fild09","pay_fild10","pay_fild11","prt_fild00","prt_fild01","prt_fild02","prt_fild03","prt_fild04","prt_fild05","prt_fild06","prt_fild07","prt_fild08","prt_fild09","prt_fild10","prt_fild11","xmas_fild01","cmd_fild01","cmd_fild02","cmd_fild03","cmd_fild04","cmd_fild05","cmd_fild06","cmd_fild07","cmd_fild08","cmd_fild09","yuno_fild01","yuno_fild02","yuno_fild03","yuno_fild04","ama_fild01","gon_fild01","um_fild01","um_fild02","um_fild03","um_fild04","nif_fild01","nif_fild02","lou_fild01","ayo_fild01","ayo_fild02","yuno_fild05","yuno_fild07","yuno_fild08","yuno_fild09","yuno_fild11","yuno_fild12","ein_fild06","ein_fild07","ein_fild08","ein_fild09","ein_fild10","ein_fild03","ein_fild04","lhz_fild02","lhz_fild03","lhz_fild01","hu_fild07","hu_fild05","hu_fild04","hu_fild01","yuno_fild06","hu_fild02","hu_fild03","hu_fild06","ein_fild01","ein_fild02","ein_fild05","yuno_fild10","ra_fild01","ra_fild02","ra_fild03","ra_fild04","ra_fild05","ra_fild06","ra_fild07","ra_fild08","ra_fild09","ra_fild10","ra_fild11","ra_fild12","ra_fild13","ve_fild01","ve_fild02","ve_fild03","ve_fild04","ve_fild05","ve_fild07","mosk_fild02","moc_fild20","moc_fild21","moc_fild22","man_fild01","man_fild03","spl_fild02","spl_fild03","moc_fild22b","man_fild02","spl_fild01","bra_fild01","dic_fild01","dic_fild02","bif_fild01","bif_fild02","dew_fild01","ma_fild01","ma_fild02","prt_fild08a","prt_fild08b","prt_fild08c","prt_fild08d","lasa_fild01","lasa_fild02","tra_fild","gw_fild01","gw_fild02","alde_dun01","alde_dun02","alde_dun03","alde_dun04","gef_dun00","gef_dun01","gef_dun02","gef_dun03","gl_dun01","gl_dun02","iz_dun00","iz_dun01","iz_dun02","iz_dun03","iz_dun04","mjo_dun01","mjo_dun02","mjo_dun03","pay_dun00","pay_dun01","pay_dun02","pay_dun03","pay_dun04","xmas_dun01","xmas_dun02","beach_dun","beach_dun2","beach_dun3","tur_dun01","tur_dun02","tur_dun03","tur_dun04","tur_dun05","tur_dun06","gld_dun01","gld_dun02","gld_dun03","gld_dun04","mag_dun01","mag_dun02","ama_dun01","ama_dun02","ama_dun03","gon_dun01","gon_dun02","gon_dun03","um_dun01","um_dun02","lou_dun03","lou_dun02","lou_dun01","ayo_dun01","ayo_dun02","ein_dun01","ein_dun02","lhz_dun01","lhz_dun02","lhz_dun03","kh_dun02","kh_dun01","ice_dun01","ice_dun02","ice_dun03","mosk_dun01","mosk_dun02","mosk_dun03","schg_dun01","arug_dun01","nyd_dun01","nyd_dun02","bra_dun01","bra_dun02","dic_dun01","dic_dun02","dew_dun01","dew_dun02","mal_dun01","iz_dun05","dic_dun03","lhz_dun04","gld_dun01_2","gld_dun02_2","gld_dun03_2","gld_dun04_2","ma_dun01","teg_dun01","teg_dun02","lhz_dun_n","lasa_dun01","lasa_dun02","lasa_dun03","lasa_dun_q","mag_dun03","ein_dun03","nif_dun01","nif_dun02","oz_dun01","oz_dun02","jor_dun01","jor_dun02","hero_dun1","for_dun01","for_dun02";
 	}
+	
+	waitingroom "เข้าสู่เหมือง",0;
 	
 	end;
 }

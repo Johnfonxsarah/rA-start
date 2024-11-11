@@ -1,4 +1,4 @@
-bl_depth2,135,145,6	script	คลังเก็บของ	10427,{
+mid_camp,224,252,4	script	คลังเก็บของ	10427,{
 	callfunc("Storage");
 	end;
 	

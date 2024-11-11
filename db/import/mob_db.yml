@@ -79,3 +79,175 @@
 Header:
   Type: MOB_DB
   Version: 4
+
+Body:
+  - Id: 1002
+    AegisName: ROCK_TIER_1
+    Name: Rock Tier 1
+    Level: 1
+    Hp: 99999999
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Medium
+    WalkSpeed: 1000
+    ClientAttackMotion: 672
+    Ai: 06
+  - Id: 1003
+    AegisName: ROCK_TIER_2
+    Name: Rock Tier 2
+    Level: 1
+    Hp: 99999999
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Medium
+    WalkSpeed: 1000
+    ClientAttackMotion: 672
+    Ai: 06
+  - Id: 1004
+    AegisName: ROCK_TIER_3
+    Name: Rock Tier 3
+    Level: 1
+    Hp: 99999999
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Medium
+    WalkSpeed: 1000
+    ClientAttackMotion: 672
+    Ai: 06
+  - Id: 1005
+    AegisName: ROCK_TIER_4
+    Name: Rock Tier 4
+    Level: 1
+    Hp: 99999999
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Medium
+    WalkSpeed: 1000
+    ClientAttackMotion: 672
+    Ai: 06
+  - Id: 1006
+    AegisName: ROCK_TIER_5
+    Name: Rock Tier 5
+    Level: 1
+    Hp: 99999999
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Medium
+    WalkSpeed: 1000
+    ClientAttackMotion: 672
+    Ai: 06
+  - Id: 1007
+    AegisName: ROCK_TIER_6
+    Name: Rock Tier 6
+    Level: 1
+    Hp: 99999999
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Medium
+    WalkSpeed: 1000
+    ClientAttackMotion: 672
+    Ai: 06
+  - Id: 1008
+    AegisName: ROCK_TIER_7
+    Name: Rock Tier 7
+    Level: 1
+    Hp: 99999999
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Medium
+    WalkSpeed: 1000
+    ClientAttackMotion: 672
+    Ai: 06
+  - Id: 1009
+    AegisName: ROCK_TIER_8
+    Name: Rock Tier 8
+    Level: 1
+    Hp: 99999999
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Medium
+    WalkSpeed: 1000
+    ClientAttackMotion: 672
+    Ai: 06
+  - Id: 1010
+    AegisName: ROCK_TIER_9
+    Name: Rock Tier 9
+    Level: 1
+    Hp: 99999999
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Medium
+    WalkSpeed: 1000
+    ClientAttackMotion: 672
+    Ai: 06
+  - Id: 1011
+    AegisName: ROCK_TIER_10
+    Name: Rock Tier 10
+    Level: 1
+    Hp: 99999999
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Medium
+    WalkSpeed: 1000
+    ClientAttackMotion: 672
+    Ai: 06

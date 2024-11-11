@@ -1,4 +1,4 @@
-bl_depth2,149,130,1	script	เปลี่ยน Save Point	835,{
+mid_camp,222,247,4	script	เปลี่ยน Save Point	835,{
 	getmapxy(.@map$,.@x,.@y,BL_PC);
 	savepoint strcharinfo(3),.@x,.@y,2,2;
 	specialeffect2 747;

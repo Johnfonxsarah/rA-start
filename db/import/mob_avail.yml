@@ -44,13 +44,23 @@ Header:
   Version: 1
 
 Body:
-  - Mob: M_HORNET
-    Sprite: HORNET
-  - Mob: M_HORNET2
-    Sprite: HORNET
-  - Mob: M_ANOPHELES
-    Sprite: ANOPHELES
-  - Mob: M_LUCIOLA_VESPA
-    Sprite: LUCIOLA_VESPA
-  - Mob: M_LUCIOLA_VESPA2
-    Sprite: LUCIOLA_VESPA
+ - Mob: ROCK_TIER_1
+   Sprite: ROCK
+ - Mob: ROCK_TIER_2
+   Sprite: DUMMY_10
+ - Mob: ROCK_TIER_3
+   Sprite: DUMMY_50
+ - Mob: ROCK_TIER_4
+   Sprite: DUMMY_100
+ - Mob: ROCK_TIER_5
+   Sprite: DUMMY_150
+ - Mob: ROCK_TIER_6
+   Sprite: S_EMPEL_2
+ - Mob: ROCK_TIER_7
+   Sprite: S_EMPEL_1
+ - Mob: ROCK_TIER_8
+   Sprite: BARRICADE
+ - Mob: ROCK_TIER_9
+   Sprite: MEGALITH
+ - Mob: ROCK_TIER_10
+   Sprite: MONEMUS
