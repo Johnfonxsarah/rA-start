@@ -1,46 +1,10 @@
-bl_depth2	mapflag	loadevent
-
 -	script	Events	-1,{
 	end;
 	
 OnPCDieEvent:
-	callfunc("RemovePlayDelegates");
-	
-	// Map clean up if alone in map
-	if(!IsSkipTickMap()){
-		callfunc("MapCleanUp");
-		
-		callfunc("DeadPenalty");
-	}
-
-	callfunc("ApplyCCCRules");
-	
-	addtimer 100,strnpcinfo(0) + "::OnLoadConfirm";
-	
-	if(!isKnowDeadPenalty)
-	addtimer 2000,strnpcinfo(0) + "::OnDeadHint";
-	
-	playCooldown = 0;
-	
 	end;
 	
 OnPCLoginEvent:
-	freeloop(1);
-	if(!isSkillSetup){
-		.@maxSkillAmount = 55;
-		for(.@m = 0; .@m < .@maxSkillAmount; .@m++)
-		skillSlots[.@m] = 99999;
-
-		isSkillSetup = 1;
-	}
-	freeloop(0);
-	
-	callfunc("RemovePlayDelegates");
-	
-	callfunc("ApplyCCCRules");
-	
-	callfunc("ApplyEffect");
-
 	if(dressSlot1)
 	setlook LOOK_HEAD_BOTTOM,dressSlot1;
 	if(dressSlot2)
@@ -49,97 +13,28 @@ OnPCLoginEvent:
 	setlook LOOK_HEAD_MID,dressSlot3;
 	if(dressSlot4)
 	setlook LOOK_ROBE,dressSlot4;
-
-	if(strcharinfo(3) != "bl_depth2")
-	addtimer 100,strnpcinfo(0) + "::OnLoadConfirm";
 	
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
-	
-	if(!myHintTimer)
-	myHintTimer = 3;
-
 	end;
 	
 OnPCLogoutEvent:
 	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
-	
 	end;
 	
 OnInit:
 	bindatcmd "load",strnpcinfo(3) + "::OnLoad";
-	bindatcmd "lb",strnpcinfo(3) + "::OnLastFollowPlayerBan",99,99;
-	bindatcmd "ll",strnpcinfo(3) + "::OnLastFollowPlayerLoad",99,99;
-	bindatcmd "ml",strnpcinfo(3) + "::OnMapLoad",99,99;
 	bindatcmd "tm",strnpcinfo(3) + "::OnTestMap",99,99;
 	bindatcmd "ask",strnpcinfo(3) + "::OnAddSkill",99,99;
+	end;
 	
-	addrid(0);
-	
-	playCooldown = 0;
-	
-	callfunc("RemovePlayDelegates");
-	
-	callfunc("ApplyCCCRules");
-	
-	callfunc("ApplyEffect");
-	
-	if(!IsSkipTickMap())
+OnLoad:
 	warp "Save",0,0;
-
-	if(strcharinfo(3) == "bl_depth2")
-	setpcblock PCBLOCK_SKILL,true;
-	
 	end;
 	
 OnTestMap:
 	warp $maps$[tm],0,0;
 	tm++;
 	end;
-	
-OnMapLoad:
-	mapwarp strcharinfo(3),"prontera",0,0;
-	end;
-	
-OnLastFollowPlayerLoad:
-	if(followCID)
-	atcommand "#go " + strcharinfo(0,followCID) + " 0";
-	end;
-	
-OnLastFollowPlayerBan:
-	if(followCID)
-	atcommand "@ban +30d " + strcharinfo(0,followCID);
-	end;
-
-OnLoad:
-	.@isSkip = (@isFollow || IsSkipTickMap());
-	if(@isFollow){
-		setpcblock PCBLOCK_ALL,false;
-		atcommand "@follow";
-		atcommand "@speed 200";
-		ResetTired();
-		dispbottom "หยุดติดตาม " + strcharinfo(0,followCID);
-		@isFollow = 0;
-	}
-	if(!.@isSkip){
-		specialeffect2 35;
-		progressbar "",(strcharinfo(3) == "guild_vs1") ? 4 : 2;
-	}
-OnLoadConfirm:
-	callfunc("MapCleanUp");
-	warp "Save",0,0;
-	setpcblock PCBLOCK_ALL,false;
-	callfunc("ApplyCCCRules");
-	end;
-	
-OnDeadHint:
-	mes "คุณหมดสติ";
-	mes "ทำให้ Status, Trait, Skill, Effect ที่ได้มาจากการเข้า PORTAL OF CASTER หายไป โปรดเข้าอีกครั้งได้เลยทันที";
-	menu "เข้าใจแล้ว",-,"ไม่ต้องแสดงข้อความนี้อีก",MenuKnow;
-	end;
-	
-MenuKnow:
-	isKnowDeadPenalty = 1;
-	close;
 	
 OnAddSkill:
 	skill atoi(.@atcmd_parameters$[0]),100,3;
@@ -151,15 +46,5 @@ OnAddSkill:
 	+ "bonus bMaxHP,2000000;"
 	+ "bonus bAspd,300;"
 	,86400,8,1;
-	end;
-	
-OnPCLoadMapEvent:
-	tired = 0;
-	bonusDebuff = 0;
-	
-	callfunc("ApplyTired");
-	callfunc("RemovePlayDelegates");
-	
-	percentheal 100,100;
 	end;
 }
