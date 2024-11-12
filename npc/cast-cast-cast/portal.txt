@@ -1,7 +1,6 @@
 mid_camp,209,288,5	script	เล่นเกม	10558,{
-	percentheal 100,100;
-	
-	mes "เลือกชั้นที่ต้องการเข้าเล่น";
+	// Select floor
+	mes "เลือกชั้นที่ต้องการขุดเหมือง";
 	mes "โปรดระบุ ^d323231~" + $lv + "^000000";
 	next;
 	input .@lv;
@@ -9,14 +8,17 @@ mid_camp,209,288,5	script	เล่นเกม	10558,{
 		mes "ยกเลิกเรียบร้อยแล้ว";
 		close;
 	}
-	
-	freeloop(1);
-	
+
 	// Check map index existed on those level
 	if($playingMaps[.@lv])
 	goto OnJoin;
+
+	// Get new map
+	freeloop(1);
 	
 	.@mapIndex = callfunc("GetAvailableMap");
+	
+	freeloop(0);
 	
 	// Set playing map index
 	$playingMaps[.@lv] = .@mapIndex;
@@ -24,75 +26,91 @@ mid_camp,209,288,5	script	เล่นเกม	10558,{
 OnJoin:
 	// Remember playing floor
 	lastPlayMap = .@lv;
-	
-	freeloop(0);
-	
+
 	// Warp now
 	warp $maps$[$playingMaps[lastPlayMap]],0,0;
 	
+	// Spawn monster
 	callsub OnSpawnMonster;
 	
 	close;
 
-	
 OnSpawnMonster:
+	// Check if already spawn
 	if($isSpawnMaps[lastPlayMap])
 	end;
 
+	// Set as already spawn
 	$isSpawnMaps[lastPlayMap] = 1;
-
-	.@arraySize = getarraysize(getd("$attackableMonsterTier" + tier + "Ids"));
-	setarray getd("$m" + lastPlayMap + "MID[0]"),getd("$attackableMonsterTier" + tier + "Ids[" + rand(.@arraySize) + "]");
-	setarray getd("$m" + lastPlayMap + "MID[1]"),getd("$attackableMonsterTier" + tier + "Ids[" + rand(.@arraySize) + "]");
-	setarray getd("$m" + lastPlayMap + "MID[2]"),getd("$attackableMonsterTier" + tier + "Ids[" + rand(.@arraySize) + "]");
-	setarray getd("$m" + lastPlayMap + "MID[3]"),getd("$attackableMonsterTier" + tier + "Ids[" + rand(.@arraySize) + "]");
-	setarray getd("$m" + lastPlayMap + "MID[4]"),getd("$attackableMonsterTier" + tier + "Ids[" + rand(.@arraySize) + "]");
 	
-	.@spawnAmount = $spawnAmount[tier - 1];
+	// Spawn amount
+	.@spawnAmount = 500;
+
+	// Monster id
+	@monsterId = 1002;
 	
 	freeloop(1);
+	
+	for(.@i = 100; .@i < 1000; .@i += 100){
+		if(lastPlayMap > .@i)
+		@monsterId++;
+	}
+	
+	// HP = 1 * Floor * Floor * Floor
+	@hp = cap_value(1 * max(1,(lastPlayMap * lastPlayMap * lastPlayMap)),1,INT_MAX);
+	
+	// Spawn now
 	for(.@i = 0; .@i < .@spawnAmount; .@i++)
 	callsub OnSpawnMonsterOne;
+
 	freeloop(0);
 	
 	end;
 	
 OnSpawnMonsterOne:
-	.@isBonus = getarg(0,0);
-	.@spawnX = getarg(1,0);
-	.@spawnY = getarg(2,0);
 	// Spawn
-	if(.@isBonus)
-	monster $maps$[$playingMaps[lastPlayMap]],.@spawnX,.@spawnY,"สาวกมนต์ดำ (Bonus)",getd("$m" + lastPlayMap + "MID[" + rand(5) + "]"),1,strnpcinfo(0) + "::OnMonsterDeadBonus";
-	else
-	monster $maps$[$playingMaps[lastPlayMap]],.@spawnX,.@spawnY,"สาวกมนต์ดำ",getd("$m" + lastPlayMap + "MID[" + rand(5) + "]"),1,strnpcinfo(0) + "::OnMonsterDead";
+	monster $maps$[$playingMaps[lastPlayMap]],0,0,"--ja--",@monsterId,1,strnpcinfo(0) + "::OnMonsterDead";
+	// Set monster data
 	.GID = $@mobid[0];
-	.@mHP = cap_value(5 * max(1,(lastPlayMap * lastPlayMap * lastPlayMap)),5,INT_MAX);
-	setunitdata .GID,UMOB_MAXHP,.@mHP;
-	setunitdata .GID,UMOB_HP,.@mHP;
-	.@moveSpeed = 400 - rand(0,30 * tier);
-	.@attackSpeed = 800 - rand(0,70 * tier);
-	setunitdata .GID,UMOB_SPEED,.@moveSpeed;
-	setunitdata .GID,UMOB_MODE,MD_CANMOVE|MD_AGGRESSIVE|MD_CANATTACK|MD_TELEPORTBLOCK|MD_DETECTOR;
-	setunitdata .GID,UMOB_DMGIMMUNE,0;
-	setunitdata .GID,UMOB_AMOTION,.@attackSpeed;
-	setunitdata .GID,UMOB_ADELAY,.@attackSpeed;
-	setunitdata .GID,UMOB_DMOTION,.@attackSpeed;
-	setunitdata .GID,UMOB_DAMAGETAKEN,cap_value(100 - rand((10 * tier)),1,100);
-	setunitdata .GID,UMOB_RANK,cap_value(rand((10 * tier)),1,100);
-	if(dmgMultiplier > 1)
-	setunitdata .GID,UMOB_DAMAGE_MULTIPLIER,rand(1,dmgMultiplier);
+	setunitdata .GID,UMOB_HP,@hp;
+	setunitdata .GID,UMOB_MAXHP,@hp;
+	setunitdata .GID,UMOB_HP,@hp;
+	setunitdata .GID,UMOB_DAMAGETAKEN,100;
+	setunitdata .GID,UMOB_RANK,0;
 	return;
+	
+OnMonsterDead:
+	// Respawn
+	callsub OnSpawnMonsterOne;
+	
+	// If map is not complete
+	if(!$holeMaps[lastPlayMap]){
+		// Ranking update
+		holeMaps[lastPlayMap]++;
+		// Progression update
+		$progress[lastPlayMap] = cap_value($progress[lastPlayMap] + rand(1,100),0,10000);
+		if($progress[lastPlayMap] >= 10000){
+			// Deeper floor unlocked
+			$lv++;
+			// Set map as completed
+			$holeMaps[lastPlayMap] = 1;
+			// Announce
+			announce "ขณะนี้พวกเราขุดลึกจนไปยังชั้น " + $lv + " ได้แล้ว!",bc_all;
+			// Alert
+			menu "กลับแคมป์",-;
+			// Back to camp
+			warp "Save",0,0;
+		}
+		else
+		announce StringBase10000($progress[lastPlayMap]) + "/100%",bc_map;
+	}
+	end;
 	
 OnInit:
 	// Clean all playing map
 	deletearray $playingMaps[0],getarraysize($playingMaps);
 	// Clean all spawn remember
 	deletearray $isSpawnMaps[0],getarraysize($isSpawnMaps);
-	// Clean all boss remember
-	deletearray $isBossMaps[0],getarraysize($isBossMaps);
-	// Clean all boss GID
-	deletearray $gidBossMaps[0],getarraysize($gidBossMaps);
 	
 	// Map database
 	if($mapVersion != 2){

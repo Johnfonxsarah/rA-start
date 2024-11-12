@@ -24,7 +24,9 @@ OnPCLoginEvent:
 		TraitPoint = 0;
 	}
 	
-	
+	if(strcharinfo(3) != "mid_camp")
+	addtimer 100,strnpcinfo(0) + "::OnLoad";
+
 	end;
 	
 OnPCLogoutEvent:
@@ -37,6 +39,9 @@ OnInit:
 	bindatcmd "ask",strnpcinfo(3) + "::OnAddSkill",99,99;
 	if(!$lv)
 	$lv = 1;
+	addrid(0);
+	if(strcharinfo(3) != "mid_camp")
+	warp "Save",0,0;
 	end;
 	
 OnLoad:
