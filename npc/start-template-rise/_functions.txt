@@ -70,11 +70,73 @@ function	script	TeleportOrb	{
 
 function	script	ApplyEffect	{
 	bonus_script_clear 8;
+	
 	bonus_script
-	"bonus2 bAddClass,CLASS_ALL," + (100 * effectLvs[0]) + ";"
-	+ "bonus bSpeedAddRate," + (1 * effectLvs[8]) + ";"
+	"bonus bBaseAtk," + sharpeningStone + (effectStone / 100000) + ";"
+	+ "bonus bAgi," + hasteStone + ";"
+	+ "bonus bAspd," + ((effectStone / 100000) * 193) + ";"
 	,86400,8,1;
 	
-	percentheal 100,100;
+	return;
+}
+
+function	script	SharpeningStone	{
+	.@itemId = 20000002 + (getarg(0,1) - 1);
+	.@useAmount = !isSkipUseAll ? countitem(.@itemId) : 1;
+	sharpeningStone = cap_value(sharpeningStone + ($sharpeningStone[getarg(0,1) - 1] * .@useAmount),0,INT_MAX);
+	dispbottom "[Sharpening Stone] ขณะนี้ ATK +" + sharpeningStone + " (จะลดลง 1 ทุก ๆ 10 วินาทีที่อยู่ในเหมือง)";
+	delitem .@itemId,.@useAmount;
+	return;
+}
+
+function	script	HasteStone	{
+	.@itemId = 20000012 + (getarg(0,1) - 1);
+	.@useAmount = !isSkipUseAll ? countitem(.@itemId) : 1;
+	hasteStone = cap_value(hasteStone + ($hasteStone[getarg(0,1) - 1] * .@useAmount),0,30000);
+	dispbottom "[Haste Stone] ขณะนี้ AGI +" + hasteStone + " (จะลดลง 1 ทุก ๆ 10 วินาทีที่อยู่ในเหมือง)";
+	delitem .@itemId,.@useAmount;
+	return;
+}
+
+function	script	SkillStone	{
+	.@itemId = 20000022 + (getarg(0,1) - 1);
+	.@useAmount = !isSkipUseAll ? countitem(.@itemId) : 1;
+	
+	freeloop(1);
+	for(.@i = 0; .@i < .@useAmount; .@i++){
+		delitem .@itemId,1;
+		
+		.@chance = $skillStone[getarg(0,1) - 1];
+		.@rand = rand(10000);
+		
+		if(rand(10000) <= .@chance){
+			.@skillType = rand(3);
+			
+			if(.@skillType == 0)
+			bonus_script "bonus bBaseAtk," + $skillSuperDamage + ";",$skillDuration,1,1,SI_MAXIMIZEPOWER;
+			else if(.@skillType == 1)
+			bonus_script "bonus bAspd," + $skillSuperFast + ";",$skillDuration,1,1,SI_ASPDPOTION2;
+			else
+			bonus_script "bonus bSplashRange," + $skillSuperSplash + ";",$skillDuration,1,1,SI_EXPLOSIONSPIRITS;
+			
+			message strcharinfo(0),$skName$[.@skillType] + "!";
+			
+			// Stop the loop
+			break;
+		}
+		else
+		dispbottom "[Skill Stone] ต้องสุ่มได้ " + .@chance + " คุณสุ่มได้ " + .@rand;
+	}
+	freeloop(0);
+	
+	return;
+}
+
+function	script	EffectStone	{
+	.@itemId = 20000032 + (getarg(0,1) - 1);
+	.@useAmount = !isSkipUseAll ? countitem(.@itemId) : 1;
+	effectStone = cap_value(effectStone + ($effectStone[getarg(0,1) - 1] * .@useAmount),0,100000);
+	dispbottom "[Effect Stone] ขณะนี้ Effect Lv. " + effectStone + "/100000";
+	delitem .@itemId,.@useAmount;
 	return;
 }

@@ -98,6 +98,15 @@ Body:
     WalkSpeed: 1000
     ClientAttackMotion: 672
     Ai: 06
+    Drops:
+      - Item: Sharpening_Stone_Tier_1
+        Rate: 100
+      - Item: Haste_Stone_Tier_1
+        Rate: 50
+      - Item: Skill_Stone_Tier_1
+        Rate: 25
+      - Item: Effect_Stone_Tier_1
+        Rate: 1
   - Id: 1003
     AegisName: ROCK_TIER_2
     Name: Rock Tier 2
@@ -115,6 +124,15 @@ Body:
     WalkSpeed: 1000
     ClientAttackMotion: 672
     Ai: 06
+    Drops:
+      - Item: Sharpening_Stone_Tier_2
+        Rate: 100
+      - Item: Haste_Stone_Tier_2
+        Rate: 50
+      - Item: Skill_Stone_Tier_2
+        Rate: 25
+      - Item: Effect_Stone_Tier_2
+        Rate: 1
   - Id: 1004
     AegisName: ROCK_TIER_3
     Name: Rock Tier 3
@@ -132,6 +150,15 @@ Body:
     WalkSpeed: 1000
     ClientAttackMotion: 672
     Ai: 06
+    Drops:
+      - Item: Sharpening_Stone_Tier_3
+        Rate: 100
+      - Item: Haste_Stone_Tier_3
+        Rate: 50
+      - Item: Skill_Stone_Tier_3
+        Rate: 25
+      - Item: Effect_Stone_Tier_3
+        Rate: 1
   - Id: 1005
     AegisName: ROCK_TIER_4
     Name: Rock Tier 4
@@ -149,6 +176,15 @@ Body:
     WalkSpeed: 1000
     ClientAttackMotion: 672
     Ai: 06
+    Drops:
+      - Item: Sharpening_Stone_Tier_4
+        Rate: 100
+      - Item: Haste_Stone_Tier_4
+        Rate: 50
+      - Item: Skill_Stone_Tier_4
+        Rate: 25
+      - Item: Effect_Stone_Tier_4
+        Rate: 1
   - Id: 1006
     AegisName: ROCK_TIER_5
     Name: Rock Tier 5
@@ -166,6 +202,15 @@ Body:
     WalkSpeed: 1000
     ClientAttackMotion: 672
     Ai: 06
+    Drops:
+      - Item: Sharpening_Stone_Tier_5
+        Rate: 100
+      - Item: Haste_Stone_Tier_5
+        Rate: 50
+      - Item: Skill_Stone_Tier_5
+        Rate: 25
+      - Item: Effect_Stone_Tier_5
+        Rate: 1
   - Id: 1007
     AegisName: ROCK_TIER_6
     Name: Rock Tier 6
@@ -183,6 +228,15 @@ Body:
     WalkSpeed: 1000
     ClientAttackMotion: 672
     Ai: 06
+    Drops:
+      - Item: Sharpening_Stone_Tier_6
+        Rate: 100
+      - Item: Haste_Stone_Tier_6
+        Rate: 50
+      - Item: Skill_Stone_Tier_6
+        Rate: 25
+      - Item: Effect_Stone_Tier_6
+        Rate: 1
   - Id: 1008
     AegisName: ROCK_TIER_7
     Name: Rock Tier 7
@@ -200,6 +254,15 @@ Body:
     WalkSpeed: 1000
     ClientAttackMotion: 672
     Ai: 06
+    Drops:
+      - Item: Sharpening_Stone_Tier_7
+        Rate: 100
+      - Item: Haste_Stone_Tier_7
+        Rate: 50
+      - Item: Skill_Stone_Tier_7
+        Rate: 25
+      - Item: Effect_Stone_Tier_7
+        Rate: 1
   - Id: 1009
     AegisName: ROCK_TIER_8
     Name: Rock Tier 8
@@ -217,6 +280,15 @@ Body:
     WalkSpeed: 1000
     ClientAttackMotion: 672
     Ai: 06
+    Drops:
+      - Item: Sharpening_Stone_Tier_8
+        Rate: 100
+      - Item: Haste_Stone_Tier_8
+        Rate: 50
+      - Item: Skill_Stone_Tier_8
+        Rate: 25
+      - Item: Effect_Stone_Tier_8
+        Rate: 1
   - Id: 1010
     AegisName: ROCK_TIER_9
     Name: Rock Tier 9
@@ -234,6 +306,15 @@ Body:
     WalkSpeed: 1000
     ClientAttackMotion: 672
     Ai: 06
+    Drops:
+      - Item: Sharpening_Stone_Tier_9
+        Rate: 100
+      - Item: Haste_Stone_Tier_9
+        Rate: 50
+      - Item: Skill_Stone_Tier_9
+        Rate: 25
+      - Item: Effect_Stone_Tier_9
+        Rate: 1
   - Id: 1011
     AegisName: ROCK_TIER_10
     Name: Rock Tier 10
@@ -251,3 +332,12 @@ Body:
     WalkSpeed: 1000
     ClientAttackMotion: 672
     Ai: 06
+    Drops:
+      - Item: Sharpening_Stone_Tier_10
+        Rate: 100
+      - Item: Haste_Stone_Tier_10
+        Rate: 50
+      - Item: Skill_Stone_Tier_10
+        Rate: 25
+      - Item: Effect_Stone_Tier_10
+        Rate: 1
