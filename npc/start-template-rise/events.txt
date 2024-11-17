@@ -29,6 +29,8 @@ OnPCLoginEvent:
 	end;
 	
 OnBonusReduce:
+	addtimer 1000,strnpcinfo(0) + "::OnBonusReduce";
+
 	if(strcharinfo(3) != "mid_camp"){
 		tick++;
 		if(tick >= 10){
@@ -44,8 +46,16 @@ OnBonusReduce:
 			
 			callfunc("ApplyEffect");
 		}
+		
+		if(@isBot && botTeleportTick){
+			teleportTick++;
+			if(teleportTick >= botTeleportTick){
+				teleportTick = 0;
+				@tGID = 0;
+				warp "Random",0,0;
+			}
+		}
 	}
-	addtimer 1000,strnpcinfo(0) + "::OnBonusReduce";
 	
 	end;
 	
