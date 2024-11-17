@@ -72,7 +72,7 @@ function	script	TeleportOrb	{
 function	script	ApplyEffect	{
 	bonus_script_clear 8;
 	
-	if(tired < 100){
+	if(tired < 200){
 		bonus_script
 		"bonus bBaseAtk," + cap_value(sharpeningStone,0,30000) + ";"
 		+ "bonus bAgi," + cap_value(hasteStone,0,30000) + ";"
