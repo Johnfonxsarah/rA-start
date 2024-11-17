@@ -86,11 +86,23 @@ OnBotWorking:
 	addtimer 6000,strnpcinfo(0) + "::OnBotWorking";
 	getmapxy(.@mName$,.@mX,.@mY);
 	getareaunits(BL_MOB,.@mName$,(.@mX - 9),(.@mY - 9),(.@mX + 9),(.@mY + 9),.@gid[0]);
-	if(getarraysize(.@gid)){
+	
+	.@targetAmount = getarraysize(.@gid);
+	
+	if(.@targetAmount){
 		.pGID = getcharid(3);
-		@isNewTarget = !unitexists(@tGID);
-		if(@isNewTarget){
-			@tGID = .@gid[(getarraysize(.@gid) > 1) ? rand(getarraysize(.@gid)) : 0];
+		.@isNewTarget = !unitexists(@tGID);
+		
+		if(.@isNewTarget){
+			if(.@targetAmount > 1)
+			@tGID = .@gid[rand(.@targetAmount)];
+			else
+			@tGID = .@gid[0];
+			.tGID = @tGID;
+			detachrid;
+			unitattack .pGID,.tGID;
+		}
+		else{
 			.tGID = @tGID;
 			detachrid;
 			unitattack .pGID,.tGID;
