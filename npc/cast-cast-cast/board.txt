@@ -1,0 +1,34 @@
+-	script	WriteBoard	-1,{
+	if(!$write[atoi(strnpcinfo(3))])
+	{
+		input .@s$;
+		menu "ไม่ทำอะไร",-,"เขียนทับ",OnOverwrite;
+		end;
+		
+		OnOverwrite:
+		$write$[atoi(strnpcinfo(3))] = strcharinfo(0) + ":" + .@s$;
+		delwaitingroom;
+		waitingroom $write$[atoi(strnpcinfo(3))],0;
+		end;
+	}
+	end;
+
+OnInit:
+	waitingroom $write$[atoi(strnpcinfo(3))],0;
+	end;
+}
+
+mid_camp,200,290,4	duplicate(WriteBoard)	เขียนข้อความ::1	837
+mid_camp,195,292,4	duplicate(WriteBoard)	เขียนข้อความ::2	837
+mid_camp,190,294,4	duplicate(WriteBoard)	เขียนข้อความ::3	837
+mid_camp,185,296,4	duplicate(WriteBoard)	เขียนข้อความ::4	837
+
+mid_camp,195,286,4	duplicate(WriteBoard)	เขียนข้อความ::5	837
+mid_camp,190,288,4	duplicate(WriteBoard)	เขียนข้อความ::6	837
+mid_camp,185,290,4	duplicate(WriteBoard)	เขียนข้อความ::7	837
+mid_camp,180,292,4	duplicate(WriteBoard)	เขียนข้อความ::8	837
+
+mid_camp,190,282,4	duplicate(WriteBoard)	เขียนข้อความ::9	837
+mid_camp,185,284,4	duplicate(WriteBoard)	เขียนข้อความ::10	837
+mid_camp,180,286,4	duplicate(WriteBoard)	เขียนข้อความ::11	837
+mid_camp,175,288,4	duplicate(WriteBoard)	เขียนข้อความ::12	837

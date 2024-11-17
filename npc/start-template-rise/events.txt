@@ -60,6 +60,9 @@ OnInit:
 	bindatcmd "bot",strnpcinfo(3) + "::OnBot";
 	if(!$lv)
 	$lv = 1;
+	// Clean up bot target GID to find new target
+	addrid(0);
+	@tGID = 0;
 	end;
 	
 OnBot:
@@ -76,14 +79,21 @@ OnBot:
 OnBotWorking:
 	addtimer 60000,strnpcinfo(0) + "::OnBotWorking";
 	getmapxy(.@mName$,.@mX,.@mY);
-	getareaunits(BL_MOB,.@mName$,(.@mX - 9),(.@mY - 9),(.@mX + 9),(.@mY + 9),.@gid[0]);
-	if(getarraysize(.@gid)){
+	getareaunits(BL_MOB,.@mName$,(.@mX - 9),(.@mY - 9),(.@mX + 9),(.@mY + 9),.gid[0]);
+	if(getarraysize(.gid)){
 		if(!@isBot){
 			@isBot = 1;
 			dispbottom "BOT: ON";
 		}
 		
-		unitattack 0,.@gid[getarraysize(.@gid) - 1];
+		.pGID = getcharid(3);
+		@isNewTarget = !unitexists(@tGID);
+		if(@isNewTarget){
+			@tGID = .gid[(getarraysize(.gid) > 1) ? rand(getarraysize(.gid)) : 0];
+			.tGID = @tGID;
+			detachrid;
+			unitattack .pGID,.tGID;
+		}
 	}
 	end;
 	
