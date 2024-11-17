@@ -7206,8 +7206,6 @@ int32 pc_get_skillcooldown(map_session_data *sd, uint16 skill_id, uint16 skill_l
 		}
 	}
 
-	cooldown = (cooldown * (100 - (cap_value(sd->bonus.delayrate, 0, 100)))) / 100; // [Start's] Example: bonus bDelayrate,100; will reduce cooldown by 100%
-
 	return max(0, cooldown);
 }
 
@@ -9322,6 +9320,9 @@ int32 pc_resetskill(map_session_data* sd, int32 flag)
 	int32 i, skill_point=0;
 	nullpo_ret(sd);
 
+	if( flag&4 && (sd->class_&MAPID_UPPERMASK) != MAPID_BARDDANCER )
+		return 0;
+
 	if( !(flag&2) ) { //Remove stuff lost when resetting skills.
 		/**
 		 * It has been confirmed on official servers that when you reset skills with a ranked Taekwon your skills are not reset (because you have all of them anyway)
@@ -9370,8 +9371,47 @@ int32 pc_resetskill(map_session_data* sd, int32 flag)
 		if (lv == 0 || skill_id == 0)
 			continue;
 
+		if( skill.second->inf2[INF2_ISWEDDING] || skill.second->inf2[INF2_ISSPIRIT] ) //Avoid reseting wedding/linker skills.
+			continue;
+
+		// Don't reset trick dead if not a novice/baby
+		if( skill_id == NV_TRICKDEAD && (sd->class_&MAPID_UPPERMASK) != MAPID_NOVICE )
+		{
 		sd->status.skill[idx].lv = 0;
 		sd->status.skill[idx].flag = SKILL_FLAG_PERMANENT;
+			continue;
+		}
+
+		// do not reset basic skill
+		if (skill_id == NV_BASIC && (sd->class_&MAPID_UPPERMASK) != MAPID_NOVICE )
+			continue;
+
+		if( sd->status.skill[idx].flag == SKILL_FLAG_PERM_GRANTED )
+			continue;
+
+		if( flag&4 && !skill_ischangesex(skill_id) )
+			continue;
+
+		if( skill.second->inf2[INF2_ISQUEST] && !battle_config.quest_skill_learn )
+		{ //Only handle quest skills in a special way when you can't learn them manually
+			if( battle_config.quest_skill_reset && !(flag&2) )
+			{	//Wipe them
+				sd->status.skill[idx].lv = 0;
+				sd->status.skill[idx].flag = SKILL_FLAG_PERMANENT;
+			}
+			continue;
+		}
+		if( sd->status.skill[idx].flag == SKILL_FLAG_PERMANENT )
+			skill_point += lv;
+		else
+		if( sd->status.skill[idx].flag >= SKILL_FLAG_REPLACED_LV_0 )
+			skill_point += (sd->status.skill[idx].flag - SKILL_FLAG_REPLACED_LV_0);
+
+		if( !(flag&2) )
+		{// reset
+			sd->status.skill[idx].lv = 0;
+			sd->status.skill[idx].flag = SKILL_FLAG_PERMANENT;
+		}
 	}
 
 	if( flag&2 || !skill_point ) return skill_point;
@@ -13796,7 +13836,11 @@ void JobDatabase::loadingFinished() {
 		}
 
 		// Set trait status limit
+		if( class_ & JOBL_FOURTH ){
 		max = battle_config.max_trait_parameter;
+		}else{
+			max = 0;
+		}
 
 		for( uint16 parameter = PARAM_POW; parameter < PARAM_MAX; parameter++ ){
 			// If it is not explicitly set in the database file

@@ -49,15 +49,3 @@ ACMD_FUNC(debuff)
 	return 0;
 }
 
-/*==========================================
- * @cleartimetick by Start's
- * Clear main item drop timetick
- *------------------------------------------*/
-ACMD_FUNC(cleartimetick)
-{
-	nullpo_retr(-1, sd);
-
-	sd->main_item_drop_delay = 0;
-
-	return 0;
-}

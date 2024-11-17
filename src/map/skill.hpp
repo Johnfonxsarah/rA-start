@@ -30,7 +30,7 @@ class status_change;
 
 #define MAX_SKILL_PRODUCE_DB	300 /// Max Produce DB
 #define MAX_PRODUCE_RESOURCE	12 /// Max Produce requirements
-#define MAX_SKILL_LEVEL 100 /// Max Skill Level (for skill_db storage)
+#define MAX_SKILL_LEVEL 13 /// Max Skill Level (for skill_db storage)
 #define MAX_MOBSKILL_LEVEL 100	/// Max monster skill level (on skill usage)
 #define MAX_SKILL_CRIMSON_MARKER 3 /// Max Crimson Marker targets (RL_C_MARKER)
 #define SKILL_NAME_LENGTH 31 /// Max Skill Name length
@@ -256,7 +256,6 @@ struct s_skill_db {
 	int32 range[MAX_SKILL_LEVEL];				///< Range
 	e_damage_type hit;							///< Hit type
 	uint16 inf;									///< Inf: 0- passive, 1- enemy, 2- place, 4- self, 16- friend, 32- trap
-	uint16 ninf;								///< Inf: 0- passive, 1- enemy, 2- place, 4- self, 16- friend, 32- trap (Normal)
 	e_element element[MAX_SKILL_LEVEL];			///< Element
 	std::bitset<NK_MAX> nk;						///< Damage properties
 	int32 splash[MAX_SKILL_LEVEL];				///< Splash effect
@@ -315,7 +314,7 @@ private:
 	/// Skill count, also as last index
 	uint16 skill_num;
 
-	template<typename T, size_t S> bool parseNode(const std::string& nodeName, const std::string& subNodeName, const ryml::NodeRef& node, T(&arr)[S], bool isSkipLinear);
+	template<typename T, size_t S> bool parseNode(const std::string& nodeName, const std::string& subNodeName, const ryml::NodeRef& node, T(&arr)[S]);
 
 public:
 	SkillDatabase() : TypesafeCachedYamlDatabase("SKILL_DB", 3, 1) {

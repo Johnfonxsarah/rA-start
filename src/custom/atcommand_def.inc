@@ -11,4 +11,3 @@
 //ACMD_DEF(newcommand),
 
 ACMD_DEF(debuff),
-ACMD_DEF(cleartimetick),
