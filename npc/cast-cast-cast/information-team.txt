@@ -10,9 +10,12 @@ mid_camp,189,266,6	script	ป้าเรย์	10394,{
 		setarray .@lowHp[getarraysize(.@lowHp)],(.@i + 1);
 		if($monsterZenyDropRate[.@i] > 5000)
 		setarray .@highDropRate[getarraysize(.@highDropRate)],(.@i + 1);
+		if($monsterZenyDropAmount[.@i] > 50)
+		setarray .@highZeny[getarraysize(.@highZeny)],(.@i + 1);
 	}
 	freeloop(0);
-	menu "ขอ Map ที่ HP น้อย ๆ",OnLowHp,"ขอ Map ที่ Zeny ตกง่าย ๆ",OnHighDropRate;
+	menu "ขอ Map ที่ HP น้อย ๆ",OnLowHp,"ขอ Map ที่ Zeny ตกง่าย ๆ",OnHighDropRate,"ขอ Map ที่ให้ Zeny มาก",OnHighZeny;
+	
 OnLowHp:
 	.@type = 1;
 	goto OnTrade;
@@ -20,6 +23,14 @@ OnLowHp:
 OnHighDropRate:
 	if(getarraysize(.@highDropRate) <= 0){
 		mes "ตอนนี้ยังไม่มีเหมืองไหนที่ Zeny ตกง่าย ๆ เลย";
+		close;
+	}
+	.@type = 2;
+	goto OnTrade;
+
+OnHighZeny:
+	if(getarraysize(.@highZeny) <= 0){
+		mes "ตอนนี้ยังไม่มีเหมืองไหนที่ให้ Zeny มากเลย";
 		close;
 	}
 	.@type = 2;
@@ -36,6 +47,8 @@ OnTrade:
 	mes "เหมืองที่ " + .@lowHp[rand(getarraysize(.@lowHp))] + " มี HP น้อยมาก";
 	else if(.@type == 2)
 	mes "เหมืองที่ " + .@highDropRate[rand(getarraysize(.@highDropRate))] + " มีโอกาสพบ Zeny สูงมาก";
+	else if(.@type == 3)
+	mes "เหมืองที่ " + .@highZeny[rand(getarraysize(.@highZeny))] + " มีโอกาสพบ Zeny สูงมาก";
 	next;
 	menu "ขอบคุณ!",-;
 	close;
@@ -66,9 +79,9 @@ OnHour22:
 OnHour23:
 OnRefreshInfoPrice:
 	.@rand = rand(3);
-	$infoPrice = (.@rand <= 0) ? rand(1000,1000000)
-	: (.@rand == 1) ? rand(1000,100000)
-	: rand(1000,10000)
+	$infoPrice = (.@rand <= 0) ? rand(100,100000)
+	: (.@rand == 1) ? rand(100,10000)
+	: rand(100,1000)
 	;
 	end;
 	

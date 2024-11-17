@@ -67,6 +67,7 @@ OnInit:
 	
 OnBot:
 	if(@isBot){
+		@tGID = 0;
 		@isBot = 0;
 		deltimer strnpcinfo(0) + "::OnBotWorking";
 		dispbottom "BOT: OFF";
@@ -77,24 +78,30 @@ OnBot:
 	end;
 	
 OnBotWorking:
-	addtimer 60000,strnpcinfo(0) + "::OnBotWorking";
+	if(!@isBot){
+		@isBot = 1;
+		dispbottom "BOT: ON";
+	}
+	
+	addtimer 6000,strnpcinfo(0) + "::OnBotWorking";
 	getmapxy(.@mName$,.@mX,.@mY);
-	getareaunits(BL_MOB,.@mName$,(.@mX - 9),(.@mY - 9),(.@mX + 9),(.@mY + 9),.gid[0]);
-	if(getarraysize(.gid)){
-		if(!@isBot){
-			@isBot = 1;
-			dispbottom "BOT: ON";
-		}
-		
+	getareaunits(BL_MOB,.@mName$,(.@mX - 9),(.@mY - 9),(.@mX + 9),(.@mY + 9),.@gid[0]);
+	if(getarraysize(.@gid)){
 		.pGID = getcharid(3);
+		debugmes ".pGID:"+.pGID;
 		@isNewTarget = !unitexists(@tGID);
+		debugmes "@isNewTarget:"+@isNewTarget;
+		debugmes "getarraysize(.@gid):"+getarraysize(.@gid);
 		if(@isNewTarget){
-			@tGID = .gid[(getarraysize(.gid) > 1) ? rand(getarraysize(.gid)) : 0];
+			@tGID = .@gid[(getarraysize(.@gid) > 1) ? rand(getarraysize(.@gid)) : 0];
 			.tGID = @tGID;
 			detachrid;
 			unitattack .pGID,.tGID;
 		}
 	}
+	else
+	warp "Random",0,0;
+
 	end;
 	
 OnLoad:
