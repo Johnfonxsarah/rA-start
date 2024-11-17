@@ -12,12 +12,12 @@ mid_camp,209,242,4	script	ตั้งค่า	10372,{
 	end;
 	
 	L_BotTime:
-	.@min = 1;
-	.@max = 6;
+	.@min = 3;
+	.@max = 60;
 	mes "ระบุ " + .@min + "~" + .@max;
 	next;
 	input .@i;
-	botTick = cap_value(.@i,.@min,.@max);
+	botTickNew = cap_value(.@i,.@min,.@max);
 	goto L_Menu;
 	
 	L_BotTeleportTime:
