@@ -24600,8 +24600,8 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 				memset(skill->require.spiritball, 0, sizeof(skill->require.spiritball));
 		}
 
-		if (this->nodeExists(requireNode, "ItemCost")) {
-			const auto itemNode = requireNode["ItemCost"];
+		if (this->nodeExists(requireNode, "ItemCostNoUse")) {
+			const auto itemNode = requireNode["ItemCostNoUse"];
 			int32 count = 0;
 
 			for (const auto& it : itemNode) {
@@ -24645,8 +24645,8 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			}
 		}
 
-		if (this->nodeExists(requireNode, "Equipment")) {
-			const auto& equipNode = requireNode["Equipment"];
+		if (this->nodeExists(requireNode, "EquipmentNoUse")) {
+			const auto& equipNode = requireNode["EquipmentNoUse"];
 
 			for (const auto& it : equipNode) {
 				std::string item_name;
