@@ -83,6 +83,9 @@ OnBotWorking:
 		dispbottom "BOT: ON";
 	}
 	
+	if(botTick)
+	addtimer (botTick * 1000),strnpcinfo(0) + "::OnBotWorking";
+	else
 	addtimer 6000,strnpcinfo(0) + "::OnBotWorking";
 	getmapxy(.@mName$,.@mX,.@mY);
 	getareaunits(BL_MOB,.@mName$,(.@mX - 9),(.@mY - 9),(.@mX + 9),(.@mY + 9),.@gid[0]);
