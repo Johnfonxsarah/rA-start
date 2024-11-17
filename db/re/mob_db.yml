@@ -340,20 +340,6 @@ Body:
     ClientAttackMotion: 936
     DamageMotion: 672
     Ai: 10
-    Drops:
-      - Item: Zargon
-        Rate: 50
-      - Item: Stone
-        Rate: 500
-      - Item: Old_Violet_Box
-        Rate: 1
-      - Item: Elunium
-        Rate: 31
-      - Item: Elunium_Stone
-        Rate: 104
-      - Item: Megalith_Card
-        Rate: 1
-        StealProtected: true
   - Id: 1674
     AegisName: MONEMUS
     Name: Monemus
@@ -382,8 +368,3 @@ Body:
     DamageMotion: 432
     Ai: 10
     Class: Boss
-    Drops:
-      - Item: Stone
-        Rate: 1000
-      - Item: Stone_Heart
-        Rate: 500

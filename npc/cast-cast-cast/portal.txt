@@ -1,7 +1,9 @@
 mid_camp,209,288,5	script	เล่นเกม	10558,{
 	// Select map
-	mes "เลือกสถานที่ ที่ต้องการขุดเหมือง";
+	mes "เลือกเหมือง ที่ต้องการขุดเหมือง";
 	mes "โปรดระบุ ^d323231~" + $maxMap + "^000000";
+	mes "---";
+	mes "• ใช้คำสั่ง @bot เพื่อเล่นอัตโนมัติ";
 	mes "---";
 	mes "Reset แร่ตอน";
 	mes "• 00.00น.";
@@ -50,6 +52,13 @@ OnSpawnMonsterOne:
 	return;
 	
 OnMonsterDead:
+	// Zeny
+	.@zenyChance = rand(10000);
+	if(.@zenyChance < $monsterZenyDropRate[lastPlayMap])
+	callfunc("ChangeZeny",$monsterZenyDropAmount[lastPlayMap]);
+	else
+	dispbottom "[Zeny] ต้องสุ่มได้น้อยกว่า " + $monsterZenyDropRate[lastPlayMap] + " คุณสุ่มได้ " + .@zenyChance;
+
 	// Respawn
 	callsub OnSpawnMonsterOne;
 	end;

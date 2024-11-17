@@ -1,4 +1,4 @@
-function	script	InputOutOfRange	{ return getarg(0,0) <= 0 || getarg(0,0) > getarg(1,0); }
+function	script	InputOutOfRange	{ return (getarg(0,0) <= 0) || (getarg(0,0) > getarg(1,0)); }
 
 function	script	IsWeekend	{ .@day = gettime(DT_DAYOFWEEK); return (((.@day == FRIDAY) && gettime(DT_HOUR) >= 18) || (.@day == SATURDAY) || (.@day == SUNDAY)); }
 
@@ -130,7 +130,7 @@ function	script	SkillStone	{
 			break;
 		}
 		else
-		dispbottom "[Skill Stone] ต้องสุ่มได้ " + .@chance + " คุณสุ่มได้ " + .@rand;
+		dispbottom "[Skill Stone] ต้องสุ่มได้น้อยกว่า " + .@chance + " คุณสุ่มได้ " + .@rand;
 	}
 	freeloop(0);
 	

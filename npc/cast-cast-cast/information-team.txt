@@ -1,0 +1,80 @@
+mid_camp,189,266,6	script	ป้าเรย์	10394,{
+	mes "ฉันขายข้อมูลดี ๆ ให้หนูได้นะ โดยราคาจะสุ่มทุก ๆ ต้นชั่วโมง";
+	mes "---";
+	mes "ราคาตอนนี้ " + callfunc("F_InsertComma",$infoPrice) + "z";
+	mes "คุณมี " + callfunc("F_InsertComma",Zeny) + "z";
+	next;
+	freeloop(1);
+	for(.@i = 0; .@i < $maxMap; .@i++){
+		if($monsterHp[.@i] < 10)
+		setarray .@lowHp[getarraysize(.@lowHp)],(.@i + 1);
+		if($monsterZenyDropRate[.@i] > 5000)
+		setarray .@highDropRate[getarraysize(.@highDropRate)],(.@i + 1);
+	}
+	freeloop(0);
+	menu "ขอ Map ที่ HP น้อย ๆ",OnLowHp,"ขอ Map ที่ Zeny ตกง่าย ๆ",OnHighDropRate;
+OnLowHp:
+	.@type = 1;
+	goto OnTrade;
+
+OnHighDropRate:
+	if(getarraysize(.@highDropRate) <= 0){
+		mes "ตอนนี้ยังไม่มีเหมืองไหนที่ Zeny ตกง่าย ๆ เลย";
+		close;
+	}
+	.@type = 2;
+	goto OnTrade;
+
+OnTrade:
+	if(Zeny < $infoPrice){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	callfunc("ChangeZeny",-$infoPrice);
+	
+	if(.@type == 1)
+	mes "เหมืองที่ " + .@lowHp[rand(getarraysize(.@lowHp))] + " มี HP น้อยมาก";
+	else if(.@type == 2)
+	mes "เหมืองที่ " + .@highDropRate[rand(getarraysize(.@highDropRate))] + " มีโอกาสพบ Zeny สูงมาก";
+	next;
+	menu "ขอบคุณ!",-;
+	close;
+	
+OnHour00:
+OnHour01:
+OnHour02:
+OnHour03:
+OnHour04:
+OnHour05:
+OnHour06:
+OnHour07:
+OnHour08:
+OnHour09:
+OnHour10:
+OnHour11:
+OnHour12:
+OnHour13:
+OnHour14:
+OnHour15:
+OnHour16:
+OnHour17:
+OnHour18:
+OnHour19:
+OnHour20:
+OnHour21:
+OnHour22:
+OnHour23:
+OnRefreshInfoPrice:
+	.@rand = rand(3);
+	$infoPrice = (.@rand <= 0) ? rand(1000,1000000)
+	: (.@rand == 1) ? rand(1000,100000)
+	: rand(1000,10000)
+	;
+	end;
+	
+OnInit:
+	waitingroom "หาข้อมูลเหมือง",0;
+	if(!$infoPrice)
+	goto OnRefreshInfoPrice;
+	end;
+}

@@ -3000,6 +3000,9 @@ int32 mob_dead(struct mob_data *md, struct block_list *src, int32 type)
 				continue;
 
 			drop_rate = mob_getdroprate(src, md->db, md->db->dropitem[i].rate, drop_modifier, md);
+			if (md->rank)
+				drop_rate = (drop_rate * (100 + md->rank)) / 100; // [Start's] Example: Rank 100 will increase drop rate by 100% (Or x2)
+			drop_rate = (drop_rate * (map_getmapflag(m, MF_DROPRATE))) / 100; // [Start's] Example: Rate 200 will increase drop rate by 100% (Or x2)
 
 			// attempt to drop the item
 			if (rnd() % 10000 >= drop_rate)
@@ -5014,6 +5017,65 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 
 		mob->status.class_ = static_cast<uint8>(constant);
+	}
+
+	if (this->nodeExists(node, "Modes")) {
+		const auto& modeNode = node["Modes"];
+
+		for (const auto& modeit : modeNode) {
+			std::string modeName;
+			c4::from_chars(modeit.key(), &modeName);
+			std::string modeName_constant = "MD_" + modeName;
+			int64 constant;
+
+			if (!script_get_constant(modeName_constant.c_str(), &constant)) {
+				this->invalidWarning(modeNode[modeit.key()], "Unknown monster mode %s, skipping.\n", modeName.c_str());
+				continue;
+			}
+
+			if (constant < MD_NONE || constant > MD_SKILLIMMUNE) {
+				this->invalidWarning(modeNode[modeit.key()], "Invalid monster mode %s, skipping.\n", modeName.c_str());
+				continue;
+			}
+
+			bool active;
+
+			if (!this->asBool(modeNode, modeName, active))
+				return 0;
+
+			if (active)
+				mob->status.mode = static_cast<e_mode>(mob->status.mode | constant);
+			else
+				mob->status.mode = static_cast<e_mode>(mob->status.mode & ~constant);
+		}
+	}
+
+	if (this->nodeExists(node, "MvpDrops")) {
+		if (!this->parseDropNode("MvpDrops", node, MAX_MVP_DROP, mob->mvpitem, mob->lv, true))
+			return 0;
+	}
+	else {
+		// [Start's]
+		if (battle_config.config_global_mvp_drop && mob->mexp) {
+			mob->mvpitem[0].nameid = battle_config.config_global_mvp_drop;
+			mob->mvpitem[0].rate = battle_config.config_global_mvp_drop_rate;
+			mob->mvpitem[0].steal_protected = true;
+			mob->mvpitem[0].randomopt_group = 0;
+		}
+	}
+
+	if (this->nodeExists(node, "Drops")) {
+		if (!this->parseDropNode("Drops", node, MAX_MOB_DROP, mob->dropitem, mob->lv, false))
+			return 0;
+	}
+	else {
+		// [Start's]
+		if (battle_config.config_global_drop) {
+			mob->dropitem[0].nameid = battle_config.config_global_drop;
+			mob->dropitem[0].rate = (battle_config.config_global_drop_base_rate * mob->lv);
+			mob->dropitem[0].steal_protected = true;
+			mob->dropitem[0].randomopt_group = 0;
+		}
 	}
 
 	if (!exists)

@@ -1,0 +1,36 @@
+mid_camp,243,247,4	script	ลุงโจ	804,{
+	if($isGameOver){
+		mes "ไปพักผ่อนได้แล้ว เราทำสำเร็จแล้ว! (เกมจบลงแล้ว)";
+		close;
+	}
+	mes "เป้าหมายของพวกเราคือ ขุดเหมืองจนมีเงินถึง 1,000,000,000 Zeny";
+	mes "---";
+	mes "ตอนนี้พวกเราทำได้ " + callfunc("F_InsertComma",$donateZeny) + "z";
+	mes "คุณมี " + callfunc("F_InsertComma",Zeny) + "z";
+	next;
+	menu "ส่ง Zeny",-;
+	mes "คุณมี " + callfunc("F_InsertComma",Zeny) + "z";
+	input .@zeny;
+	if(callfunc("InputOutOfRange",.@zeny,Zeny)){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	callfunc("ChangeZeny",-.@zeny);
+	$donateZeny = cap_value($donateZeny + .@zeny,0,.targetZeny);
+	if($donateZeny >= .targetZeny)
+	$isGameOver = 1;
+	delwaitingroom;
+	if($isGameOver)
+	waitingroom "เราทำสำเร็จ!",0;
+	else
+	waitingroom callfunc("F_InsertComma",(.targetZeny - $donateZeny)) + "z ที่ยังขาดอยู่",0;
+	end;
+	
+OnInit:
+	.targetZeny = 1000000000;
+	if($isGameOver)
+	waitingroom "เราทำสำเร็จ!",0;
+	else
+	waitingroom callfunc("F_InsertComma",(.targetZeny - $donateZeny)) + "z ที่ยังขาดอยู่",0;
+	end;
+}
