@@ -1,21 +1,8 @@
 mid_camp,219,292,6	script	ป้าย#RANK	857,{
-	mes "ยังไม่เปิดให้ใช้งาน";
-	/*for(.@i = 0; .@i < getarraysize($holeMaps$); .@i++)
-	mes "ชั้นที่ " + (.@i + 1) + ".) " + $holeMaps$[.@i];*/
-    /*next;
-    query_sql("SELECT char_reg_num.char_id, char_reg_num.`value` FROM char_reg_num WHERE char_reg_num.`key` = 'bossPortalLv' ORDER BY char_reg_num.`value` DESC LIMIT 100",.@brCID,.@v);
-    mes "BOSS LEVEL";
-    for(.@i = 0; .@i < getarraysize(.@brCID); .@i++){
-        query_sql("SELECT `char`.`name` FROM `char` WHERE `char`.char_id = '" + .@brCID[.@i] + "'",.@name$);
-        mes (.@i + 1) + ".) " + .@name$ + " (" + .@v[.@i] + ")";
-    }
-	 next;
-    query_sql("SELECT char_reg_num.char_id, char_reg_num.`value` FROM char_reg_num WHERE char_reg_num.`key` = 'randomMapScore' ORDER BY char_reg_num.`value` DESC LIMIT 100",.@rmsCID,.@v2);
-    mes "RANDOM LEVEL";
-    for(.@i = 0; .@i < getarraysize(.@rmsCID); .@i++){
-        query_sql("SELECT `char`.`name` FROM `char` WHERE `char`.char_id = '" + .@rmsCID[.@i] + "'",.@name$);
-        mes (.@i + 1) + ".) " + .@name$ + " (" + .@v2[.@i] + ")";
-    }*/
+	query_sql("SELECT `char`.`name`, `char`.zeny FROM `char` ORDER BY `char`.zeny DESC",.@n$,.@z);
+	mes "จัดอันดับ";
+	for(.@i = 0; .@i < getarraysize(.@n$); .@i++)
+	mes (.@i + 1) + ".) " + .@n$[.@i] + " (" + callfunc("KM",.@z[.@i]) + ")";
 	close;
 
 OnInit:

@@ -23,7 +23,30 @@ OnPCLoginEvent:
 		SkillPoint = 0;
 		TraitPoint = 0;
 	}
-
+	
+	addtimer 1000,strnpcinfo(0) + "::OnBonusReduce";
+	
+	end;
+	
+OnBonusReduce:
+	if(strcharinfo(3) != "mid_camp"){
+		tick++;
+		if(tick >= 10){
+			tick = 0;
+			sharpeningStone = cap_value(sharpeningStone - 1,0,INT_MAX);
+			hasteStone = cap_value(hasteStone - 1,0,INT_MAX);
+			tiredTick++;
+			if(tiredTick >= 6){
+				tiredTick = 0;
+				tired = cap_value(tired + 1,0,200);
+				dispbottom "[" + ((tired >= 200) ? "ล้า" : "สบายดี") + "] " + tired + "/200";
+			}
+			
+			callfunc("ApplyEffect");
+		}
+	}
+	addtimer 1000,strnpcinfo(0) + "::OnBonusReduce";
+	
 	end;
 	
 OnPCLogoutEvent:
@@ -34,8 +57,34 @@ OnInit:
 	bindatcmd "load",strnpcinfo(3) + "::OnLoad";
 	bindatcmd "tm",strnpcinfo(3) + "::OnTestMap",99,99;
 	bindatcmd "ask",strnpcinfo(3) + "::OnAddSkill",99,99;
+	bindatcmd "bot",strnpcinfo(3) + "::OnBot";
 	if(!$lv)
 	$lv = 1;
+	end;
+	
+OnBot:
+	if(@isBot){
+		@isBot = 0;
+		deltimer strnpcinfo(0) + "::OnBotWorking";
+		dispbottom "BOT: OFF";
+	}
+	else
+	goto OnBotWorking;
+
+	end;
+	
+OnBotWorking:
+	addtimer 60000,strnpcinfo(0) + "::OnBotWorking";
+	getmapxy(.@mName$,.@mX,.@mY);
+	getareaunits(BL_MOB,.@mName$,(.@mX - 9),(.@mY - 9),(.@mX + 9),(.@mY + 9),.@gid[0]);
+	if(getarraysize(.@gid)){
+		if(!@isBot){
+			@isBot = 1;
+			dispbottom "BOT: ON";
+		}
+		
+		unitattack 0,.@gid[getarraysize(.@gid) - 1];
+	}
 	end;
 	
 OnLoad:

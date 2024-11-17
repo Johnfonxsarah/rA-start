@@ -1,0 +1,12 @@
+-	script	Campfire	-1,{
+	progressbar "",5;
+	tired = cap_value(tired - rand(1,10),0,200);
+	dispbottom "[" + ((tired >= 200) ? "ล้า" : "สบายดี") + "] " + tired + "/200";
+	end;
+
+OnInit:
+	waitingroom "นั่งพักผ่อน",0;
+	end;
+}
+
+mid_camp,242,262,5	duplicate(Campfire)	กองไฟ	10252

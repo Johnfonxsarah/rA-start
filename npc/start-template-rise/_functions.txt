@@ -71,11 +71,14 @@ function	script	TeleportOrb	{
 function	script	ApplyEffect	{
 	bonus_script_clear 8;
 	
-	bonus_script
-	"bonus bBaseAtk," + sharpeningStone + (effectStone / 100000) + ";"
-	+ "bonus bAgi," + hasteStone + ";"
-	+ "bonus bAspd," + ((effectStone / 100000) * 193) + ";"
-	,86400,8,1;
+	if(tired < 100){
+		bonus_script
+		"bonus bBaseAtk," + cap_value(sharpeningStone,0,30000) + ";"
+		+ "bonus bAgi," + cap_value(hasteStone,0,30000) + ";"
+		+ "bonus bAspd," + (effectStone / 1000) + ";"
+		+ "bonus2 bAddClass,CLASS_ALL," + effectStone + ";"
+		,86400,8,1;
+	}
 	
 	return;
 }
@@ -83,9 +86,10 @@ function	script	ApplyEffect	{
 function	script	SharpeningStone	{
 	.@itemId = 20000002 + (getarg(0,1) - 1);
 	.@useAmount = !isSkipUseAll ? countitem(.@itemId) : 1;
-	sharpeningStone = cap_value(sharpeningStone + ($sharpeningStone[getarg(0,1) - 1] * .@useAmount),0,INT_MAX);
+	sharpeningStone = cap_value(sharpeningStone + ($sharpeningStone[getarg(0,1) - 1] * .@useAmount),0,30000);
 	dispbottom "[Sharpening Stone] ขณะนี้ ATK +" + sharpeningStone + " (จะลดลง 1 ทุก ๆ 10 วินาทีที่อยู่ในเหมือง)";
 	delitem .@itemId,.@useAmount;
+	callfunc("ApplyEffect");
 	return;
 }
 
@@ -95,6 +99,7 @@ function	script	HasteStone	{
 	hasteStone = cap_value(hasteStone + ($hasteStone[getarg(0,1) - 1] * .@useAmount),0,30000);
 	dispbottom "[Haste Stone] ขณะนี้ AGI +" + hasteStone + " (จะลดลง 1 ทุก ๆ 10 วินาทีที่อยู่ในเหมือง)";
 	delitem .@itemId,.@useAmount;
+	callfunc("ApplyEffect");
 	return;
 }
 
@@ -109,15 +114,15 @@ function	script	SkillStone	{
 		.@chance = $skillStone[getarg(0,1) - 1];
 		.@rand = rand(10000);
 		
-		if(rand(10000) <= .@chance){
+		if(.@rand <= .@chance){
 			.@skillType = rand(3);
 			
 			if(.@skillType == 0)
-			bonus_script "bonus bBaseAtk," + $skillSuperDamage + ";",$skillDuration,1,1,SI_MAXIMIZEPOWER;
+			bonus_script "bonus2 bAddClass,CLASS_ALL," + $skillSuperDamage + ";",$skillDuration,1,1,26;
 			else if(.@skillType == 1)
-			bonus_script "bonus bAspd," + $skillSuperFast + ";",$skillDuration,1,1,SI_ASPDPOTION2;
+			bonus_script "bonus bAspd," + $skillSuperFast + ";",$skillDuration,1,1,39;
 			else
-			bonus_script "bonus bSplashRange," + $skillSuperSplash + ";",$skillDuration,1,1,SI_EXPLOSIONSPIRITS;
+			bonus_script "bonus bSplashRange," + $skillSuperSplash + ";",$skillDuration,1,1,86;
 			
 			message strcharinfo(0),$skName$[.@skillType] + "!";
 			
@@ -138,5 +143,6 @@ function	script	EffectStone	{
 	effectStone = cap_value(effectStone + ($effectStone[getarg(0,1) - 1] * .@useAmount),0,100000);
 	dispbottom "[Effect Stone] ขณะนี้ Effect Lv. " + effectStone + "/100000";
 	delitem .@itemId,.@useAmount;
+	callfunc("ApplyEffect");
 	return;
 }
