@@ -116,14 +116,16 @@ function	script	SkillStone	{
 		.@rand = rand(10000);
 		
 		if(.@rand <= .@chance){
-			.@skillType = rand(3);
+			.@skillType = rand(4);
 			
 			if(.@skillType == 0)
 			bonus_script "bonus2 bAddClass,CLASS_ALL," + $skillSuperDamage + ";",$skillDuration,1,1,26;
 			else if(.@skillType == 1)
 			bonus_script "bonus bAspd," + $skillSuperFast + ";",$skillDuration,1,1,39;
-			else
+			else if(.@skillType == 2)
 			bonus_script "bonus bSplashRange," + $skillSuperSplash + ";",$skillDuration,1,1,86;
+			else
+			bonus_script "bonus bSpeedRate," + $skillSuperMoveSpeed + ";",$skillDuration,1,1,12;
 			
 			message strcharinfo(0),$skName$[.@skillType] + "!";
 			

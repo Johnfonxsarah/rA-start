@@ -2,8 +2,8 @@
 	end;
 	
 OnInit:
-	if($stoneVersion != 1){
-		$stoneVersion = 1;
+	if($stoneVersion != 2){
+		$stoneVersion = 2;
 		
 		// ATK per consume (30k max)
 		setarray $sharpeningStone[0],2,5,8,12,16,21,26,33,40,100;
@@ -11,7 +11,7 @@ OnInit:
 		setarray $hasteStone[0],1,3,5,8,11,15,19,24,29,50;
 		
 		// Skill name
-		setarray $skName$[0],"µ’‚À¥","µ’‡√Á«ª’È¥","µ’√–‡∫‘¥";
+		setarray $skName$[0],"µ’‚À¥","µ’‡√Á«ª’È¥","µ’√–‡∫‘¥","‡¥‘π‡√Á«ª’Í¥";
 		// Chance to cast skill (10000 == 100%)
 		setarray $skillStone[0],25,50,100,150,200,250,300,350,400,500;
 		// Skill duration (Second)
@@ -22,6 +22,8 @@ OnInit:
 		$skillSuperFast = 300;
 		// Splash +x for µ’√–‡∫‘¥
 		$skillSuperSplash = 30;
+		// Move speed +x% for ‡¥‘π‡√Á«ª’Í¥
+		$skillSuperMoveSpeed = 10000;
 		
 		// Effect level per consume (100k max)
 		setarray $effectStone[0],1,2,3,5,7,10,13,17,21,30;
