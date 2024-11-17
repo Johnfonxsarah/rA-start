@@ -1,4 +1,7 @@
 mid_camp,189,266,6	script	ป้าเรย์	10394,{
+	if(getgmlevel())
+	menu "ใช้งาน NPC ปกติ",-,"สุ่มราคาใหม่",OnRefreshInfoPrice;
+	
 	mes "ฉันขายข้อมูลดี ๆ ให้หนูได้นะ โดยราคาจะสุ่มทุก ๆ ต้นชั่วโมง";
 	mes "---";
 	mes "ราคาตอนนี้ " + callfunc("F_InsertComma",$infoPrice) + "z";
