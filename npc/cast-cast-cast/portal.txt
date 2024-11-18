@@ -84,6 +84,9 @@ OnHour06:
 OnHour12:
 OnHour18:
 OnRefreshMap:
+	// Clean all spawn remember
+	deletearray $isMapSpawn[0],getarraysize($isMapSpawn);
+	
 	// Clean all value
 	deletearray $monsterType[0],getarraysize($monsterType);
 	deletearray $monsterHp[0],getarraysize($monsterHp);
