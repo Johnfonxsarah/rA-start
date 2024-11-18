@@ -70,7 +70,7 @@ function	script	TeleportOrb	{
 }
 
 function	script	ApplyEffect	{
-	bonus_script_clear 8;
+	bonus_script_clear 1;
 	
 	if(tired < 200){
 		bonus_script
@@ -80,6 +80,17 @@ function	script	ApplyEffect	{
 		+ "bonus2 bAddClass,CLASS_ALL," + effectStone + ";"
 		,86400,8,1;
 	}
+	
+	.@tt = gettimetick(2);
+	if(.@tt < sk[0])
+	bonus_script "bonus2 bAddClass,CLASS_ALL," + $skillSuperDamage + ";",sk[0] - .@tt,1,1,26;
+	if(.@tt < sk[1])
+	bonus_script "bonus bAspd," + $skillSuperFast + ";",sk[1] - .@tt,1,1,39;
+	if(.@tt < sk[2])
+	bonus_script "bonus bSplashRange," + $skillSuperSplash + ";",sk[2] - .@tt,1,1,86;
+	if(.@tt < sk[3])
+	bonus_script "bonus bSpeedRate," + $skillSuperMoveSpeed + ";",sk[3] - .@tt,1,1,12;
+	
 	
 	return;
 }
@@ -117,6 +128,8 @@ function	script	SkillStone	{
 		
 		if(.@rand <= .@chance){
 			.@skillType = rand(4);
+			
+			sk[.@skillType] = gettimetick(2) + $skillDuration;
 			
 			if(.@skillType == 0)
 			bonus_script "bonus2 bAddClass,CLASS_ALL," + $skillSuperDamage + ";",$skillDuration,1,1,26;
