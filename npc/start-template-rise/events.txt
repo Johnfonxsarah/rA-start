@@ -35,8 +35,14 @@ OnBonusReduce:
 		tick++;
 		if(tick >= 10){
 			tick = 0;
-			sharpeningStone = cap_value(sharpeningStone - 1,0,INT_MAX);
-			hasteStone = cap_value(hasteStone - 1,0,INT_MAX);
+			if(tired > 1){
+				sharpeningStone = cap_value(sharpeningStone - (1 + rand(tired)),0,INT_MAX);
+				hasteStone = cap_value(hasteStone - (1 + rand(tired)),0,INT_MAX);
+			}
+			else{
+				sharpeningStone = cap_value(sharpeningStone - 1,0,INT_MAX);
+				hasteStone = cap_value(hasteStone - 1,0,INT_MAX);
+			}
 			tiredTick++;
 			if(tiredTick >= 6){
 				tiredTick = 0;
