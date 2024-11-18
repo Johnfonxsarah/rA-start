@@ -1,0 +1,30 @@
+-	script	ZenyBuff	-1,{
+	setarray .@price[0],10000,100000,1000000,10000000;
+	setarray .@heal[0],2,4,8,16;
+	
+	.@s = select(
+	"(1 ชม.) นำโชคชุดเล็ก (x " + .@heal[0] + ") " + callfunc("F_InsertComma",.@price[0]) + "z:" +
+	"(1 ชม.) นำโชคชุดกลาง (x " + .@heal[1] + ") " + callfunc("F_InsertComma",.@price[1]) + "z:" +
+	"(1 ชม.) นำโชคชุดใหญ่ (x " + .@heal[2] + ") " + callfunc("F_InsertComma",.@price[2]) + "z:" +
+	"(1 ชม.) นำโชคบุฟเฟ่ต์ (x " + .@heal[3] + ") " + callfunc("F_InsertComma",.@price[3]) + "z"
+	);
+	
+	if(Zeny < .@price[(.@s - 1)]){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+
+	callfunc("ChangeZeny",-.@price[(.@s - 1)]);
+	
+	zenyBuffTick = gettimetick(2) + 3600;
+	zenyBuff = .@heal[(.@s - 1)];
+	
+	dispbottom "Zeny x" + zenyBuff + " เป็นเวลา 1 ชั่วโมง";
+	end;
+
+OnInit:
+	waitingroom "เร่ง Zeny",0;
+	end;
+}
+
+mid_camp,254,267,5	duplicate(ZenyBuff)	เครื่องนำโชค#1	10252

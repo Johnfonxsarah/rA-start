@@ -61,8 +61,12 @@ OnSpawnMonsterOne:
 OnMonsterDead:
 	// Zeny
 	.@zenyChance = rand(10000);
-	if(.@zenyChance < $monsterZenyDropRate[lastPlayMap])
-	callfunc("ChangeZeny",$monsterZenyDropAmount[lastPlayMap]);
+	if(.@zenyChance < $monsterZenyDropRate[lastPlayMap]){
+		if(zenyBuff && (gettimetick(2) < zenyBuffTick))
+		callfunc("ChangeZeny",$monsterZenyDropAmount[lastPlayMap] * zenyBuff);
+		else
+		callfunc("ChangeZeny",$monsterZenyDropAmount[lastPlayMap]);
+	}
 	else
 	dispbottom "[Zeny] ต้องสุ่มได้น้อยกว่า " + $monsterZenyDropRate[lastPlayMap] + " คุณสุ่มได้ " + .@zenyChance;
 
