@@ -27,4 +27,4 @@ OnInit:
 	end;
 }
 
-mid_camp,254,267,5	duplicate(ZenyBuff)	เครื่องนำโชค#1	10252
+mid_camp,248,273,4	duplicate(ZenyBuff)	เครื่องนำโชค#1	564
