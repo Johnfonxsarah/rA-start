@@ -36,6 +36,13 @@ mid_camp,209,288,5	script	เล่นเกม	10558,{
 	// Warp now
 	warp $map$[lastPlayMap],0,0;
 	
+	if(!$isMapSpawn[lastPlayMap]){
+		freeloop(1);
+		$isMapSpawn[lastPlayMap] = 1;
+		for(.@i = 0; .@i < $monsterAmount[lastPlayMap]; .@i++)
+		callsub OnSpawnMonsterOne,lastPlayMap;
+		freeloop(0);
+	}
 	close;
 	
 OnSpawnMonsterOne:
@@ -129,8 +136,12 @@ OnSpawn:
 	for(.@m = 0; .@m < $maxMap; .@m++){
 		killmonsterall $map$[.@m],0;
 		
-		for(.@i = 0; .@i < $monsterAmount[.@m]; .@i++)
-		callsub OnSpawnMonsterOne,.@m;
+		if(getmapusers($map$[.@m]) > 0){
+			$isMapSpawn[.@m] = 1;
+			for(.@i = 0; .@i < $monsterAmount[.@m]; .@i++)
+			callsub OnSpawnMonsterOne,.@m;
+		}
+		
 	}
 	freeloop(0);
 	end;
