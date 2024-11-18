@@ -17,9 +17,9 @@ mid_camp,242,262,5	duplicate(Campfire)	กองไฟ#1	10252
 	setarray .@heal[0],10,25,50,200;
 	
 	.@s = select(
-	"กินข้าวชุดเล็ก (หายล้า " + .@heal[0] + ") " + callfunc("F_InsertComma",.@price[0]) + "z:"
-	"กินข้าวชุดกลาง (หายล้า " + .@heal[1] + ") " + callfunc("F_InsertComma",.@price[1]) + "z:"
-	"กินข้าวชุดใหญ่ (หายล้า " + .@heal[2] + ") " + callfunc("F_InsertComma",.@price[2]) + "z:"
+	"กินข้าวชุดเล็ก (หายล้า " + .@heal[0] + ") " + callfunc("F_InsertComma",.@price[0]) + "z:" +
+	"กินข้าวชุดกลาง (หายล้า " + .@heal[1] + ") " + callfunc("F_InsertComma",.@price[1]) + "z:" +
+	"กินข้าวชุดใหญ่ (หายล้า " + .@heal[2] + ") " + callfunc("F_InsertComma",.@price[2]) + "z:" +
 	"กินบุฟเฟ่ต์ (หายล้า " + .@heal[3] + ") " + callfunc("F_InsertComma",.@price[3]) + "z"
 	);
 	
