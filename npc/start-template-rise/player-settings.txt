@@ -3,6 +3,7 @@ mid_camp,209,242,4	script	ตั้งค่า	10372,{
 	menu
 	"ตั้งเวลา Bot หาเป้าหมายใหม่",L_BotTime,
 	"ตั้งเวลา Bot วิง",L_BotTeleportTime,
+	"ตั้งระยะหาศัตรูของ Bot",L_BotSlot,
 	"ดูคำสั่งที่ใช้ได้",L_Commands,
 	"เปลี่ยน Password",L_ChangePassword,
 	"เพิ่ม Level Guild",MenuGetGuildLevel,
@@ -29,7 +30,17 @@ mid_camp,209,242,4	script	ตั้งค่า	10372,{
 	botTeleportTick = cap_value(.@i,.@min,.@max);
 	goto L_Menu;
 	
+	L_BotSlot:
+	.@min = 1;
+	.@max = 9;
+	mes "ระบุ " + .@min + "~" + .@max;
+	next;
+	input .@i;
+	botSlot = cap_value(.@i,.@min,.@max);
+	goto L_Menu;
+	
 	L_Commands:
+	mes "• [@bot] เล่นอัตโนมัติ";		
 	mes "• [@load] กลับไปสู่ Save Point";		
 	mes "• [@who] ดูว่ามีใครเล่นเกมอยู่บ้าง";
 	mes "• [@time] บอกเวลา Server";

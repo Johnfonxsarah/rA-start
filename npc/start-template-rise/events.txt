@@ -104,6 +104,9 @@ OnBotWorking:
 	else
 	addtimer 1000,strnpcinfo(0) + "::OnBotWorking";
 	getmapxy(.@mName$,.@mX,.@mY);
+	if(botSlot)
+	getareaunits(BL_MOB,.@mName$,(.@mX - botSlot),(.@mY - botSlot),(.@mX + botSlot),(.@mY + botSlot),.@gid[0]);
+	else
 	getareaunits(BL_MOB,.@mName$,(.@mX - 9),(.@mY - 9),(.@mX + 9),(.@mY + 9),.@gid[0]);
 	
 	.@targetAmount = getarraysize(.@gid);
