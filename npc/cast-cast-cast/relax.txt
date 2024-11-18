@@ -1,5 +1,6 @@
 -	script	Campfire	-1,{
 	progressbar "",5;
+	
 	tired = cap_value(tired - rand(1,10),0,200);
 	dispbottom "[" + ((tired >= 200) ? "ล้า" : "สบายดี") + "] " + tired + "/200";
 	end;
@@ -9,4 +10,35 @@ OnInit:
 	end;
 }
 
-mid_camp,242,262,5	duplicate(Campfire)	กองไฟ	10252
+mid_camp,242,262,5	duplicate(Campfire)	กองไฟ#1	10252
+
+-	script	Food	-1,{
+	setarray .@price[0],1000,2000,4000,12500;
+	setarray .@heal[0],10,25,50,200;
+	
+	.@s = select(
+	"กินข้าวชุดเล็ก (หายล้า " + .@heal[0] + ") " + callfunc("F_InsertComma",.@price[0]) + "z:"
+	"กินข้าวชุดกลาง (หายล้า " + .@heal[1] + ") " + callfunc("F_InsertComma",.@price[1]) + "z:"
+	"กินข้าวชุดใหญ่ (หายล้า " + .@heal[2] + ") " + callfunc("F_InsertComma",.@price[2]) + "z:"
+	"กินบุฟเฟ่ต์ (หายล้า " + .@heal[3] + ") " + callfunc("F_InsertComma",.@price[3]) + "z"
+	);
+	
+	if(Zeny < .@price[(.@s - 1)]){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	
+	progressbar "",5;
+	
+	callfunc("ChangeZeny",-.@price[(.@s - 1)]);
+	
+	tired = cap_value(tired - .@heal[(.@s - 1)],0,200);
+	dispbottom "[" + ((tired >= 200) ? "ล้า" : "สบายดี") + "] " + tired + "/200";
+	end;
+
+OnInit:
+	waitingroom "กินข้าว",0;
+	end;
+}
+
+mid_camp,254,267,5	duplicate(Food)	กองไฟ#2	10252
