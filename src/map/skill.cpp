@@ -649,7 +649,7 @@ int32 skill_calc_heal(struct block_list *src, struct block_list *target, uint16 
 		hp += hp * skill / 100;
 #endif
 
-	if (sc && sc->count) {
+	if (sc != nullptr && !sc->empty()) {
 		if (sc->getSCE(SC_OFFERTORIUM) && (skill_id == AB_HIGHNESSHEAL || skill_id == AB_CHEAL || skill_id == NPC_CHEAL || skill_id == PR_SANCTUARY || skill_id == AL_HEAL ||
 			skill_id == CD_DILECTIO_HEAL || skill_id == CD_MEDIALE_VOTUM ))
 #ifdef RENEWAL
@@ -663,7 +663,7 @@ int32 skill_calc_heal(struct block_list *src, struct block_list *target, uint16 
 #endif
 	}
 
-	if (tsc && tsc->count) {
+	if (tsc != nullptr && !tsc->empty()) {
 		if (skill_id != NPC_EVILLAND && skill_id != BA_APPLEIDUN) {
 			if (tsc->getSCE(SC_INCHEALRATE))
 #ifdef RENEWAL
@@ -682,12 +682,6 @@ int32 skill_calc_heal(struct block_list *src, struct block_list *target, uint16 
 #ifdef RENEWAL
 			if (tsc->getSCE(SC_ASSUMPTIO))
 				hp_bonus += tsc->getSCE(SC_ASSUMPTIO)->val1 * 2;
-#endif
-			if (tsc->getSCE(SC_VITALIZE_POTION))
-#ifdef RENEWAL
-				hp_bonus += 10;
-#else
-				hp += hp * 10 / 100;
 #endif
 		}
 	}
@@ -734,7 +728,7 @@ int32 skill_calc_heal(struct block_list *src, struct block_list *target, uint16 
 	}
 
 	// Global multipliers are applied after the MATK is applied
-	if (tsc && tsc->count) {
+	if (tsc != nullptr && !tsc->empty()) {
 		if (skill_id != NPC_EVILLAND && skill_id != BA_APPLEIDUN) {
 			if (tsc->getSCE(SC_WATER_INSIGNIA) && tsc->getSCE(SC_WATER_INSIGNIA)->val1 == 2)
 				global_bonus *= 1.1f;
@@ -747,7 +741,7 @@ int32 skill_calc_heal(struct block_list *src, struct block_list *target, uint16 
 		global_bonus *= 1 + 0.15f + 0.05f * skill_lv;
 #endif
 
-	if (heal && tsc && tsc->count) {
+	if (heal && tsc != nullptr && !tsc->empty()) {
 		uint8 penalty = 0;
 
 		if (tsc->getSCE(SC_CRITICALWOUND))
@@ -1000,7 +994,7 @@ bool skill_isNotOk_hom(struct homun_data *hd, uint16 skill_id, uint16 skill_lv)
 	if (!sd)
 		return true;
 
-	if (sc && !sc->count)
+	if (sc != nullptr && sc->empty())
 		sc = nullptr;
 
 	if (util::vector_exists(hd->blockskill, skill_id)) {
@@ -2064,7 +2058,7 @@ int32 skill_additional_effect( struct block_list* src, struct block_list *bl, ui
 		sc_start(src,bl,SC_STUN,100,skill_lv,skill_get_time2(skill_id,skill_lv));
 		break;
 	case RL_BANISHING_BUSTER: {
-			if (!tsc || !tsc->count)
+			if (tsc == nullptr || tsc->empty())
 				break;
 
 			if (status_isimmune(bl))
@@ -2421,12 +2415,6 @@ int32 skill_additional_effect( struct block_list* src, struct block_list *bl, ui
 		int32 class_ = mob_get_random_id(MOBG_BRANCH_OF_DEAD_TREE, RMF_DB_RATE, 0);
 		if (class_ != 0 && mobdb_checkid(class_))
 			mob_class_change(dstmd,class_);
-	}
-
-	if (sd && sc) {
-		struct status_change_entry *sce;
-		if ((sce = sc->getSCE(SC_2011RWC_SCROLL)) && rnd() % 1000 <= 10)
-			skill_castend_nodamage_id(src, src, AC_CONCENTRATION, max(3, pc_checkskill(sd,AC_CONCENTRATION)), tick, 0);
 	}
 
 	return 0;
@@ -2803,7 +2791,7 @@ int32 skill_break_equip(struct block_list *src, struct block_list *bl, unsigned 
 	int32 i;
 	TBL_PC *sd;
 	sd = BL_CAST(BL_PC, bl);
-	if (sc && !sc->count)
+	if (sc != nullptr && sc->empty())
 		sc = nullptr;
 
 	if (sd) {
@@ -2839,7 +2827,7 @@ int32 skill_break_equip(struct block_list *src, struct block_list *bl, unsigned 
 
 	for (i = 0; i < 6; i++) {
 		if (where&where_list[i]) {
-			if (sc && sc->count && sc->getSCE(scdef[i]))
+			if (sc != nullptr && sc->getSCE(scdef[i]))
 				where&=~where_list[i];
 			else if (rnd()%10000 >= rate)
 				where&=~where_list[i];
@@ -3145,7 +3133,7 @@ static int32 skill_magic_reflect(struct block_list* src, struct block_list* bl, 
 		return 0;
 
 	// status-based reflection
-	if( !sc || sc->count == 0 )
+	if( sc == nullptr || sc->empty() )
 		return 0;
 
 	// Kaite reflection - Does not bypass Boss check
@@ -3560,7 +3548,7 @@ int64 skill_attack (int32 attack_type, struct block_list* src, struct block_list
 	status_data* tstatus = status_get_status_data(*bl);
 	sc= status_get_sc(src);
 	tsc= status_get_sc(bl);
-	if (tsc && !tsc->count)
+	if (tsc != nullptr && tsc->empty())
 		tsc = nullptr; //Don't need it.
 
 	 //Trick Dead protects you from damage, but not from buffs and the like, hence it's placed here.
@@ -3613,7 +3601,7 @@ int64 skill_attack (int32 attack_type, struct block_list* src, struct block_list
 			sd = BL_CAST(BL_PC, src);
 			tsd = BL_CAST(BL_PC, bl);
 			tsc = status_get_sc(bl);
-			if (tsc && !tsc->count)
+			if (tsc != nullptr && tsc->empty())
 				tsc = nullptr; //Don't need it.
 			/* bugreport:2564 flag&2 disables double casting trigger */
 			flag |= 2;
@@ -5123,9 +5111,9 @@ int32 skill_castend_damage_id (struct block_list* src, struct block_list *bl, ui
 
 	sc = status_get_sc(src);
 	tsc = status_get_sc(bl);
-	if (sc && !sc->count)
+	if (sc != nullptr && sc->empty())
 		sc = nullptr; //Unneeded
-	if (tsc && !tsc->count)
+	if (tsc != nullptr && tsc->empty())
 		tsc = nullptr;
 
 	status_data* tstatus = status_get_status_data(*bl);
@@ -7330,7 +7318,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 			if (status_isimmune(bl) || (dstmd && (status_get_class(bl) == MOBID_EMPERIUM || status_get_class_(bl) == CLASS_BATTLEFIELD)))
 				heal = 0;
 
-			if( tsc && tsc->count ) {
+			if( tsc != nullptr && !tsc->empty() ) {
 				if( tsc->getSCE(SC_KAITE) && !status_has_mode(sstatus,MD_STATUSIMMUNE) ) { //Bounce back heal
 					if (--tsc->getSCE(SC_KAITE)->val2 <= 0)
 						status_change_end(bl, SC_KAITE);
@@ -9475,7 +9463,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 				hp += hp * sstatus->hplus / 100;
 				sp += sp * sstatus->hplus / 100;
 			}
-			if (tsc && tsc->count) {
+			if (tsc != nullptr && !tsc->empty()) {
 				uint8 penalty = 0;
 
 				if (tsc->getSCE(SC_WATER_INSIGNIA) && tsc->getSCE(SC_WATER_INSIGNIA)->val1 == 2) {
@@ -9593,7 +9581,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 			else if (dstmd)
 				mob_unlocktarget(dstmd, tick);
 
-			if(!tsc || !tsc->count)
+			if(tsc == nullptr || tsc->empty())
 				break;
 
 			//Statuses that can't be Dispelled
@@ -10285,7 +10273,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 				if (sp)
 					sp = sp * (100 + pc_checkskill(dstsd,MG_SRECOVERY)*10 + pc_skillheal2_bonus(dstsd, skill_id))/100;
 			}
-			if (tsc && tsc->count) {
+			if (tsc != nullptr && !tsc->empty()) {
 				uint8 penalty = 0;
 
 				if (tsc->getSCE(SC_WATER_INSIGNIA) && tsc->getSCE(SC_WATER_INSIGNIA)->val1 == 2) {
@@ -11121,7 +11109,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 			if (dstsd)
 				pc_bonus_script_clear(dstsd,BSF_REM_ON_CLEARANCE);
 
-			if(!tsc || !tsc->count)
+			if(tsc == nullptr || tsc->empty())
 				break;
 
 			//Statuses change that can't be removed by Cleareance
@@ -11638,7 +11626,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 				status_heal(bl, heal, 0, 0);
 			}
 
-			if( tsc && tsc->count && rnd_chance( ( skill_lv * 5 + ( status_get_dex( src ) + status_get_lv( src ) ) / 4 ) - rnd_value( 1, 10 ), 100 ) ){
+			if( tsc != nullptr && !tsc->empty() && rnd_chance( ( skill_lv * 5 + ( status_get_dex( src ) + status_get_lv( src ) ) / 4 ) - rnd_value( 1, 10 ), 100 ) ){
 				status_change_end(bl, SC_STONE);
 				status_change_end(bl, SC_FREEZE);
 				status_change_end(bl, SC_STUN);
@@ -12530,7 +12518,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 			clif_skill_fail( *sd, skill_id, USESKILL_FAIL_TOTARGET );
 			break;
 		}
-		if (tsc && tsc->count && tsc->getSCE(type)) // Refresh the status only if it's already active.
+		if (tsc != nullptr && tsc->getSCE(type)) // Refresh the status only if it's already active.
 			sc_start(src, bl, type, 100, skill_lv, skill_get_time(skill_id, skill_lv));
 		else {
 			sc_start(src, bl, type, 100, skill_lv, skill_get_time(skill_id, skill_lv));
@@ -13446,7 +13434,7 @@ TIMER_FUNC(skill_castend_id){
 			sd->skill_keep_using.tid = add_timer( sd->ud.canact_tick + 100, skill_keep_using, sd->bl.id, 0 );
 		}
 
-		if(sc && sc->count) {
+		if(sc != nullptr && !sc->empty()) {
 			if (ud->skill_id != RA_CAMOUFLAGE)
 				status_change_end(src, SC_CAMOUFLAGE); // Applies to the first skill if active
 
@@ -16851,7 +16839,7 @@ int32 skill_unit_onleft(uint16 skill_id, struct block_list *bl, t_tick tick)
 	enum sc_type type;
 
 	sc = status_get_sc(bl);
-	if (sc && !sc->count)
+	if (sc != nullptr && sc->empty())
 		sc = nullptr;
 
 	type = skill_get_sc(skill_id);
@@ -17450,7 +17438,7 @@ bool skill_check_condition_castbegin( map_session_data& sd, uint16 skill_id, uin
 	struct status_data* status = &sd.battle_status;
 	status_change* sc = &sd.sc;
 
-	if( !sc->count )
+	if( sc->empty() )
 		sc = nullptr;
 
 	if( sd.skillitem == skill_id )
@@ -18483,7 +18471,7 @@ bool skill_check_condition_castend( map_session_data& sd, uint16 skill_id, uint1
 	}
 
 	status_change* sc = &sd.sc;
-	if (!sc->count)
+	if (sc->empty())
 		sc = nullptr;
 
 	// perform skill-specific checks (and actions)
@@ -18778,7 +18766,7 @@ void skill_consume_requirement(map_session_data *sd, uint16 skill_id, uint16 ski
 		status_change *sc = &sd->sc;
 		int32 n,i;
 
-		if( !sc->count )
+		if( sc->empty() )
 			sc = nullptr;
 
 		for( i = 0; i < MAX_SKILL_ITEM_REQUIRE; ++i )
@@ -18840,7 +18828,7 @@ struct s_skill_condition skill_get_requirement(map_session_data* sd, uint16 skil
 		return req; // Item skills and Hocus-Pocus don't have requirements.[Inkfish]
 
 	sc = &sd->sc;
-	if( !sc->count )
+	if( sc->empty() )
 		sc = nullptr;
 
 	//Checks if disabling skill - in which case no SP requirements are necessary
@@ -19254,7 +19242,7 @@ int32 skill_castfix(struct block_list *bl, uint16 skill_id, uint16 skill_lv) {
 		}
 
 		// These cast time reductions are processed even if the skill fails
-		if (sc && sc->count) {
+		if (sc != nullptr && !sc->empty()) {
 			// Magic Strings stacks additively with item bonuses
 			if (!(flag&2) && sc->getSCE(SC_POEMBRAGI))
 				reduce_cast_rate += sc->getSCE(SC_POEMBRAGI)->val2;
@@ -19301,7 +19289,7 @@ int32 skill_castfix_sc(struct block_list *bl, double time, uint8 flag)
 
 	status_change *sc = status_get_sc(bl);
 
-	if (sc && sc->count) {
+	if (sc != nullptr && !sc->empty()) {
 		if (!(flag&2)) {
 			if (sc->getSCE(SC_SLOWCAST))
 				time += time * sc->getSCE(SC_SLOWCAST)->val2 / 100;
@@ -19309,8 +19297,6 @@ int32 skill_castfix_sc(struct block_list *bl, double time, uint8 flag)
 				time += sc->getSCE(SC_PARALYSIS)->val3;
 			if (sc->getSCE(SC_IZAYOI))
 				time -= time * 50 / 100;
-			if (sc->getSCE(SC_2011RWC_SCROLL))
-				time -= time * 5 / 100;
 		}
 		if (sc->getSCE(SC_SUFFRAGIUM)) {
 			if(!(flag&2))
@@ -19401,7 +19387,7 @@ int32 skill_vfcastfix(struct block_list *bl, double time, uint16 skill_id, uint1
 	}
 
 	// Adjusted by active statuses
-	if (sc && sc->count && !(flag&2)) {
+	if (sc != nullptr && !sc->empty() && !(flag&2)) {
 		// Multiplicative Variable CastTime values
 		if (sc->getSCE(SC_SLOWCAST))
 			VARCAST_REDUCTION(-sc->getSCE(SC_SLOWCAST)->val2);
@@ -19430,8 +19416,6 @@ int32 skill_vfcastfix(struct block_list *bl, double time, uint16 skill_id, uint1
 			VARCAST_REDUCTION(sc->getSCE(SC_TELEKINESIS_INTENSE)->val2);
 		if (sc->getSCE(SC_SOULFAIRY))
 			VARCAST_REDUCTION(sc->getSCE(SC_SOULFAIRY)->val3);
-		if (sc->getSCE(SC_EP16_2_BUFF_AC))
-			VARCAST_REDUCTION(80);
 		// Multiplicative Fixed CastTime values
 		if (sc->getSCE(SC_SECRAMENT))
 			fixcast_r = max(fixcast_r, sc->getSCE(SC_SECRAMENT)->val2);
@@ -19454,8 +19438,6 @@ int32 skill_vfcastfix(struct block_list *bl, double time, uint16 skill_id, uint1
 			fixed = 0;
 		if (sc->getSCE(SC_GLOOMYDAY))
 			fixed += skill_lv * 500;
-		if (sc->getSCE(SC_2011RWC_SCROLL))
-			VARCAST_REDUCTION(5);
 	}
 	if (sc && sc->getSCE(SC_SECRAMENT) && skill_id == HW_MAGICPOWER && (flag&2)) // Sacrament lowers Mystical Amplification cast time
 		fixcast_r = max(fixcast_r, sc->getSCE(SC_SECRAMENT)->val2);
@@ -19535,7 +19517,7 @@ int32 skill_delayfix(struct block_list *bl, uint16 skill_id, uint16 skill_lv)
 			}
 	}
 
-	if (sc && sc->count) {
+	if (sc != nullptr && !sc->empty()) {
 		if (sc->getSCE(SC_SPIRIT)) {
 			switch (skill_id) {
 				case CR_SHIELDBOOMERANG:
@@ -19553,7 +19535,7 @@ int32 skill_delayfix(struct block_list *bl, uint16 skill_id, uint16 skill_lv)
 	int32 delay = 0;
 
 	if (!(delaynodex&2)) {
-		if (sc && sc->count) {
+		if (sc != nullptr && !sc->empty()) {
 			if (sc->getSCE(SC_POEMBRAGI))
 				delay += sc->getSCE(SC_POEMBRAGI)->val3;
 			if (sc->getSCE(SC_WIND_INSIGNIA) && sc->getSCE(SC_WIND_INSIGNIA)->val1 == 3 && skill_get_type(skill_id) == BF_MAGIC && skill_get_ele(skill_id, skill_lv) == ELE_WIND)
@@ -22681,7 +22663,7 @@ void skill_toggle_magicpower(struct block_list *bl, uint16 skill_id)
 	if (skill_get_nk(skill_id, NK_NODAMAGE) || !(skill_get_type(skill_id)&BF_MAGIC))
 		return;
 
-	if (sc && sc->count && sc->getSCE(SC_MAGICPOWER)) {
+	if (sc != nullptr && !sc->empty() && sc->getSCE(SC_MAGICPOWER)) {
 		if (sc->getSCE(SC_MAGICPOWER)->val4) {
 			status_change_end(bl, SC_MAGICPOWER);
 		} else {
