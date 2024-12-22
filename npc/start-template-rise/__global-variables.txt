@@ -198,6 +198,7 @@ OnInit:
 		
 		$mysteryDungeonCD = 0;
 		donpcevent "MysteryDungeon::OnMinute00";
+		donpcevent "ของกดใช้แปลก ๆ::OnSetup";
 	}
 	end;
 }

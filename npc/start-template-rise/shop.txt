@@ -148,13 +148,10 @@ ApplyShop:
 	;
 	end;
 	
+OnSetup:
+	callsub(OnRefreshShop);
 OnInit:
 	.shopName$ = "ShopMysteryUsable";
-	if(!$isMysteryUsableShopSetup){
-		$isMysteryUsableShopSetup = 1;
-		callsub(OnRefreshShop);
-	}
-	else
 	callsub(ApplyShop);
 	end;
 }
