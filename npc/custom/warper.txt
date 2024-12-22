@@ -1468,7 +1468,7 @@ nameless_n,259,213,4	duplicate(Warp)	Warp#nam	10558
 niflheim,205,179,4	duplicate(Warp)	Warp#nif	10558 
 pay_arche,42,134,4	duplicate(Warp)	Warp#arc	10558 
 payon,182,108,4	duplicate(Warp)	Warp#pay	10558 
-prontera,161,199,4	duplicate(Warp)	Warp#prt	10558 
+prontera,158,198,4	duplicate(Warp)	Warp#prt	10558 
 prt_fild05,279,223,6	duplicate(Warp)	Warp#cul	10558 
 rachel,135,116,4	duplicate(Warp)	Warp#rac	10558 
 splendide,205,153,4	duplicate(Warp)	Warp#spl	10558 

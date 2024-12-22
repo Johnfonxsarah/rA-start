@@ -71,35 +71,35 @@ Body:
           - Index: 0
             Item: Elunium_Stone
             Amount: 5
-  - Name: ·≈° Rise Stone
-    Map: prontera
-    X: 153
-    Y: 198
-    Direction: SouthWest
-    Sprite: 4_GACHA_MACHINE
-    Items:
-      - Index: 0
-        Item: Token_Of_Siegfried   
-        RequiredItems:
-          - Index: 0
-            Item: Rise_Stone
-            Amount: 15
-      - Index: 1
-        Item: Mystery_Buff_Box   
-        RequiredItems:
-          - Index: 0
-            Item: Rise_Stone
-            Amount: 10
-      - Index: 2
-        Item: Mystery_Package_Box   
-        RequiredItems:
-          - Index: 0
-            Item: Rise_Stone
-            Amount: 30
-      - Index: 3
-        Item: Kafra_Card   
-        RequiredItems:
-          - Index: 0
-            Item: Rise_Stone
-            Amount: 3
+#  - Name: ·≈° Rise Stone
+#    Map: prontera
+#    X: 153
+#    Y: 198
+#    Direction: SouthWest
+#    Sprite: 4_GACHA_MACHINE
+#    Items:
+#      - Index: 0
+#        Item: Token_Of_Siegfried   
+#        RequiredItems:
+#          - Index: 0
+#            Item: Rise_Stone
+#            Amount: 15
+#      - Index: 1
+#        Item: Mystery_Buff_Box   
+#        RequiredItems:
+#          - Index: 0
+#            Item: Rise_Stone
+#            Amount: 10
+#      - Index: 2
+#        Item: Mystery_Package_Box   
+#        RequiredItems:
+#          - Index: 0
+#            Item: Rise_Stone
+#            Amount: 30
+#      - Index: 3
+#        Item: Kafra_Card   
+#        RequiredItems:
+#          - Index: 0
+#            Item: Rise_Stone
+#            Amount: 3
 

@@ -1,13 +1,13 @@
 prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
-	if($isEndOfService)
-	menu "ระบุเลข Item ที่ต้องการเลย",L_EndOfService,"ใช้งาน NPC ตามปกติ",-;
-	.@weaponCost = 25;
+	.@weaponCost = 7;
 	.@equipmentCost = 5;
-	.@cardCost = 100;
-	.@enchantmentCost = 250;
+	.@costumeCost = 3;
+	.@cardCost = 15;
+	.@enchantmentCost = 50;
 	mes "ใช้ " + mesitemlink($wishingTicketItemId,true) + " ในการสุ่ม";
 	mes "Weapon ใช้ [^af1ada" + F_InsertComma(.@weaponCost) + " ชิ้น^000000]";
 	mes "Armor ใช้ [^af1ada" + F_InsertComma(.@equipmentCost) + " ชิ้น^000000]";
+	mes "Costume ใช้ [^af1ada" + F_InsertComma(.@costumeCost) + " ชิ้น^000000]";
 	mes "Card ใช้ [^af1ada" + F_InsertComma(.@cardCost) + " ชิ้น^000000]";
 	mes "Enchantment ใช้ [^af1ada" + F_InsertComma(.@enchantmentCost) + " ชิ้น^000000]";
 	.@wishingTicketAmount = countitem($wishingTicketItemId);
@@ -20,48 +20,43 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 	menu
 	"Weapon",-
 	,"Armor",L_Armor
+	,"Costume",L_Costume
 	,"Card",L_Card
 	,"Enchantment",L_Enchantment
 	;
-	
-	setarray .@subType$[0],"One-Handed Sword","Two-Handed Sword","Dagger","Katar","One-Handed Axe","Two-Handed Axe","Huuma","Mace","One-Handed Spear","Two-Handed Spear","Two-Handed Staff","Book","Staff","Bow","Knuckle","Musical","Whip","Revolver","Rifle","Shotgun","Gatling Gun","Grenade Launcher";
-	for(.@i = 0; .@i < getarraysize(.@subType$); .@i++)
-	.@menu$ += .@subType$[.@i] + ":";
 
-	.@index = (select(.@menu$) - 1);
-	.@saveIndex = .@index;
-	if(.@index >= 14)
-	.@index++;
-	if(.@index >= 18)
-	.@index++;
-
-	.@variableName$ = $subType$[.@index];
+	.@variableName$ = "weaponIds";
 	.@cost = .@weaponCost;
-	.@mes$ = "ต้องการสุ่ม " + .@subType$[.@saveIndex] + " กี่รอบ?";
+	.@mes$ = "ต้องการสุ่ม Weapon กี่รอบ?";
+	.@locking = 1;
 	goto L_Confirmation;
 	
 	L_Armor:
-	setarray .@location$[0],"Shield","Head-Middle","Head-Top","Head-Low","Head-Middle-Top","Head-Low-Middle-Top","Head-Low-Middle","Armor","Shoes","Garment","Accessory","Head-Low-Top","Head-Top-Middle","Costume Head-Top","Costume Head-Middle","Costume Head-Low","Shadow Armor","Left Accessory","Costume Garment","Head-Top-Middle-Low","Head-Middle-Low","Head-Top-Low","Costume Head-Middle-Low","Costume Head-Top-Middle","Costume Head-Top-Middle-Low","Costume Head-Top-Low","Shadow Weapon","Shadow Shield","Shadow Shoes","Shadow Right Accessory","Shadow Left Accessory","Right Accessory";
-	for(.@i = 0; .@i < getarraysize(.@location$); .@i++)
-	.@menu$ += .@location$[.@i] + ":";
-
-	.@index = (select(.@menu$) - 1);
-
-	.@variableName$ = $location$[.@index];
+	.@variableName$ = "equipmentIds";
 	.@cost = .@equipmentCost;
-	.@mes$ = "ต้องการสุ่ม " + .@location$[.@index] + " กี่รอบ?";
+	.@mes$ = "ต้องการสุ่ม Armor กี่รอบ?";
+	.@locking = 2;
+	goto L_Confirmation;
+	
+	L_Costume:
+	.@variableName$ = "costumeIds";
+	.@cost = .@costumeCost;
+	.@mes$ = "ต้องการสุ่ม Costume กี่รอบ?";
+	.@locking = 3;
 	goto L_Confirmation;
 	
 	L_Card:
 	.@variableName$ = "card2Ids";
 	.@cost = .@cardCost;
 	.@mes$ = "ต้องการสุ่ม Card กี่รอบ?";
+	.@locking = 4;
 	goto L_Confirmation;
 	
 	L_Enchantment:
 	.@variableName$ = "enchant2Ids";
 	.@cost = .@enchantmentCost;
 	.@mes$ = "ต้องการสุ่ม Enchantment กี่รอบ?";
+	.@locking = 5;
 	goto L_Confirmation;
 	
 	L_Confirmation:
@@ -76,25 +71,68 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 	mes "^1c9311(หากมี " + mesitemlink($godTicketItemId,true) + " จะทำให้เจอง่ายขึ้น 20%)^000000";
 	input .@i;
 	if(.@i == 99999){
-		mes "โปรดระบุ Item ID ที่ต้องการในหมวดนี้";
+		mes "โปรดระบุ Item ID ที่ต้องการ";
 		input .@wishItemId;
 		clear;
 		if(.@wishItemId <= 0){
 			mes "ยกเลิกเรียบร้อยแล้ว";
 			close;
 		}
+		
 		freeloop(1);
-		for(.@i = 0; .@i < getarraysize(getd("$" + .@variableName$)); .@i++){
-			if(.@wishItemId == getd("$" + .@variableName$ + "[" + .@i + "]")){
-				.@isFoundWishItemId = 1;
-				break;
+		
+		if(.@locking == 1){
+			for(.@i = 0; .@i < getarraysize($weaponIds); .@i++){
+				if(.@wishItemId == $weaponIds[.@i]){
+					.@isFoundWishItemId = 1;
+					break;
+				}
 			}
 		}
+		
+		if(.@locking == 2){
+			for(.@i = 0; .@i < getarraysize($equipmentIds); .@i++){
+				if(.@wishItemId == $equipmentIds[.@i]){
+					.@isFoundWishItemId = 1;
+					break;
+				}
+			}
+		}
+		
+		if(.@locking == 3){
+			for(.@i = 0; .@i < getarraysize($costumeIds); .@i++){
+				if(.@wishItemId == $costumeIds[.@i]){
+					.@isFoundWishItemId = 1;
+					break;
+				}
+			}
+		}
+		
+		if(.@locking == 4){
+			for(.@i = 0; .@i < getarraysize($card2Ids); .@i++){
+				if(.@wishItemId == $card2Ids[.@i]){
+					.@isFoundWishItemId = 1;
+					break;
+				}
+			}
+		}
+		
+		if(.@locking == 5){
+			for(.@i = 0; .@i < getarraysize($enchant2Ids); .@i++){
+				if(.@wishItemId == $enchant2Ids[.@i]){
+					.@isFoundWishItemId = 1;
+					break;
+				}
+			}
+		}
+		
 		freeloop(0);
+		
 		if(!.@isFoundWishItemId){
 			mes "ยกเลิกเรียบร้อยแล้ว";
 			close;
 		}
+		
 		mes "คุณต้องการ " + mesitemlink(.@wishItemId,true);
 		mes "ใช้ [^af1ada" + mesitemlink($wishingTicketItemId,true) + " " + F_InsertComma(.@cost) + " ชิ้น^000000] ไปเรื่อย ๆ จนกว่าจะเจอ";
 		next;
@@ -138,16 +176,6 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 		getitem getd("$" + .@variableName$ + "[" + rand(getarraysize(getd("$" + .@variableName$))) + "]"),1;
 	}
 	freeloop(0);
-	close;
-	
-	L_EndOfService:
-	mes "ระบุ Item ID ที่ต้องการ";
-	next;
-	input .@itemId;
-	mes "ระบุจำนวน Item ที่ต้องการ";
-	next;
-	input .@itemAmount;
-	getitem .@itemId,.@itemAmount;
 	close;
 	
 OnInit:

@@ -1,4 +1,4 @@
-prontera,159,214,8	script	�Ѵ෾	10371,{
+prontera,145,200,3	script	�Ѵ෾	10371,{
 	if(!is_party_leader()){
 		.@ipid = instance_id(IM_PARTY);
 		if(.@ipid){
