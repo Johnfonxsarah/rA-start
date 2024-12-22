@@ -149,9 +149,16 @@ ApplyShop:
 	end;
 	
 OnSetup:
-	callsub(OnRefreshShop);
+	if(!$isMysteryInit)
+	{
+		$isMysteryInit = 1;
+		callsub(OnRefreshShop);
+	}
+	end;
+	
 OnInit:
 	.shopName$ = "ShopMysteryUsable";
+	if($isMysteryInit)
 	callsub(ApplyShop);
 	end;
 }

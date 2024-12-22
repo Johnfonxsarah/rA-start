@@ -56,11 +56,23 @@ OnBossReset1: callsub L_Spawn,1,$bossDungeonSpawnAmount; end;
 OnBossReset2: callsub L_Spawn,2,$bossDungeonSpawnAmount; end;
 OnBossReset3: callsub L_Spawn,3,$bossDungeonSpawnAmount; end;
 
+OnSetup:
+	if(!$isBossDungeonInit){
+		$isBossDungeonInit = 1;
+		for(.@i = 0; .@i < getarraysize($bossDungeonMapName$); .@i++)
+		callsub L_Spawn,.@i,$bossDungeonSpawnAmount;
+	}
+	end;
+
 OnInit:
 	$bossDungeonSpawnAmount = 30;
+	
 	deletearray $bossDungeonMapName$[0],getarraysize($bossDungeonMapName$);
 	setarray $bossDungeonMapName$[0],"bossnia_01","bossnia_02","bossnia_03","bossnia_04";
-	for(.@i = 0; .@i < getarraysize($bossDungeonMapName$); .@i++)
-	callsub L_Spawn,.@i,$bossDungeonSpawnAmount;
+	
+	if($isBossDungeonInit){
+		for(.@i = 0; .@i < getarraysize($bossDungeonMapName$); .@i++)
+		callsub L_Spawn,.@i,$bossDungeonSpawnAmount;
+	}
 	end;
 }

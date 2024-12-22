@@ -111,12 +111,26 @@ OnBossDead8: callsub L_RisePoint,1; $isMysteryDungeonBossDead8 = 1; end;
 OnMonsterDead9: callsub L_RisePoint,0; callsub L_Spawn,9,1,1,0; end;
 OnBossDead9: callsub L_RisePoint,1; $isMysteryDungeonBossDead9 = 1; end;
 
+OnSetup:
+	if(!$isMysteryDungeonInit){
+		$isMysteryDungeonInit = 1;
+		
+		callsub L_RefreshMonsterId;
+		for(.i = 0; .i < getarraysize($mysteryDungeonMapName$); .i++)
+		callsub L_Spawn,.i,$mysteryDungeonSpawnAmount;
+	}
+	end;
+
 OnInit:
 	$mysteryDungeonSpawnAmount = 150;
+	
 	deletearray $mysteryDungeonMapName$[0],getarraysize($mysteryDungeonMapName$);
 	setarray $mysteryDungeonMapName$[0],"ordeal_1-1","ordeal_1-2","ordeal_2-1","ordeal_2-2","ordeal_3-1","ordeal_3-2";
-	callsub L_RefreshMonsterId;
-	for(.i = 0; .i < getarraysize($mysteryDungeonMapName$); .i++)
-	callsub L_Spawn,.i,$mysteryDungeonSpawnAmount;
+	
+	if($isMysteryDungeonInit){
+		callsub L_RefreshMonsterId;
+		for(.i = 0; .i < getarraysize($mysteryDungeonMapName$); .i++)
+		callsub L_Spawn,.i,$mysteryDungeonSpawnAmount;
+	}
 	end;
 }
