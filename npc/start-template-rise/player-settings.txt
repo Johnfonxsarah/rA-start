@@ -33,7 +33,7 @@ prontera,163,178,1	script	ตั้งค่า	10372,{
 	
 	L_LockTradeDestroy:
 	#IS_LOCK_TRADE_DESTROY = !#IS_LOCK_TRADE_DESTROY;
-	message strcharinfo(0),"ทำลาย Item ที่สุ่มได้แล้วไม่ตรงกับที่จะได้ ด้วยระบบสุ่มจนกว่าจะเจอ [" + (#IS_LOCK_TRADE_DESTROY) ? "^1c9311ON^000000" : "^d32323OFF^000000") + "]";
+	message strcharinfo(0),"ทำลาย Item ที่สุ่มได้แล้วไม่ตรงกับที่จะได้ ด้วยระบบสุ่มจนกว่าจะเจอ [" + (#IS_LOCK_TRADE_DESTROY ? "^1c9311ON^000000" : "^d32323OFF^000000") + "]";
 	goto L_Menu;
 	
 	L_ItemMerge:
