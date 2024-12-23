@@ -91,15 +91,15 @@ BossDungeons:
 		.@bossDungeonMenu$ += " ~ ห้องที่ " + (.@i + 1) + " [^af1ada" + getitemname(.@costItemId) + " " + F_InsertComma(.@cost) + " ชิ้น^000000] (PvP - " + ((.@i < 2) ? "^d32323OFF^000000" : "^1c9311ON^000000") + "):";
 	}
 	for(.@i = 0; .@i < getarraysize($bossDungeonMapName$); .@i++)
-	.@bossDungeonMenu$ += " ~ ห้องที่ " + (.@i + 1) + " [^af1ada" + getitemname(.@costItemId) + " " + F_InsertComma(.@cost) + " ชิ้น, " + getitemname(.@costItemId2) + " " + F_InsertComma(.@cost2) + " ชิ้น^000000] (PvP - " + ((.@i < 2) ? "^d32323OFF^000000" : "^1c9311ON^000000") + ") (Reset Boss):";
+	.@bossDungeonMenu$ += " ~ ห้องที่ " + (.@i + 1) + " [^af1ada" + getitemname(.@costItemId) + " " + F_InsertComma(.@cost * 10) + " ชิ้น^000000] (PvP - " + ((.@i < 2) ? "^d32323OFF^000000" : "^1c9311ON^000000") + ") (Reset Boss):";
 	next;
 	.@index = (select(.@bossDungeonMenu$) - 1);
 	.@isResetBoss = (.@index > 3);
 	
 	if(.@isResetBoss){
 		.@index -= 4;
-		if(countitem(.@costItemId2) < .@cost2){
-			mes getitemname(.@costItemId2) + " ไม่เพียงพอ";
+		if(countitem(.@costItemId) < (.@cost * 10)){
+			mes getitemname(.@costItemId) + " ไม่เพียงพอ";
 			close;
 		}
 		.@playerCount = getmapusers($bossDungeonMapName$[.@index]);
@@ -113,9 +113,8 @@ BossDungeons:
 		mes getitemname(.@costItemId) + " ไม่เพียงพอ";
 		close;
 	}
-	delitem .@costItemId,.@cost;
+	delitem .@costItemId,.@cost * (.@isResetBoss ? 10 : 1);
 	if(.@isResetBoss){
-		delitem .@costItemId2,.@cost2;
 		killmonsterall $bossDungeonMapName$[.@index];
 		donpcevent "BossDungeon::OnBossReset" + .@index;
 	}	
