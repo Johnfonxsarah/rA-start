@@ -180,7 +180,7 @@ Body:
     AegisName: Wishing_Ticket
     Name: Wishing Ticket
     Type: Etc
-    Buy: 1
+    Buy: 10000
     Trade:
       NoSell: true
   - Id: 10000002
