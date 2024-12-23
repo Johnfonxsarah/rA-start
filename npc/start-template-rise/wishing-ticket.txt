@@ -164,8 +164,12 @@ prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 				}
 			}
 			.@currentRewardItemId = getd("$" + .@variableName$ + "[" + rand(getarraysize(getd("$" + .@variableName$))) + "]");
-			if(.@wishItemId != .@currentRewardItemId)
-			dispbottom "คุณสุ่มได้ " + getitemname(.@currentRewardItemId) + " และทิ้งไป";
+			if(.@wishItemId != .@currentRewardItemId){
+				if(#IS_LOCK_TRADE_DESTROY)
+				dispbottom "คุณสุ่มได้ " + getitemname(.@currentRewardItemId) + " และทิ้งไป";
+				else
+				getitem .@currentRewardItemId,1;
+			}
 			else{
 				getitem .@wishItemId,1;
 				announce strcharinfo(0) + " สุ่มจนกว่าจะเจอ " + getitemname(.@wishItemId) + " สำเร็จ!",bc_all;
