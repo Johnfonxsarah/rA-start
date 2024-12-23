@@ -3031,22 +3031,45 @@ Body:
     DamageMotion: 480
     Ai: 01
     Drops:
-      - Item: Candy
-        Rate: 5000
-      - Item: Candy_Striper
-        Rate: 3000
-      - Item: Buche_De_Noel
-        Rate: 2000
-      - Item: Event_Cake
-        Rate: 2000
-      - Item: Sour_Cream_Pancake
-        Rate: 1000
-      - Item: Vivid_Notation
-        Rate: 1000
-      - Item: Fire_Cracker_Xmas
-        Rate: 2000
-      - Item: Santa's_Hat
-        Rate: 100
+      - Item: Wishing_Ticket
+        Index: 0
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 1
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 2
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 3
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 4
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 5
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 6
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 7
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 8
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 9
+        Rate: 10000
         StealProtected: true
   - Id: 1063
     AegisName: LUNATIC
@@ -11763,22 +11786,45 @@ Body:
     DamageMotion: 648
     Ai: 01
     Drops:
-      - Item: Pumpkin_Head
-        Rate: 3000
-      - Item: Candy
-        Rate: 5000
-      - Item: Candy_Striper
-        Rate: 5000
-      - Item: Snow_Flower
-        Rate: 1000
-      - Item: Well_Baked_Cookie
-        Rate: 1000
-      - Item: Gift_Box
-        Rate: 500
-      - Item: Santa's_Hat
-        Rate: 300
-      - Item: Old_Violet_Box
-        Rate: 100
+      - Item: Wishing_Ticket
+        Index: 0
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 1
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 2
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 3
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 4
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 5
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 6
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 7
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 8
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 9
+        Rate: 10000
         StealProtected: true
   - Id: 1245
     AegisName: GOBLINE_XMAS
@@ -11810,22 +11856,45 @@ Body:
     DamageMotion: 240
     Ai: 01
     Drops:
-      - Item: Scell
-        Rate: 3000
-      - Item: Candy
-        Rate: 5000
-      - Item: Candy_Striper
-        Rate: 5000
-      - Item: Snow_Flower
-        Rate: 1000
-      - Item: Well_Baked_Cookie
-        Rate: 1000
-      - Item: Gift_Box
-        Rate: 500
-      - Item: Santa's_Hat
-        Rate: 300
-      - Item: Old_Violet_Box
-        Rate: 100
+      - Item: Wishing_Ticket
+        Index: 0
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 1
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 2
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 3
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 4
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 5
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 6
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 7
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 8
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 9
+        Rate: 10000
         StealProtected: true
   - Id: 1246
     AegisName: COOKIE_XMAS
@@ -11908,30 +11977,45 @@ Body:
       IgnoreMisc: true
       IgnoreRanged: true
     Drops:
-      - Item: Red_Socks_With_Holes
+      - Item: Wishing_Ticket
         Index: 0
-        Rate: 5000
-      - Item: Gift_Box
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
         Index: 1
-        Rate: 1000
-      - Item: Vivid_Notation
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
         Index: 2
-        Rate: 5000
-      - Item: Fire_Cracker_Xmas
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
         Index: 3
-        Rate: 5000
-      - Item: Snow_Flower
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
         Index: 4
-        Rate: 500
-      - Item: Red_Bag
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
         Index: 5
-        Rate: 1000
-      - Item: Buche_De_Noel
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
         Index: 6
-        Rate: 100
-      - Item: Red_Bag
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
         Index: 7
-        Rate: 1000
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 8
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 9
+        Rate: 10000
         StealProtected: true
   - Id: 1248
     AegisName: CRUISER
@@ -25414,22 +25498,45 @@ Body:
     DamageMotion: 288
     Ai: 01
     Drops:
-      - Item: Orcish_Voucher
-        Rate: 3000
-      - Item: Candy
-        Rate: 5000
-      - Item: Candy_Striper
-        Rate: 5000
-      - Item: Snow_Flower
-        Rate: 1000
-      - Item: Well_Baked_Cookie
-        Rate: 1000
-      - Item: Gift_Box
-        Rate: 500
-      - Item: Santa's_Hat
-        Rate: 300
-      - Item: Old_Violet_Box
-        Rate: 100
+      - Item: Wishing_Ticket
+        Index: 0
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 1
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 2
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 3
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 4
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 5
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 6
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 7
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 8
+        Rate: 10000
+        StealProtected: true
+      - Item: Wishing_Ticket
+        Index: 9
+        Rate: 10000
         StealProtected: true
   - Id: 1589
     AegisName: G_MANDRAGORA
