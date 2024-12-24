@@ -13,11 +13,6 @@ OnInit:
 		$godTicketItemId = 10000005;
 		$masteryTicketItemId = 10000006;
 		
-		deletearray $tiredSpotXs[0],getarraysize($tiredSpotXs);
-		setarray $tiredSpotXs[0],136,136,174,175,107,120,192,204,205,48,47,77,46,269,263,234;
-		deletearray $tiredSpotYs[0],getarraysize($tiredSpotYs);
-		setarray $tiredSpotYs[0],186,219,218,188,218,264,264,188,157,343,228,93,67,108,275,314;
-
 		deletearray $restrictedItemId[0],getarraysize($restrictedItemId);
 		setarray $restrictedItemId[0],10000000,10000001,10000002,10000003,10000004,10000005,10000006;
 	}
