@@ -1,0 +1,12 @@
+-	script	FlyingTicket	-1,{
+	end;
+	
+OnMinute00:
+	freeloop(1);
+	for(.@i = 0; .@i < 2000; .@i++){
+		getfreecell("prontera",.@x,.@y);
+		makeitem 10000001,1,"prontera",.@x,.@y;
+	}
+	freeloop(0);
+	end;
+}
