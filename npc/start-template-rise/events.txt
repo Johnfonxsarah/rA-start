@@ -44,6 +44,10 @@ OnPCLoadMapEvent:
 	end;
 	
 OnInit:
+	query_sql("SELECT SUM(`char`.zeny) FROM `char`",.@charZeny);
+	query_sql("SELECT SUM(acc_reg_num.`value`) FROM acc_reg_num WHERE acc_reg_num.`key` = '#BANKVAULT'",.@bankZeny);
+	debugmes ".@charZeny:" + F_InsertComma(.@charZeny);
+	debugmes ".@bankZeny:" + F_InsertComma(.@bankZeny);
 	bindatcmd "load",strnpcinfo(3) + "::OnLoad";
 	bindatcmd "lb",strnpcinfo(3) + "::OnLastFollowPlayerBan",99,99;
 	bindatcmd "ll",strnpcinfo(3) + "::OnLastFollowPlayerLoad",99,99;
