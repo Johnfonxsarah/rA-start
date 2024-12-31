@@ -30,7 +30,7 @@ OnPCLoadMapEvent:
 		if(.@oldInstanceId)
 		instance_destroy .@oldInstanceId;
 		
-		if(!isSkillHotfix && ((Class == 4302) || (Class == 4303) || (Class == 4304) || (Class == 4305) || (Class == 4308))){
+		if(!isSkillHotfix && ((Class == 4302) || (Class == 4304) || (Class == 4305) || (Class == 4308))){
 			isSkillHotfix = 1;
 			ResetSkill;
 			if(Class == 4308)
