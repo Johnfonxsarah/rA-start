@@ -16,8 +16,7 @@ prontera,139,159,6	script	บาฮาม	10416,{
 	end;
 	
 	L_Grade:
-	atcommand "@grade 0 99";
-	//EnchantGrade();
+	EnchantGrade();
 	end;
 	
 	L_SlotRemover:
