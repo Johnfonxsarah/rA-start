@@ -3,6 +3,7 @@ prontera,163,178,1	script	ตั้งค่า	10372,{
 	menu
 	"ดูคำสั่งที่ใช้ได้",L_Commands,
 	"ใช้ @autoloot เมื่อเข้าเกม [" + (isAutoLootOff ? "^d32323OFF^000000" : "^1c9311ON^000000") + "]",L_AutoLoot,
+	"ทำลาย Item ที่สุ่มได้แล้วไม่ตรงกับที่จะได้ ด้วยระบบสุ่มจนกว่าจะเจอ [" + (#IS_LOCK_TRADE_DESTROY ? "^1c9311ON^000000" : "^d32323OFF^000000") + "]",L_LockTradeDestroy,
 	"รวม Item ที่แยกกันอยู่",L_ItemMerge,
 	"เปลี่ยน Password",L_ChangePassword,
 	"ลบ Buff ทั้งตัว",L_RemoveBuff
@@ -28,6 +29,11 @@ prontera,163,178,1	script	ตั้งค่า	10372,{
 	L_AutoLoot:
 	isAutoLootOff = !isAutoLootOff;
 	message strcharinfo(0),"ใช้ @autoloot เมื่อเข้าเกม [" + (isAutoLootOff ? "OFF" : "ON") + "]";
+	goto L_Menu;
+	
+	L_LockTradeDestroy:
+	#IS_LOCK_TRADE_DESTROY = !#IS_LOCK_TRADE_DESTROY;
+	message strcharinfo(0),"ทำลาย Item ที่สุ่มได้แล้วไม่ตรงกับที่จะได้ ด้วยระบบสุ่มจนกว่าจะเจอ [" + (#IS_LOCK_TRADE_DESTROY ? "ON" : "OFF") + "]";
 	goto L_Menu;
 	
 	L_ItemMerge:
