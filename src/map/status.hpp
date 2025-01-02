@@ -1337,6 +1337,28 @@ enum sc_type : int16 {
 	SC_CONTENTS_32,
 	SC_CONTENTS_33,
 
+	// Soul Ascetic
+	SC_TALISMAN_OF_PROTECTION,
+	SC_TALISMAN_OF_WARRIOR,
+	SC_TALISMAN_OF_MAGICIAN,
+	SC_TALISMAN_OF_FIVE_ELEMENTS,
+	SC_T_FIRST_GOD,
+	SC_T_SECOND_GOD,
+	SC_T_THIRD_GOD,
+	SC_T_FOURTH_GOD,
+	SC_T_FIFTH_GOD,
+	SC_HEAVEN_AND_EARTH,
+	SC_TOTEM_OF_TUTELARY,
+
+	SC_RETURN_TO_ELDICASTES,
+	SC_GUARDIAN_RECALL,
+	SC_ECLAGE_RECALL,
+	SC_ALL_NIFLHEIM_RECALL,
+	SC_ALL_PRONTERA_RECALL,
+	SC_ALL_GLASTHEIM_RECALL,
+	SC_ALL_THANATOS_RECALL,
+	SC_ALL_LIGHTHALZEN_RECALL,
+
 	SC_MAX, //Automatically updated max, used in for's to check we are within bounds.
 };
 
@@ -3445,7 +3467,7 @@ int32 status_revive(struct block_list *bl, unsigned char per_hp, unsigned char p
 struct regen_data *status_get_regen_data(struct block_list *bl);
 status_data* status_get_status_data(block_list& bl);
 struct status_data *status_get_base_status(struct block_list *bl);
-const char * status_get_name(struct block_list *bl);
+const char* status_get_name( block_list& bl );
 int32 status_get_class(struct block_list *bl);
 int32 status_get_lv(struct block_list *bl);
 #define status_get_range(bl) status_get_status_data(*bl)->rhw.range
