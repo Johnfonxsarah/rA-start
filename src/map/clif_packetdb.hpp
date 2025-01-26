@@ -92,7 +92,7 @@
 	parseable_packet(0x00e4,6,clif_parse_TradeRequest,2);
 	packet(0x00e5,26);
 	parseable_packet(0x00e6,3,clif_parse_TradeAck,2);
-	parseable_packet(0x00e8,8,clif_parse_TradeAddItem,2,4);
+	parseable_packet( HEADER_CZ_ADD_EXCHANGE_ITEM, sizeof( PACKET_CZ_ADD_EXCHANGE_ITEM ), clif_parse_TradeAddItem, 0 );
 	packet(0x00ea,5);
 	parseable_packet(0x00eb,2,clif_parse_TradeOk,0);
 	parseable_packet(0x00ed,2,clif_parse_TradeCancel,0);
@@ -126,7 +126,7 @@
 	packet( cartlistequipType, -1 );
 	packet( cartlistnormalType, -1 );
 	parseable_packet( HEADER_CZ_MOVE_ITEM_FROM_BODY_TO_CART, sizeof( PACKET_CZ_MOVE_ITEM_FROM_BODY_TO_CART ), clif_parse_PutItemToCart, 0 );
-	parseable_packet(0x0127,8,clif_parse_GetItemFromCart,2,4);
+	parseable_packet( HEADER_CZ_MOVE_ITEM_FROM_CART_TO_BODY, sizeof( PACKET_CZ_MOVE_ITEM_FROM_CART_TO_BODY ), clif_parse_GetItemFromCart, 0 );
 	parseable_packet(0x0128,8,clif_parse_MoveFromKafraToCart,2,4);
 	parseable_packet(0x0129,8,clif_parse_MoveToKafraFromCart,2,4);
 	parseable_packet(0x012a,2,clif_parse_RemoveOption,0);

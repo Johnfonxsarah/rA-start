@@ -12469,18 +12469,21 @@ void clif_parse_TradeAck(int32 fd,map_session_data *sd)
 }
 
 
-/// Request to add an item to current trade (CZ_ADD_EXCHANGE_ITEM).
-/// 00e8 <index>.W <amount>.L
+/// Request to add an item to current trade.
+/// 00e8 <index>.W <amount>.L (CZ_ADD_EXCHANGE_ITEM)
 void clif_parse_TradeAddItem(int32 fd,map_session_data *sd)
 {
-	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
-	short index = RFIFOW(fd,info->pos[0]);
-	int32 amount = RFIFOL(fd,info->pos[1]);
+	if( sd == nullptr ){
+		return;
+	}
 
-	if( index == 0 )
-		trade_tradeaddzeny(sd, amount);
-	else
-		trade_tradeadditem(sd, server_index(index), (short)amount);
+	const PACKET_CZ_ADD_EXCHANGE_ITEM* p = reinterpret_cast<PACKET_CZ_ADD_EXCHANGE_ITEM*>( RFIFOP( fd, 0 ) );
+
+	if( p->index == 0 ){
+		trade_tradeaddzeny( sd, p->amount );
+	}else{
+		trade_tradeadditem( sd, server_index( p->index ), static_cast<int16>( p->amount ) );
+	}
 }
 
 
@@ -12531,16 +12534,22 @@ void clif_parse_PutItemToCart( int32 fd, map_session_data *sd ){
 }
 
 
-/// Request to move an item from cart to inventory (CZ_MOVE_ITEM_FROM_CART_TO_BODY).
-/// 0127 <index>.W <amount>.L
+/// Request to move an item from cart to inventory.
+/// 0127 <index>.W <amount>.L (CZ_MOVE_ITEM_FROM_CART_TO_BODY)
 void clif_parse_GetItemFromCart(int32 fd,map_session_data *sd)
 {
-	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
+	if( sd == nullptr ){
+		return;
+	}
+
 	if (!pc_iscarton(sd) || pc_cant_act2(sd))
 		return;
 	if (map_getmapflag(sd->bl.m, MF_NOUSECART))
 		return;
-	pc_getitemfromcart(sd,RFIFOW(fd,info->pos[0])-2,RFIFOL(fd,info->pos[1]));
+
+	const PACKET_CZ_MOVE_ITEM_FROM_CART_TO_BODY* p = reinterpret_cast<PACKET_CZ_MOVE_ITEM_FROM_CART_TO_BODY*>( RFIFOP( fd, 0 ) );
+
+	pc_getitemfromcart( sd, server_index( p->index ), p->amount );
 }
 
 
