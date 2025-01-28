@@ -73,6 +73,11 @@ config_monster_rank_damage_mode: 0
 // 1 = หาร ถ้า Rank 1 ก็ Damage ที่ได้รับ หาร 2
 config_monster_rank_defense_mode: 0
 
+// Rank ของ Monster จะเพิ่ม % EXP แบบใด
+// 0 = % ถ้า Rank 1 ก็เพิ่ม EXP 1%
+// 1 = คูณ ถ้า Rank 1 ก็ EXP คูณ 2
+config_monster_rank_exp_bonus_mode: 0
+
 // Rank ของ Monster จะเพิ่ม % Drop แบบใด
 // 0 = % ถ้า Rank 1 ก็เพิ่ม Drop 1%
 // 1 = คูณ ถ้า Rank 1 ก็ Drop คูณ 2

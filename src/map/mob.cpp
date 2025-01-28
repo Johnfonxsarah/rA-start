@@ -2776,7 +2776,7 @@ int32 mob_dead(struct mob_data *md, struct block_list *src, int32 type)
 	) { //Experience calculation.
 		int32 bonus = 100; //Bonus on top of your share (common to all attackers).
 		if (md->rank) {
-			if (battle_config.config_monster_rank_drop_bonus_mode == 0)
+			if (battle_config.config_monster_rank_exp_bonus_mode == 0)
 				bonus = (bonus * (100 + md->rank)) / 100; // [Start's] Example: Rank 100 will increase exp rate by 100% (x2)
 			else
 				bonus = bonus * (md->rank + 1); // [Start's] Example: Rank 1 will increase exp rate by x2 (100%)

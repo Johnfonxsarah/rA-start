@@ -36,4 +36,5 @@
  int config_auto_trade_player_count;
  int config_monster_rank_damage_mode;
  int config_monster_rank_defense_mode;
+ int config_monster_rank_exp_bonus_mode;
  int config_monster_rank_drop_bonus_mode;
