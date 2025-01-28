@@ -2775,8 +2775,12 @@ int32 mob_dead(struct mob_data *md, struct block_list *src, int32 type)
 		(!map_getmapflag(m, MF_NOBASEEXP) || !map_getmapflag(m, MF_NOJOBEXP)) //Gives Exp
 	) { //Experience calculation.
 		int32 bonus = 100; //Bonus on top of your share (common to all attackers).
-		if (md->rank)
-			bonus = (bonus * (100 + md->rank)) / 100; // [Start's] Example: Rank 100 will increase exp rate by 100% (Or x2)
+		if (md->rank) {
+			if (battle_config.config_monster_rank_drop_bonus_mode == 0)
+				bonus = (bonus * (100 + md->rank)) / 100; // [Start's] Example: Rank 100 will increase exp rate by 100% (x2)
+			else
+				bonus = bonus * (md->rank + 1); // [Start's] Example: Rank 1 will increase exp rate by x2 (100%)
+		}
 		int32 pnum = 0;
 #ifndef RENEWAL
 		if (md->sc.getSCE(SC_RICHMANKIM))
@@ -3040,9 +3044,17 @@ int32 mob_dead(struct mob_data *md, struct block_list *src, int32 type)
 				continue;
 
 			drop_rate = mob_getdroprate(src, md->db, md->db->dropitem[i].rate, drop_modifier, md);
-			if (md->rank)
-				drop_rate = (drop_rate * (100 + md->rank)) / 100; // [Start's] Example: Rank 100 will increase drop rate by 100% (Or x2)
-			drop_rate = (drop_rate * (map_getmapflag(m, MF_DROPRATE))) / 100; // [Start's] Example: Rate 200 will increase drop rate by 100% (Or x2)
+
+			// Monster Rank
+			if (md->rank) {
+				if (battle_config.config_monster_rank_drop_bonus_mode == 0)
+					drop_rate = (drop_rate * (100 + md->rank)) / 100; // [Start's] Example: Rank 100 will increase drop rate by 100% (x2)
+				else
+					drop_rate = drop_rate * (md->rank + 1); // [Start's] Example: Rank 1 will increase drop rate by x2 (100%)
+			}
+
+			// Map drop rate
+			drop_rate = (drop_rate * (map_getmapflag(m, MF_DROPRATE))) / 100; // [Start's] Example: Rate 200 will increase drop rate by 100% (x2)
 
 			// attempt to drop the item
 			if (rnd() % 10000 >= drop_rate)
@@ -3209,8 +3221,13 @@ int32 mob_dead(struct mob_data *md, struct block_list *src, int32 type)
 
 				// [Start's] MvP drop rate also increased by buff
 				temp = mob_getdroprate(src, md->db, mdrop[i].rate, 100, md);
-				if (md->rank)
-					temp = (temp * (100 + md->rank)) / 100; // [Start's] Example: Rank 100 will increase drop rate by 100% (Or x2)
+
+				if (md->rank) {
+					if (battle_config.config_monster_rank_drop_bonus_mode == 0)
+						temp = (temp * (100 + md->rank)) / 100; // [Start's] Example: Rank 100 will increase drop rate by 100% (x2)
+					else
+						temp = temp * (md->rank + 1); // [Start's] Example: Rank 1 will increase drop rate by x2 (100%)
+				}
 
 #if defined(RENEWAL_DROP)
 				temp = cap_value( apply_rate( temp, penalty ), 0, 10000 );

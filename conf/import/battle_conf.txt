@@ -62,3 +62,18 @@ config_random_monster_rank: 91
 
 // ไม่นับคน Auto Trade (0 ไม่นับ)
 config_auto_trade_player_count: 0
+
+// Rank ของ Monster จะเพิ่ม Damage ให้ Monster แบบใด
+// 0 = เพิ่มเป็น % ถ้า Rank 1 ก็เพิ่ม Damage 1%
+// 1 = คูณ ถ้า Rank 1 ก็คูณไปเลย 2
+config_monster_rank_damage_mode: 0
+
+// Rank ของ Monster จะลด Damage แบบใด
+// 0 = ลดเป็น % ถ้า Rank 1 ก็ลด Damage 1% (แต่จะลดได้มากสุด 99% เพื่อไม่ให้เป็นอมตะ)
+// 1 = หาร Damage ถ้า Rank 1 ก็หารไปเลย 2
+config_monster_rank_defense_mode: 0
+
+// Rank ของ Monster จะเพิ่ม % Drop แบบใด
+// 0 = เพิ่มเป็น % ถ้า Rank 1 ก็เพิ่ม % Drop 1%
+// 1 = คูณเอา ถ้า Rank 1 ก็ x2 (หรือ 100% นั่นเอง)
+config_monster_rank_drop_bonus_mode: 0

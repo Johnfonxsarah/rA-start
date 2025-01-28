@@ -2009,8 +2009,16 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 
 		if (md && md->damagetaken != 100)
 			damage = i64max(damage * md->damagetaken / 100, 1);
-		if (md && (md->rank != 0)) // [Start's] Example: Rank 1 will reduces damage received by 1% (Maximum at 99% or Rank 99)
-			damage = i64max((damage * (100 - (cap_value(md->rank, 0, 99)))) / 100, 1);
+
+		if (md && (md->rank != 0))
+		{
+			// [Start's] Example: Rank 1 will reduces damage received by 1% (Maximum at 99% or Rank 99)
+			if (battle_config.config_monster_rank_defense_mode == 0)
+				damage = i64max((damage * (100 - (cap_value(md->rank, 0, 99)))) / 100, 1);
+			// [Start's] Example: Rank 1 will divide damage by 2
+			else
+				damage = i64max(damage / (md->rank + 1), 1);
+		}
 	}
 	
 	if (tsc != nullptr && !tsc->empty()) {
@@ -2218,8 +2226,12 @@ int64 battle_calc_debuff_damage(struct block_list* src, struct block_list* bl, i
 		damage = (damage * (100 - (cap_value(sd->debuff, 0, 100)))) / 100; // Example: Debuff 50 will decrease damage by 50%
 
 	mob_data* md = BL_CAST(BL_MOB, src);
-	if (md && (md->rank != 0))
-		damage = i64max((damage * (100 + md->rank)) / 100, 1); // Example: Rank 1 will increase damage by 1% (Rank 100 == x2 Damage, Rank 1000 == x20 Damage)
+	if (md && (md->rank != 0)) {
+		if (battle_config.config_monster_rank_damage_mode == 0)
+			damage = i64max((damage * (100 + md->rank)) / 100, 1); // Example: Rank 100 will increase damage by 100% (x2)
+		else
+			damage = i64max(damage * (md->rank + 1), 1); // Example: Rank 1 will increase damage by x2 (100%)
+	}
 
 	return i64max(damage, 1);
 }

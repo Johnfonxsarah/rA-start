@@ -33,3 +33,6 @@
  { "config_equipment_drop_auto_identify", &battle_config.config_equipment_drop_auto_identify, 1, 0, 1 },
  { "config_random_monster_rank", &battle_config.config_random_monster_rank, 91, 0, 50000 },
  { "config_auto_trade_player_count", &battle_config.config_auto_trade_player_count, 0, 0, 1 },
+ { "config_monster_rank_damage_mode", &battle_config.config_monster_rank_damage_mode, 0, 0, 1 },
+ { "config_monster_rank_defense_mode", &battle_config.config_monster_rank_defense_mode, 0, 0, 1 },
+ { "config_monster_rank_drop_bonus_mode", &battle_config.config_monster_rank_drop_bonus_mode, 0, 0, 1 },

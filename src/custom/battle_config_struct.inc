@@ -34,3 +34,6 @@
  int config_equipment_drop_auto_identify;
  int config_random_monster_rank;
  int config_auto_trade_player_count;
+ int config_monster_rank_damage_mode;
+ int config_monster_rank_defense_mode;
+ int config_monster_rank_drop_bonus_mode;
