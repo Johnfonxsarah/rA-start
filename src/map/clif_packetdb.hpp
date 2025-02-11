@@ -31,7 +31,6 @@
 	packet(0x007c,41);
 	parseable_packet(0x007d,2,clif_parse_LoadEndAck,0);
 	parseable_packet(0x007e,6,clif_parse_TickSend,2);
-	packet(0x007f,6);
 	packet(0x0082,2);
 	packet(0x0083,2);
 	packet(0x0084,2);
@@ -78,8 +77,6 @@
 	parseable_packet(0x00ce,2,clif_parse_GMKickAll,0);
 	parseable_packet(0x00cf,27,clif_parse_PMIgnore,2,26);
 	parseable_packet(0x00d0,3,clif_parse_PMIgnoreAll,2);
-	packet(0x00d1,4);
-	packet(0x00d2,4);
 	parseable_packet(0x00d3,2,clif_parse_PMIgnoreList,0);
 	packet(0x00d4,-1);
 	parseable_packet( HEADER_CZ_CREATE_CHATROOM, -1, clif_parse_CreateChatRoom, 0 );
@@ -144,7 +141,6 @@
 	packet(0x0147,39);
 	parseable_packet(0x0149,9,clif_parse_GMReqNoChat,2,6,7);
 	packet(0x014a,6);
-	packet(0x014b,27);
 	parseable_packet(0x014d,2,clif_parse_GuildCheckMaster,0);
 	parseable_packet(0x014f,6,clif_parse_GuildRequestInfo,2);
 	packet(0x0150,110);
@@ -434,7 +430,6 @@
 // 2004-11-01aSakexe
 #if PACKETVER >= 20041101
 	packet(0x0084,-1);
-	packet(0x0215,6);
 #endif
 
 // 2004-11-08aSakexe
@@ -823,7 +818,6 @@
 	packet(0x028e,4);
 	packet(0x028f,6);
 	packet(0x0290,4);
-	packet(0x0291,4);
 	parseable_packet(0x0292,2,clif_parse_AutoRevive,0);
 	packet(0x0293,70);
 	packet(0x0294,10);
@@ -1280,7 +1274,6 @@
 #if PACKETVER >= 20090818
 	packet(0x07e3,6);
 	parseable_packet(0x07e4,-1,clif_parse_ItemListWindowSelected,2,4,8,12);
-	packet(0x07e6,8);
 #endif
 
 // 2009-08-25aRagexeRE
@@ -1291,7 +1284,6 @@
 // 2009-09-22aRagexeRE
 #if PACKETVER >= 20090922
 	packet(0x07e5,8);
-	packet(0x07e6,8);
 	packet(0x07e7,32);
 	packet(0x07e8,-1);
 	packet(0x07e9,5);
@@ -1685,7 +1677,6 @@
 #if PACKETVER >= 20130807
 	// Merge Item
 	parseable_packet(0x0974,2,clif_parse_merge_item_cancel,0); // CZ_CANCEL_MERGE_ITEM
-	packet(0x9CD,8); // ZC_MSG_COLOR
 #endif
 
 // 2013-08-21bRagexe

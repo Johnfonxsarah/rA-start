@@ -6635,24 +6635,24 @@ ACMD_FUNC(marry)
 	}
 
 	if (!pc_inventoryblank(sd)) {
-		clif_msg_color(sd, MSI_CANT_GET_ITEM_BECAUSE_COUNT, color_table[COLOR_RED]);
+		clif_msg_color( *sd, MSI_CANT_GET_ITEM_BECAUSE_COUNT, color_table[COLOR_RED] );
 		return -1;
 	}
 
 	if (!pc_inventoryblank(pl_sd)) {
-		clif_msg_color(pl_sd, MSI_CANT_GET_ITEM_BECAUSE_COUNT, color_table[COLOR_RED]);
+		clif_msg_color( *pl_sd, MSI_CANT_GET_ITEM_BECAUSE_COUNT, color_table[COLOR_RED] );
 		return -1;
 	}
 
 	uint32 w = 0;
 
 	if (w = itemdb_weight((sd->status.sex) ? WEDDING_RING_M : WEDDING_RING_F) && w + sd->weight > sd->max_weight) {
-		clif_msg_color(sd, MSI_CANT_GET_ITEM_BECAUSE_WEIGHT, color_table[COLOR_RED]);
+		clif_msg_color( *sd, MSI_CANT_GET_ITEM_BECAUSE_WEIGHT, color_table[COLOR_RED] );
 		return -1;
 	}
 
 	if (w = itemdb_weight((pl_sd->status.sex) ? WEDDING_RING_M : WEDDING_RING_F) && w + pl_sd->weight > pl_sd->max_weight) {
-		clif_msg_color(pl_sd, MSI_CANT_GET_ITEM_BECAUSE_WEIGHT, color_table[COLOR_RED]);
+		clif_msg_color( *pl_sd, MSI_CANT_GET_ITEM_BECAUSE_WEIGHT, color_table[COLOR_RED] );
 		return -1;
 	}
 
@@ -6796,7 +6796,7 @@ ACMD_FUNC(changegm)
 
 	if( !battle_config.guild_leaderchange_woe && is_agit_start() ){
 #if PACKETVER >= 20151001
-		clif_msg(sd, MSI_IMPOSSIBLE_CHANGE_GUILD_MASTER_IN_SIEGE_TIME);
+		clif_msg( *sd, MSI_IMPOSSIBLE_CHANGE_GUILD_MASTER_IN_SIEGE_TIME );
 #else
 		clif_displaymessage(fd, msg_txt(sd,1513)); // Currently in WoE hours, unable to delegate Guild leader
 #endif
@@ -6805,7 +6805,7 @@ ACMD_FUNC(changegm)
 
 	if( battle_config.guild_leaderchange_delay && DIFF_TICK(time(nullptr),sd->guild->guild.last_leader_change) < battle_config.guild_leaderchange_delay ){
 #if PACKETVER >= 20151001
-		clif_msg(sd, MSI_IMPOSSIBLE_CHANGE_GUILD_MASTER_NOT_TIME);
+		clif_msg( *sd, MSI_IMPOSSIBLE_CHANGE_GUILD_MASTER_NOT_TIME );
 #else
 		clif_displaymessage(fd, msg_txt(sd,1514)); // You have to wait for a while before delegating a new Guild leader
 #endif
@@ -7840,7 +7840,7 @@ ACMD_FUNC(mute)
 		status_change_end(&pl_sd->bl, SC_NOCHAT);
 	}
 
-	clif_GM_silence(sd, pl_sd, (manner > 0 ? 1 : 0));
+	clif_GM_silence( *sd, *pl_sd, manner > 0 );
 
 	return 0;
 }

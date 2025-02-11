@@ -531,7 +531,7 @@ enum clif_equipitemack_flag : uint8_t {
 
 //! NOTE: These values below need client version validation
 // These values correspond to the msgstringtable line number minus 1
-enum clif_messages : uint16_t {
+enum e_clif_messages : uint16 {
 
 	// You cannot carry more items because you are overweight.
 	MSI_CANT_GET_ITEM_BECAUSE_WEIGHT = 52,
@@ -1178,7 +1178,7 @@ void clif_specialeffect_value(struct block_list* bl, int32 effect_id, int32 num,
 void clif_GM_kickack(map_session_data *sd, int32 id);
 void clif_GM_kick(map_session_data *sd,map_session_data *tsd);
 void clif_manner_message(map_session_data* sd, uint32 type);
-void clif_GM_silence(map_session_data* sd, map_session_data* tsd, uint8 type);
+void clif_GM_silence( map_session_data& sd, map_session_data& tsd, bool muted );
 
 void clif_disp_overhead_(struct block_list *bl, const char* mes, enum send_target flag);
 #define clif_disp_overhead(bl, mes) clif_disp_overhead_(bl, mes, AREA)
@@ -1186,7 +1186,7 @@ void clif_disp_overhead_(struct block_list *bl, const char* mes, enum send_targe
 void clif_get_weapon_view(map_session_data* sd, t_itemid *rhand, t_itemid *lhand);
 
 void clif_party_xy_remove(map_session_data *sd); //Fix for minimap [Kevin]
-void clif_gospel_info(map_session_data *sd, int32 type);
+void clif_gospel_info( map_session_data& sd, int32 type );
 void clif_feel_req(int32 fd, map_session_data *sd, uint16 skill_lv);
 void clif_starskill(map_session_data* sd, const char* mapname, int32 monster_id, unsigned char star, unsigned char result);
 void clif_feel_info(map_session_data* sd, unsigned char feel_level, unsigned char type);
@@ -1206,10 +1206,10 @@ void clif_configuration( map_session_data* sd, enum e_config_type type, bool ena
 void clif_viewequip_ack( map_session_data& sd, map_session_data& tsd );
 void clif_equipcheckbox( map_session_data& sd );
 
-void clif_msg(map_session_data* sd, uint16 id);
-void clif_msg_value(map_session_data* sd, uint16 id, int32 value);
-void clif_msg_skill(map_session_data* sd, uint16 skill_id, int32 msg_id);
-void clif_msg_color( map_session_data* sd, uint16 msg_id, uint32 color );
+void clif_msg( map_session_data& sd, e_clif_messages msg_id );
+void clif_msg_value( map_session_data& sd, e_clif_messages msg_id, int32 value );
+void clif_msg_skill( map_session_data& sd, uint16 skill_id, e_clif_messages msg_id );
+void clif_msg_color( map_session_data& sd, e_clif_messages msg_id, uint32 color );
 
 //quest system [Kevin] [Inkfish]
 void clif_quest_send_list(map_session_data * sd);
