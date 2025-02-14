@@ -1,0 +1,11 @@
+enable_logs: 0x00000000
+log_filter: 0
+refine_items_log: 0
+rare_items_log: 0
+price_items_log: 0
+amount_items_log: 0
+log_cash: no
+log_commands: no
+log_npc: no
+log_feeding: 0
+

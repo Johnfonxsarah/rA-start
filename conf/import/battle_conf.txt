@@ -1,8 +1,9 @@
 // ราคาขายของทุกชิ้น มากสุดเท่าใด (มากสุด 2147483647)
-config_global_maximum_sell: 5000
+//config_global_maximum_sell: 5000
+config_global_maximum_sell: 999999999
 
 // Monster ทุกตัว Drop Item Id (ใส่ 0 เพื่อปิดการใช้งาน)
-config_global_drop: 0
+config_global_drop: 10000001
 // %
 config_global_drop_base_rate: 1
 

@@ -1,0 +1,19 @@
+userid: strid
+passwd: strpw
+server_name: SectorRO
+wisp_server_name: SectorRO
+login_ip: 127.0.0.1
+login_port: 6900
+char_ip: 127.0.0.1
+char_port: 6121
+char_name_option: 2
+char_name_letters: \/:*?#@!'`
+
+console_msg_log: 7
+console_silent: 7
+char_name_option: 0
+char_del_delay: 1
+char_del_option: 3
+clear_parties: yes
+pincode_enabled: no
+char_moves_unlimited: yes
