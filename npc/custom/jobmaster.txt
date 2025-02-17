@@ -16,7 +16,7 @@
 //= 2.0 Added 4th class [Lemongrass]
 //============================================================
 
-prontera,138,184,8	script	à¿Ãà«ÕÂ	10468,{
+morocc,167,110,3	script	Job Changer	2371,{
 	function Get_Job_Equip;
 	
 	function	Require_Level	{

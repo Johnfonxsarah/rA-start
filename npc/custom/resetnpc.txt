@@ -11,7 +11,7 @@
 //=	Changed set -> setarray, Improved text with F_InsertPlural
 //= 1.5 Added sc_end_class to reset related status changes [sader1992]
 //============================================================
-prontera,130,192,8	script	ปารุ	10209,{
+morocc,179,98,3	script	reset	595,{
 	// Skills, Stats, Both
 	setarray .@prices,5000000,5000000,7000000;
 	.@i = (select("Reset Skill [^af1ada" + F_InsertComma(.@prices[0]) + "z^000000]:Reset Status [^af1ada" + F_InsertComma(.@prices[1]) + "z^000000]:Reset ทั้งคู่ [^af1ada" + F_InsertComma(.@prices[2]) + "z^000000]:ยกเลิก"));
@@ -31,6 +31,6 @@ prontera,130,192,8	script	ปารุ	10209,{
 	end;
 	
 OnInit:
-	waitingroom "Reset",0;
+	waitingroom "Reset skill&status",0;
 	end;
 }

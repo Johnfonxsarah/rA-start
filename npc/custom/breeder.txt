@@ -10,7 +10,7 @@
 //= One-click automatic mount rentals.
 //============================================================
 
-prontera,134,188,8	script	แมกนัส	10573,{
+morocc,171,103,3	script	rentals	10573,{
 	if (ismounting()) {
 		message strcharinfo(0),"เกิดข้อผิดพลาด: ถอดอุปกรณ์เก่าทุกอย่างออกก่อน";
 		end;
@@ -38,6 +38,6 @@ prontera,134,188,8	script	แมกนัส	10573,{
 	end;
 	
 OnInit:
-	waitingroom "รับอุปกรณ์อาชีพ",0;
+	waitingroom "รับไอเทมเช่า",0;
 	end;
 }

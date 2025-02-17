@@ -1,4 +1,4 @@
-morocc,184,94,3	script	Old BlSmith	63,{
+prontera,139,159,6	script	บาฮาม	10416,{
 	menu
 	"เสริมแกร่ง",-
 	,"เสริมแกร่งด้วย Random Option",L_RandomOption

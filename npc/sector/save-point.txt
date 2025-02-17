@@ -1,4 +1,4 @@
-morocc,164,97,4	script	เปลี่ยน Save Point	858,{
+prontera,158,198,3	script	เปลี่ยน Save Point	835,{
 	getmapxy(.@map$,.@x,.@y,BL_PC);
 	savepoint strcharinfo(3),.@x,.@y,2,2;
 	specialeffect2 747;

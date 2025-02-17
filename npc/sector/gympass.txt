@@ -1,4 +1,4 @@
-morocc,133,105,4	script	GymPass	899,{
+prontera,173,160,6	script	ä¡	899,{
 	if(gymPassMemory)
 	skill "ALL_INCCARRY",gymPassMemory,SKILL_PERM_GRANT;
 	if(gymPassMemory >= 10){

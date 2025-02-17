@@ -71,48 +71,48 @@
 	end;
 	
 OnInit:
-	waitingroom "Buff",0;
+	waitingroom "Buff & Repair",0;
 	end;
 }
 
 // Duplicates
 //============================================================
-alberta,25,240,6	duplicate(Buff)	จัสมิน#alb	10458 
-aldebaran,135,118,6	duplicate(Buff)	จัสมิน#alde	10458 
-amatsu,200,79,4	duplicate(Buff)	จัสมิน#ama	10458 
-ayothaya,207,169,6	duplicate(Buff)	จัสมิน#ayo	10458 
-comodo,184,158,6	duplicate(Buff)	จัสมิน#com	10458 
-einbech,57,36,6	duplicate(Buff)	จัสมิน#einbe	10458 
-einbroch,57,202,6	duplicate(Buff)	จัสมิน#einbr	10458 
-geffen,115,72,6	duplicate(Buff)	จัสมิน#gef	10458 
-gonryun,156,122,6	duplicate(Buff)	จัสมิน#gon	10458 
-hugel,89,150,6	duplicate(Buff)	จัสมิน#hug	10458 
-izlude,121,150,6	duplicate(Buff)	จัสมิน#izl	10458 	//Pre-RE: (125,118)
-jawaii,250,139,4	duplicate(Buff)	จัสมิน#jaw	10458 
-lighthalzen,152,100,6	duplicate(Buff)	จัสมิน#lhz	10458 
-louyang,226,103,4	duplicate(Buff)	จัสมิน#lou	10458 
-manuk,272,144,6	duplicate(Buff)	จัสมิน#man	10458 
-mid_camp,203,289,6	duplicate(Buff)	จัสมิน#mid	10458 
-moc_ruins,72,164,4	duplicate(Buff)	จัสมิน#moc	10458 
-morocc,153,97,6	duplicate(Buff)	จัสมิน#mor	10458 
-moscovia,220,191,4	duplicate(Buff)	จัสมิน#mos	10458 
-niflheim,212,182,5	duplicate(Buff)	จัสมิน#nif	10458 
-payon,179,106,4	duplicate(Buff)	จัสมิน#pay	10458 
-prontera,148,178,7	duplicate(Buff)	จัสมิน#prt	10458 
-rachel,125,116,6	duplicate(Buff)	จัสมิน#rac	10458 
-splendide,201,153,4	duplicate(Buff)	จัสมิน#spl	10458 
-thor_camp,249,74,4	duplicate(Buff)	จัสมิน#thor	10458 
-umbala,105,148,3	duplicate(Buff)	จัสมิน#umb	10458 
-veins,217,121,4	duplicate(Buff)	จัสมิน#ve	10458 
-xmas,143,136,4	duplicate(Buff)	จัสมิน#xmas	10458 
-yuno,164,45,4	duplicate(Buff)	จัสมิน#yuno	10458 
+alberta,25,240,6	duplicate(Buff)	Buff#alb	10434 
+aldebaran,135,118,6	duplicate(Buff)	Buff#alde	10434 
+amatsu,200,79,4	duplicate(Buff)	Buff#ama	10434 
+ayothaya,207,169,6	duplicate(Buff)	Buff#ayo	10434 
+comodo,184,158,6	duplicate(Buff)	Buff#com	10434 
+einbech,57,36,6	duplicate(Buff)	Buff#einbe	10434 
+einbroch,57,202,6	duplicate(Buff)	Buff#einbr	10434 
+geffen,115,72,6	duplicate(Buff)	Buff#gef	10434 
+gonryun,156,122,6	duplicate(Buff)	Buff#gon	10434 
+hugel,89,150,6	duplicate(Buff)	Buff#hug	10434 
+izlude,121,150,6	duplicate(Buff)	Buff#izl	10434 	//Pre-RE: (125,118)
+jawaii,250,139,4	duplicate(Buff)	Buff#jaw	10434 
+lighthalzen,152,100,6	duplicate(Buff)	Buff#lhz	10434 
+louyang,226,103,4	duplicate(Buff)	Buff#lou	10434 
+manuk,272,144,6	duplicate(Buff)	Buff#man	10434 
+mid_camp,203,289,6	duplicate(Buff)	Buff#mid	10434 
+moc_ruins,72,164,4	duplicate(Buff)	Buff#moc	10434 
+morocc,153,97,4	duplicate(Buff)	Buff#mor	10434 
+moscovia,220,191,4	duplicate(Buff)	Buff#mos	10434 
+niflheim,212,182,5	duplicate(Buff)	Buff#nif	10434 
+payon,179,106,4	duplicate(Buff)	Buff#pay	10434 
+prontera,152,190,4	duplicate(Buff)	Buff#prt	10434 
+rachel,125,116,6	duplicate(Buff)	Buff#rac	10434 
+splendide,201,153,4	duplicate(Buff)	Buff#spl	10434 
+thor_camp,249,74,4	duplicate(Buff)	Buff#thor	10434 
+umbala,105,148,3	duplicate(Buff)	Buff#umb	10434 
+veins,217,121,4	duplicate(Buff)	Buff#ve	10434 
+xmas,143,136,4	duplicate(Buff)	Buff#xmas	10434 
+yuno,164,45,4	duplicate(Buff)	Buff#yuno	10434 
 
 // Duplicates (Renewal)
 //============================================================
-brasilis,194,221,6	duplicate(Buff)	จัสมิน#bra	10458 
-dewata,195,187,4	duplicate(Buff)	จัสมิน#dew	10458 
-dicastes01,201,194,4	duplicate(Buff)	จัสมิน#dic	10458 
-ecl_in01,45,60,4	duplicate(Buff)	จัสมิน#ecl	10458 
-malangdo,132,114,6	duplicate(Buff)	จัสมิน#mal	10458 
-malaya,227,204,6	duplicate(Buff)	จัสมิน#ma	10458 
-mora,55,152,4	duplicate(Buff)	จัสมิน#mora	10458 
+brasilis,194,221,6	duplicate(Buff)	Buff#bra	10434 
+dewata,195,187,4	duplicate(Buff)	Buff#dew	10434 
+dicastes01,201,194,4	duplicate(Buff)	Buff#dic	10434 
+ecl_in01,45,60,4	duplicate(Buff)	Buff#ecl	10434 
+malangdo,132,114,6	duplicate(Buff)	Buff#mal	10434 
+malaya,227,204,6	duplicate(Buff)	Buff#ma	10434 
+mora,55,152,4	duplicate(Buff)	Buff#mora	10434 

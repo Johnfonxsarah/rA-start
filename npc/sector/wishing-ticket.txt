@@ -1,4 +1,4 @@
-morocc,150,111,4	script	ลูกแก้วแห่งความปรารถนา	10308,{
+prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
 	if($isEndOfService)
 	menu "ระบุเลข Item ที่ต้องการเลย",L_EndOfService,"ใช้งาน NPC ตามปกติ",-;
 	.@weaponCost = 25;
