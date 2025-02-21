@@ -1,4 +1,4 @@
-morocc,164,115,1	script	ตั้งค่า	10372,{
+morocc,164,115,1	script	setup	10372,{
 	L_Menu:
 	menu
 	"ดูคำสั่งที่ใช้ได้",L_Commands,

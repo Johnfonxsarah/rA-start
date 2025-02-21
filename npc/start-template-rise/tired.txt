@@ -21,19 +21,20 @@
 	end;
 }
 
-prt_in,45,109,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 1::1	10043
-prt_in,129,75,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 2::2	10043
-prt_in,162,131,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 3::3	10043
-prt_in,63,69,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 4::4	10043
-prt_in,244,136,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 5::5	10043
-prt_in,179,92,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 6::6	10043
-prt_in,175,50,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 7::7	10043
-prt_in,61,141,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 8::8	10043
-prt_in,177,23,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 9::9	10043
-prt_in,83,106,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 10::10	10043
-prt_in,118,35,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 11::11	10043
-prt_in,253,168,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 12::12	10043
-prt_in,42,24,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 13::13	10043
-s_atelier,17,122,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 14::14	10043
-prt_in,233,16,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 15::15	10043
-prt_church,103,64,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 16::16	10043
+morocc_in,77,101,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 1::1	10043
+morocc_in,149,140,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 2::2	10043
+morocc_in,167,77,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 3::3	10043
+//=======================================================
+//morocc_in,77,120,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 4::4	10043
+//morocc_in,40,123,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 5::5	10043
+//morocc_in,119,120,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 6::6	10043
+//morocc_in,148,141,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 7::7	10043
+//morocc_in,138,179,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 8::8	10043
+//morocc_in,76,95,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 9::9	10043
+//morocc_in,178,135,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 10::10	10043
+//morocc_in,179,178,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 11::11	10043
+//morocc_in,166,96,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 12::12	10043
+//morocc_in,51,166,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 13::13	10043
+//morocc_in,75,30,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 14::14	10043
+//morocc_in,115,164,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 15::15	10043
+//morocc_in,125,57,4	duplicate(TiredReset)	¨Ø´¾Ñ¡¼èÍ¹ 16::16	10043

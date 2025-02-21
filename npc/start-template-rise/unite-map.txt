@@ -1,4 +1,4 @@
-prontera,156,205,4	script	เร่ง Map	10559,{
+morocc,175,80,2	script	เร่ง Map	10559,{
 	// Debug mode
 	/*if(getgmlevel())
 	menu "ใช้งาน NPC ตามปกติ",-,"ลอง Reset เร่ง Map",OnResetUniteMap;*/

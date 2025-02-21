@@ -12,7 +12,7 @@ guild_vs1	mapflag	nocostume
 guild_vs1	mapflag	noicewall
 guild_vs1	mapflag	noreturn
 
-prontera,151,199,3	script	Mini GvG#minigvg	10554,{
+morocc,118,93,5	script	Mini GvG#minigvg	10554,{
 	if(agitcheck()){
 		switch(select("ทิศเหนือ:ทิศตะวันตก:ทิศตะวันออก:ทิศใต้")){
 		case 1: warp "guild_vs1",53,95; break;

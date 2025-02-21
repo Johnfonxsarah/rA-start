@@ -1,4 +1,4 @@
-prontera,145,200,3	script	บ่อตั๋ว & บ่อเงิน	10518,{
+morocc,170,66,2	script	บ่อตั๋ว & บ่อเงิน	10518,{
 	.@oldInstanceId = instance_id(IM_CHAR);
 	if(.@oldInstanceId)
 	instance_destroy .@oldInstanceId;

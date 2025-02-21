@@ -1,4 +1,4 @@
-prontera,159,214,8	script	�Ѵ෾	10371,{
+morocc,186,66,4	script	�Ѵ෾	10371,{
 	if(!is_party_leader()){
 		.@ipid = instance_id(IM_PARTY);
 		if(.@ipid){
@@ -52,7 +52,7 @@ prontera,159,214,8	script	�Ѵ෾	10371,{
 	L_DebuffApply:
 	ptt = 0;
 	tired = cap_value(90,0,100);
-	tiredSpot = rand(1,16);
+	tiredSpot = rand(1,3);
 	ApplyTired();
 	@isOnlyGodEnter = 1;
 	return;

@@ -1,4 +1,4 @@
-prontera,166,200,6	script	เร่งแหลก	10516,{
+morocc,169,80,2	script	เร่งแหลก	10516,{
 	.@oldInstanceId = instance_id(IM_CHAR);
 	if(.@oldInstanceId)
 	instance_destroy .@oldInstanceId;

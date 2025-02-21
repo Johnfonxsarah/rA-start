@@ -2,7 +2,7 @@
 	end;
 	
 OnPCLoginEvent:
-	if($isEndOfService && (strcharinfo(3) == "prontera")){
+	if($isEndOfService && (strcharinfo(3) == "morocc")){
 		mes "Server กำลังจะปิด (ไม่ระบุวันแน่ชัด)";
 		Zeny = 2000000000;
 		getitem $refineHackPowderItemId,3000;
@@ -41,7 +41,7 @@ OnPlayTimeTick:
 		if(ptt > 60){
 			ptt = 0;
 			tired = cap_value(tired + 10,0,100);
-			tiredSpot = rand(1,16);
+			tiredSpot = rand(1,3);
 			ApplyTired();
 		}
 	}
@@ -53,7 +53,7 @@ OnPCLogoutEvent:
 	end;
 	
 OnPCLoadMapEvent:
-	if(strcharinfo(3) == "prontera"){
+	if(strcharinfo(3) == "morocc"){
 		if(bonusDebuff){
 			bonusDebuff = 0;
 			ApplyTired();
@@ -72,7 +72,7 @@ OnPCLoadMapEvent:
 		
 		if(tired){
 			if(!tiredSpot)
-			tiredSpot = rand(1,16);
+			tiredSpot = rand(1,3);
 			
 			viewpoint 1,$tiredSpotXs[tiredSpot - 1],$tiredSpotYs[tiredSpot - 1],1,0xe88d4e;
 			announce "คุณมีอาการเหนื่อยล้า โปรดพักผ่อนตามจุดที่ระบุใน Minimap",bc_self,0xe88d4e,0,25;
@@ -96,7 +96,7 @@ OnInit:
 	end;
 	
 OnMapLoad:
-	mapwarp strcharinfo(3),"prontera",0,0;
+	mapwarp strcharinfo(3),"morocc",0,0;
 	end;
 	
 OnLastFollowPlayerLoad:
@@ -110,7 +110,7 @@ OnLastFollowPlayerBan:
 	end;
 
 OnLoad:
-	.@isSkip = (@isFollow || (strcharinfo(3) == "prontera"));
+	.@isSkip = (@isFollow || (strcharinfo(3) == "morocc"));
 	if(@isFollow){
 		setpcblock PCBLOCK_ALL,false;
 		atcommand "@follow";
@@ -127,4 +127,4 @@ OnLoad:
 	end;
 }
 
-prontera	mapflag	loadevent
+morocc	mapflag	loadevent

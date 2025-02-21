@@ -1,4 +1,4 @@
-prontera,166,207,8	script	สนามรบจำลอง	10547,{
+morocc,181,80,8	script	สนามรบจำลอง	10547,{
 	.@oldInstanceId = instance_id(IM_CHAR);
 	if(.@oldInstanceId)
 	instance_destroy .@oldInstanceId;

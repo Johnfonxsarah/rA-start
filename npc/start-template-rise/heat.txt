@@ -1,4 +1,4 @@
-prontera,152,214,1	script	เดือด	10548,{
+morocc,178,66,2	script	เดือด	10548,{
 	.@price = 7000000;
 	.@baseMonsterRank = 7777;
 	
@@ -24,7 +24,7 @@ prontera,152,214,1	script	เดือด	10548,{
 	mes "[วิธีเล่น]";
 	if(IsWeekend())
 	mes "• ^d598f0พิเศษวันหยุด จำนวน Boss ที่ต้องกำจัดน้อยลง^000000";
-	mes "• ^d32323โปรดระวังหากใครคนหนึ่งใน Party เข้าสู่เมือง Prontera ระหว่างกำลังเล่นห้องพิเศษนี้ ห้องพิเศษนี้จะถูกทำลาย^000000";
+	mes "• ^d32323โปรดระวังหากใครคนหนึ่งใน Party เข้าสู่เมือง morocc ระหว่างกำลังเล่นห้องพิเศษนี้ ห้องพิเศษนี้จะถูกทำลาย^000000";
 	mes "• เมื่อกำจัด Boss จนหมดห้อง จะได้รับ " + mesitemlink($masteryTicketItemId,true);
 	mes "• Boss จะมี Rank " + F_InsertComma(monsterRank);
 	mes "• Boss จะเคลื่อนที่เร็ว (สุ่ม)";
@@ -73,7 +73,7 @@ OnInit:
 	tired = cap_value(90,0,100);
 	if('bonusDebuff)
 	bonusDebuff = cap_value('bonusDebuff,0,100);
-	tiredSpot = rand(1,16);
+	tiredSpot = rand(1,3);
 	ApplyTired();
 	@isOnlyGodEnter = 1;
 	end;
@@ -97,7 +97,7 @@ OnApplyDebuff:
 	ptt = 0;
 	tired = cap_value(90,0,100);
 	bonusDebuff = cap_value('bonusDebuff,0,100);
-	tiredSpot = rand(1,16);
+	tiredSpot = rand(1,3);
 	ApplyTired();
 	@isOnlyGodEnter = 1;
 	return;

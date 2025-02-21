@@ -46,4 +46,4 @@ OnInit:
 	end;
 }
 
-prontera,145,207,2	duplicate(FollowPlayer)	嗒绀和妨意っ	950
+morocc,165,119,2	duplicate(FollowPlayer)	嗒绀和妨意っ	950

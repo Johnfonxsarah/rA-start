@@ -1,4 +1,4 @@
-prontera,173,184,1	script	บ่อน	563,{
+morocc,132,75,4	script	ตู้สุ่ม	563,{
 	setarray .@prices[0]
 	,100000 // Wishing Ticket
 	,100000 // Refine Hack Powder
@@ -82,6 +82,6 @@ prontera,173,184,1	script	บ่อน	563,{
 	close;
 	
 OnInit:
-	waitingroom "บ่อน",0;
+	waitingroom "ตู้สุ่ม",0;
 	end;
 }

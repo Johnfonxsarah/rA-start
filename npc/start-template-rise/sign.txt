@@ -1,0 +1,25 @@
+//===== rAthena Script =======================================
+//= Morocc Sign 
+//===== By: ==================================================
+//= SectorRO 
+//============================================================
+morocc,183,97,3	script	Asmith	837,{
+OnInit:
+		waitingroom "เสริมแกร่งอุปกรณ์สวมใส่",0;
+		end;	
+}
+morocc,200,67,5	script	Rest Area 1	837,{
+OnInit:
+		waitingroom "จุดพักผ่อน 1",0;
+		end;	
+}
+morocc,272,266,2	script	Rest Area 2	837,{
+OnInit:
+		waitingroom "จุดพักผ่อน 2",0;
+		end;	
+}
+morocc,53,263,6	script	Rest Area 3	837,{
+OnInit:
+		waitingroom "จุดพักผ่อน 3",0;
+		end;	
+}

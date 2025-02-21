@@ -299,15 +299,15 @@ static void display_title(void) {
 	ShowMessage("\n");
 	ShowMessage("" CL_XXBL "     " CL_BOLD "                                                                             " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
 	ShowMessage("" CL_XXBL "     " CL_BT_WHITE "                                                                         " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
-	ShowMessage("" CL_XXBL "     " CL_BOLD "                         __            ____  ____                 " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
-	ShowMessage("" CL_XXBL "     " CL_BOLD "        ____  ___  ___  / /_ __  _____/ __ \\/ __ \\                " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
-	ShowMessage("" CL_XXBL "     " CL_BOLD "       / ___\\/ _ \\/ __\\/ __/ _ \\/ ___/ /_/ / / / /                 " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
-	ShowMessage("" CL_XXBL "     " CL_BOLD "      _\\__ \\/ ___/ /__/ /_/ ___/ /  / _  _/ /_/ /                 " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
-	ShowMessage("" CL_XXBL "     " CL_BOLD "      \\____/\\___/\\___/\\__/\\___/_/  /_/ \\_\\\\____/                  " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
+	ShowMessage("" CL_XXBL "     " CL_BOLD "                         __            ____                                  " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
+	ShowMessage("" CL_XXBL "     " CL_BOLD "        ____  ___  ___  / /_ __  _____/ __ \\____                             " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
+	ShowMessage("" CL_XXBL "     " CL_BOLD "       / ___\\/ _ \\/ __\\/ __/ _ \\/ ___/ /_/ / __ \\                            " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
+	ShowMessage("" CL_XXBL "     " CL_BOLD "      _\\__ \\/ ___/ /__/ /_/ ___/ /  / _  _/ /_/ /                            " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
+	ShowMessage("" CL_XXBL "     " CL_BOLD "      \\____/\\___/\\___/\\__/\\___/_/  /_/ \\_\\\\____/                             " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
 	ShowMessage("" CL_XXBL "     " CL_BOLD "                                                                             " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
 	ShowMessage("" CL_XXBL "     " CL_GREEN "                                                                            " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
 	ShowMessage("" CL_XXBL "     " CL_BOLD "                                                                             " CL_XXBL "" CL_CLL "" CL_NORMAL "\n");
-
+	
 	if( svn[0] != UNKNOWN_VERSION )
 		ShowInfo("SVN Revision: '" CL_WHITE "%s" CL_RESET "'\n", svn);
 	else if( git[0] != UNKNOWN_VERSION )

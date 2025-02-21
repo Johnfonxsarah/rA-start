@@ -71,7 +71,7 @@
 	end;
 	
 OnInit:
-	waitingroom "Buff & Repair",0;
+	waitingroom "บัพ & ซ่อมแซม",0;
 	end;
 }
 
