@@ -77,14 +77,6 @@ OnPCLoadMapEvent:
 			viewpoint 1,$tiredSpotXs[tiredSpot - 1],$tiredSpotYs[tiredSpot - 1],1,0xe88d4e;
 			announce "คุณมีอาการเหนื่อยล้า โปรดพักผ่อนตามจุดที่ระบุใน Minimap",bc_self,0xe88d4e,0,25;
 		}
-		
-		if(!isSkillHotfix && ((Class == 4302) || (Class == 4304) || (Class == 4305))){
-			isSkillHotfix = 1;
-			ResetSkill;
-			SkillPoint = (138 + (JobLevel - 1));
-			mes "คุณได้รับการ Reset Skill + คืน Skill Point เนื่องจากบัค Class พิเศษที่ใหม่ที่สุดยังไม่มี Skill";
-			close;
-		}
 	}
 	end;
 	
